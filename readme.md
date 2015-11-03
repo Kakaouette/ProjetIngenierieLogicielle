@@ -1,3 +1,1 @@
-salut
-
-Le projet Inscription pour l'Université de La Rochelle
+Il s'agit d'un projet pour la gestion des candidatures pour le compte du Pôle Sciences et Technologie de l'Université de La Rochelle.
