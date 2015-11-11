@@ -22,5 +22,5 @@ import java.io.Serializable;
  * @author Nicolas Roulon
  */
 public enum TypeJustificatif implements Serializable {
-    nonAdmissible, admissible;
+    admissibilite, admissible;
 }
