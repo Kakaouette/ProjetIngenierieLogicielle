@@ -7,18 +7,16 @@ package modele.entite;
 
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.*;
 /**
  *
  * @author Val
  */
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EtudiantEtranger extends Etudiant implements Serializable{
     
-    @Column
+    @Column(nullable = false)
     String niveau;
     
     @Column

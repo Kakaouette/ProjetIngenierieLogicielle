@@ -6,7 +6,6 @@
 package modele.entite;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
@@ -22,10 +21,10 @@ public class Adresse implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     
-    @Column
+    @Column(nullable = false)
     String codePostal;
     
-    @Column
+    @Column(nullable = false)
     String ville;
 
     public Adresse() {

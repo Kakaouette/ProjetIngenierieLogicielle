@@ -30,21 +30,22 @@ public class Compte implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String login;
     
-    @Column 
+    @Column (nullable = false)
     private String mdp;
     
-    @Column
+    @Column(nullable = false)
     private String nom;
     
-    @Column
+    @Column(nullable = false)
     private String prenom;
     
     @Column
     private String mail;
-
+    
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TypeCompte type;
     

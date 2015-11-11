@@ -42,7 +42,7 @@ public class Formation implements Serializable{
     @Temporal(TemporalType.DATE)
     Date fin;
     
-    @Column
+    @Column(nullable = false)
     String intitule;
     
     @OneToMany(targetEntity = Justificatif.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)

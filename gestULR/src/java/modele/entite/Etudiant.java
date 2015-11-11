@@ -22,16 +22,16 @@ public class Etudiant implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     
-    @Column
+    @Column(nullable = false)
     String nom;
     
-     @Column
+    @Column(nullable = false)
     String prenom;
      
-    @Column
+    @Column(nullable = false)
     String adressePostale;
     
-    @Column
+    @Column(nullable = false)
     String sexe;
     
     @ManyToOne

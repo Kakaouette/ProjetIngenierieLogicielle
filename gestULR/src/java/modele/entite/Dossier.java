@@ -8,8 +8,6 @@ package modele.entite;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.*;
 
 /**
@@ -22,10 +20,11 @@ public class Dossier implements Serializable{
     @Id
     int id;
     
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     Date date;
     
-    @Column
+    @Column(nullable = false)
     String etat;
         
     @Lob
@@ -35,6 +34,7 @@ public class Dossier implements Serializable{
     @Column
     boolean admissible;
     
+    @JoinColumn(nullable = false)
     @ManyToOne
     Etudiant etudiant;
     
