@@ -7,9 +7,13 @@ package modele.entite;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -19,9 +23,17 @@ public class Historique implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
+    
+    @Temporal(TemporalType.TIMESTAMP)
     Date date;
+    
+    @Column
     String message;
+    
+    @Column
     String action;
+    
+    @OneToOne
     Compte compte;
 
     public Historique() {
