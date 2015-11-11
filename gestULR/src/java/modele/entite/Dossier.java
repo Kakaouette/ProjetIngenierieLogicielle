@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class Dossier implements Serializable{
     
     @Id
-    int id;
+    String id;
     
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -44,7 +44,7 @@ public class Dossier implements Serializable{
     @OneToMany(targetEntity = Historique.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     List<Historique> historique;
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -80,7 +80,7 @@ public class Dossier implements Serializable{
     }
 
     
-    public int getId() {
+    public String getId() {
         return id;
     }
 
