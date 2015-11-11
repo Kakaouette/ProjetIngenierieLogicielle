@@ -25,12 +25,12 @@ import javax.persistence.*;
  * @author Nicolas Roulon
  */
 @Entity
-public class Compte implements Serializable  {
+public class Compte implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
     
-    @Column 
+    @Column(unique = true)
     private String login;
     
     @Column 
