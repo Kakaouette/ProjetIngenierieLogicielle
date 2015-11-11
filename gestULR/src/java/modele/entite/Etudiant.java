@@ -20,22 +20,22 @@ public class Etudiant implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    int id;
     
     @Column
-    private String nom;
+    String nom;
     
      @Column
-    private String prenom;
+    String prenom;
      
     @Column
-    private String adressePostale;
+    String adressePostale;
     
     @Column
-    private String sexe;
+    String sexe;
     
     @ManyToOne
-    private Adresse adresse;
+    Adresse adresse;
 
     public Etudiant() {
     }

@@ -20,13 +20,13 @@ public class Adresse implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    int id;
     
     @Column
-    private String codePostal;
+    String codePostal;
     
     @Column
-    private String ville;
+    String ville;
 
     public Adresse() {
     }

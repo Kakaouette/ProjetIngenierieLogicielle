@@ -19,10 +19,10 @@ import javax.persistence.*;
 public class EtudiantEtranger extends Etudiant implements Serializable{
     
     @Column
-    private String niveau;
+    String niveau;
     
     @Column
-    private String avis;
+    String avis;
 
     public EtudiantEtranger() {
     }
