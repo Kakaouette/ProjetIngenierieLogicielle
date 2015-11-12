@@ -19,13 +19,13 @@ public class VoirIndexAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Accueil");
         Compte compte = (Compte) request.getSession().getAttribute("compte");
-        System.out.println("Appel de l'accueil");
         
         String session = request.getParameter("session");
         if ("deco".equals(session)) {
             request.getSession().invalidate();
             return "index.jsp";
         }
+        System.out.println("Yeah !");
         
         if(compte == null)
             return "index.jsp";

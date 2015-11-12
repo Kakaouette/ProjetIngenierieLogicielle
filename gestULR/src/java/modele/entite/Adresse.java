@@ -10,13 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
 
-/**
- *
- * @author Val
- */
+
 @Entity
 public class Adresse implements Serializable{
-    
+    //bonjour ceci est un test
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
