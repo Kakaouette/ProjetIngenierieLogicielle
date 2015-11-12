@@ -51,4 +51,4 @@ dist/
 nbdist/
 nbactions.xml
 .nb-gradle/
-.properties
+*.properties
