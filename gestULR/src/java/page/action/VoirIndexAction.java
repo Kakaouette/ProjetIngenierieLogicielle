@@ -20,12 +20,14 @@ public class VoirIndexAction implements Action {
         request.setAttribute("titre", "Accueil");
         Compte compte = (Compte) request.getSession().getAttribute("compte");
         
+        
         String session = request.getParameter("session");
         if ("deco".equals(session)) {
             request.getSession().invalidate();
             return "index.jsp";
         }
         System.out.println("Yeah !");
+        System.out.println("Teah ! 2");
         
         if(compte == null)
             return "index.jsp";
