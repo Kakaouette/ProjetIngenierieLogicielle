@@ -4,6 +4,12 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>modele.entite.Compte</class>
     <class>modele.entite.Formation</class>
+    <class>modele.entite.Adresse</class>
+    <class>modele.entite.Dossier</class>
+    <class>modele.entite.Etudiant</class>
+    <class>modele.entite.EtudiantEtranger</class>
+    <class>modele.entite.Historique</class>
+    <class>modele.entite.Justificatif</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/gestULR?zeroDateTimeBehavior=convertToNull"/>

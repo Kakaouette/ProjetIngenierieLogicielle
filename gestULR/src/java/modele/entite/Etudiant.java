@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,6 +15,8 @@ public class Etudiant {
     
 }
 =======
+=======
+>>>>>>> 2054c0997544f8afe3b63e2f89f9426ec981beb2
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -36,6 +39,7 @@ public class Etudiant implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+<<<<<<< HEAD
     private int id;
     
     @Column
@@ -52,6 +56,24 @@ public class Etudiant implements Serializable{
     
     @ManyToOne
     private Adresse adresse;
+=======
+    int id;
+    
+    @Column(nullable = false)
+    String nom;
+    
+    @Column(nullable = false)
+    String prenom;
+     
+    @Column(nullable = false)
+    String adressePostale;
+    
+    @Column(nullable = false)
+    String sexe;
+    
+    @ManyToOne
+    Adresse adresse;
+>>>>>>> 2054c0997544f8afe3b63e2f89f9426ec981beb2
 
     public Etudiant() {
     }
@@ -110,4 +132,7 @@ public class Etudiant implements Serializable{
     
     
 }
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> 2054c0997544f8afe3b63e2f89f9426ec981beb2

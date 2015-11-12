@@ -7,15 +7,19 @@ package modele.entite;
 
 
 import java.io.Serializable;
+<<<<<<< HEAD
 import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+=======
+>>>>>>> 2054c0997544f8afe3b63e2f89f9426ec981beb2
 import javax.persistence.*;
 /**
  *
  * @author Val
  */
 @Entity
+<<<<<<< HEAD
 public class EtudiantEtranger extends Etudiant implements Serializable{
     
     @Column
@@ -23,6 +27,16 @@ public class EtudiantEtranger extends Etudiant implements Serializable{
     
     @Column
     private String avis;
+=======
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class EtudiantEtranger extends Etudiant implements Serializable{
+    
+    @Column(nullable = false)
+    String niveau;
+    
+    @Column
+    String avis;
+>>>>>>> 2054c0997544f8afe3b63e2f89f9426ec981beb2
 
     public EtudiantEtranger() {
     }
