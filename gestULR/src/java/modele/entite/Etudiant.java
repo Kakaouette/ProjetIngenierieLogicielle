@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package modele.entite;
-
-/**
- *
- * @author nicol
- */
-public class Etudiant {
-    
-}
-=======
-=======
->>>>>>> 2054c0997544f8afe3b63e2f89f9426ec981beb2
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -25,7 +6,6 @@ public class Etudiant {
 package modele.entite;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
@@ -36,27 +16,8 @@ import javax.persistence.*;
 
 @Entity
 public class Etudiant implements Serializable{
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-<<<<<<< HEAD
-    private int id;
-    
-    @Column
-    private String nom;
-    
-     @Column
-    private String prenom;
-     
-    @Column
-    private String adressePostale;
-    
-    @Column
-    private String sexe;
-    
-    @ManyToOne
-    private Adresse adresse;
-=======
     int id;
     
     @Column(nullable = false)
@@ -73,13 +34,9 @@ public class Etudiant implements Serializable{
     
     @ManyToOne
     Adresse adresse;
->>>>>>> 2054c0997544f8afe3b63e2f89f9426ec981beb2
 
     public Etudiant() {
     }
-
-    
-    
     
     public void setId(int id) {
         this.id = id;
@@ -128,11 +85,5 @@ public class Etudiant implements Serializable{
 
     public Adresse getAdresse() {
         return adresse;
-    }
-    
-    
+    }    
 }
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> 2054c0997544f8afe3b63e2f89f9426ec981beb2
