@@ -28,7 +28,7 @@ public class GererAuthentificationAction implements Action {
 
         String identifiant = request.getParameter("identifiant");
         String mdp = request.getParameter("mdp");
-
+        
         Compte compte;
         compte = null;
 
