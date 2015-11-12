@@ -17,8 +17,9 @@ public class VoirIndexAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Compte compte = (Compte) request.getSession().getAttribute("compte");
         request.setAttribute("titre", "Accueil");
+        Compte compte = (Compte) request.getSession().getAttribute("compte");
+        System.out.println("Appel de l'accueil");
         
         String session = request.getParameter("session");
         if ("deco".equals(session)) {
