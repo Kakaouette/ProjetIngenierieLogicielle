@@ -1,0 +1,14 @@
+Rapport d'activités du 13/11/2015
+
+
+La deuxième semaine de projet a beaucoup moins été soutenue que la première. La partie d'analyse a été déterminé et le développement fut commencé. Un noyau de ce projet JEE a été développé. On a créer un projet commun sur toutes nos plate-formes que nous avons mutualisé par Git. Nous gérons les versions Git tous pareils par l'outil NetBeans. Le serveur est Tomcat 8.0.
+
+Le résumé de la semaine pour moi est la suivante :
+
+- Bilan avec l'équipe de notre analyse
+- Checkout du projet + Installation de Tomcat 8.0
+- Regarder coment Tomcat 8.0 fonctionne
+- Attribution et prise de connaissances des différents sprints en équipe
+
+
+Autant dire que la deuxième semaine traduit le passage de la phase analyse à la phase développement du projet. Nous nous sommes entretenus principalement.
