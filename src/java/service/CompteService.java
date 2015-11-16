@@ -77,4 +77,16 @@ public class CompteService {
         }
         return null;
     }
+    
+    /**
+     * Ajoute un utilisateur dans la Base de données
+     *
+     * @param nouveauCompte
+     * @return rien
+     */
+    public void ajouterUtilisateur(Compte nouveauCompte) {
+        //ajout dans la base de données
+        compteDAO.save(nouveauCompte);
+
+    }
 }
