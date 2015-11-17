@@ -20,6 +20,7 @@ public class AfficherInformationsUtilisateurAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String session = request.getParameter("session");
+        request.setAttribute("titre", "Liste utilisateurs");
         if ("deco".equals(session)) {
             request.getSession().invalidate();
             return "index.jsp";

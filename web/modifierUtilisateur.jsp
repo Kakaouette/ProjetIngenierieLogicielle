@@ -11,47 +11,48 @@
     <div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
         <div class="col-sm-3">
+            <!-- A faire : positionner le type actuel en selection par défaut -->
             <select name="type" id="type" class="form-control">
+                <option>admin</option>
                 <option>directeur_pole</option>
                 <option>secretaire_general</option>
                 <option>secretaire_formation</option>
                 <option>commission</option>
-                <option>admin</option>
             </select>
         </div>
     </div>
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Login</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" placeholder="Login" required>
+            <input type="text" name="login" id="login" class="form-control" placeholder="<% out.print(request.getSession().getAttribute("login")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="nom" class="col-sm-2 control-label">Nom</label>
         <div class="col-sm-3">
-            <input type="text" name="nom" id="nom" class="form-control" placeholder="Nom" required>
+            <input type="text" name="nom" id="nom" class="form-control" placeholder="<% out.print(request.getSession().getAttribute("nom")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="prenom" class="col-sm-2 control-label">Prenom</label>
         <div class="col-sm-3">
-            <input type="text" name="prenom" id="prenom" class="form-control" placeholder="Prenom" required>
+            <input type="text" name="prenom" id="prenom" class="form-control" placeholder="<% out.print(request.getSession().getAttribute("prenom")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-3">
-            <input type="text" name="email" id="email" class="form-control" placeholder="Email" required>
+            <input type="text" name="email" id="email" class="form-control" placeholder="<% out.print(request.getSession().getAttribute("email")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="motDePasse" class="col-sm-2 control-label">Mot de passe</label>
         <div class="col-sm-3">
-            <input type="text" name="motDePasse" id="motDePasse" class="form-control" placeholder="Mot de passe" required>
+            <input type="text" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
         </div>
     </div>
     <div class="row">
