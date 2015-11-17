@@ -5,10 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="Modele/entete_sans_menu.jsp" %>
+<%@include file="Modele/entete_avec_menu.jsp" %>
 
-
-<h1 class="page-header">Modifier utilisateur</h1>
 <form action="Navigation?action=modifierUtilisateur" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
