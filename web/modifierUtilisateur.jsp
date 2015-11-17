@@ -24,28 +24,28 @@
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Login</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" placeholder="<% out.print(request.getSession().getAttribute("login")); %>" >
+            <input type="text" name="login" id="login" class="form-control" value="<% out.print(request.getSession().getAttribute("login")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="nom" class="col-sm-2 control-label">Nom</label>
         <div class="col-sm-3">
-            <input type="text" name="nom" id="nom" class="form-control" placeholder="<% out.print(request.getSession().getAttribute("nom")); %>" >
+            <input type="text" name="nom" id="nom" class="form-control" value="<% out.print(request.getSession().getAttribute("nom")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="prenom" class="col-sm-2 control-label">Prenom</label>
         <div class="col-sm-3">
-            <input type="text" name="prenom" id="prenom" class="form-control" placeholder="<% out.print(request.getSession().getAttribute("prenom")); %>" >
+            <input type="text" name="prenom" id="prenom" class="form-control" value="<% out.print(request.getSession().getAttribute("prenom")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-3">
-            <input type="text" name="email" id="email" class="form-control" placeholder="<% out.print(request.getSession().getAttribute("email")); %>" >
+            <input type="text" name="email" id="email" class="form-control" value="<% out.print(request.getSession().getAttribute("email")); %>" >
         </div>
     </div>
     

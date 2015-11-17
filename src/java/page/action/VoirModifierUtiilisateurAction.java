@@ -25,18 +25,22 @@ public class VoirModifierUtiilisateurAction implements Action {
         }   
         Compte compte = (Compte) request.getSession().getAttribute("compte");
         
+        String valueButton = request.getParameter("action");
+        //System.out.println(valueButton);
+        
+        String login = request.getParameter("login");
         String type = request.getParameter("type");
-        String id = request.getParameter("id");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String email = request.getParameter("email");
-        String login = request.getParameter("login");
+        
         
         request.getSession().setAttribute("type", type);
         request.getSession().setAttribute("nom", nom);
         request.getSession().setAttribute("prenom", prenom);
-        request.getSession().setAttribute("email", email);
         request.getSession().setAttribute("login", login);
+        request.getSession().setAttribute("email", email);
+        
         
         return "modifierUtilisateur.jsp";
     }

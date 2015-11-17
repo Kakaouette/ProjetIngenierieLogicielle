@@ -22,17 +22,25 @@
         <% List<Compte> comptes=(List<Compte>) request.getSession().getAttribute("comptes");
            for (Compte compte : comptes){
         %>
-        <form action="Navigation?action=voirModifierUtilisateur" method="POST" class="form-inline">
+        
             <tr>
-                    <input type="text" name="login" id="login" hidden>
-                <td><input type="text" name="id" id="id" placeholder="<%out.print(compte.getId());%>" readonly></td>
-                <td><input type="text" name="nom" id="nom" placeholder="<%out.print(compte.getNom());%>" readonly></td>
-                <td><input type="text" name="prenom" id="prenom" placeholder="<%out.print(compte.getPrenom());%>" readonly></td>
-                <td><input type="text" name="type" id="type" placeholder="<%out.print(compte.getType());%>" readonly></td>
-                <td><input type="text" name="email" id="email" placeholder="<%out.print(compte.getMail());%>" readonly></td>
-                <td><button class="btn btn-success" type="submit" name="action" value="voirModifierUtilisateur">Modifier</button></td>
+                <td><%out.print(compte.getId());%></td>
+                <td><%out.print(compte.getNom());%></td>
+                <td><%out.print(compte.getPrenom());%></td>
+                <td><%out.print(compte.getType());%></td>
+                <td><%out.print(compte.getMail());%></td>
+                <td>
+                    <form action="Navigation?action=voirModifierUtilisateur" method="POST" class="form-inline">
+                        <input type="text" name="login" id="login" value="<%out.print(compte.getLogin());%>" hidden>
+                        <input type="text" name="nom" id="nom" value="<%out.print(compte.getNom());%>" hidden>
+                        <input type="text" name="prenom" id="prenom" value="<%out.print(compte.getPrenom());%>" hidden>
+                        <input type="text" name="type" id="type" value="<%out.print(compte.getType());%>" hidden>
+                        <input type="text" name="email" id="email" value="<%out.print(compte.getMail());%>" hidden>
+                        <button class="btn btn-success" type="submit" name="action" value="voirModifierUtilisateur">Modifier</button>
+                    </form>
+                </td>
             </tr>
-        </form>
+        
         <% }%>
     </tbody>
 </table>
