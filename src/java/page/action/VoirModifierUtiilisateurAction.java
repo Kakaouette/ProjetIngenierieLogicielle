@@ -40,6 +40,7 @@ public class VoirModifierUtiilisateurAction implements Action {
         request.getSession().setAttribute("prenom", prenom);
         request.getSession().setAttribute("login", login);
         request.getSession().setAttribute("email", email);
+        request.getSession().setAttribute("compte", compte);
         
         
         return "modifierUtilisateur.jsp";

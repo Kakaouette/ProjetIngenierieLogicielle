@@ -25,6 +25,7 @@
         <label for="login" class="col-sm-2 control-label">Login</label>
         <div class="col-sm-3">
             <input type="text" name="login" id="login" class="form-control" value="<% out.print(request.getSession().getAttribute("login")); %>" >
+            <input type="text" name="compte" id="compte" value="<% out.print(c); %>" hidden>
         </div>
     </div>
     

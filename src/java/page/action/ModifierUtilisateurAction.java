@@ -47,6 +47,7 @@ public class ModifierUtilisateurAction implements Action {
             String mdp = request.getParameter("motDePasse"); 
             
             Compte compte=(Compte)(request.getSession().getAttribute("compte"));
+            System.out.println(compte);
             int idCompte = compte.getId();
             
             if(type==null)
@@ -88,7 +89,6 @@ public class ModifierUtilisateurAction implements Action {
         }
         else
         {
-            System.out.println("testElse");
             request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
             return "modifierUtilisateur.jsp";
         }
