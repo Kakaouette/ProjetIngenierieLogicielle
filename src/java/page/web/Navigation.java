@@ -67,6 +67,18 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
+        }else if (action.equals("pageAddUser")) {
+            menuSelect = 0;
+            classeAction = new VoirAjoutUtilisateurAction();
+        }else if (action.equals("pageModifUser")) {
+            menuSelect = 0;
+            classeAction = new VoirModifUtilisateurAction();
+        }else if (action.equals("pageGererFormation")) {
+            menuSelect = 0;
+            classeAction = new VoirModifFormationAction();
+        }else if (action.equals("pageDatesInscription")) {
+            menuSelect = 0;
+            classeAction = new VoirDatesInscriptionAction();
         }else{
             action = "index";
             menuSelect = 0;
