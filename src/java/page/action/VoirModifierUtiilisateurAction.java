@@ -29,10 +29,10 @@ public class VoirModifierUtiilisateurAction implements Action {
         //System.out.println(valueButton);
         
         String login = request.getParameter("login");
-        String type = request.getParameter("type");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String email = request.getParameter("email");
+        String type = request.getParameter("type");
         
         
         request.getSession().setAttribute("type", type);

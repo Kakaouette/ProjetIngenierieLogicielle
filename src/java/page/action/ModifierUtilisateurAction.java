@@ -25,22 +25,70 @@ public class ModifierUtilisateurAction implements Action {
         }       
         
         String valueButton = request.getParameter("action");
-        //System.out.println(valueButton);
-        String type = request.getParameter("type");
-        String login = request.getParameter("login");
-        String nom = request.getParameter("nom");
-        String prenom = request.getParameter("prenom");
-        String mail = request.getParameter("email");
-        String mdp = request.getParameter("motDePasse");
-        int idCompte = ((Compte)(request.getSession().getAttribute("compte"))).getId();
-        Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
+        System.out.println(valueButton);
+        
+        if(valueButton.equals("annuler"))
+        {
+            return "listeUtilisateurs.jsp";
+        }
+        else if(valueButton.equals("supprimer"))
+        {
+            //A faire
+            return "listeUtilisateurs.jsp";
+        }
+        else if(valueButton.equals("enregistrer"))
+        {
+            String type = request.getParameter("type");
+            String login = request.getParameter("login");
+            String nom = request.getParameter("nom");
+            String prenom = request.getParameter("prenom");
+            String mail = request.getParameter("email");
+            String mdp = request.getParameter("motDePasse"); 
+            
+            Compte compte=(Compte)(request.getSession().getAttribute("compte"));
+            int idCompte = compte.getId();
+            
+            if(type==null)
+            {
+                type=compte.getType().toString();
+            }
+            if(login==null)
+            {
+                login=compte.getLogin();
+            }
+            if(nom==null)
+            {
+                nom=compte.getNom();
+            }
+            if(prenom==null)
+            {
+                prenom=compte.getPrenom();
+            }
+            if(mail==null)
+            {
+                mail=compte.getMail();
+            }
+            if(mdp==null)
+            {
+                mdp=compte.getMdp();
+            }
+            
+            
+            Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
 
-        if (update == false) {
+            if (update == false) {
+                request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
+                System.out.println("error");
+                return "modifierUtilisateur.jsp";
+            } else {
+                request.setAttribute("message", "Modification effectuée");
+                return "listeUtilisateurs.jsp";
+            }
+        }
+        else
+        {
             request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
             return "modifierUtilisateur.jsp";
-        } else {
-            request.setAttribute("message", "Modification effectuée");
-            return "listeUtilisateurs.jsp";
         }
     }
     

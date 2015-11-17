@@ -31,6 +31,7 @@
                 <td><%out.print(compte.getMail());%></td>
                 <td>
                     <form action="Navigation?action=voirModifierUtilisateur" method="POST" class="form-inline">
+                        
                         <input type="text" name="login" id="login" value="<%out.print(compte.getLogin());%>" hidden>
                         <input type="text" name="nom" id="nom" value="<%out.print(compte.getNom());%>" hidden>
                         <input type="text" name="prenom" id="prenom" value="<%out.print(compte.getPrenom());%>" hidden>
