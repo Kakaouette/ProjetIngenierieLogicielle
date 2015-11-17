@@ -16,6 +16,7 @@ public class VoirAjoutUtilisateurAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("titre", "Ajouter un utilisateur");
         return "addUser.jsp";
     }
     

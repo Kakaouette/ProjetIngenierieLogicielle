@@ -5,23 +5,19 @@
  */
 package page.action;
 
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.dao.FormationDAO;
-import modele.entite.Formation;
 
 /**
  *
  * @author Arthur
  */
-public class VoirModifFormationAction implements Action{
+public class VoirAjoutFormationAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        List<Formation> formations = new FormationDAO().SelectAll(); //recuperation des formations pour la page suivante
-        request.setAttribute("formations", formations);
-        return "formations.jsp";
+        request.setAttribute("titre", "Ajouter une formation");
+        return "addFormation.jsp";
     }
     
 }

@@ -4,6 +4,7 @@
     Author     : roulonn
 --%>
 
+<%@page import="modele.entite.TypeCompte"%>
 <%@page import="modele.entite.Compte"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -74,6 +75,19 @@
                             <li <%if (current.equals(0)) {%>class="active"<%}%>><a href="Navigation?action=index">
                                     <span class="fa fa-home"></span>
                                     Accueil</a>
+                            </li>
+                            <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>><a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion utilisateur</a>
+                                <ul class="dropdown-menu">
+                                    <a href="Navigation?action=voirAjoutUtilisateur">Ajouter</a>
+                                    <a href="Navigation?action=voirGestionUtilisateur">Modifier</a>
+                                </ul>
+                            </li>
+                            <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>><a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion formation</a>
+                                <ul class="dropdown-menu">
+                                    <a href="Navigation?action=voirAjoutFormation">Ajouter</a>
+                                    <a href="Navigation?action=voirGestionFormation">Modifier</a>
+                                    <a href="Navigation?action=voirDatesInscription">Dates d'inscription</a>
+                                </ul>
                             </li>
                             <li><a href=Navigation?action=gererAuthentification&session=deco>
                                     <i class="fa fa-power-off"></i>
