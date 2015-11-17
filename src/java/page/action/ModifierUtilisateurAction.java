@@ -38,7 +38,7 @@ public class ModifierUtilisateurAction implements Action {
         }
         else if(valueButton.equals("enregistrer"))
         {
-            System.out.println("test");
+            //System.out.println("test");
             String type = request.getParameter("type");
             String login = request.getParameter("login");
             String nom = request.getParameter("nom");
@@ -47,8 +47,9 @@ public class ModifierUtilisateurAction implements Action {
             String mdp = request.getParameter("motDePasse"); 
             
             Compte compte=(Compte)(request.getSession().getAttribute("compte"));
-            System.out.println(compte);
+            //System.out.println(compte);
             int idCompte = compte.getId();
+            //System.out.println(idCompte);
             
             if(type==null)
             {
@@ -75,12 +76,16 @@ public class ModifierUtilisateurAction implements Action {
                 mdp=compte.getMdp();
             }
             
+            System.out.println(type);
+            System.out.println(login);
+            System.out.println(nom);
+            System.out.println(prenom);
+            System.out.println(mail);
+            System.out.println(mdp);
             
             Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
-
             if (update == false) {
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
-                System.out.println("error");
                 return "modifierUtilisateur.jsp";
             } else {
                 request.setAttribute("message", "Modification effectuée");

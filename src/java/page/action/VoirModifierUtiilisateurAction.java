@@ -7,6 +7,7 @@ package page.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.CompteDAO;
 import modele.entite.Compte;
 
 /**
@@ -23,8 +24,6 @@ public class VoirModifierUtiilisateurAction implements Action {
             request.getSession().invalidate();
             return "index.jsp";
         }   
-        Compte compte = (Compte) request.getSession().getAttribute("compte");
-        
         String valueButton = request.getParameter("action");
         //System.out.println(valueButton);
         
@@ -34,6 +33,7 @@ public class VoirModifierUtiilisateurAction implements Action {
         String email = request.getParameter("email");
         String type = request.getParameter("type");
         
+        Compte compte = new CompteDAO().getComptebyLogin(login);
         
         request.getSession().setAttribute("type", type);
         request.getSession().setAttribute("nom", nom);
