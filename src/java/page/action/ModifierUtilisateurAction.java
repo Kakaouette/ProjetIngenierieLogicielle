@@ -28,8 +28,8 @@ public class ModifierUtilisateurAction implements Action {
         String login = request.getParameter("login");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
-        String mail = request.getParameter("mail");
-        String mdp = request.getParameter("mdp");
+        String mail = request.getParameter("email");
+        String mdp = request.getParameter("motDePasse");
         int idCompte = ((Compte)(request.getSession().getAttribute("compte"))).getId();
 
         Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
