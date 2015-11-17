@@ -26,18 +26,21 @@ public class AfficherInformationsUtilisateurAction implements Action {
         }       
 
         String login = request.getParameter("login");
-
+        
+        Compte compte = null;
         List<Compte> comptes;
         comptes = null;
 
         comptes = new CompteDAO().SelectAll();
+        compte = new CompteDAO().getComptebyLogin(login);
 
         if (comptes == null) {
             request.setAttribute("message", "ERREUR : Utilisateur non trouvé dans la BDD");
             return "listeUtilisateurs.jsp";
         } else {
-            request.getSession().setAttribute("compte", comptes);
-            return "modifierUtilisateur.jsp";
+            request.getSession().setAttribute("comptes", comptes);
+            request.getSession().setAttribute("compte", compte);
+            return "listeUtilisateurs.jsp";
         }
     }
     
