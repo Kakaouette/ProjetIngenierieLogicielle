@@ -55,6 +55,15 @@ public class Compte implements Serializable {
     public Compte() {
     }
 
+    public Compte(TypeCompte type, String login, String nom, String prenom, String mail, String mdp) {
+        this.type = type;
+        this.login = login;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.mdp = mdp;
+    }
+    
     public int getId() {
         return id;
     }

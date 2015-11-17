@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.dao.CompteDAO;
 import modele.entite.Compte;
+import modele.entite.TypeCompte;
 
 /**
  *
@@ -76,5 +77,55 @@ public class CompteService {
             }
         }
         return null;
+    }
+    
+    /**
+     * Effectue la modification d'un utilisateur
+     *
+     * @param idCompte
+     * @param type
+     * @param login
+     * @param nom
+     * @param prenom
+     * @param mail
+     * @param mdp
+     * @return boolean indiquant si l'update c'est effectué correctement
+     */
+    public Boolean effectuerModification(int idCompte, String type, String login, String nom, String prenom, String mail, String mdp) {
+        // récupération du compte à modifier
+        Compte compte = compteDAO.getById(idCompte);
+        // si le compte est trouvé dans la BDD, on lui affecte ses nouvelles valeurs
+        if (compte != null) {
+            // Type du compte
+            if(!"".equals(type)){
+                compte.setType(TypeCompte.valueOf(type));
+            }
+            // Login du compte
+            if(!"".equals(login)){
+                compte.setLogin(login);
+            }
+            // Nom du compte
+            if(!"".equals(nom)){
+                compte.setNom(nom);
+            }
+            // Prenom du compte
+            if(!"".equals(prenom)){
+                compte.setPrenom(prenom);
+            }
+            // Mail du compte
+            if(!"".equals(mail)){
+                compte.setMail(mail);
+            }
+            // Mot de passe du compte
+            if(!"".equals(mdp)){
+                String mdpCrypt = cryptageMDP(mdp); // Cryptage du nouveau mot de passe
+                compte.setMdp(mdpCrypt);
+            }
+            
+            compteDAO.update(compte);
+            return true;
+        }else{
+            return false;
+        }
     }
 }
