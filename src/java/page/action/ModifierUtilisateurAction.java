@@ -24,7 +24,7 @@ public class ModifierUtilisateurAction implements Action {
             return "index.jsp";
         }       
         
-        String valueButton = request.getParameter("action");
+        String valueButton = request.getParameter("bouton");
         System.out.println(valueButton);
         
         if(valueButton.equals("annuler"))
@@ -38,6 +38,7 @@ public class ModifierUtilisateurAction implements Action {
         }
         else if(valueButton.equals("enregistrer"))
         {
+            System.out.println("test");
             String type = request.getParameter("type");
             String login = request.getParameter("login");
             String nom = request.getParameter("nom");
@@ -87,6 +88,7 @@ public class ModifierUtilisateurAction implements Action {
         }
         else
         {
+            System.out.println("testElse");
             request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
             return "modifierUtilisateur.jsp";
         }
