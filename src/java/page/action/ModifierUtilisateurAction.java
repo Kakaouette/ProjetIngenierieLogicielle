@@ -23,7 +23,9 @@ public class ModifierUtilisateurAction implements Action {
             request.getSession().invalidate();
             return "index.jsp";
         }       
-
+        
+        String valueButton = request.getParameter("action");
+        //System.out.println(valueButton);
         String type = request.getParameter("type");
         String login = request.getParameter("login");
         String nom = request.getParameter("nom");
@@ -31,7 +33,6 @@ public class ModifierUtilisateurAction implements Action {
         String mail = request.getParameter("email");
         String mdp = request.getParameter("motDePasse");
         int idCompte = ((Compte)(request.getSession().getAttribute("compte"))).getId();
-
         Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
 
         if (update == false) {

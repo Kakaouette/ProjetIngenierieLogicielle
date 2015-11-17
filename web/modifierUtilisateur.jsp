@@ -80,7 +80,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <button class="btn btn-danger" type="submit" name="action" value="supprUtilisateur">Supprimer</button>
+            <button class="btn btn-danger" type="submit" name="action" value="supprimerUtilisateur">Supprimer</button>
         </div>
     </div>
 </form>
