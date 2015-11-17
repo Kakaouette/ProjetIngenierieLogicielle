@@ -61,8 +61,15 @@ public class AjouterUtilisateurAction implements Action {
                
         }
         
-        new CompteService().ajouterUtilisateur(nouveauCompte);
-
-        return "index.jsp";
+        try
+        {
+               new CompteService().ajouterUtilisateur(nouveauCompte);
+        }
+        catch(Exception e)
+        {
+            //message personnalisé
+        }
+        
+        return "accueil.jsp";
     }
 }

@@ -85,7 +85,14 @@ public class CompteService {
      * @return rien
      */
     public void ajouterUtilisateur(Compte nouveauCompte) {
-        //ajout dans la base de données
+        //récupération du mot de passe
+        String mdp = nouveauCompte.getMdp();
+        
+        //Cryptage du mot de passe
+        String mdpCryptee = cryptageMDP(mdp);
+        
+        //ajout dans la base de données avec le mot de passe cryptee
+        nouveauCompte.setMdp(mdpCryptee);
         compteDAO.save(nouveauCompte);
 
     }
