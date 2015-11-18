@@ -76,17 +76,23 @@
                                     <span class="fa fa-home"></span>
                                     Accueil</a>
                             </li>
-                            <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>><a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion utilisateur</a>
+                            <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion utilisateur 
+                                    <span class="caret"></span>
+                                </a>
                                 <ul class="dropdown-menu">
-                                    <a href="Navigation?action=voirAjoutUtilisateur">Ajouter</a>
-                                    <a href="Navigation?action=voirGestionUtilisateur">Modifier</a>
+                                    <li><a href="Navigation?action=voirAjoutUtilisateur">Ajouter</a></li>
+                                    <li><a href="Navigation?action=voirGestionUtilisateur">Modifier</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>><a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion formation</a>
+                            <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion formation
+                                    <span class="caret"></span>
+                                </a>
                                 <ul class="dropdown-menu">
-                                    <a href="Navigation?action=voirAjoutFormation">Ajouter</a>
-                                    <a href="Navigation?action=voirGestionFormation">Modifier</a>
-                                    <a href="Navigation?action=voirDatesInscription">Dates d'inscription</a>
+                                    <li><a href="Navigation?action=voirAjoutFormation">Ajouter</a></li>
+                                    <li><a href="Navigation?action=voirGestionFormation">Modifier</a></li>
+                                    <li><a href="Navigation?action=voirDatesInscription">Dates d'inscription</a></li>
                                 </ul>
                             </li>
                             <li><a href=Navigation?action=gererAuthentification&session=deco>

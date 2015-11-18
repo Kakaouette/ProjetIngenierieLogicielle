@@ -37,6 +37,16 @@ public class JustificatifDAO extends Dao {
         return unJustificatif;
     }
 
+    public Justificatif getJustificatifbyTitre(String titre){
+        try {
+            q = em.createQuery("SELECT J FROM Justificatif J WHERE J.titre = :TITRE");
+            q.setParameter("TITRE", titre);
+            return (Justificatif) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
     public void save(Justificatif unJustificatif) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();

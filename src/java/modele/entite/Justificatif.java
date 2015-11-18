@@ -36,6 +36,12 @@ public class Justificatif implements Serializable{
     public Justificatif() {
     }
 
+    public Justificatif(String titre, TypeJustificatif typeAdmissible, TypeJustificatifEtranger typeNationalite) {
+        this.titre = titre;
+        this.typeAdmissible = typeAdmissible;
+        this.typeNationalite = typeNationalite;
+    }
+
     public int getId() {
         return id;
     }

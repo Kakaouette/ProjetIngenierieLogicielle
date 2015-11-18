@@ -22,7 +22,7 @@ public class VoirGestionUtilisateurAction implements Action{
         request.setAttribute("titre", "Gestion des utilisateurs");
         List<Compte> comptes = new CompteDAO().SelectAll(); //recuperation des comptes pour la page suivante
         request.setAttribute("utilisateurs", comptes);
-        return "manageUser.jsp";
+        return "listeUtilisateurs.jsp";
     }
     
 }

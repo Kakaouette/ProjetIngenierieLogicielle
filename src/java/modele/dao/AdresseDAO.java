@@ -37,6 +37,16 @@ public class AdresseDAO extends Dao {
         return unAdresse;
     }
 
+    public Adresse getAdresseByCodePostal(String codePostal){
+        try {
+            q = em.createQuery("SELECT A FROM Adresse A WHERE A.codePostal = :CP");
+            q.setParameter("CP", codePostal);
+            return (Adresse) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
     public void save(Adresse unAdresse) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
