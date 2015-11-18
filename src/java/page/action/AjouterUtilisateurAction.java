@@ -61,17 +61,28 @@ public class AjouterUtilisateurAction implements Action {
                
         }
         
-        new CompteService().ajouterUtilisateur(nouveauCompte);
+        try
+        {
+            new CompteService().ajouterUtilisateur(nouveauCompte);
+            Compte compte = new CompteService().verifierAuthentification(login, mdp);
         
-        //test
-        Compte compte=new CompteService().verifierAuthentification(login, mdp);
-        
-        if (compte == null) {
+            if (compte == null) {
+                request.setAttribute("error", "true");
+                request.setAttribute("message", "L'utilisateur n'a pas été crée");
+            } else {
+                request.setAttribute("error", "false");
+                request.setAttribute("message", "L'utilisateur a été crée");
+            }
+        }
+        catch(Exception e)
+        {
             request.setAttribute("error", "true");
             request.setAttribute("message", "L'utilisateur n'a pas été crée");
-        } else {
-            request.setAttribute("error", "false");
-            request.setAttribute("message", "L'utilisateur a été crée");
+            Compte compte = new CompteService().verifierAuthentification(login, mdp);
+            if(compte!=null){
+                request.setAttribute("error", "true");
+                request.setAttribute("message", "L'utilisateur existe déjà !");
+            } 
         }
 
         return "createUser.jsp";
