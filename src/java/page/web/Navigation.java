@@ -64,13 +64,10 @@ public class Navigation extends HttpServlet {
         String vue = "";
         int menuSelect = 0;
 
-        if (action.equals("gererAuthentification")) {
-            menuSelect = 0;
-            classeAction = new GererAuthentificationAction();
-        }else{
-            action = "index";
-            menuSelect = 0;
-            classeAction = new VoirIndexAction();
+        switch(action){
+            case "gererAuthentification":menuSelect = 0;classeAction = new GererAuthentificationAction();break;
+            case "creerUtilisateur":menuSelect = 0;classeAction = new AjouterUtilisateurAction();break;
+            default:action = "index";menuSelect = 0;classeAction = new VoirIndexAction();
         }
 
         if (classeAction != null) {

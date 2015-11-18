@@ -32,7 +32,7 @@ public class CompteService {
      * @param mdp
      * @return
      */
-    public String cryptageMDP(String mdp) {
+    public static String cryptageMDP(String mdp) {
         try {
             byte[] bytesOfMessage = mdp.getBytes("UTF-8");
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -85,14 +85,7 @@ public class CompteService {
      * @return rien
      */
     public void ajouterUtilisateur(Compte nouveauCompte) {
-        //récupération du mot de passe
-        String mdp = nouveauCompte.getMdp();
-        
-        //Cryptage du mot de passe
-        String mdpCryptee = cryptageMDP(mdp);
-        
-        //ajout dans la base de données avec le mot de passe cryptee
-        nouveauCompte.setMdp(mdpCryptee);
+        //ajout dans la base de données
         compteDAO.save(nouveauCompte);
 
     }

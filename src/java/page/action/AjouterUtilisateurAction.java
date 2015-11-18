@@ -39,7 +39,7 @@ public class AjouterUtilisateurAction implements Action {
         nouveauCompte.setNom(nom);
         nouveauCompte.setPrenom(prenom);
         nouveauCompte.setMail(email);
-        nouveauCompte.setMdp(mdp);
+        nouveauCompte.setMdp(CompteService.cryptageMDP(mdp));
         
         switch(type)
         {
@@ -56,20 +56,24 @@ public class AjouterUtilisateurAction implements Action {
                 nouveauCompte.setType(TypeCompte.directeur_pole);
                 break;
             default:
-                //nouveauCompte.setType(TypeCompte.admin);
+                nouveauCompte.setType(TypeCompte.admin);
                 break;
                
         }
         
-        try
-        {
-               new CompteService().ajouterUtilisateur(nouveauCompte);
-        }
-        catch(Exception e)
-        {
-            //message personnalisé
-        }
+        new CompteService().ajouterUtilisateur(nouveauCompte);
         
-        return "accueil.jsp";
+        //test
+        Compte compte=new CompteService().verifierAuthentification(login, mdp);
+        
+        if (compte == null) {
+            request.setAttribute("error", "true");
+            request.setAttribute("message", "L'utilisateur n'a pas été crée");
+        } else {
+            request.setAttribute("error", "false");
+            request.setAttribute("message", "L'utilisateur a été crée");
+        }
+
+        return "createUser.jsp";
     }
 }
