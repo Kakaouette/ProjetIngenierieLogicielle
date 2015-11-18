@@ -51,11 +51,11 @@ public class TestModifierUtilisateur {
         System.out.println("toString");
         int idCompte=1;
         String type="admin";
-        String login="Bla";
-        String nom="Bla";
-        String prenom="Bla";
-        String mail="Bla@gmail.com";
-        String mdp="Bla";
+        String login="test";
+        String nom="test";
+        String prenom="test";
+        String mail="test@gmail.com";
+        String mdp="test";
         boolean expResult = true;
         Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
         assertEquals(expResult, resultat);
@@ -69,7 +69,7 @@ public class TestModifierUtilisateur {
     @Test
     public void testModifierUtilisateurQuelquesChamps() {
         System.out.println("toString");
-        int idCompte=1;
+        int idCompte=2;
         String type="admin";
         String login="Bla2";
         String nom="Bla2";

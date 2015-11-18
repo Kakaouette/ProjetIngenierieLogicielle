@@ -46,4 +46,10 @@
     </tbody>
 </table>
 
+<% if(request.getAttribute("message") != null){ %>
+    <div class="alert alert-success">
+        <%out.print(request.getAttribute("message"));%>
+    </div>
+<%}%>
+        
 <%@include file="Modele/pied.jsp" %>

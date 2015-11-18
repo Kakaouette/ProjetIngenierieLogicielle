@@ -5,8 +5,10 @@
  */
 package page.action;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.CompteDAO;
 import modele.entite.Compte;
 import service.CompteService;
 
@@ -76,12 +78,12 @@ public class ModifierUtilisateurAction implements Action {
                 mdp=compte.getMdp();
             }
             
-            System.out.println(type);
+            /*System.out.println(type);
             System.out.println(login);
             System.out.println(nom);
             System.out.println(prenom);
             System.out.println(mail);
-            System.out.println(mdp);
+            System.out.println(mdp);*/
             
             Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
             if (update == false) {
@@ -89,6 +91,14 @@ public class ModifierUtilisateurAction implements Action {
                 return "modifierUtilisateur.jsp";
             } else {
                 request.setAttribute("message", "Modification effectuée");
+                
+                List<Compte> comptes;
+
+                comptes = new CompteDAO().SelectAll();
+                
+                request.getSession().setAttribute("comptes", comptes);
+                request.getSession().setAttribute("compte", compte);
+                
                 return "listeUtilisateurs.jsp";
             }
         }
