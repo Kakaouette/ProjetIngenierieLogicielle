@@ -23,4 +23,17 @@ import java.io.Serializable;
  */
 public enum TypeCompte implements Serializable {
     admin, secretaire_general, secretaire_formation, directeur_pole, commission;
+
+    @Override
+    public String toString() {
+        if(this.equals(secretaire_general)){
+            return "secrétaire générale";
+        }else if(this.equals(secretaire_formation)){
+            return "secrétaire formation";
+        }else if(this.equals(directeur_pole)){
+            return "directeur pôle";
+        }
+        
+        return this.name();
+    }
 }
