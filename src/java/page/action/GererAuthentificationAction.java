@@ -24,7 +24,7 @@ public class GererAuthentificationAction implements Action {
         if ("deco".equals(session)) {
             request.getSession().invalidate();
             return "index.jsp";
-        }
+        }       
 
         String identifiant = request.getParameter("identifiant");
         String mdp = request.getParameter("mdp");

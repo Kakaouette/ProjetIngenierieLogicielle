@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class EtudiantEtranger extends Etudiant implements Serializable{
-    @Column(nullable = false)
+    @Column
     String niveau;
     
     @Column
@@ -23,6 +23,13 @@ public class EtudiantEtranger extends Etudiant implements Serializable{
 
     public EtudiantEtranger() {
     }
+
+    public EtudiantEtranger(String niveau, String avis, String nom, String prenom, String adressePostale, String sexe, Adresse adresse) {
+        super(nom, prenom, adressePostale, sexe, adresse);
+        this.niveau = niveau;
+        this.avis = avis;
+    }
+    
 
     public void setNiveau(String niveau) {
         this.niveau = niveau;

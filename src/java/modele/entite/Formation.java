@@ -45,10 +45,19 @@ public class Formation implements Serializable{
     @Column(nullable = false)
     String intitule;
     
-    @OneToMany(targetEntity = Justificatif.class, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Justificatif.class, cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     List<Justificatif> lesJustificatifs;
 
     public Formation() {
+    }
+
+    public Formation(String description, int nombrePlace, Date debut, Date fin, String intitule, List<Justificatif> lesJustificatifs) {
+        this.description = description;
+        this.nombrePlace = nombrePlace;
+        this.debut = debut;
+        this.fin = fin;
+        this.intitule = intitule;
+        this.lesJustificatifs = lesJustificatifs;
     }
 
     public int getId() {
