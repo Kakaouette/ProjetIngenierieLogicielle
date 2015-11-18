@@ -75,7 +75,7 @@ public class TestModifierUtilisateur {
         String nom="Bla2";
         String prenom="Bla2";
         String mail="Bla2@gmail.com";
-        String mdp="Bla2";
+        String mdp="Bla";
         boolean expResult = true;
         Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
         assertEquals(expResult, resultat);
