@@ -39,7 +39,7 @@
                         <input type="text" name="email" id="email" value="<%out.print(compte.getMail());%>" hidden>
                         <button class="btn btn-success" type="submit" name="action" value="voirModifierUtilisateur">Modifier</button>
                     </form>-->
-                    <a class="btn btn-success" href="voirModifierUtilisateur?id=<% out.print(compte.getId()); %>"
+                    <a class="btn btn-success" href="Navigation?action=voirModifierUtilisateur&id=<% out.print(compte.getId()); %>">Modifier</a>
                 </td>
             </tr>
         

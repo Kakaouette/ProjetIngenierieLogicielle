@@ -71,7 +71,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="AfficherInformationsUtilisateur">Annuler</button>
+            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Annuler</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <!--[if IE]>
@@ -79,7 +79,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="AfficherInformationsUtilisateur">Supprimer</button>
+            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
         </div>
     </div>
 </form>
