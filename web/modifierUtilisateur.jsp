@@ -79,7 +79,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
+            <a class="btn btn-primary btn-danger" href="Navigation?action=supprimerUtilisateur&login="<% out.print(request.getAttribute("login")); %>>Supprimer</a>
         </div>
     </div>
 </form>
