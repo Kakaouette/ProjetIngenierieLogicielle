@@ -23,12 +23,6 @@ public class AjouterUtilisateurAction implements Action {
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String session = request.getParameter("session");
-        if ("deco".equals(session)) {
-            request.getSession().invalidate();
-            return "index.jsp";
-        }
-
         String type = request.getParameter("type");
         String login = request.getParameter("login");
         String nom = request.getParameter("nom");

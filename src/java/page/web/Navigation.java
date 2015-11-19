@@ -66,6 +66,7 @@ public class Navigation extends HttpServlet {
 
         switch(action){
             case "gererAuthentification":menuSelect = 0;classeAction = new GererAuthentificationAction();break;
+            case "voircreerUtilisateur":menuSelect = 0;classeAction = new voirAjouterUtilisateurAction();break;
             case "creerUtilisateur":menuSelect = 0;classeAction = new AjouterUtilisateurAction();break;
             default:action = "index";menuSelect = 0;classeAction = new VoirIndexAction();
         }
