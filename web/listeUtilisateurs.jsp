@@ -30,7 +30,7 @@
                 <td><%out.print(compte.getType());%></td>
                 <td><%out.print(compte.getMail());%></td>
                 <td>
-                    <form action="Navigation?action=voirModifierUtilisateur" method="POST" class="form-inline">
+                    <!--<form action="Navigation?action=voirModifierUtilisateur" method="POST" class="form-inline">
                         
                         <input type="text" name="login" id="login" value="<%out.print(compte.getLogin());%>" hidden>
                         <input type="text" name="nom" id="nom" value="<%out.print(compte.getNom());%>" hidden>
@@ -38,7 +38,8 @@
                         <input type="text" name="type" id="type" value="<%out.print(compte.getType());%>" hidden>
                         <input type="text" name="email" id="email" value="<%out.print(compte.getMail());%>" hidden>
                         <button class="btn btn-success" type="submit" name="action" value="voirModifierUtilisateur">Modifier</button>
-                    </form>
+                    </form>-->
+                    <a class="btn btn-success" href="voirModifierUtilisateur?id=<% out.print(compte.getId()); %>"
                 </td>
             </tr>
         

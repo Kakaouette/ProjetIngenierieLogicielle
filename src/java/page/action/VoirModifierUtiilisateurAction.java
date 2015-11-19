@@ -27,20 +27,22 @@ public class VoirModifierUtiilisateurAction implements Action {
         String valueButton = request.getParameter("action");
         //System.out.println(valueButton);
         
-        String login = request.getParameter("login");
-        String nom = request.getParameter("nom");
-        String prenom = request.getParameter("prenom");
-        String email = request.getParameter("email");
-        String type = request.getParameter("type");
+        int id=Integer.parseInt(request.getParameter("id"));
         
-        Compte compte = new CompteDAO().getComptebyLogin(login);
+        Compte compte = new CompteDAO().getById(id);
         
-        request.getSession().setAttribute("type", type);
-        request.getSession().setAttribute("nom", nom);
-        request.getSession().setAttribute("prenom", prenom);
-        request.getSession().setAttribute("login", login);
-        request.getSession().setAttribute("email", email);
-        request.getSession().setAttribute("compte", compte);
+        String login = compte.getLogin();
+        String nom = compte.getNom();
+        String prenom = compte.getPrenom();
+        String email = compte.getMail();
+        String type = compte.getType().toString();
+        
+        request.setAttribute("type", type);
+        request.setAttribute("nom", nom);
+        request.setAttribute("prenom", prenom);
+        request.setAttribute("login", login);
+        request.setAttribute("email", email);
+        request.setAttribute("compte", compte);
         
         
         return "modifierUtilisateur.jsp";

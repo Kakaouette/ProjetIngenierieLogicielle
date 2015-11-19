@@ -24,29 +24,28 @@
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Login</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" value="<% out.print(request.getSession().getAttribute("login")); %>" >
-            <input type="text" name="compte" id="compte" value="<% out.print(c); %>" hidden>
+            <input type="text" name="login" id="login" class="form-control" value="<% out.print(request.getAttribute("login")); %>" required>
         </div>
     </div>
     
     <div class="form-group">
         <label for="nom" class="col-sm-2 control-label">Nom</label>
         <div class="col-sm-3">
-            <input type="text" name="nom" id="nom" class="form-control" value="<% out.print(request.getSession().getAttribute("nom")); %>" >
+            <input type="text" name="nom" id="nom" class="form-control" value="<% out.print(request.getAttribute("nom")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="prenom" class="col-sm-2 control-label">Prenom</label>
         <div class="col-sm-3">
-            <input type="text" name="prenom" id="prenom" class="form-control" value="<% out.print(request.getSession().getAttribute("prenom")); %>" >
+            <input type="text" name="prenom" id="prenom" class="form-control" value="<% out.print(request.getAttribute("prenom")); %>" >
         </div>
     </div>
     
     <div class="form-group">
         <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-3">
-            <input type="text" name="email" id="email" class="form-control" value="<% out.print(request.getSession().getAttribute("email")); %>" >
+            <input type="text" name="email" id="email" class="form-control" value="<% out.print(request.getAttribute("email")); %>" >
         </div>
     </div>
     
@@ -72,7 +71,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <button class="btn btn-primary" type="submit" name="bouton" id="bouton" value="annuler">Annuler</button>
+            <a class="btn btn-primary" href="AfficherInformationsUtilisateur">Annuler</button>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <!--[if IE]>
@@ -80,7 +79,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <button class="btn btn-danger" type="submit" name="bouton" id="bouton" value="supprimer">Supprimer</button>
+            <a class="btn btn-primary" href="AfficherInformationsUtilisateur">Supprimer</button>
         </div>
     </div>
 </form>
