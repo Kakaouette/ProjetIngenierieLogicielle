@@ -20,25 +20,10 @@ public class ModifierUtilisateurAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String session = request.getParameter("session");
-        if ("deco".equals(session)) {
-            request.getSession().invalidate();
-            return "index.jsp";
-        }       
-        
         String valueButton = request.getParameter("bouton");
         System.out.println(valueButton);
         
-        if(valueButton.equals("annuler"))
-        {
-            return "listeUtilisateurs.jsp";
-        }
-        else if(valueButton.equals("supprimer"))
-        {
-            //A faire
-            return "listeUtilisateurs.jsp";
-        }
-        else if(valueButton.equals("enregistrer"))
+        if(valueButton.equals("enregistrer"))
         {
             //System.out.println("test");
             String type = request.getParameter("type");
@@ -48,7 +33,7 @@ public class ModifierUtilisateurAction implements Action {
             String mail = request.getParameter("email");
             String mdp = request.getParameter("motDePasse"); 
             
-            Compte compte=(Compte)(request.getSession().getAttribute("compte"));
+            Compte compte=new CompteDAO().getComptebyLogin(login);
             //System.out.println(compte);
             int idCompte = compte.getId();
             //System.out.println(idCompte);
@@ -56,10 +41,6 @@ public class ModifierUtilisateurAction implements Action {
             if(type==null)
             {
                 type=compte.getType().toString();
-            }
-            if(login==null)
-            {
-                login=compte.getLogin();
             }
             if(nom==null)
             {
@@ -87,23 +68,26 @@ public class ModifierUtilisateurAction implements Action {
             
             Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
             if (update == false) {
+                System.out.println("test");
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
                 return "modifierUtilisateur.jsp";
             } else {
+                System.out.println("test2");
                 request.setAttribute("message", "Modification effectuée");
                 
                 List<Compte> comptes;
 
                 comptes = new CompteDAO().SelectAll();
                 
-                request.getSession().setAttribute("comptes", comptes);
-                request.getSession().setAttribute("compte", compte);
+                request.setAttribute("comptes", comptes);
+                request.setAttribute("compte", compte);
                 
                 return "listeUtilisateurs.jsp";
             }
         }
         else
         {
+            System.out.println("test3");
             request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
             return "modifierUtilisateur.jsp";
         }

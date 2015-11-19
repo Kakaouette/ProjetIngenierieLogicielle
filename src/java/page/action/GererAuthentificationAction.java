@@ -7,6 +7,7 @@ package page.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.CompteDAO;
 import modele.entite.Compte;
 import service.CompteService;
 
@@ -33,7 +34,6 @@ public class GererAuthentificationAction implements Action {
         compte = null;
 
         compte = new CompteService().verifierAuthentification(identifiant, mdp);
-
         if (compte == null) {
             request.setAttribute("message", "Vos identifiants sont incorrectes");
             return "index.jsp";

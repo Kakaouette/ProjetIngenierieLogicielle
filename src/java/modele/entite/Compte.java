@@ -49,21 +49,22 @@ public class Compte implements Serializable {
     @Enumerated(EnumType.STRING)
     private TypeCompte type;
     
-    @OneToMany(targetEntity = Formation.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Formation.class, cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
     private List<Formation> formationAssocie;
 
     public Compte() {
     }
 
-    public Compte(TypeCompte type, String login, String nom, String prenom, String mail, String mdp) {
-        this.type = type;
+    public Compte(String login, String mdp, String nom, String prenom, String mail, TypeCompte type, List<Formation> formationAssocie) {
         this.login = login;
+        this.mdp = mdp;
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
-        this.mdp = mdp;
+        this.type = type;
+        this.formationAssocie = formationAssocie;
     }
-    
+
     public int getId() {
         return id;
     }

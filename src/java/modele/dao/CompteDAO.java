@@ -55,9 +55,18 @@ public class CompteDAO extends Dao {
      * Selection d'un compte en fonction de son identifiant et de son mot de passe (crypté)
      * 
      * @param identifiant
-     * @param mdp
      * @return Compte si il existe
      */
+    public Compte getComptebyIdentifiant(String identifiant){
+        try {
+            q = em.createQuery("SELECT C FROM Compte C WHERE C.login = :ID");
+            q.setParameter("ID", identifiant);
+            return (Compte) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
     public Compte getComptebyIdentifiant(String identifiant, String mdp){
         try {
             q = em.createQuery("SELECT C FROM Compte C WHERE C.login = :ID AND C.mdp = :MDP");

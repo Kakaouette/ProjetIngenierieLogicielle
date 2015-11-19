@@ -19,7 +19,6 @@ public class VoirIndexAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Accueil");
         Compte compte = (Compte) request.getSession().getAttribute("compte");
-        System.out.println("coucou");
         
         
         String session = request.getParameter("session");

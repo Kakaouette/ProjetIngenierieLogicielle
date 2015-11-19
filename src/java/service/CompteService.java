@@ -34,6 +34,8 @@ public class CompteService {
      * @return
      */
     public String cryptageMDP(String mdp) {
+        if(mdp == null)
+            return null;
         try {
             byte[] bytesOfMessage = mdp.getBytes("UTF-8");
             MessageDigest md = MessageDigest.getInstance("SHA-256");
