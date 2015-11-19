@@ -32,7 +32,7 @@ public class CompteService {
      * @param mdp
      * @return
      */
-    public static String cryptageMDP(String mdp) {
+    public String cryptageMDP(String mdp) {
         try {
             byte[] bytesOfMessage = mdp.getBytes("UTF-8");
             MessageDigest md = MessageDigest.getInstance("SHA-256");

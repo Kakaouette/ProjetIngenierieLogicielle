@@ -5,6 +5,8 @@
  */
 package page.action;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
@@ -33,13 +35,22 @@ public class AjouterUtilisateurAction implements Action {
         String prenom = request.getParameter("prenom");
         String email = request.getParameter("email");
         String mdp = request.getParameter("mdp");
+        
+        if(type.isEmpty() || login.isEmpty() || nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty())
+        {
+            try {
+                throw new Exception("Un des champs est vide !");
+            } catch (Exception ex) {
+                Logger.getLogger(AjouterUtilisateurAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         Compte nouveauCompte = new Compte();
         nouveauCompte.setLogin(login);
         nouveauCompte.setNom(nom);
         nouveauCompte.setPrenom(prenom);
         nouveauCompte.setMail(email);
-        nouveauCompte.setMdp(CompteService.cryptageMDP(mdp));
+        nouveauCompte.setMdp(mdp);
         
         switch(type)
         {
@@ -55,8 +66,15 @@ public class AjouterUtilisateurAction implements Action {
             case "Directeur Pole":
                 nouveauCompte.setType(TypeCompte.directeur_pole);
                 break;
-            default:
+            case "Administrateur":
                 nouveauCompte.setType(TypeCompte.admin);
+                break;
+            default:
+                try {
+                    throw new Exception("Selection du type invalide");
+                } catch (Exception ex) {
+                    Logger.getLogger(AjouterUtilisateurAction.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
                
         }
