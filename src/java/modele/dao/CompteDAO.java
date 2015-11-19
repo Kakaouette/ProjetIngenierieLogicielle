@@ -79,6 +79,22 @@ public class CompteDAO extends Dao {
     }
     
     /**
+     * Selection d'un compte en fonction de son login
+     * 
+     * @param login
+     * @return Compte si il existe
+     */
+    public Compte getComptebyLogin(String login){
+        try {
+            q = em.createQuery("SELECT C FROM Compte C WHERE C.login = :LOGIN");
+            q.setParameter("LOGIN", login);
+            return (Compte) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    /**
      * Selection de tous les comptes dans la BD
      * 
      * @return List de compte
