@@ -48,17 +48,6 @@ public class EtudiantEtrangerDAO extends Dao {
         }
     }
 
-    public EtudiantEtranger getEtudiantEtrangerByNomPrenom(String nom, String prenom){
-        try {
-            q = em.createQuery("SELECT E FROM Etudiant E WHERE E.nom = :NOM AND E.prenom = :PRENOM");
-            q.setParameter("NOM", nom);
-            q.setParameter("PRENOM", prenom);
-            return (EtudiantEtranger) q.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
     public void save(EtudiantEtranger unEtudiantEtranger) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
