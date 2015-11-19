@@ -5,8 +5,10 @@
  */
 package page.action;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.CompteDAO;
 import modele.entite.Compte;
 import service.CompteService;
 
@@ -23,23 +25,87 @@ public class ModifierUtilisateurAction implements Action {
             request.getSession().invalidate();
             return "index.jsp";
         }       
+        
+        String valueButton = request.getParameter("bouton");
+        System.out.println(valueButton);
+        
+        if(valueButton.equals("annuler"))
+        {
+            return "listeUtilisateurs.jsp";
+        }
+        else if(valueButton.equals("supprimer"))
+        {
+            //A faire
+            return "listeUtilisateurs.jsp";
+        }
+        else if(valueButton.equals("enregistrer"))
+        {
+            //System.out.println("test");
+            String type = request.getParameter("type");
+            String login = request.getParameter("login");
+            String nom = request.getParameter("nom");
+            String prenom = request.getParameter("prenom");
+            String mail = request.getParameter("email");
+            String mdp = request.getParameter("motDePasse"); 
+            
+            Compte compte=(Compte)(request.getSession().getAttribute("compte"));
+            //System.out.println(compte);
+            int idCompte = compte.getId();
+            //System.out.println(idCompte);
+            
+            if(type==null)
+            {
+                type=compte.getType().toString();
+            }
+            if(login==null)
+            {
+                login=compte.getLogin();
+            }
+            if(nom==null)
+            {
+                nom=compte.getNom();
+            }
+            if(prenom==null)
+            {
+                prenom=compte.getPrenom();
+            }
+            if(mail==null)
+            {
+                mail=compte.getMail();
+            }
+            if(mdp==null)
+            {
+                mdp=compte.getMdp();
+            }
+            
+            /*System.out.println(type);
+            System.out.println(login);
+            System.out.println(nom);
+            System.out.println(prenom);
+            System.out.println(mail);
+            System.out.println(mdp);*/
+            
+            Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
+            if (update == false) {
+                request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
+                return "modifierUtilisateur.jsp";
+            } else {
+                request.setAttribute("message", "Modification effectuée");
+                
+                List<Compte> comptes;
 
-        String type = request.getParameter("type");
-        String login = request.getParameter("login");
-        String nom = request.getParameter("nom");
-        String prenom = request.getParameter("prenom");
-        String mail = request.getParameter("mail");
-        String mdp = request.getParameter("mdp");
-        int idCompte = ((Compte)(request.getSession().getAttribute("compte"))).getId();
-
-        Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
-
-        if (update == false) {
+                comptes = new CompteDAO().SelectAll();
+                
+                request.getSession().setAttribute("comptes", comptes);
+                request.getSession().setAttribute("compte", compte);
+                
+                return "listeUtilisateurs.jsp";
+            }
+        }
+        else
+        {
             request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
             return "modifierUtilisateur.jsp";
-        } else {
-            request.setAttribute("message", "Modification effectuée");
-            return "listeUtilisateurs.jsp";
         }
     }
     

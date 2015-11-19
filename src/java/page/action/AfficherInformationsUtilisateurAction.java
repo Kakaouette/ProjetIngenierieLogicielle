@@ -5,6 +5,7 @@
  */
 package page.action;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
@@ -19,24 +20,28 @@ public class AfficherInformationsUtilisateurAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String session = request.getParameter("session");
+        request.setAttribute("titre", "Liste utilisateurs");
         if ("deco".equals(session)) {
             request.getSession().invalidate();
             return "index.jsp";
         }       
 
         String login = request.getParameter("login");
+        
+        Compte compte = null;
+        List<Compte> comptes;
+        comptes = null;
 
-        Compte compte;
-        compte = null;
-
+        comptes = new CompteDAO().SelectAll();
         compte = new CompteDAO().getComptebyLogin(login);
 
-        if (compte == null) {
+        if (comptes == null) {
             request.setAttribute("message", "ERREUR : Utilisateur non trouvé dans la BDD");
-            return "listeUtilistaeurs.jsp";
+            return "listeUtilisateurs.jsp";
         } else {
+            request.getSession().setAttribute("comptes", comptes);
             request.getSession().setAttribute("compte", compte);
-            return "modifierUtilisateur.jsp";
+            return "listeUtilisateurs.jsp";
         }
     }
     

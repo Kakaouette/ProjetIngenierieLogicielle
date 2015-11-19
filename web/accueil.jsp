@@ -10,7 +10,7 @@
         <p>Bonjour
             <%out.print(c.getPrenom());%> <%out.print(c.getNom());%>, vous êtes de type <%out.print(c.getType().toString());%><br>
         <h2>Liste Formation</h2>
-        <% for(Formation f : c.getFormationAssocie()){%>
+        <%for(Formation f : c.getFormationAssocie()){%>
             <%out.print(f.getDescription());%> <br/>
         <%}%>
         </p>
