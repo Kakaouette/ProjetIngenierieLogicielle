@@ -23,16 +23,7 @@ public class ModifierUtilisateurAction implements Action {
         String valueButton = request.getParameter("bouton");
         System.out.println(valueButton);
         
-        if(valueButton.equals("annuler"))
-        {
-            return "listeUtilisateurs.jsp";
-        }
-        else if(valueButton.equals("supprimer"))
-        {
-            //A faire
-            return "listeUtilisateurs.jsp";
-        }
-        else if(valueButton.equals("enregistrer"))
+        if(valueButton.equals("enregistrer"))
         {
             //System.out.println("test");
             String type = request.getParameter("type");
@@ -42,7 +33,7 @@ public class ModifierUtilisateurAction implements Action {
             String mail = request.getParameter("email");
             String mdp = request.getParameter("motDePasse"); 
             
-            Compte compte=(Compte)(request.getSession().getAttribute("compte"));
+            Compte compte=new CompteDAO().getComptebyLogin(login);
             //System.out.println(compte);
             int idCompte = compte.getId();
             //System.out.println(idCompte);
@@ -50,10 +41,6 @@ public class ModifierUtilisateurAction implements Action {
             if(type==null)
             {
                 type=compte.getType().toString();
-            }
-            if(login==null)
-            {
-                login=compte.getLogin();
             }
             if(nom==null)
             {
