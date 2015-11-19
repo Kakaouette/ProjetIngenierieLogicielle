@@ -44,16 +44,6 @@ public class Dossier implements Serializable{
     @OneToMany(targetEntity = Historique.class, cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
     List<Historique> historique;
 
-    public Dossier(Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique) {
-        this.date = date;
-        this.etat = etat;
-        this.lettre = lettre;
-        this.admissible = admissible;
-        this.etudiant = etudiant;
-        this.demandeFormation = demandeFormation;
-        this.historique = historique;
-    }
-    
     public Dossier(Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation) {
         this.date = date;
         this.etat = etat;
@@ -63,7 +53,16 @@ public class Dossier implements Serializable{
         this.demandeFormation = demandeFormation;
     }
 
-    
+    public Dossier(Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique) {
+        this.date = date;
+        this.etat = etat;
+        this.lettre = lettre;
+        this.admissible = admissible;
+        this.etudiant = etudiant;
+        this.demandeFormation = demandeFormation;
+        this.historique = historique;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

@@ -46,8 +46,6 @@ public class Etudiant implements Serializable{
         this.adresse = adresse;
     }
     
-    
-    
     public void setId(int id) {
         this.id = id;
     }

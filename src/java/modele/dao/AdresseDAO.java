@@ -37,7 +37,7 @@ public class AdresseDAO extends Dao {
 
         return unAdresse;
     }
-    
+
     public Adresse getAdresseByCodePostal(String codePostal){
         try {
             q = em.createQuery("SELECT A FROM Adresse A WHERE A.codePostal = :CP");
@@ -47,6 +47,7 @@ public class AdresseDAO extends Dao {
             return null;
         }
     }
+    
     public void save(Adresse unAdresse) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();

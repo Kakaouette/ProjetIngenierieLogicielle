@@ -46,7 +46,7 @@ public class HistoriqueDAO extends Dao {
             return null;
         }
     }
-
+    
     public void save(Historique unHistorique) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();

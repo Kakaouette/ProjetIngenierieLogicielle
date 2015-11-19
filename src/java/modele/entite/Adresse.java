@@ -32,7 +32,6 @@ public class Adresse implements Serializable{
         this.ville = ville;
     }
 
-    
     public void setId(int id) {
         this.id = id;
     }

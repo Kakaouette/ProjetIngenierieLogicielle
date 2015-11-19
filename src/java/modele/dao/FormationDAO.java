@@ -60,4 +60,19 @@ public class FormationDAO extends Dao {
         em.merge(unFormation);
         tx.commit();
     }
+    
+    /**
+     * Selection de toutes les formations dans la BD
+     * 
+     * @return List de formation
+     */
+    public List<Formation> SelectAll() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT F FROM Formation F");
+            return (List<Formation>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

@@ -29,7 +29,6 @@ public class EtudiantEtranger extends Etudiant implements Serializable{
         this.niveau = niveau;
         this.avis = avis;
     }
-    
 
     public void setNiveau(String niveau) {
         this.niveau = niveau;
