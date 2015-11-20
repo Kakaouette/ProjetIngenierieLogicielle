@@ -76,16 +76,16 @@
                                     <span class="fa fa-home"></span>
                                     Accueil</a>
                             </li>
-                            <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>>
+                            <li class="dropdown <%if (current.equals(1) && c.getType() == TypeCompte.admin) {%> active<%}%>">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion utilisateur 
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="Navigation?action=voirAjoutUtilisateur">Ajouter</a></li>
-                                    <li><a href="Navigation?action=voirGestionUtilisateur">Modifier</a></li>
+                                    <li><a href="Navigation?action=afficherInformationsUtilisateur">Modifier</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>>
+                            <li class="dropdown <%if (current.equals(2) && c.getType() == TypeCompte.admin) {%> active<%}%>">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion formation
                                     <span class="caret"></span>
                                 </a>
