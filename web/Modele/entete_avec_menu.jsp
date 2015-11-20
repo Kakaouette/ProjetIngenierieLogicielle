@@ -81,8 +81,8 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="Navigation?action=voirAjoutUtilisateur">Ajouter</a></li>
-                                    <li><a href="Navigation?action=voirGestionUtilisateur">Modifier</a></li>
+                                    <li><a href="Navigation?action=voirAjoutUtilisateur"><i class="fa fa-plus"/>Ajouter</a></li>
+                                    <li><a href="Navigation?action=voirGestionUtilisateur"><i class="fa fa-edit"/>Modifier</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown" <%if (current.equals(0) && c.getType() == TypeCompte.admin) {%>class="active"<%}%>>
@@ -90,9 +90,9 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="Navigation?action=voirAjoutFormation">Ajouter</a></li>
-                                    <li><a href="Navigation?action=voirGestionFormation">Modifier</a></li>
-                                    <li><a href="Navigation?action=voirDatesInscription">Dates d'inscription</a></li>
+                                    <li><a href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"/>Ajouter</a></li>
+                                    <li><a href="Navigation?action=voirGestionFormation"><i class="fa fa-edit"/>Modifier</a></li>
+                                    <li><a href="Navigation?action=voirDatesInscription"><i class="fa fa-calendar"/>Dates d'inscription</a></li>
                                 </ul>
                             </li>
                             <li><a href=Navigation?action=gererAuthentification&session=deco>
