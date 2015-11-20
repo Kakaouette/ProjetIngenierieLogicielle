@@ -5,6 +5,11 @@
  */
 package service;
 
+import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modele.dao.Dao;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 
@@ -26,5 +31,19 @@ public class DossierService {
     public boolean ajouterDossier(Dossier dossier){
         dossierDAO.save(dossier);
         return dossierDAO.getById(Integer.parseInt(dossier.getId())) != null;
+    }
+    
+    public String getRegexIdDossier(){
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        String regex="";
+        
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            regex=properties.getProperty("creerDossier.idDossier");
+        } catch (IOException ex) {
+            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return regex;
     }
 }
