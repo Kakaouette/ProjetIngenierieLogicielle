@@ -28,8 +28,8 @@ public class Adresse implements Serializable{
     }
 
     public Adresse(String codePostal, String ville) {
-        this.codePostal=codePostal;
-        this.ville=ville;
+        this.codePostal = codePostal;
+        this.ville = ville;
     }
 
     public void setId(int id) {

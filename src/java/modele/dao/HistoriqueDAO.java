@@ -36,7 +36,17 @@ public class HistoriqueDAO extends Dao {
 
         return unHistorique;
     }
-
+    
+    public Historique getHistoriqueByMessage(String msg){
+        try {
+            q = em.createQuery("SELECT H FROM Historique H WHERE H.message = :MSG");
+            q.setParameter("MSG", msg);
+            return (Historique) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
     public void save(Historique unHistorique) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();

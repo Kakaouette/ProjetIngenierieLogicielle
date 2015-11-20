@@ -39,11 +39,11 @@ public class Etudiant implements Serializable{
     }
 
     public Etudiant(String nom, String prenom, String adressePostale, String sexe, Adresse adresse) {
-        this.nom=nom;
-        this.prenom=prenom;
-        this.adressePostale=adressePostale;
-        this.sexe=sexe;
-        this.adresse=adresse;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adressePostale = adressePostale;
+        this.sexe = sexe;
+        this.adresse = adresse;
     }
     
     public void setId(int id) {

@@ -44,10 +44,10 @@ public class Historique implements Serializable{
     }
 
     public Historique(Date date, String message, String action, Compte compte) {
-        this.date=date;
-        this.message=message;
-        this.action=action;
-        this.compte=compte;
+        this.date = date;
+        this.message = message;
+        this.action = action;
+        this.compte = compte;
     }
 
     public int getId() {

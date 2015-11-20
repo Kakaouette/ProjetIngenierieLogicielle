@@ -36,6 +36,16 @@ public class FormationDAO extends Dao {
 
         return unFormation;
     }
+    
+    public Formation getFormationByIntitule(String intitule){
+        try {
+            q = em.createQuery("SELECT F FROM Formation F WHERE F.intitule = :INT");
+            q.setParameter("INT", intitule);
+            return (Formation) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
     public void save(Formation unFormation) {
         EntityTransaction tx = em.getTransaction();
@@ -49,5 +59,20 @@ public class FormationDAO extends Dao {
         tx.begin();
         em.merge(unFormation);
         tx.commit();
+    }
+    
+    /**
+     * Selection de toutes les formations dans la BD
+     * 
+     * @return List de formation
+     */
+    public List<Formation> SelectAll() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT F FROM Formation F");
+            return (List<Formation>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

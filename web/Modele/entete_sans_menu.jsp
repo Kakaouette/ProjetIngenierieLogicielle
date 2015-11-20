@@ -42,6 +42,7 @@
             <div class="container-fluid">
             <div class="navbar-header">
                     <a class="navbar-brand" href="Navigation?action=index">Gestion Inscription</a>
+
                 </div>
         </div>
     </nav>
