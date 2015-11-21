@@ -28,8 +28,13 @@ public class SupprimerUtilisateurAction implements Action {
 
         
         CompteService compteService = new CompteService();
-        compteService.supprimerUtilisateur(login);
-        request.setAttribute("message", "Suppression effectuée");
-        return "listeUtilisateurs.jsp";
+        boolean supprimer = compteService.supprimerUtilisateur(login);
+        if (supprimer){
+            request.setAttribute("message", "Suppression effectuée");
+            return "listeUtilisateurs.jsp";
+        }else{
+            request.setAttribute("message", "Erreur: Le compte n'existe pas");
+            return "modifierUtilisateur.jsp";
+        }
     }
 }
