@@ -87,6 +87,8 @@
                                         <li><a href="Navigation?action=voirGestionComptes"><i class="fa fa-edit"></i> Modifier</a></li>
                                     </ul>
                                 </li>
+                            <%}%>
+                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secretaire_formation) {%>
                                 <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         Gestion formations <span class="caret"></span>

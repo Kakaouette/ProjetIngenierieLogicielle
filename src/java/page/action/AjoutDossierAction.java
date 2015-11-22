@@ -22,6 +22,7 @@ import modele.entite.Dossier;
 import modele.entite.Etudiant;
 import modele.entite.Formation;
 import modele.entite.Historique;
+import service.AjoutDossierInvalideException;
 import service.DossierService;
 
 /**
@@ -41,11 +42,11 @@ public class AjoutDossierAction implements Action{
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
         String note = request.getParameter("note");
-        int idFormation = Integer.parseInt(request.getParameter("idFormation"));
+        String formationIntitule = request.getParameter("formationIntitule");
         boolean typeAdmission = (boolean) request.getAttribute("admission");
         
         //verification de la validité du formulaire
-        if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || rue.isEmpty() || codePostal.isEmpty() || ville.isEmpty()){
+        if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || rue.isEmpty() || codePostal.isEmpty() || ville.isEmpty() || formationIntitule.isEmpty()){
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
@@ -63,24 +64,10 @@ public class AjoutDossierAction implements Action{
         if(etudiant == null){
             etudiant = new Etudiant(nom, prenom, rue, sexe, adresse);
         }
-        Formation formation = new FormationDAO().getById(idFormation);
+        Formation formation = new FormationDAO().getFormationByIntitule(formationIntitule);
         if(formation == null){
             request.setAttribute("error", "true");
             request.setAttribute("message", "Formation inconnue");
-            request.setAttribute("focus", "formation");
-            return "creerDossier.jsp";
-        }
-        
-        //verification de la validité de la demande
-        if(new DossierDAO().getById(idDossier) != null){ //verif id valide //add: verif id suit regex
-            request.setAttribute("error", "true");
-            request.setAttribute("message", "L'identifiant du dossier est déjà utilisé");
-            request.setAttribute("focus", "id");
-            return "creerDossier.jsp";
-        }
-        if(new DossierDAO().getByEtudiantAndFormation(etudiant, formation) != null){ //verif dossier existant
-            request.setAttribute("error", "true");
-            request.setAttribute("message", "Un dossier pour cet formation existe déjà pour cet étudiant"); //Le dossier existe déjà !
             request.setAttribute("focus", "formation");
             return "creerDossier.jsp";
         }
@@ -99,26 +86,22 @@ public class AjoutDossierAction implements Action{
         nouveauDossier.getHistorique().add(new Historique(dateNow, "", "Création du dossier", compteActif));
         nouveauDossier.getHistorique().add(new Historique(dateNow, note, "Commentaire à la création du dossier", compteActif));
         
-        //ajout des entitées inexistante
-        if(new AdresseDAO().getById(adresse.getId()) == null){
-            new AdresseDAO().save(adresse); //ajout dans la base de donnée
-        }
-        if(new EtudiantDAO().getById(etudiant.getId()) == null){
-            new EtudiantDAO().save(etudiant); //ajout dans la base de donnée
-        }
         //demande de creation du dossier
         try{
-            if (new DossierService().ajouterDossier(nouveauDossier)) {
-                request.setAttribute("error", "false");
-                request.setAttribute("message", "Dossier créé.");
-            } else {
-                request.setAttribute("error", "true");
-                request.setAttribute("message", "Le dossier n'a pas été créé.");
-            }
-        }
-        catch(Exception e){
+            new DossierService().ajouterDossier(nouveauDossier);
+            request.setAttribute("error", "false");
+            request.setAttribute("message", "Dossier créé.");
+        }catch(AjoutDossierInvalideException e){
             request.setAttribute("error", "true");
-            request.setAttribute("message", e.getMessage());
+            request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
+            if(e.getCause().getMessage().equals("ID invalide")){
+                request.setAttribute("focus", "id");
+            }else if(e.getCause().getMessage().equals("Dossier existant")){
+                request.setAttribute("focus", "formation");
+            }
+        }catch(Exception e){ //exception bdd
+            request.setAttribute("error", "true");
+            request.setAttribute("message", "Le dossier n'a pas été créé.");
         }
         
         String pageAVoir = "";

@@ -96,16 +96,22 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("voirGestionFormation")) {
             if (compteActif.getType() == TypeCompte.admin) {
                 menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
             }
             classeAction = new VoirGestionFormationsAction();
         }else if (action.equals("voirAjoutFormation")) {
             if (compteActif.getType() == TypeCompte.admin) {
                 menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
             }
             classeAction = new VoirAjoutFormationAction();
         }else if (action.equals("voirDatesInscription")) {
             if (compteActif.getType() == TypeCompte.admin) {
                 menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
             }
             classeAction = new VoirDatesInscriptionAction();
         }else{
