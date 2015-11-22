@@ -82,6 +82,9 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("voirDatesInscription")) {
             menuSelect = 0;
             classeAction = new VoirDatesInscriptionAction();
+        }else if (action.equals("afficherInformationsDossiers")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new AfficherInformationsDossiersAction();
         }else if (action.equals("voirModifierUtilisateur")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new VoirModifierUtiilisateurAction();
