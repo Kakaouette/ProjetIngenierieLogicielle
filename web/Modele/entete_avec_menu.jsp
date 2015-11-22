@@ -28,16 +28,6 @@
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/font-awesome/css/font-awesome.css" rel="stylesheet">
         <script src="jQuery/jquery-1.11.2.js"></script>
-        <script src="jQuery/jPushMenu.js"></script>
-        <script src="jQuery/v2p.js"></script>
-        <script type="text/javascript">
-            //<![CDATA[
-            $(document).ready(function() {
-                $('.toggle-menu').jPushMenu({closeOnClickLink: false});
-                $('.dropdown-toggle').dropdown();
-            });
-            //]]>
-        </script>
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
