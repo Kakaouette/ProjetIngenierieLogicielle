@@ -1,0 +1,13 @@
+La semaine du 11 novembre se résume à la réalisation du 1er sprint. 
+Des soucis au niveau de Git on ralenti la productivité. 
+Pour ma part j'ai du tout recommencer car je n'ai pu push sur une branche si je n'était pas son créateur.
+On a réussi à résoudre le problème mais avec plus de vigilance quand on fait la moindre opération Git.
+Je me suis occupé de l'interface de la page Créer Utilisateur. Cette interface s'est fait très rapidement.
+Le plus long restait le test ainsi que la connaissance du code de celui qui se chargait de l'implémentation.
+En effet il me fallait connaître les noms des variables pour passer les mêmes via la vue.
+Pour résumer :
+
+- Réalisation de l'interface (1h)
+- Analyse de l'implémentation (30min)
+- Soucis de Git (3h)
+- Réunion sur l'avancement/finalité du sprint 1 et attribution des rôles sur le sprint 2 (30min)
