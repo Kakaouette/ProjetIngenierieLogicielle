@@ -15,23 +15,21 @@ import modele.dao.CompteDAO;
  *
  * @author Jordan
  */
-public class AfficherInformationsUtilisateurAction implements Action {
+public class VoirGestionComptesAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Liste utilisateurs");
+        request.setAttribute("titre", "Gestion des comptes");
         
         List<Compte> comptes;
-        comptes = null;
-
-        comptes = new CompteDAO().SelectAll();
+        comptes = new CompteDAO().SelectAll(); //recuperation des comptes pour la page suivante
 
         if (comptes == null) {
-            request.setAttribute("message", "ERREUR : Utilisateur non trouvé dans la BDD");
-            return "listeUtilisateurs.jsp";
+            request.setAttribute("message", "Aucun compte trouvé dans la BDD");
+            return "gestionComptes.jsp";
         } else {
             request.setAttribute("comptes", comptes);
-            return "listeUtilisateurs.jsp";
+            return "gestionComptes.jsp";
         }
     }
     

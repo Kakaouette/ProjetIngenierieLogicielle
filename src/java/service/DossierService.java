@@ -30,9 +30,12 @@ public class DossierService {
      */
     public boolean ajouterDossier(Dossier dossier){
         dossierDAO.save(dossier);
-        return dossierDAO.getById(Integer.parseInt(dossier.getId())) != null;
+        return dossierDAO.getById(dossier.getId()) != null;
     }
     
+    /**
+     * @return regex de l'id d'un dossier
+     */
     public String getRegexIdDossier(){
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Properties properties = new Properties();
