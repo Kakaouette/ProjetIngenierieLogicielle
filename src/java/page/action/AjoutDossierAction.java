@@ -6,14 +6,12 @@
 package page.action;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.AdresseDAO;
-import modele.dao.DossierDAO;
 import modele.dao.EtudiantDAO;
 import modele.dao.FormationDAO;
 import modele.entite.Adresse;
@@ -74,7 +72,7 @@ public class AjoutDossierAction implements Action{
         
         //données complémentaires necessaires pour la formation du dossier
         Compte compteActif = (Compte) request.getSession().getAttribute("compte");
-        Date dateNow = Calendar.getInstance().getTime(); //recuperation de la date actuelle
+        Date dateNow = new Date(); //recuperation de la date actuelle
         //formation du dossier
         Dossier nouveauDossier = new Dossier();
         nouveauDossier.setId(idDossier);
@@ -94,9 +92,9 @@ public class AjoutDossierAction implements Action{
         }catch(AjoutDossierInvalideException e){
             request.setAttribute("error", "true");
             request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
-            if(e.getCause().getMessage().equals("ID invalide")){
+            if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.ID_Invalide.toString())){
                 request.setAttribute("focus", "id");
-            }else if(e.getCause().getMessage().equals("Dossier existant")){
+            }else if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.Dossier_Existant.toString())){
                 request.setAttribute("focus", "formation");
             }
         }catch(Exception e){ //exception bdd

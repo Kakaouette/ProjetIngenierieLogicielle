@@ -6,6 +6,8 @@
 package service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,19 +31,32 @@ public class DossierService {
     }
     
     /**
-     * @param dossier
+     * @return ID de dossier valide
+     */
+    public String getNewID(){
+        Date dateNow = new Date(); //recuperation de la date actuelle
+        SimpleDateFormat formater = new SimpleDateFormat("ddMMyyyy");
+        
+        String lastId = dossierDAO.getLastId(dateNow);
+        String newID = "pst" + formater.format(dateNow);
+        newID += Integer.parseInt(lastId.substring(newID.length()))+1;
+        return newID;
+    }
+    
+    /**
+     * @param dossier à ajouter
      * @throws service.AjoutDossierInvalideException
      */
     public void ajouterDossier(Dossier dossier) throws service.AjoutDossierInvalideException{
         //verification de la validité de la demande
         if(regexIdDossierValide(dossier.getId())){ //verif id correspond au regex
-            throw new AjoutDossierInvalideException("L'identifiant du dossier est invalide", new Throwable("ID invalide"));
+            throw new AjoutDossierInvalideException("L'identifiant du dossier est invalide", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
         }
         if(new DossierDAO().getById(dossier.getId()) != null){ //verif id non utilisé
-            throw new AjoutDossierInvalideException("L'identifiant du dossier est déjà utilisé", new Throwable("ID invalide"));
+            throw new AjoutDossierInvalideException("L'identifiant du dossier est déjà utilisé", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
         }
         if(new DossierDAO().getByEtudiantAndFormation(dossier.getEtudiant(), dossier.getDemandeFormation()) != null){ //verif dossier existant
-            throw new AjoutDossierInvalideException("Un dossier pour cet formation existe déjà pour cet étudiant", new Throwable("Dossier existant")); //Le dossier existe déjà !
+            throw new AjoutDossierInvalideException("Un dossier pour cet formation existe déjà pour cet étudiant", new Throwable(AjoutDossierInvalideException.cause.Dossier_Existant.toString())); //Le dossier existe déjà !
         }
         
         //ajout des entitées inexistante
