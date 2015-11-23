@@ -5,10 +5,12 @@
  */
 package modele.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Compte;
+import modele.entite.Historique;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Compte</b>
@@ -107,5 +109,18 @@ public class CompteDAO extends Dao {
         } catch (NoResultException e) {
             return null;
         }
+    }
+    
+    public void delete(int id) {
+        HistoriqueDAO historiqueDAO = new HistoriqueDAO();
+        Compte unCompte = getById(id);
+        ArrayList<Historique> historiques = historiqueDAO.getHistoriquesByCompte(unCompte);
+        for(Historique historique:historiques){
+            historiqueDAO.delete(historique);
+        }
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(unCompte);
+        tx.commit();
     }
 }

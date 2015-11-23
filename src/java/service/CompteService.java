@@ -130,4 +130,14 @@ public class CompteService {
             return false;
         }
     }
+    
+    public boolean supprimerUtilisateur(String login){
+        Compte compte = compteDAO.getComptebyLogin(login);
+        if (compte != null){
+            compteDAO.delete(compte.getId());
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
