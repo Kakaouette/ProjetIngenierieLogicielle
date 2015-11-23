@@ -68,13 +68,13 @@ public class Navigation extends HttpServlet {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
         }else if (action.equals("voirModifierUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new VoirModifierUtiilisateurAction();
-        }else if (action.equals("afficherInformationsUtilisateur")) {
             menuSelect = 1; //à modifier plus tard
-            classeAction = new AfficherInformationsUtilisateurAction();
+            classeAction = new VoirModifierComptesAction();
+        }else if (action.equals("voirGestionComptes")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new VoirGestionUtilisateurAction();
         }else if (action.equals("modifierUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
+            menuSelect = 1; //à modifier plus tard
             classeAction = new ModifierUtilisateurAction();
         }else{
             action = "index";

@@ -62,32 +62,39 @@
                 <div class="container" id="menu">
                     <div id="navbar" class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" style="height: 895px;">
                         <ul class="nav navbar-nav">
-                            <li <%if (current.equals(0)) {%>class="active"<%}%>><a href="Navigation?action=index">
-                                    <span class="fa fa-home"></span>
-                                    Accueil</a>
-                            </li>
-                            <li class="dropdown <%if (current.equals(1) && c.getType() == TypeCompte.admin) {%> active<%}%>">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion utilisateur 
-                                    <span class="caret"></span>
+                            <li <%if (current.equals(0)) {%>class="active"<%}%>>
+                                <a href="Navigation?action=index">
+                                    <span class="fa fa-home"></span> Accueil
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="Navigation?action=voirAjoutUtilisateur">Ajouter</a></li>
-                                    <li><a href="Navigation?action=afficherInformationsUtilisateur">Modifier</a></li>
-                                </ul>
                             </li>
-                            <li class="dropdown <%if (current.equals(2) && c.getType() == TypeCompte.admin) {%> active<%}%>">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion formation
-                                    <span class="caret"></span>
+                            <%if (c.getType() == TypeCompte.admin) {%>
+                                <li <%if (current.equals(1)) {%>class="active"<%}%> class="dropdown" >
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Gestion comptes <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="Navigation?action=voirAjoutCompte"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li><a href="Navigation?action=voirGestionComptes"><i class="fa fa-edit"></i> Modifier</a></li>
+                                    </ul>
+                                </li>
+                            <%}%>
+                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secretaire_formation) {%>
+                                <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Gestion formations <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li><a href="Navigation?action=voirGestionFormation"><i class="fa fa-edit"></i> Modifier</a></li>
+                                        <li><a href="Navigation?action=voirDatesInscription"><i class="fa fa-calendar"></i> Dates d'inscription</a></li>
+                                    </ul>
+                                </li>
+                            <%}%>
+                            <li>
+                                <a href=Navigation?action=gererAuthentification&session=deco>
+                                    <i class="fa fa-power-off"></i> Déconnexion
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="Navigation?action=voirAjoutFormation">Ajouter</a></li>
-                                    <li><a href="Navigation?action=voirGestionFormation">Modifier</a></li>
-                                    <li><a href="Navigation?action=voirDatesInscription">Dates d'inscription</a></li>
-                                </ul>
                             </li>
-                            <li><a href=Navigation?action=gererAuthentification&session=deco>
-                                    <i class="fa fa-power-off"></i>
-                                    Déconnexion</a></li>
                         </ul>
                     </div>
                 </div>

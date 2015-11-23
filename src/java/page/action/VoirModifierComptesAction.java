@@ -14,7 +14,7 @@ import modele.entite.Compte;
  *
  * @author roulonn
  */
-public class VoirModifierUtiilisateurAction implements Action {
+public class VoirModifierComptesAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
