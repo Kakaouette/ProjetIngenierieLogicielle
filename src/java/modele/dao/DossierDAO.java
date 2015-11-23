@@ -41,15 +41,15 @@ public class DossierDAO extends Dao {
     }
     
     public String getLastId(Date date) {
+        SimpleDateFormat formater = new SimpleDateFormat("ddMMyyyy");
         try {
             em.clear(); //supprime le cache des requêtes
             q = em.createQuery("SELECT D FROM Dossier D WHERE D.id LIKE :ID ORDER BY D.id DESC");
-            SimpleDateFormat formater = new SimpleDateFormat("ddMMyyyy");
             q.setParameter("ID", "pst" + formater.format(date) + "%");
             Dossier dossier = (Dossier) q.getResultList().get(0);
             return dossier.getId();
         } catch (NoResultException e) {
-            return null;
+            return "pst" + formater.format(date) + 0;
         }
     }
     
