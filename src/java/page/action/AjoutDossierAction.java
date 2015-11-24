@@ -30,7 +30,9 @@ import service.DossierService;
 public class AjoutDossierAction implements Action{
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {        
+    public String execute(HttpServletRequest request, HttpServletResponse response) {    
+        String pageSuivante = "";
+        
         //recuperation du formulaire
         String idDossier = request.getParameter("idDossier");
         String nom = request.getParameter("nom");
@@ -89,6 +91,12 @@ public class AjoutDossierAction implements Action{
             new DossierService().ajouterDossier(nouveauDossier);
             request.setAttribute("error", "false");
             request.setAttribute("message", "Dossier créé.");
+            //redirection
+            if(request.getParameter("bouton").equals("enregistrer")){
+                pageSuivante = request.getParameter("pageRetour");
+            }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
+                pageSuivante = "creerDossier.jsp";
+            }
         }catch(AjoutDossierInvalideException e){
             request.setAttribute("error", "true");
             request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
@@ -97,18 +105,16 @@ public class AjoutDossierAction implements Action{
             }else if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.Dossier_Existant.toString())){
                 request.setAttribute("focus", "formation");
             }
+            //redirection
+            pageSuivante = "creerDossier.jsp";
         }catch(Exception e){ //exception bdd
             request.setAttribute("error", "true");
             request.setAttribute("message", "Le dossier n'a pas été créé.");
+            //redirection
+            pageSuivante = "creerDossier.jsp";
         }
         
-        String pageAVoir = "";
-        if(request.getParameter("bouton").equals("enregistrer")){
-            pageAVoir = request.getParameter("pageRetour");
-        }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-            pageAVoir = "creerDossier.jsp";
-        }
-        return pageAVoir;
+        return pageSuivante;
     }
     
 }
