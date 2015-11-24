@@ -23,21 +23,12 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="icon" href="/static/img/favicon.png">
+        <link rel="icon" href="images/favicon.ico">
         <!-- Bootstrap core CSS -->
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="bootstrap/css/ULR.css" rel="stylesheet">
         <script src="jQuery/jquery-1.11.2.js"></script>
-        <script src="jQuery/jPushMenu.js"></script>
-        <script src="jQuery/v2p.js"></script>
-        <script type="text/javascript">
-            //<![CDATA[
-            $(document).ready(function() {
-                $('.toggle-menu').jPushMenu({closeOnClickLink: false});
-                $('.dropdown-toggle').dropdown();
-            });
-            //]]>
-        </script>
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -72,32 +63,39 @@
                 <div class="container" id="menu">
                     <div id="navbar" class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" style="height: 895px;">
                         <ul class="nav navbar-nav">
-                            <li <%if (current.equals(0)) {%>class="active"<%}%>><a href="Navigation?action=index">
-                                    <span class="fa fa-home"></span>
-                                    Accueil</a>
-                            </li>
-                            <li class="dropdown <%if (current.equals(1) && c.getType() == TypeCompte.admin) {%> active<%}%>">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion utilisateur 
-                                    <span class="caret"></span>
+                            <li <%if (current.equals(0)) {%>class="active"<%}%>>
+                                <a href="Navigation?action=index">
+                                    <span class="fa fa-home"></span> Accueil
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="Navigation?action=voirAjoutUtilisateur">Ajouter</a></li>
-                                    <li><a href="Navigation?action=afficherInformationsUtilisateur">Modifier</a></li>
-                                </ul>
                             </li>
-                            <li class="dropdown <%if (current.equals(2) && c.getType() == TypeCompte.admin) {%> active<%}%>">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion formation
-                                    <span class="caret"></span>
+                            <%if (c.getType() == TypeCompte.admin) {%>
+                                <li <%if (current.equals(1)) {%>class="active"<%}%> class="dropdown" >
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Gestion comptes <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="Navigation?action=voirAjoutCompte"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li><a href="Navigation?action=voirGestionComptes"><i class="fa fa-edit"></i> Modifier</a></li>
+                                    </ul>
+                                </li>
+                            <%}%>
+                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secretaire_formation) {%>
+                                <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Gestion formations <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li><a href="Navigation?action=voirGestionFormation"><i class="fa fa-edit"></i> Modifier</a></li>
+                                        <li><a href="Navigation?action=voirDatesInscription"><i class="fa fa-calendar"></i> Dates d'inscription</a></li>
+                                    </ul>
+                                </li>
+                            <%}%>
+                            <li>
+                                <a href=Navigation?action=gererAuthentification&session=deco>
+                                    <i class="fa fa-power-off"></i> Déconnexion
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="Navigation?action=voirAjoutFormation">Ajouter</a></li>
-                                    <li><a href="Navigation?action=voirGestionFormation">Modifier</a></li>
-                                    <li><a href="Navigation?action=voirDatesInscription">Dates d'inscription</a></li>
-                                </ul>
                             </li>
-                            <li><a href=Navigation?action=gererAuthentification&session=deco>
-                                    <i class="fa fa-power-off"></i>
-                                    Déconnexion</a></li>
                         </ul>
                     </div>
                 </div>
@@ -106,3 +104,4 @@
         <!-- Main -->
         <div class="container" id="main">
             <h1 class="page-header"><%=titre%></h1>
+

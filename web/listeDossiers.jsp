@@ -9,7 +9,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 
-<table class="table">
+<%@include file="Modele/dataTablesScript.jsp" %>
+<table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive" width="100%">
     <thead>
         <tr>
             <th>Numéro</th>
@@ -20,8 +21,7 @@
             <th>Id de l'etudiant</th>
         </tr>
     </thead>
-    <tbody>
-        <% List<Dossier> Dossiers=(List<Dossier>) request.getAttribute("dossiers");
+        <!--<% List<Dossier> Dossiers=(List<Dossier>) request.getAttribute("dossiers");
            for (Dossier dossier : Dossiers){
         %>
         
@@ -37,8 +37,7 @@
                 </td>
             </tr>
         
-        <% }%>
-    </tbody>
+        <% }%>-->
 </table>
 
 <% if(request.getAttribute("message") != null){ %>
