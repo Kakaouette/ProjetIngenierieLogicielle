@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 
-<form action="Navigation?action=modifierUtilisateur" method="POST" class="form-horizontal">
+<form action="Navigation?action=modifierUtilisateur&id=<% out.print(request.getAttribute("id")); %>" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
         <div class="col-sm-3">
@@ -82,10 +82,10 @@
             <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
         </div>
     </div>
-</form>
+</form><br/>
 
 <% if(request.getAttribute("message") != null){ %>
-    <div class="alert alert-success">
+    <div class="alert alert-danger">
         <%out.print(request.getAttribute("message"));%>
     </div>
 <%}%>            

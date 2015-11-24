@@ -5,6 +5,7 @@
  */
 package page.action;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,7 @@ public class VoirGestionUtilisateurAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Gestion des comptes");
-        
+
         List<Compte> comptes;
         comptes = null;
 
@@ -30,9 +31,25 @@ public class VoirGestionUtilisateurAction implements Action {
             request.setAttribute("message", "ERREUR : Utilisateur non trouvé dans la BDD");
             return "listeUtilisateurs.jsp";
         } else {
-            request.setAttribute("comptes", comptes);
+            List<Object[]> Tab = new ArrayList<Object[]>();
+
+            for (Compte c : comptes) {
+                Object[] o = new Object[7];
+                o[0] = c.getLogin();
+                o[1] = c.getNom();
+                o[2] = c.getPrenom();
+                o[3] = c.getType().toString();
+                o[4] = c.getMail();
+                o[5] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifierUtilisateur&id=" + c.getId() +"\\\">Modifier</a>";
+                o[6] = "<a class=\\\"btn btn-danger btn-block\\\" href=\\\"Navigation?action=voirModifierUtilisateur&id=" + c.getId() +"\\\">Supprimer</a>";
+                Tab.add(o);
+            }
+
+            request.setAttribute("leTableau", Tab);
+            request.setAttribute("sortL", 1);
+            request.setAttribute("sortC", "asc");
             return "listeUtilisateurs.jsp";
         }
     }
-    
+
 }
