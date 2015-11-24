@@ -1008,7 +1008,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.jpa20-persistence.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.MySQLDriver.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.eclipselink.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.junit-4.12.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <!--<copyfiles files="${file.reference.junit-4.12.jar}" todir="${build.web.dir}/WEB-INF/lib"/>-->
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
