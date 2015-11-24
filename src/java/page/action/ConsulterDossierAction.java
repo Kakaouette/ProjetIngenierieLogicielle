@@ -33,7 +33,7 @@ public class ConsulterDossierAction implements Action{
         
         //si dossier n'existe pas => retour vers la liste des dossiers 
         if(dossier != null){
-            request.setAttribute("titre","Gestion du dossier "+dossier.getId());
+            /*request.setAttribute("titre","Gestion du dossier "+dossier.getId());
             request.setAttribute("id",dossier.getId());
             request.setAttribute("etat",dossier.getEtat());
             request.setAttribute("admissibilite",dossier.isAdmissible());
@@ -46,7 +46,8 @@ public class ConsulterDossierAction implements Action{
             request.setAttribute("formation_id",dossier.getDemandeFormation().getId());
             request.setAttribute("formation_intitule",dossier.getDemandeFormation().getIntitule());
             request.setAttribute("historique",dossier.getHistorique());
-            request.setAttribute("lettre",dossier.getLettre());
+            request.setAttribute("lettre",dossier.getLettre());*/
+            request.setAttribute("dossier", dossier);
             return "consulteDossier.jsp";
         }else{
             request.setAttribute("titre", "Gestion des dossiers");
