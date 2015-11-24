@@ -53,7 +53,7 @@ public class AjoutFormationAction implements Action{
             request.setAttribute("error", "true");
             request.setAttribute("message", "La formation n'a pas été créée: " + e.getMessage());
             if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Formation_Existante.toString())){
-                request.setAttribute("focus", "formation");
+                request.setAttribute("focus", "intitule");
             }
         }catch(Exception e){ //exception bdd
             request.setAttribute("error", "true");
