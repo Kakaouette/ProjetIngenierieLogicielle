@@ -5,9 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="Modele/entete_sans_menu.jsp" %>
+<%@include file="Modele/entete_avec_menu.jsp" %>
 <form class="form-signin" action="Navigation" method="POST">
-    <h1 class="form-signin-heading">Créer un utilisateur</h1>
     <label for="identifiant" class="sr-only">Identifiant</label>
     <div class="input-group">
         <span class="input-group-addon" id="addId"><i class="fa fa-user"></i></span>

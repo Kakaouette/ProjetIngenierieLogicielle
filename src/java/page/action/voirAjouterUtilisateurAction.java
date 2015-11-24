@@ -7,6 +7,7 @@ package page.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.entite.Compte;
 
 /**
  * Ajouter un utilisateur dans le Système d'Information
@@ -18,7 +19,9 @@ public class voirAjouterUtilisateurAction implements Action {
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Ajouter un utilisateur");
+        request.setAttribute("titre", "Créer un compte");
+        Compte compte = (Compte) request.getSession().getAttribute("compte");
+        
         return "createUser.jsp";
     }
 }

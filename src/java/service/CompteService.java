@@ -94,6 +94,5 @@ public class CompteService {
         //ajout dans la base de données avec le mot de passe cryptee
         nouveauCompte.setMdp(mdpCryptee);
         compteDAO.save(nouveauCompte);
-
     }
 }

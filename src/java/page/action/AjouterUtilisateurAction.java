@@ -14,29 +14,29 @@ import modele.entite.TypeCompte;
 import service.CompteService;
 
 /**
- * Ajouter un utilisateur dans le Système d'Information
- * Si succès, ajout dans la base 
- * Si échec, aucun ajout dans la base et retour à l'accueil admin
+ * Ajouter un utilisateur dans le Système d'Information Si succès, ajout dans la
+ * base Si échec, aucun ajout dans la base et retour à l'accueil admin
+ *
  * @author phanjoseph
  */
 public class AjouterUtilisateurAction implements Action {
-    
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("titre", "Créer un compte");
+        
         String type = request.getParameter("type");
         String login = request.getParameter("login");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String email = request.getParameter("email");
         String mdp = request.getParameter("mdp");
-        
-        if(type.isEmpty() || login.isEmpty() || nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty())
-        {
-            try {
-                throw new Exception("Un des champs est vide !");
-            } catch (Exception ex) {
-                Logger.getLogger(AjouterUtilisateurAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+        if (type.isEmpty() || login.isEmpty() || nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty()) {
+            request.setAttribute("error", "true");
+            request.setAttribute("message", "Tous les champs doivent être remplis !");
+
+            return "createUser.jsp";
         }
 
         Compte nouveauCompte = new Compte();
@@ -45,9 +45,8 @@ public class AjouterUtilisateurAction implements Action {
         nouveauCompte.setPrenom(prenom);
         nouveauCompte.setMail(email);
         nouveauCompte.setMdp(mdp);
-        
-        switch(type)
-        {
+
+        switch (type) {
             case "Secretaire Pole":
                 nouveauCompte.setType(TypeCompte.secretaire_general);
                 break;
@@ -64,20 +63,15 @@ public class AjouterUtilisateurAction implements Action {
                 nouveauCompte.setType(TypeCompte.admin);
                 break;
             default:
-                try {
-                    throw new Exception("Selection du type invalide");
-                } catch (Exception ex) {
-                    Logger.getLogger(AjouterUtilisateurAction.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                break;
-               
+                request.setAttribute("error", "true");
+                request.setAttribute("message", "Tous les champs doivent être remplis !");
+                return "createUser.jsp";
         }
-        
-        try
-        {
+
+        try {
             new CompteService().ajouterUtilisateur(nouveauCompte);
             Compte compte = new CompteService().verifierAuthentification(login, mdp);
-        
+
             if (compte == null) {
                 request.setAttribute("error", "true");
                 request.setAttribute("message", "L'utilisateur n'a pas été crée");
@@ -85,16 +79,14 @@ public class AjouterUtilisateurAction implements Action {
                 request.setAttribute("error", "false");
                 request.setAttribute("message", "L'utilisateur a été crée");
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             request.setAttribute("error", "true");
             request.setAttribute("message", "L'utilisateur n'a pas été crée");
             Compte compte = new CompteService().verifierAuthentification(login, mdp);
-            if(compte!=null){
+            if (compte != null) {
                 request.setAttribute("error", "true");
                 request.setAttribute("message", "L'utilisateur existe déjà !");
-            } 
+            }
         }
 
         return "createUser.jsp";

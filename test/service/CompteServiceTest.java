@@ -48,12 +48,12 @@ public class CompteServiceTest {
         System.out.println("verifierAjoutUtilisateur");
         CompteService cs=new CompteService();
         Compte comptetest=new Compte();
-        comptetest.setLogin("admin");
+        comptetest.setLogin("adminTest");
         comptetest.setMail("thomas@totodu.net");
         comptetest.setNom("Tributsch");
         comptetest.setPrenom("Thomas");
         comptetest.setType(TypeCompte.admin);
-        comptetest.setMdp(cs.cryptageMDP("azerty"));
+        comptetest.setMdp("azerty");
         cs.ajouterUtilisateur(comptetest);
         assertNotNull(cs.verifierAuthentification(comptetest.getLogin(), "azerty"));
     }
