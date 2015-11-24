@@ -67,15 +67,6 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
-        }else if (action.equals("voirAjoutUtilisateur")) {
-            menuSelect = 0;
-            classeAction = new VoirAjoutUtilisateurAction();
-        }else if (action.equals("voirGestionUtilisateur")) {
-            menuSelect = 0;
-            classeAction = new VoirGestionUtilisateurAction();
-        }else if (action.equals("voirAjoutFormation")) {
-            menuSelect = 0;
-            classeAction = new VoirAjoutFormationAction();
         }else if (action.equals("voirGestionFormation")) {
             menuSelect = 0;
             classeAction = new VoirGestionFormationAction();
@@ -89,7 +80,7 @@ public class Navigation extends HttpServlet {
             menuSelect = 0; //à modifier plus tard
             classeAction = new VoirModifierUtiilisateurAction();
         }else if (action.equals("afficherInformationsUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
+            menuSelect = 1; //à modifier plus tard
             classeAction = new AfficherInformationsUtilisateurAction();
         }else if (action.equals("modifierUtilisateur")) {
             menuSelect = 0; //à modifier plus tard

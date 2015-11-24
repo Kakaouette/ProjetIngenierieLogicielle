@@ -59,7 +59,7 @@ public class DossierDAO extends Dao {
     public List<Dossier> SelectAll() {
         try {
             em.clear(); //supprime le cache des requêtes
-            q = em.createQuery("SELECT C FROM Compte C");
+            q = em.createQuery("SELECT D FROM Dossier D");
             return (List<Dossier>) q.getResultList();
         } catch (NoResultException e) {
             return null;
