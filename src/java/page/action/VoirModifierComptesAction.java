@@ -27,6 +27,9 @@ public class VoirModifierComptesAction implements Action {
         
         Compte compte = new CompteDAO().getById(id);
         
+        if(compte == null)
+            return new VoirGestionUtilisateurAction().execute(request, response);
+        
         String login = compte.getLogin();
         String nom = compte.getNom();
         String prenom = compte.getPrenom();

@@ -52,7 +52,7 @@
     <div class="form-group">
         <label for="motDePasse" class="col-sm-2 control-label">Mot de passe</label>
         <div class="col-sm-3">
-            <input type="text" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
+            <input type="password" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
         </div>
     </div>
     <div class="row">
@@ -79,7 +79,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
+            <a class="btn btn-danger" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
         </div>
     </div>
 </form><br/>

@@ -38,6 +38,9 @@ public class ModifierUtilisateurAction implements Action {
             int idCompte = Integer.parseInt(request.getParameter("id"));
 
             Compte compte = new CompteDAO().getById(idCompte);
+            
+            if(compte == null)
+                return new VoirGestionUtilisateurAction().execute(request, response);
 
             if (type == null) {
                 type = compte.getType().name();
@@ -69,17 +72,9 @@ public class ModifierUtilisateurAction implements Action {
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
                 return "modifierUtilisateur.jsp";
             } else {
-                System.out.println("test2");
                 request.setAttribute("message", "Modification effectuée");
 
-                List<Compte> comptes;
-
-                comptes = new CompteDAO().SelectAll();
-
-                request.setAttribute("comptes", comptes);
-                request.setAttribute("compte", compte);
-
-                return "listeUtilisateurs.jsp";
+                return new VoirGestionUtilisateurAction().execute(request, response);
             }
         } else {
             System.out.println("test3");
