@@ -24,6 +24,8 @@ public class AjoutFormationAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String pageSuivante = "";
+        
         //recuperation du formulaire
         String description = request.getParameter("description");
         int nbPlace = (int) request.getAttribute("nbPlace");
@@ -43,30 +45,32 @@ public class AjoutFormationAction implements Action{
         
         //formation du dossier
         Formation nouvelleFormation = new Formation(description, nbPlace, dateDebut, dateFin, intitule, justificatifs);
-        
+                
         //demande de creation du dossier
         try{
             new FormationService().ajouterFormation(nouvelleFormation);
             request.setAttribute("error", "false");
             request.setAttribute("message", "Formation créée.");
+            //redirection
+            if(request.getParameter("bouton").equals("enregistrer")){
+                pageSuivante = request.getParameter("pageRetour");
+            }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
+                pageSuivante = "ajoutFormation.jsp";
+            }
         }catch(AjoutFormationInvalideException e){
             request.setAttribute("error", "true");
             request.setAttribute("message", "La formation n'a pas été créée: " + e.getMessage());
             if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Formation_Existante.toString())){
                 request.setAttribute("focus", "intitule");
             }
+            pageSuivante = "ajoutFormation.jsp"; //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("error", "true");
             request.setAttribute("message", "La formation n'a pas été créée.");
+            pageSuivante = "ajoutFormation.jsp"; //redirection
         }
         
-        String pageAVoir = "";
-        if(request.getParameter("bouton").equals("enregistrer")){
-            pageAVoir = request.getParameter("pageRetour");
-        }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-            pageAVoir = "ajoutFormation.jsp";
-        }
-        return pageAVoir;
+        return pageSuivante;
     }
     
 }
