@@ -43,10 +43,10 @@ public class AjoutDossierAction implements Action{
         String ville = request.getParameter("ville");
         String notes = request.getParameter("notes");
         String formationIntitule = request.getParameter("formationIntitule");
-        boolean typeAdmission = !request.getParameter("admission").equals("");
+        String type = request.getParameter("admission");
         
         //verification de la validité du formulaire
-        if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || adresse.isEmpty() || codePostal.isEmpty() || ville.isEmpty() || formationIntitule.isEmpty()){
+        if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || adresse.isEmpty() || codePostal.isEmpty() || ville.isEmpty() || formationIntitule.isEmpty() || type.isEmpty()){
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
@@ -54,6 +54,7 @@ public class AjoutDossierAction implements Action{
             }
         }
         //mise en forme des données
+        boolean typeAdmission = !type.equals("");
         Adresse adressePostale = new AdresseDAO().getAdresseByCodePostal(codePostal);
         if(adressePostale == null){
             adressePostale = new Adresse(codePostal, ville);
