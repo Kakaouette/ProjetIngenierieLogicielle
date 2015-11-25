@@ -5,7 +5,14 @@
  */
 package service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import modele.dao.CompteDAO;
+import modele.dao.HistoriqueDAO;
 import modele.entite.Compte;
+import modele.entite.Formation;
+import modele.entite.Historique;
 import modele.entite.TypeCompte;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -61,6 +68,7 @@ public class CompteServiceTest {
     /**
      * Test of verifierAuthentification method, of class CompteService.
      */
+    
     @Test
     public void testVerifierAuthentification() {
         System.out.println("verifierAuthentification");
@@ -114,5 +122,57 @@ public class CompteServiceTest {
         Compte result = instance.verifierAuthentification(identifiantTest, mdpTest);
         assertNull(result);
     }
-
+    
+    @Test
+    public void testSupprimerUtilisateurNonExistant() {
+        System.out.println("SupprimerUtilisateur utisateur non existant");
+        CompteService instance = new CompteService();
+        String identifiantTest = "AucunChanceDapparaitre_j_j_j_j_dj_sjqfdjs_qf_ds_qfd";
+        String mdpTest = "Sproutch";
+        
+        boolean done = instance.supprimerUtilisateur(identifiantTest);
+        assertFalse(done);
+    }
+    
+    @Test
+    public void testSupprimerUtilisateurSansHistorique() {
+        System.out.println("SupprimerUtilisateur sans historique");
+        CompteService instance = new CompteService();
+        CompteDAO compteDAO = new CompteDAO();
+        
+        List<Formation> uneListeDeFormationVide = new ArrayList<Formation>();
+        
+        //String login, String mdp, String nom, String prenom, String mail, TypeCompte type,
+        String identifiantTest = "test1";
+        String mdpTest = "pass";
+        Compte unCompte = new Compte(identifiantTest, mdpTest, "NomTest", "PrenomTest", "a@e.com", TypeCompte.admin, uneListeDeFormationVide);
+        compteDAO.save(unCompte);
+        
+        boolean done = instance.supprimerUtilisateur(identifiantTest);
+        assertTrue(done);
+    }
+    @Test
+    public void testSupprimerUtilisateurAvecHistorique() {
+        System.out.println("SupprimerUtilisateur avec historique");
+        CompteService instance = new CompteService();
+        CompteDAO compteDAO = new CompteDAO();
+        HistoriqueDAO histoDAO = new HistoriqueDAO();
+        
+        List<Formation> uneListeDeFormationVide = new ArrayList<Formation>();
+        
+        //String login, String mdp, String nom, String prenom, String mail, TypeCompte type,
+        String identifiantTest = "test";
+        String mdpTest = "pass";
+        Compte unCompte = new Compte(identifiantTest, mdpTest, "NomTest", "PrenomTest", "a@e.com", TypeCompte.admin, uneListeDeFormationVide);
+        
+        //Date date, String message, String action, Compte compte
+        Historique historique = new Historique(new Date(),"Simple test unitaire de suppression de compte","simple test unitaire de suppression de compte",unCompte);
+        compteDAO.save(unCompte);
+        unCompte = compteDAO.getComptebyIdentifiant(unCompte.getLogin());
+        histoDAO.save(historique);
+        
+        
+        boolean done = instance.supprimerUtilisateur(identifiantTest);
+        assertTrue(done);
+    }
 }

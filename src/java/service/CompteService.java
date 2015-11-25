@@ -149,4 +149,14 @@ public class CompteService {
         nouveauCompte.setMdp(mdpCryptee);
         compteDAO.save(nouveauCompte);
     }
+    
+    public boolean supprimerUtilisateur(String login){
+        Compte compte = compteDAO.getComptebyLogin(login);
+        if (compte != null){
+            compteDAO.delete(compte.getId());
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
