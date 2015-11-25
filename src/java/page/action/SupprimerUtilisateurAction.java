@@ -7,8 +7,6 @@ package page.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.dao.CompteDAO;
-import modele.entite.Compte;
 import service.CompteService;
 
 /**
@@ -16,25 +14,25 @@ import service.CompteService;
  * @author dorian
  */
 public class SupprimerUtilisateurAction implements Action {
-    
-    @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response){
-        String session = request.getParameter("session");
-        if ("deco".equals(session)) {
-            request.getSession().invalidate();
-            return "index.jsp";
-        }       
-        String login = request.getParameter("login");
 
-        
+    @Override
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
+        String idS = request.getParameter("id");
+        int id = 0;
+        try {
+            id = Integer.parseInt(idS);
+        } catch (Exception e) {
+            return new VoirIndexAction().execute(request, response);
+        }
+
         CompteService compteService = new CompteService();
-        boolean supprimer = compteService.supprimerUtilisateur(login);
-        if (supprimer){
+        boolean supprimer = compteService.supprimerUtilisateur(id);
+        if (supprimer) {
             request.setAttribute("message", "Suppression effectuée");
-            return "listeUtilisateurs.jsp";
-        }else{
+            return new VoirGestionUtilisateurAction().execute(request, response);
+        } else {
             request.setAttribute("message", "Erreur: Le compte n'existe pas");
-            return "modifierUtilisateur.jsp";
+            return new VoirModifierComptesAction().execute(request, response);
         }
     }
 }

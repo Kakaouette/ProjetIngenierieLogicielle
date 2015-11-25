@@ -150,8 +150,8 @@ public class CompteService {
         compteDAO.save(nouveauCompte);
     }
     
-    public boolean supprimerUtilisateur(String login){
-        Compte compte = compteDAO.getComptebyLogin(login);
+    public boolean supprimerUtilisateur(int id){
+        Compte compte = compteDAO.getById(id);
         if (compte != null){
             compteDAO.delete(compte.getId());
             return true;

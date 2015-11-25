@@ -6,6 +6,28 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript">
+    $(function() {
+        $('#dialog').hide();
+    });
+
+    function createDialog(id) {
+        $('#dialog').dialog({
+            modal: true,
+            buttons: {
+                "Oui": function() {
+                    window.location.replace('Navigation?action=supprimerUtilisateur&id=' + id);
+                },
+                "Non": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $('#dialog').show();
+    };
+</script>
 
 <form action="Navigation?action=modifierUtilisateur&id=<% out.print(request.getAttribute("id")); %>" method="POST" class="form-horizontal">
     <div class="form-group">
@@ -80,7 +102,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary btn-danger" href="Navigation?action=supprimerUtilisateur&login="<% out.print(request.getAttribute("login")); %>>Supprimer</a>
+            <a class="btn btn-primary btn-danger" onclick='createDialog(<% out.print(request.getAttribute("id")); %>)'>Supprimer</a>
         </div>
     </div>
 </form><br/>
@@ -92,3 +114,6 @@
 <%}%>            
             
 <%@include file="Modele/pied.jsp" %>
+<div id="dialog" title="Confirmer la suppression">
+    <p>Voulez vous vraiment supprimer cette ligne ?</p>
+</div>

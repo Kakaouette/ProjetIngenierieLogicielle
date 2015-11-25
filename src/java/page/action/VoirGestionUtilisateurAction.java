@@ -41,7 +41,7 @@ public class VoirGestionUtilisateurAction implements Action {
                 o[3] = c.getType().toString();
                 o[4] = c.getMail();
                 o[5] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifierUtilisateur&id=" + c.getId() +"\\\">Modifier</a>";
-                o[6] = "<a class=\\\"btn btn-danger btn-block\\\" href=\\\"Navigation?action=voirModifierUtilisateur&id=" + c.getId() +"\\\">Supprimer</a>";
+                o[6] = "<a class=\\\"btn btn-primary btn-danger\\\" onclick='createDialog(" + c.getId() + ")'>Supprimer</a>";
                 Tab.add(o);
             }
 

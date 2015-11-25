@@ -127,7 +127,7 @@ public class CompteServiceTest {
     public void testSupprimerUtilisateurNonExistant() {
         System.out.println("SupprimerUtilisateur utisateur non existant");
         CompteService instance = new CompteService();
-        String identifiantTest = "AucunChanceDapparaitre_j_j_j_j_dj_sjqfdjs_qf_ds_qfd";
+        int identifiantTest = -1;
         String mdpTest = "Sproutch";
         
         boolean done = instance.supprimerUtilisateur(identifiantTest);
@@ -148,7 +148,7 @@ public class CompteServiceTest {
         Compte unCompte = new Compte(identifiantTest, mdpTest, "NomTest", "PrenomTest", "a@e.com", TypeCompte.admin, uneListeDeFormationVide);
         compteDAO.save(unCompte);
         
-        boolean done = instance.supprimerUtilisateur(identifiantTest);
+        boolean done = instance.supprimerUtilisateur(compteDAO.getComptebyIdentifiant(identifiantTest).getId());
         assertTrue(done);
     }
     @Test
@@ -172,7 +172,7 @@ public class CompteServiceTest {
         histoDAO.save(historique);
         
         
-        boolean done = instance.supprimerUtilisateur(identifiantTest);
+        boolean done = instance.supprimerUtilisateur(compteDAO.getComptebyIdentifiant(identifiantTest).getId());
         assertTrue(done);
     }
 }
