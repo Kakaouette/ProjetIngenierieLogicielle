@@ -21,7 +21,7 @@ public class AfficherInformationsDossiersAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Liste dossiers");
-        
+
         List<Dossier> dossiers;
         dossiers = null;
 
@@ -31,25 +31,8 @@ public class AfficherInformationsDossiersAction implements Action {
             request.setAttribute("message", "ERREUR : Dossier non trouvé dans la BDD");
             return "listeDossiers.jsp";
         } else {
-            List<Object[]> Tab = new ArrayList<Object[]>();
-
-            for (Dossier c : dossiers) {
-                Object[] o = new Object[7];
-                o[0] = c.getId();
-                o[1] = c.isAdmissible();
-                o[2] = c.getDate();
-                o[3] = c.getEtat();
-                o[4] = c.getDemandeFormation().getIntitule();
-                o[5] = c.getEtudiant().getId();
-                o[6] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=#\\\">Modifier</a>";
-                Tab.add(o);
-            }
-
-            request.setAttribute("leTableau", Tab);
-            request.setAttribute("sortL", 1);
-            request.setAttribute("sortC", "asc");
-            return "listeDossiers.jsp";
+            return new VoirGestionDossierAction().execute(request, response);
         }
     }
-    
+
 }
