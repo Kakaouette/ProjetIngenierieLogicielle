@@ -5,7 +5,6 @@
  */
 package page.action;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,15 +15,18 @@ import modele.entite.Justificatif;
  *
  * @author Arthur
  */
-public class VoirAjoutFormationAction implements Action{
+public class AjoutJustificatifDansAttribut implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Ajouter une formation");
-        if(request.getSession().getAttribute("justificatifs") == null){
-            List<Justificatif> justificatifs = new ArrayList<Justificatif>();
-            request.getSession().setAttribute("justificatifs", justificatifs);
+        List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
+        Justificatif justificatifToAdd = new JustificatifDAO().getJustificatifbyTitre(request.getParameter("justificatifAAjouter"));
+        if(justificatifToAdd == null){
+            //erreur
         }
+        justificatifs.add(justificatifToAdd); //ajout du justificatif dans les justificatifs de la formation
+        request.getSession().setAttribute("justificatifs", justificatifs);
         return "ajouterFormation.jsp";
     }
     

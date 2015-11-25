@@ -16,15 +16,20 @@ import modele.entite.Justificatif;
  *
  * @author Arthur
  */
-public class VoirAjoutFormationAction implements Action{
+public class SuppressionJustificatifDansAttributAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Ajouter une formation");
-        if(request.getSession().getAttribute("justificatifs") == null){
-            List<Justificatif> justificatifs = new ArrayList<Justificatif>();
-            request.getSession().setAttribute("justificatifs", justificatifs);
+        List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
+        Justificatif justificatifToSuppr = new JustificatifDAO().getJustificatifbyTitre(request.getParameter("justificatifASuppr"));
+        for(Justificatif j: justificatifs){
+            if(j.getId() == justificatifToSuppr.getId()){
+                justificatifs.remove(j); //suppression du justificatif dans les justificatifs de la formation
+                break;
+            }
         }
+        request.getSession().setAttribute("justificatifs", justificatifs);
         return "ajouterFormation.jsp";
     }
     

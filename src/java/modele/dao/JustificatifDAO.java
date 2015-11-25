@@ -60,4 +60,19 @@ public class JustificatifDAO extends Dao {
         em.merge(unJustificatif);
         tx.commit();
     }
+    
+    /**
+     * Selection de tous les justificatifs dans la BDD
+     * 
+     * @return List de formation
+     */
+    public List<Justificatif> SelectAll() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT J FROM Justificatif J");
+            return (List<Justificatif>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

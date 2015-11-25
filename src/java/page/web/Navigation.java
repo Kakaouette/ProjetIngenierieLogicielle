@@ -67,15 +67,27 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
-        }else if (action.equals("voirModifierUtilisateur")) {
+        }else if (action.equals("voirModifierComptes")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new VoirModifierComptesAction();
         }else if (action.equals("voirGestionComptes")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new VoirGestionUtilisateurAction();
-        }else if (action.equals("modifierUtilisateur")) {
+        }else if (action.equals("modifierCompte")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new ModifierUtilisateurAction();
+        }else if (action.equals("voirAjoutFormation")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new VoirAjoutFormationAction();
+        }else if (action.equals("voirAjoutJustificatifDansAttribut")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new VoirAjoutJustificatifDansAttribut();
+        }else if (action.equals("ajoutJustificatifDansAttribut")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new AjoutJustificatifDansAttribut();
+        }else if (action.equals("supprimerJustificatifDansAttribut")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new SuppressionJustificatifDansAttributAction();
         }else{
             action = "index";
             menuSelect = 0;

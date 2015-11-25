@@ -32,7 +32,7 @@ public class AjoutFormationAction implements Action{
         Date dateDebut = (Date) request.getAttribute("dateDebut");
         Date dateFin = (Date) request.getAttribute("dateFin");
         String intitule = request.getParameter("intitule");
-        List<Justificatif> justificatifs = (List<Justificatif>) request.getAttribute("justificatifs");
+        List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
         
         //verification de la validité du formulaire
         if(description.isEmpty() || dateDebut == null || dateFin == null || intitule.isEmpty()){
@@ -57,6 +57,7 @@ public class AjoutFormationAction implements Action{
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
                 pageSuivante = "ajoutFormation.jsp";
             }
+            request.getSession().removeAttribute("justificatifs"); //free justificatifs
         }catch(AjoutFormationInvalideException e){
             request.setAttribute("error", "true");
             request.setAttribute("message", "La formation n'a pas été créée: " + e.getMessage());

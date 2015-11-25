@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 
-<form action="Navigation?action=modifierUtilisateur" method="POST" class="form-horizontal">
+<form action="Navigation?action=modifierCompte" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
         <div class="col-sm-3">
@@ -71,7 +71,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Annuler</a>
+            <a class="btn btn-primary" href="Navigation?action=voirGestionComptes">Annuler</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <!--[if IE]>
@@ -79,7 +79,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
+            <a class="btn btn-primary" href="Navigation?action=voirGestionComptes">Supprimer</a>
         </div>
     </div>
 </form>
