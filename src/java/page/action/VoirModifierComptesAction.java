@@ -19,17 +19,16 @@ public class VoirModifierComptesAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Modifier utilisateur");
-        String session = request.getParameter("session");
-        if ("deco".equals(session)) {
-            request.getSession().invalidate();
-            return "index.jsp";
-        }   
+        
         String valueButton = request.getParameter("action");
         //System.out.println(valueButton);
         
         int id=Integer.parseInt(request.getParameter("id"));
         
         Compte compte = new CompteDAO().getById(id);
+        
+        if(compte == null)
+            return new VoirGestionUtilisateurAction().execute(request, response);
         
         String login = compte.getLogin();
         String nom = compte.getNom();
@@ -42,6 +41,7 @@ public class VoirModifierComptesAction implements Action {
         request.setAttribute("prenom", prenom);
         request.setAttribute("login", login);
         request.setAttribute("email", email);
+        request.setAttribute("id", id);
         request.setAttribute("compte", compte);
         
         

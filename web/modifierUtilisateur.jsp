@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 
-<form action="Navigation?action=modifierUtilisateur" method="POST" class="form-horizontal">
+<form action="Navigation?action=modifierUtilisateur&id=<% out.print(request.getAttribute("id")); %>" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
         <div class="col-sm-3">
@@ -52,7 +52,7 @@
     <div class="form-group">
         <label for="motDePasse" class="col-sm-2 control-label">Mot de passe</label>
         <div class="col-sm-3">
-            <input type="text" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
+            <input type="password" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
         </div>
     </div>
     <div class="row">
@@ -79,13 +79,13 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
+            <a class="btn btn-danger" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
         </div>
     </div>
-</form>
+</form><br/>
 
 <% if(request.getAttribute("message") != null){ %>
-    <div class="alert alert-success">
+    <div class="alert alert-danger">
         <%out.print(request.getAttribute("message"));%>
     </div>
 <%}%>            

@@ -8,43 +8,19 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 
-<table class="table">
+<%@include file="Modele/dataTablesScript.jsp" %>
+<table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive" width="100%">
     <thead>
         <tr>
-            <th>Numéro</th>
+            <th>Login</th>
             <th>Nom</th>
-            <th>Prénom</th>
+            <th>Prénom</th> 
             <th>Type</th>
             <th>Email</th>
+            <th>Modifier</th>
+            <th>Supprimer</th>
         </tr>
     </thead>
-    <tbody>
-        <% List<Compte> comptes=(List<Compte>) request.getAttribute("comptes");
-           for (Compte compte : comptes){
-        %>
-        
-            <tr>
-                <td><%out.print(compte.getId());%></td>
-                <td><%out.print(compte.getNom());%></td>
-                <td><%out.print(compte.getPrenom());%></td>
-                <td><%out.print(compte.getType());%></td>
-                <td><%out.print(compte.getMail());%></td>
-                <td>
-                    <!--<form action="Navigation?action=voirModifierUtilisateur" method="POST" class="form-inline">
-                        
-                        <input type="text" name="login" id="login" value="<%out.print(compte.getLogin());%>" hidden>
-                        <input type="text" name="nom" id="nom" value="<%out.print(compte.getNom());%>" hidden>
-                        <input type="text" name="prenom" id="prenom" value="<%out.print(compte.getPrenom());%>" hidden>
-                        <input type="text" name="type" id="type" value="<%out.print(compte.getType());%>" hidden>
-                        <input type="text" name="email" id="email" value="<%out.print(compte.getMail());%>" hidden>
-                        <button class="btn btn-success" type="submit" name="action" value="voirModifierUtilisateur">Modifier</button>
-                    </form>-->
-                    <a class="btn btn-success" href="Navigation?action=voirModifierUtilisateur&id=<% out.print(compte.getId()); %>">Modifier</a>
-                </td>
-            </tr>
-        
-        <% }%>
-    </tbody>
 </table>
 
 <% if(request.getAttribute("message") != null){ %>

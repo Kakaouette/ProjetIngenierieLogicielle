@@ -6,6 +6,7 @@
 package service;
 
 import modele.entite.Compte;
+import modele.entite.TypeCompte;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,6 +39,25 @@ public class CompteServiceTest {
     public void tearDown() {
     }
 
+    
+    /**
+     * Test of ajoutUtilisateur
+     */
+    @Test
+    public void testAjoutUtilisateur(){
+        System.out.println("verifierAjoutUtilisateur");
+        CompteService cs=new CompteService();
+        Compte comptetest=new Compte();
+        comptetest.setLogin("adminTest");
+        comptetest.setMail("thomas@totodu.net");
+        comptetest.setNom("Tributsch");
+        comptetest.setPrenom("Thomas");
+        comptetest.setType(TypeCompte.admin);
+        comptetest.setMdp("azerty");
+        cs.ajouterUtilisateur(comptetest);
+        assertNotNull(cs.verifierAuthentification(comptetest.getLogin(), "azerty"));
+    }
+    
     /**
      * Test of verifierAuthentification method, of class CompteService.
      */
