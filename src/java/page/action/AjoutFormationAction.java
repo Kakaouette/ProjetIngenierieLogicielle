@@ -30,29 +30,32 @@ public class AjoutFormationAction implements Action{
         String pageSuivante = "";
         
         //recuperation du formulaire
-        String description = request.getParameter("description");
-        int nbPlace = Integer.parseInt(request.getParameter("nbPlace"));
-        Date dateDebut = new Date();
-        Date dateFin = new Date();
         String intitule = request.getParameter("intitule");
+        String description = request.getParameter("description");
+        String nbPlaceForm = request.getParameter("nbPlace");
+        String debut = request.getParameter("dateDebut");
+        String fin = request.getParameter("dateFin");
         List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
         
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-	try {
-            dateDebut = formatter.parse(request.getParameter("dateDebut"));
-            dateFin = formatter.parse(request.getParameter("dateFin"));
-	} catch (ParseException e) {
-            e.printStackTrace();
-	}
-
         //verification de la validité du formulaire
-        if(dateDebut == null || dateFin == null || intitule.isEmpty()){
+        if(intitule.isEmpty() || nbPlaceForm.isEmpty() || debut == null || fin == null){
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
                 Logger.getLogger(AjoutFormationAction.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        //mise en forme des données
+        int nbPlace = Integer.parseInt(nbPlaceForm);
+        Date dateDebut = new Date();
+        Date dateFin = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	try {
+            dateDebut = formatter.parse(debut);
+            dateFin = formatter.parse(fin);
+	} catch (ParseException e) {
+            e.printStackTrace();
+	}
         
         //formation du dossier
         Formation nouvelleFormation = new Formation(description, nbPlace, dateDebut, dateFin, intitule, justificatifs);
