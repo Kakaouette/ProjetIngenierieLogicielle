@@ -41,8 +41,7 @@ public class AfficherInformationsDossiersAction implements Action {
                 o[3] = c.getEtat();
                 o[4] = c.getDemandeFormation().getIntitule();
                 o[5] = c.getEtudiant().getId();
-                o[6] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifierUtilisateur&id=" + o[0] +"\\\">Modifier</a>";
-                //o[6] = "<a class=\\\"btn btn-danger btn-block\\\" href=\\\"Navigation?action=voirModifierUtilisateur&id=" + c.getId() +"\\\">Supprimer</a>";
+                o[6] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=#\\\">Modifier</a>";
                 Tab.add(o);
             }
 

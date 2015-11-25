@@ -19,25 +19,9 @@
             <th>Etat</th>
             <th>Formation demandé</th>
             <th>Id de l'etudiant</th>
+            <th>Modifier</th>
         </tr>
     </thead>
-        <!--<% List<Dossier> Dossiers=(List<Dossier>) request.getAttribute("dossiers");
-           for (Dossier dossier : Dossiers){
-        %>
-        
-            <tr>
-                <td><%out.print(dossier.getId());%></td>
-                <td><%out.print(dossier.isAdmissible());%></td>
-                <td><%out.print(dossier.getDate());%></td>
-                <td><%out.print(dossier.getEtat());%></td>
-                <td><%out.print(dossier.getDemandeFormation().getIntitule());%></td>
-                <td><%out.print(dossier.getEtudiant().getId());%></td>
-                <td>
-                    <a class="btn btn-success" href="Navigation?action=voirModifierUtilisateur&id=<% out.print(dossier.getId()); %>">Consulter</a>
-                </td>
-            </tr>
-        
-        <% }%>-->
 </table>
 
 <% if(request.getAttribute("message") != null){ %>
