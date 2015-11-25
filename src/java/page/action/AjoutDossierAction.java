@@ -43,7 +43,7 @@ public class AjoutDossierAction implements Action{
         String ville = request.getParameter("ville");
         String note = request.getParameter("note");
         String formationIntitule = request.getParameter("formationIntitule");
-        boolean typeAdmission = (boolean) request.getAttribute("admission");
+        boolean typeAdmission = !request.getParameter("admission").equals("");
         
         //verification de la validité du formulaire
         if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || rue.isEmpty() || codePostal.isEmpty() || ville.isEmpty() || formationIntitule.isEmpty()){
