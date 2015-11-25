@@ -49,11 +49,11 @@ public class HistoriqueDAO extends Dao {
         }
     }
     
-    public ArrayList<Historique> getHistoriquesByCompte(Compte compte){
+    public List<Historique> getHistoriquesByCompte(Compte compte){
         try{
         q = em.createQuery("SELECT H FROM Historique H WHERE H.compte = :COMPTE");
         q.setParameter("COMPTE", compte);
-        return (ArrayList<Historique>) q.getResultList();
+        return (List<Historique>) q.getResultList();
         }catch (NoResultException e){
             return null;
         }

@@ -49,6 +49,7 @@ public class CompteServiceTest {
     /**
      * Test of verifierAuthentification method, of class CompteService.
      */
+    /*
     @Test
     public void testVerifierAuthentification() {
         System.out.println("verifierAuthentification");
@@ -102,7 +103,7 @@ public class CompteServiceTest {
         Compte result = instance.verifierAuthentification(identifiantTest, mdpTest);
         assertNull(result);
     }
-    
+    */
     @Test
     public void testSupprimerUtilisateurNonExistant() {
         System.out.println("SupprimerUtilisateur utisateur non existant");
@@ -147,8 +148,10 @@ public class CompteServiceTest {
         
         //Date date, String message, String action, Compte compte
         Historique historique = new Historique(new Date(),"Simple test unitaire de suppression de compte","simple test unitaire de suppression de compte",unCompte);
-        histoDAO.save(historique);
         compteDAO.save(unCompte);
+        unCompte = compteDAO.getComptebyIdentifiant(unCompte.getLogin());
+        histoDAO.save(historique);
+        
         
         boolean done = instance.supprimerUtilisateur(identifiantTest);
         assertTrue(done);
