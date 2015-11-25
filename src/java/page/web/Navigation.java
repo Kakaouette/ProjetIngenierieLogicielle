@@ -88,6 +88,9 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("supprimerJustificatifDansAttribut")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new SuppressionJustificatifDansAttributAction();
+        }else if (action.equals("ajouterFormation")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new AjoutFormationAction();
         }else{
             action = "index";
             menuSelect = 0;

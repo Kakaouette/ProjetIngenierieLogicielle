@@ -4,22 +4,36 @@
     Author     : Arthur
 --%>
 
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
+<script src="jQuery/bootstrap-datepicker.js"></script>
+<link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 
-<form action="Navigation?action=ajouterFomration" method="POST" class="form-horizontal">
+<script>
+    $(function() {
+        $('.input-daterange').datepicker({
+            format: "dd/mm/yyyy",
+            language: "fr",
+            todayBtn: true,
+            autoclose: true
+        });
+    });
+</script>
+<form action="Navigation?action=ajouterFormation" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="intitule" class="col-sm-2 control-label">Intitulé</label>
         <div class="col-sm-3">
-            <input type="text" name="intitule" id="intitule" class="form-control" value="" placeholder="Intitulé" required>
+            <input type="text" name="intitule" id="intitule" class="form-control" value="" placeholder="Intitulé" autocomplete="off" required>
         </div>
     </div>
     
     <div class="form-group">
         <label for="description" class="col-sm-2 control-label">Description</label>
         <div class="col-sm-3">
-            <input type="text" name="description" id="description" class="form-control" value="" >
+            <input type="text" name="description" id="description" class="form-control" value="" placeholder="Description" autocomplete="off">
         </div>
     </div>
     
@@ -33,14 +47,31 @@
     <div class="form-group">
         <label for="dateDebut" class="col-sm-2 control-label">Date de début</label>
         <div class="col-sm-3">
-            <input type="date" name="dateDebut" id="dateDebut" class="form-control" value="" required>
+            <div class="input-daterange input-group" id="datepicker">
+                <% SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); %>
+                <input type="text" id="start" class="form-control" name="dateDebut" required readonly="readonly" 
+                       value="<%if (request.getAttribute("dateDebut") == null) {
+                               out.print(df.format(new Date()));
+                           }else if(df.parse(request.getParameter("dateFin")).before(df.parse(request.getAttribute("dateDebut").toString()))){ 
+                               out.print(request.getAttribute("dateFin"));
+                           }else {
+                               out.print(request.getAttribute("dateDebut"));
+                           }%>"/>
+            </div>
         </div>
     </div>
-    
     <div class="form-group">
         <label for="dateFin" class="col-sm-2 control-label">Date de fin</label>
         <div class="col-sm-3">
-            <input type="date" name="dateFin" id="dateDebut" class="form-control" value="" required>
+            <div class="input-daterange input-group" id="datepicker">
+                <input type="text" id="stop" class="form-control" name="dateFin" required readonly="readonly"
+                       value="<%
+                           if (request.getAttribute("dateFin") == null) {
+                               out.print(df.format(new Date()));
+                           } else {
+                               out.print(request.getAttribute("dateFin"));
+                           }%>"/>
+            </div>
         </div>
     </div>
     

@@ -5,6 +5,8 @@
  */
 package page.action;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,11 +30,20 @@ public class AjoutFormationAction implements Action{
         
         //recuperation du formulaire
         String description = request.getParameter("description");
-        int nbPlace = (int) request.getAttribute("nbPlace");
-        Date dateDebut = (Date) request.getAttribute("dateDebut");
-        Date dateFin = (Date) request.getAttribute("dateFin");
+        int nbPlace = Integer.parseInt(request.getParameter("nbPlace"));
+        Date dateDebut = new Date();
+        Date dateFin = new Date();
         String intitule = request.getParameter("intitule");
         List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+	try {
+            dateDebut = formatter.parse(request.getParameter("dateDebut"));
+            dateFin = formatter.parse(request.getParameter("dateFin"));
+	} catch (ParseException e) {
+            e.printStackTrace();
+	}
+
         
         //verification de la validité du formulaire
         if(description.isEmpty() || dateDebut == null || dateFin == null || intitule.isEmpty()){
