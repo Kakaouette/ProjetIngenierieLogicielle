@@ -17,7 +17,7 @@ public class VoirAjoutFormationAction implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Ajouter une formation");
-        return "addFormation.jsp";
+        return "ajoutFormation.jsp";
     }
     
 }

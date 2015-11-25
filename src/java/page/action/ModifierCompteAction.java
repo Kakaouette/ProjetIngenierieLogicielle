@@ -16,16 +16,13 @@ import service.CompteService;
  *
  * @author Jordan
  */
-public class ModifierUtilisateurAction implements Action {
+public class ModifierCompteAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String valueButton = request.getParameter("bouton");
-        System.out.println(valueButton);
         
-        if(valueButton.equals("enregistrer"))
-        {
-            //System.out.println("test");
+        if(valueButton.equals("enregistrer")){
             String type = request.getParameter("type");
             String login = request.getParameter("login");
             String nom = request.getParameter("nom");
@@ -33,63 +30,42 @@ public class ModifierUtilisateurAction implements Action {
             String mail = request.getParameter("email");
             String mdp = request.getParameter("motDePasse"); 
             
-            Compte compte=new CompteDAO().getComptebyLogin(login);
-            //System.out.println(compte);
+            Compte compte = new CompteDAO().getComptebyLogin(login);
             int idCompte = compte.getId();
-            //System.out.println(idCompte);
             
-            if(type==null)
-            {
+            if(type==null){
                 type=compte.getType().toString();
             }
-            if(nom==null)
-            {
+            if(nom==null){
                 nom=compte.getNom();
             }
-            if(prenom==null)
-            {
+            if(prenom==null){
                 prenom=compte.getPrenom();
             }
-            if(mail==null)
-            {
+            if(mail==null){
                 mail=compte.getMail();
             }
-            if(mdp==null)
-            {
+            if(mdp==null){
                 mdp=compte.getMdp();
             }
-            
-            /*System.out.println(type);
-            System.out.println(login);
-            System.out.println(nom);
-            System.out.println(prenom);
-            System.out.println(mail);
-            System.out.println(mdp);*/
-            
+                        
             Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
             if (update == false) {
-                System.out.println("test");
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
-                return "modifierUtilisateur.jsp";
+                return "modifierCompte.jsp";
             } else {
-                System.out.println("test2");
                 request.setAttribute("message", "Modification effectuée");
                 
-                List<Compte> comptes;
-
-                comptes = new CompteDAO().SelectAll();
-                
+                List<Compte> comptes = new CompteDAO().SelectAll();
                 request.setAttribute("comptes", comptes);
+                
                 request.setAttribute("compte", compte);
                 
-                return "listeUtilisateurs.jsp";
+                return "gestionComptes.jsp";
             }
-        }
-        else
-        {
-            System.out.println("test3");
-            request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
-            return "modifierUtilisateur.jsp";
+        }else{
+            request.setAttribute("message", "Vous n'avez pas appuyé sur enregistrer");
+            return "modifierCompte.jsp";
         }
     }
     

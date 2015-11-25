@@ -5,10 +5,13 @@
  */
 package modele.dao;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Dossier;
+import modele.entite.Etudiant;
+import modele.entite.Formation;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Dossier</b>
@@ -30,11 +33,36 @@ public class DossierDAO extends Dao {
 
     public DossierDAO(){}
 
-    public Dossier getById(int idDossier) {
+    public Dossier getById(String idDossier) {
         Dossier unDossier = null;
         unDossier = em.find(Dossier.class, idDossier);
 
         return unDossier;
+    }
+    
+    public String getLastId(Date date) {
+        SimpleDateFormat formater = new SimpleDateFormat("ddMMyyyy");
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT D FROM Dossier D WHERE D.id LIKE :ID ORDER BY D.id DESC");
+            q.setParameter("ID", "pst" + formater.format(date) + "%");
+            Dossier dossier = (Dossier) q.getResultList().get(0);
+            return dossier.getId();
+        } catch (NoResultException e) {
+            return "pst" + formater.format(date) + 0;
+        }
+    }
+    
+    public Dossier getByEtudiantAndFormation(Etudiant etudiant, Formation formation) {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT D FROM Dossier D WHERE D.etudiant = :ETUDIANT AND D.demandeFormation = :FORMATION");
+            q.setParameter("ETUDIANT", etudiant);
+            q.setParameter("FORMATION", formation);
+            return (Dossier) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public void save(Dossier unDossier) {

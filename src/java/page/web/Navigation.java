@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.entite.Compte;
+import modele.entite.TypeCompte;
 import page.action.*;
 
 /**
@@ -54,10 +56,11 @@ public class Navigation extends HttpServlet {
             throws ServletException, IOException {
         //récupération de la variable action
         String action = request.getParameter("action");
-
         if (action == null) {
             action = "index";
         }
+        
+        Compte compteActif = (Compte) request.getSession().getAttribute("compte");
         
         //init de l'interface
         Action classeAction = null;
@@ -67,32 +70,51 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
-        }else if (action.equals("voirAjoutUtilisateur")) {
-            menuSelect = 0;
-            classeAction = new VoirAjoutUtilisateurAction();
-        }else if (action.equals("voirGestionUtilisateur")) {
-            menuSelect = 0;
-            classeAction = new VoirGestionUtilisateurAction();
-        }else if (action.equals("voirAjoutFormation")) {
-            menuSelect = 0;
-            classeAction = new VoirAjoutFormationAction();
+        }else if (action.equals("voirGestionComptes")) {
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 1;
+            }
+            classeAction = new VoirGestionComptesAction();
+        }else if (action.equals("voirAjoutCompte")) {
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 1;
+            }
+            classeAction = new VoirAjoutCompteAction();
+        }else if (action.equals("ajoutDossier")) {
+            menuSelect = 0; //to modif later
+            classeAction = new AjoutDossierAction();
+        }else if (action.equals("voirModifierCompte")) {
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 1;
+            }
+            classeAction = new VoirModifierCompteAction();
+        }else if (action.equals("modifierCompte")) {
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 1;
+            }
+            classeAction = new ModifierCompteAction();
         }else if (action.equals("voirGestionFormation")) {
-            menuSelect = 0;
-            classeAction = new VoirGestionFormationAction();
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
+            classeAction = new VoirGestionFormationsAction();
+        }else if (action.equals("voirAjoutFormation")) {
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
+            classeAction = new VoirAjoutFormationAction();
         }else if (action.equals("voirDatesInscription")) {
-            menuSelect = 0;
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new VoirDatesInscriptionAction();
-        }else if (action.equals("voirModifierUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new VoirModifierUtiilisateurAction();
-        }else if (action.equals("afficherInformationsUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new AfficherInformationsUtilisateurAction();
-        }else if (action.equals("modifierUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new ModifierUtilisateurAction();
-        }
-        else if (action.equals("CreerDossier")) {
+        }else if (action.equals("CreerDossier")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new VoirCreerDossier();
         }else if (action.equals("CreerDossierValide")) {

@@ -9,21 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.CompteDAO;
 import modele.entite.Compte;
+import modele.entite.TypeCompte;
 
 /**
  *
  * @author roulonn
  */
-public class VoirModifierUtiilisateurAction implements Action {
+public class VoirModifierCompteAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Modifier utilisateur");
-        String session = request.getParameter("session");
-        if ("deco".equals(session)) {
-            request.getSession().invalidate();
-            return "index.jsp";
-        }   
+        request.setAttribute("titre", "Modifier compte");
         String valueButton = request.getParameter("action");
         //System.out.println(valueButton);
         
@@ -35,7 +31,7 @@ public class VoirModifierUtiilisateurAction implements Action {
         String nom = compte.getNom();
         String prenom = compte.getPrenom();
         String email = compte.getMail();
-        String type = compte.getType().toString();
+        TypeCompte type = compte.getType();
         
         request.setAttribute("type", type);
         request.setAttribute("nom", nom);
@@ -45,6 +41,6 @@ public class VoirModifierUtiilisateurAction implements Action {
         request.setAttribute("compte", compte);
         
         
-        return "modifierUtilisateur.jsp";
+        return "modifierCompte.jsp";
     }
 }
