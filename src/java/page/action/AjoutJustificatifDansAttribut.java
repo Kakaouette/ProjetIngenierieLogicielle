@@ -27,7 +27,7 @@ public class AjoutJustificatifDansAttribut implements Action{
         }
         justificatifs.add(justificatifToAdd); //ajout du justificatif dans les justificatifs de la formation
         request.getSession().setAttribute("justificatifs", justificatifs);
-        return "ajouterFormation.jsp";
+        return "ajoutFormation.jsp";
     }
     
 }

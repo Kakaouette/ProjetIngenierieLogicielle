@@ -21,10 +21,7 @@ public class VoirGestionUtilisateurAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Gestion des comptes");
         
-        List<Compte> comptes;
-        comptes = null;
-
-        comptes = new CompteDAO().SelectAll();
+        List<Compte> comptes = new CompteDAO().SelectAll();
 
         if (comptes == null) {
             request.setAttribute("message", "ERREUR : Utilisateur non trouvé dans la BDD");

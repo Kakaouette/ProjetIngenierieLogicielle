@@ -30,7 +30,7 @@ public class SuppressionJustificatifDansAttributAction implements Action{
             }
         }
         request.getSession().setAttribute("justificatifs", justificatifs);
-        return "ajouterFormation.jsp";
+        return "ajoutFormation.jsp";
     }
     
 }

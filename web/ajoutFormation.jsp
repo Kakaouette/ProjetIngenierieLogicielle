@@ -4,6 +4,7 @@
     Author     : Arthur
 --%>
 
+<%@page import="modele.dao.JustificatifDAO"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="modele.entite.Justificatif"%>
@@ -33,7 +34,7 @@
     <div class="form-group">
         <label for="description" class="col-sm-2 control-label">Description</label>
         <div class="col-sm-3">
-            <input type="text" name="description" id="description" class="form-control" value="" placeholder="Description" autocomplete="off">
+            <textarea type="text" name="description" id="description" class="form-control" value="" placeholder="Description" autocomplete="off"></textarea>
         </div>
     </div>
     
@@ -80,6 +81,7 @@
         <div class="row">
             <a class="btn btn-success" href="Navigation?action=voirAjoutJustificatifDansAttribut">Ajouter</a>
         </div>
+        
         <div class="row">
         <ul>
         <% List<Justificatif> justificatifs=(List<Justificatif>) request.getSession().getAttribute("justificatifs");
@@ -99,6 +101,9 @@
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
         </div>
         <div class="col-md-2 col-md-offset-2">
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau">Enregister et nouveau</button>
+        </div>
+        <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-danger" href="Navigation?action=voirGestionFormation">Supprimer</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
@@ -106,7 +111,6 @@
         </div>
     </div>
 </form>
-
 <% if(request.getAttribute("message") != null){ %>
     <div class="alert alert-success">
         <%out.print(request.getAttribute("message"));%>

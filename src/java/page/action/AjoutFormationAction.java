@@ -7,6 +7,7 @@ package page.action;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -44,9 +45,8 @@ public class AjoutFormationAction implements Action{
             e.printStackTrace();
 	}
 
-        
         //verification de la validité du formulaire
-        if(description.isEmpty() || dateDebut == null || dateFin == null || intitule.isEmpty()){
+        if(dateDebut == null || dateFin == null || intitule.isEmpty()){
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
@@ -56,29 +56,31 @@ public class AjoutFormationAction implements Action{
         
         //formation du dossier
         Formation nouvelleFormation = new Formation(description, nbPlace, dateDebut, dateFin, intitule, justificatifs);
-                
+        
         //demande de creation du dossier
         try{
             new FormationService().ajouterFormation(nouvelleFormation);
             request.setAttribute("error", "false");
-            request.setAttribute("message", "Formation créée.");
+            request.setAttribute("message", "Formation ajouté.");
+            
             //redirection
             if(request.getParameter("bouton").equals("enregistrer")){
-                pageSuivante = request.getParameter("pageRetour");
+                request.getSession().removeAttribute("justificatifs"); //free justificatifs
+                pageSuivante = "accueil.jsp"; //(String) request.getAttribute("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
+                request.getSession().setAttribute("justificatifs", new ArrayList<Justificatif>());
                 pageSuivante = "ajoutFormation.jsp";
             }
-            request.getSession().removeAttribute("justificatifs"); //free justificatifs
         }catch(AjoutFormationInvalideException e){
             request.setAttribute("error", "true");
-            request.setAttribute("message", "La formation n'a pas été créée: " + e.getMessage());
+            request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
             if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Formation_Existante.toString())){
                 request.setAttribute("focus", "intitule");
             }
             pageSuivante = "ajoutFormation.jsp"; //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("error", "true");
-            request.setAttribute("message", "La formation n'a pas été créée.");
+            request.setAttribute("message", "La formation n'a pas été ajouté.");
             pageSuivante = "ajoutFormation.jsp"; //redirection
         }
         

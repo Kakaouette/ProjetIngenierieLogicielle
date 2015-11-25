@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.dao.JustificatifDAO;
 import modele.entite.Justificatif;
 
 /**
@@ -25,7 +24,7 @@ public class VoirAjoutFormationAction implements Action{
             List<Justificatif> justificatifs = new ArrayList<Justificatif>();
             request.getSession().setAttribute("justificatifs", justificatifs);
         }
-        return "ajouterFormation.jsp";
+        return "ajoutFormation.jsp";
     }
     
 }
