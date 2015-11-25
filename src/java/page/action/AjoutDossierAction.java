@@ -38,15 +38,15 @@ public class AjoutDossierAction implements Action{
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String sexe = request.getParameter("sexe");
-        String rue = request.getParameter("rue");
+        String adresse = request.getParameter("adresse");
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
-        String note = request.getParameter("note");
+        String notes = request.getParameter("notes");
         String formationIntitule = request.getParameter("formationIntitule");
-        boolean typeAdmission = (boolean) request.getAttribute("admission");
+        boolean typeAdmission = !request.getParameter("admission").equals("");
         
         //verification de la validité du formulaire
-        if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || rue.isEmpty() || codePostal.isEmpty() || ville.isEmpty() || formationIntitule.isEmpty()){
+        if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || adresse.isEmpty() || codePostal.isEmpty() || ville.isEmpty() || formationIntitule.isEmpty()){
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
@@ -54,15 +54,15 @@ public class AjoutDossierAction implements Action{
             }
         }
         //mise en forme des données
-        Adresse adresse = new AdresseDAO().getAdresseByCodePostal(codePostal);
-        if(adresse == null){
-            adresse = new Adresse(codePostal, ville);
-        }else if(!adresse.getVille().equals(ville)){
-            adresse = new Adresse(codePostal, ville);
+        Adresse adressePostale = new AdresseDAO().getAdresseByCodePostal(codePostal);
+        if(adressePostale == null){
+            adressePostale = new Adresse(codePostal, ville);
+        }else if(!adressePostale.getVille().equals(ville)){
+            adressePostale = new Adresse(codePostal, ville);
         }
         Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom(nom, prenom); //add: gestion etudiant etranger
         if(etudiant == null){
-            etudiant = new Etudiant(nom, prenom, rue, sexe, adresse);
+            etudiant = new Etudiant(nom, prenom, adresse, sexe, adressePostale);
         }
         Formation formation = new FormationDAO().getFormationByIntitule(formationIntitule);
         if(formation == null){
@@ -84,7 +84,7 @@ public class AjoutDossierAction implements Action{
         nouveauDossier.setAdmissible(typeAdmission);
         nouveauDossier.setHistorique(new ArrayList<Historique>());
         nouveauDossier.getHistorique().add(new Historique(dateNow, "", "Création du dossier", compteActif));
-        nouveauDossier.getHistorique().add(new Historique(dateNow, note, "Commentaire à la création du dossier", compteActif));
+        nouveauDossier.getHistorique().add(new Historique(dateNow, notes, "Commentaire à la création du dossier", compteActif));
         
         //demande de creation du dossier
         try{

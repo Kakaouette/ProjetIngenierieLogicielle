@@ -114,6 +114,12 @@ public class Navigation extends HttpServlet {
                 menuSelect = 1;
             }
             classeAction = new VoirDatesInscriptionAction();
+        }else if (action.equals("voirAjoutDossier")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new VoirCreerDossier();
+        }else if (action.equals("ajoutDossierValide")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new VoirCreerDossierValide();   
         }else{
             action = "index";
             menuSelect = 0;

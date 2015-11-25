@@ -100,6 +100,17 @@
                                     </ul>
                                 </li>
                             <%}%>
+                            <%if (c.getType() == TypeCompte.secretaire_general || c.getType() == TypeCompte.secretaire_formation) {%>
+                                <li <%if (current.equals(1)) {%>class="active"<%}%> class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Gestion dossier <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="Navigation?action=voirAjoutDossier"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li><a href="Navigation?action=voirGestionDossier"><i class="fa fa-edit"></i> Modifier</a></li>
+                                    </ul>
+                                </li>
+                            <%}%>
                             <li>
                                 <a href=Navigation?action=gererAuthentification&session=deco>
                                     <i class="fa fa-power-off"></i> Déconnexion
