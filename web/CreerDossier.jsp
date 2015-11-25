@@ -13,10 +13,10 @@
 
 <form action="Navigation?action=ajoutDossierValide" method="POST" class="form-horizontal">
     <div class="form-group">
-        <label for="type" class="col-sm-2 control-label">Formation: </label>
+        <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
             <!-- A faire : positionner le type actuel en selection par défaut -->
-            <select name="type" id="type" class="form-control">
+            <select name="formationIntitule" id="formationIntitule" class="form-control">
                 <option>Licence Génie Civil</option>
                 <option>Licence Informatique</option>
                 <option>Licence Mathématiques</option>
@@ -44,7 +44,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Compte</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="Retour">Retour</button>
+            <button class="btn btn-default" href="Navigation?action=voirGestionDossier">Retour</button>
             <!--<![endif]-->
         </div>
         <div class="col-md-2 col-md-offset-2">

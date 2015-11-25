@@ -17,6 +17,7 @@ public class VoirCreerDossierValide implements Action{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Créer un dossier");
+        request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
         return "CreerDossierValide.jsp";
     }
     
