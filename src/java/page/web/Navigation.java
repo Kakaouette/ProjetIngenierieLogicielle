@@ -91,6 +91,14 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modifierUtilisateur")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new ModifierUtilisateurAction();
+        }
+        else if (action.equals("CreerDossier")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new VoirCreerDossier();
+        }else if (action.equals("CreerDossierValide")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new VoirCreerDossierValide();
+                
         }else{
             action = "index";
             menuSelect = 0;
