@@ -34,9 +34,8 @@ public class VoirModifierComptesAction implements Action {
         String nom = compte.getNom();
         String prenom = compte.getPrenom();
         String email = compte.getMail();
-        String type = compte.getType().toString();
         
-        request.setAttribute("type", type);
+        request.setAttribute("type", compte.getType());
         request.setAttribute("nom", nom);
         request.setAttribute("prenom", prenom);
         request.setAttribute("login", login);

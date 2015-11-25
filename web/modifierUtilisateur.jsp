@@ -13,11 +13,12 @@
         <div class="col-sm-3">
             <!-- A faire : positionner le type actuel en selection par défaut -->
             <select name="type" id="type" class="form-control">
-                <option>admin</option>
-                <option>directeur_pole</option>
-                <option>secretaire_general</option>
-                <option>secretaire_formation</option>
-                <option>commission</option>
+                <% out.print(request.getAttribute("type"));%>
+                <option <%if(request.getAttribute("type") == TypeCompte.admin){ %>selected="selected"<%}%>>admin</option>
+                <option <%if(request.getAttribute("type") == TypeCompte.directeur_pole){ %>selected="selected"<%}%>>directeur_pole</option>
+                <option <%if(request.getAttribute("type") == TypeCompte.secretaire_general){ %>selected="selected"<%}%>>secretaire_general</option>
+                <option <%if(request.getAttribute("type") == TypeCompte.secretaire_formation){ %>selected="selected"<%}%>>secretaire_formation</option>
+                <option <%if(request.getAttribute("type") == TypeCompte.commission){ %>selected="selected"<%}%>>commission</option>
             </select>
         </div>
     </div>
