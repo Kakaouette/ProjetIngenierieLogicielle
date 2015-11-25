@@ -7,7 +7,7 @@
 <%@page import="modele.entite.Dossier"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_sans_menu.jsp" %>
-<form action="Navigation?action=modifierUtilisateur" method="POST" class="form-horizontal">
+<form action="Navigation?action=modifierDossier" method="POST" class="form-horizontal">
     <!--<div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
         <div class="col-sm-3">-->
@@ -30,21 +30,21 @@
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Numéro du dossier</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getId());%>" required disabled>
+            <input type="text" name="id" id="login" class="form-control" value="<%out.print(d.getId());%>" required disabled>
         </div>
     </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Nom du postulant</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getNom());%>" required>
+            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getNom());%>" required disabled>
         </div>
     </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Prénom du postulant</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getPrenom());%>" required>
+            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getPrenom());%>" required disabled>
         </div>
     </div>
         
@@ -54,13 +54,13 @@
                 <%
                     if(d.getEtudiant().getSexe().contains("M"))
                     {
-                        out.print("<input type=\"radio\" name=\"sexe\" value=\"male\" checked> Homme<br>");
-                        out.print("<input type=\"radio\" name=\"sexe\" value=\"female\"> Femme");
+                        out.print("<input type=\"radio\" name=\"sexe\" value=\"male\" checked disabled> Homme<br>");
+                        out.print("<input type=\"radio\" name=\"sexe\" value=\"female\" disabled> Femme");
                     }
                     else
                     {
-                        out.print("<input type=\"radio\" name=\"sexe\" value=\"male\"> Homme<br>");
-                        out.print("<input type=\"radio\" name=\"sexe\" value=\"female\" checked> Femme");
+                        out.print("<input type=\"radio\" name=\"sexe\" value=\"male\" disabled> Homme<br>");
+                        out.print("<input type=\"radio\" name=\"sexe\" value=\"female\" checked disabled> Femme");
                     }
                     %>
                 
@@ -73,21 +73,21 @@
         <div class="form-group">
             <label for="login" class="col-sm-2 control-label">Rue</label>
             <div class="col-sm-3">
-                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdressePostale());%>" required>
+                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdressePostale());%>" required disabled>
             </div>
         </div>
             
         <div class="form-group">
             <label for="login" class="col-sm-2 control-label">Code Postal</label>
             <div class="col-sm-3">
-                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdresse().getCodePostal());%>" required>
+                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdresse().getCodePostal());%>" required disabled>
             </div>
         </div>
             
         <div class="form-group">
             <label for="login" class="col-sm-2 control-label">Ville</label>
             <div class="col-sm-3">
-                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdresse().getVille());%>" required>
+                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdresse().getVille());%>" required disabled>
             </div>
         </div>
             
@@ -99,14 +99,14 @@
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Crée le </label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getDate());%>" required disabled>
+            <input type="text" name="date" id="login" class="form-control" value="<%out.print(d.getDate());%>" required>
         </div>
     </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">État du dossier </label>
         <div class="col-sm-3"> 
-           <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtat());%>" required disabled>
+           <input type="text" name="etat" id="login" class="form-control" value="<%out.print(d.getEtat());%>" required>
         </div>
     </div>
        
@@ -116,23 +116,23 @@
             <%
                 if(d.isAdmissible())
                 {
-                    out.print("<INPUT type=\"checkbox\" name=\"admissibilite\" value=\"true\" checked disabled>");
+                    out.print("<INPUT type=\"checkbox\" name=\"admissibilite\" value=\"true\" checked>");
                 }
                 else
                 {
-                    out.print("<INPUT type=\"checkbox\" name=\"admissibilite\" value=\"false\" disabled>");
+                    out.print("<INPUT type=\"checkbox\" name=\"admissibilite\" value=\"false\">");
                 }
             %>
             
         </div>
     </div>
         
-    <div class="form-group">
+    <!--<div class="form-group">
         <label for="login" class="col-sm-2 control-label">Notes </label>
         <div class="col-sm-3">
             <textarea rows="4" cols="50" name="comment"></textarea>
         </div>
-    </div>
+    </div>-->
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Historique </label>
@@ -147,7 +147,7 @@
                 </thead>
                 <tbody
             <%  
-            if(d.getHistorique().size()>1)
+            if(d.getHistorique().size()>0)
             {
                 for(int i = 0 ; i < d.getHistorique().size() ; i++)
                 {

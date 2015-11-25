@@ -72,6 +72,10 @@ public class Navigation extends HttpServlet {
             menuSelect = 0;
             classeAction = new ConsulterDossierAction();
         }
+        else if (action.equals("modifierDossier")) {
+            menuSelect = 0;
+            classeAction = new ModifierDossierAction();
+        }
         else{
             action = "index";
             menuSelect = 0;

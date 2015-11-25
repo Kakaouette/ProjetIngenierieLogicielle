@@ -35,12 +35,23 @@ public class ConsulterDossierAction implements Action{
         
         //recuperation de l'id du formulaire
         //String idDossier = request.getParameter("idDossier");
-        String idDossier = "1";
+        //String idDossier = "1";
         
         //recuperation du dossier
-        Dossier dossier = new DossierDAO().getById(idDossier);
+        //Dossier dossier = new DossierDAO().getById(idDossier);
+        /*
+        =============================================================================
         
-        /*Formation formation = new Formation();
+        
+        
+                            Classe utilisée pour les tests
+                                        À supprimer
+        
+        
+        =============================================================================
+        */
+        
+        Formation formation = new Formation();
         formation.setDebut(new Date("02/04/1994"));
         formation.setDescription("cocu");
         formation.setFin(new Date("25/04/1994"));
@@ -92,7 +103,7 @@ public class ConsulterDossierAction implements Action{
         dossier.setEtat("En cours");
         dossier.setDemandeFormation(formation);        
         dossier.setHistorique(h);
-        dossier.setDate(new Date("23/08/1990"));*/
+        dossier.setDate(new Date("23/08/1990"));
         
         //si dossier n'existe pas => retour vers la liste des dossiers 
         if(dossier != null){
