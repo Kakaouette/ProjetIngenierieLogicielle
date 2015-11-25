@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="service.DossierService"%>
 <%@page import="modele.entite.Formation"%>
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,7 +19,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="textinput">Numéro du dossier :</label>  
   <div class="col-md-4">
-  <input id="textinput" name="textinput" type="text" placeholder="n° dossier" class="form-control input-md" required="">
+  <input id="textinput" name="textinput" type="text" placeholder="n° dossier" class="form-control input-md" required value="<%//out.print(DossierService.getNewID());%>">
     
   </div>
 </div>

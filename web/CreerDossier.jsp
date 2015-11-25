@@ -11,7 +11,7 @@
 <%@include file="Modele/entete_avec_menu.jsp" %>
 <!DOCTYPE html>
 
-<form action="Navigation?action=modifierUtilisateur" method="POST" class="form-horizontal">
+<form action="Navigation?action=ajoutDossierValide" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="type" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
