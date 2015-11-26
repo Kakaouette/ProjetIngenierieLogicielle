@@ -31,7 +31,7 @@ public class AjoutDossierAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {    
-        String pageSuivante = "";
+        Action actionPageSuivante = null;
         
         //recuperation du formulaire
         String idDossier = request.getParameter("idDossier");
@@ -50,7 +50,10 @@ public class AjoutDossierAction implements Action{
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
-                Logger.getLogger(AjoutDossierAction.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AjoutDossierAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
+                request.setAttribute("error", "true");
+                request.setAttribute("message", ex.getMessage());
+                return new VoirCreerDossierValide().execute(request, response);
             }
         }
         //mise en forme des données
@@ -94,9 +97,9 @@ public class AjoutDossierAction implements Action{
             request.setAttribute("message", "Dossier créé.");
             //redirection
             if(request.getParameter("bouton").equals("enregistrer")){
-                pageSuivante = request.getParameter("pageRetour");
+                actionPageSuivante = new VoirGestionFormationsAction(); //request.getParameter("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-                pageSuivante = "creerDossier.jsp";
+                actionPageSuivante = new VoirCreerDossierValide();
             }
         }catch(AjoutDossierInvalideException e){
             request.setAttribute("error", "true");
@@ -107,15 +110,15 @@ public class AjoutDossierAction implements Action{
                 request.setAttribute("focus", "formation");
             }
             //redirection
-            pageSuivante = "creerDossier.jsp";
+            actionPageSuivante = new VoirCreerDossierValide();
         }catch(Exception e){ //exception bdd
             request.setAttribute("error", "true");
             request.setAttribute("message", "Le dossier n'a pas été créé.");
             //redirection
-            pageSuivante = "creerDossier.jsp";
+            actionPageSuivante = new VoirCreerDossierValide();
         }
         
-        return pageSuivante;
+        return actionPageSuivante.execute(request, response);
     }
     
 }
