@@ -5,7 +5,6 @@
  */
 package page.action;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,6 @@ public class SuppressionJustificatifDansAttributAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Ajouter une formation");
         List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
         Justificatif justificatifToSuppr = new JustificatifDAO().getJustificatifbyTitre(request.getParameter("justificatifASuppr"));
         for(Justificatif j: justificatifs){
@@ -30,7 +28,7 @@ public class SuppressionJustificatifDansAttributAction implements Action{
             }
         }
         request.getSession().setAttribute("justificatifs", justificatifs);
-        return "ajoutFormation.jsp";
+        return new VoirAjoutFormationAction().execute(request, response);
     }
     
 }

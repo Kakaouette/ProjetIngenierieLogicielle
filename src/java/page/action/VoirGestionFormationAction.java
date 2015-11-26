@@ -40,8 +40,8 @@ public class VoirGestionFormationAction implements Action{
             }
 
             request.setAttribute("leTableau", Tab);
-            request.setAttribute("sortL", 1);
-            request.setAttribute("sortC", "asc");
+            request.setAttribute("sortL", 0); //colonne sort par defaut
+            request.setAttribute("sortC", "asc"); //type de sort
         }
         return "gestionFormations.jsp";
     }

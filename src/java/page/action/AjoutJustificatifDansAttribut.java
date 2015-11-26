@@ -19,7 +19,6 @@ public class AjoutJustificatifDansAttribut implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Ajouter une formation");
         List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
         Justificatif justificatifToAdd = new JustificatifDAO().getJustificatifbyTitre(request.getParameter("justificatifAAjouter"));
         if(justificatifToAdd == null){
@@ -27,7 +26,7 @@ public class AjoutJustificatifDansAttribut implements Action{
         }
         justificatifs.add(justificatifToAdd); //ajout du justificatif dans les justificatifs de la formation
         request.getSession().setAttribute("justificatifs", justificatifs);
-        return "ajoutFormation.jsp";
+        return new VoirAjoutFormationAction().execute(request, response);
     }
     
 }

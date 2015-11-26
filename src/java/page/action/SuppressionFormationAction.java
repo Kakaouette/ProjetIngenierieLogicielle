@@ -48,7 +48,7 @@ public class SuppressionFormationAction implements Action{
             request.setAttribute("message", "La formation n'a pas été supprimé.");
         }
         
-        return "gestionFormation.jsp"; //redirection
+        return new VoirGestionFormationAction().execute(request, response); //redirection
     }
     
 }

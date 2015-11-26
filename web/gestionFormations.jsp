@@ -29,7 +29,7 @@
         $('#dialog').show();
     };
 </script>
-<%@include file="Modele/dataTablesScript.jsp" %>
+<%@include file="Modele/dataTablesFormationScript.jsp" %>
 <table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive" width="100%">
     <thead>
         <tr>
@@ -44,7 +44,7 @@
 
 <%  String message = (String) request.getAttribute("message");
     if(message != null){ %>
-    <div class="alert <% if(message.toLowerCase().contains("erreur")){%>alert-danger<%}else{%>alert-success<%}%>">
+    <div class="alert <% if(request.getAttribute("error").equals("true")){%>alert-danger<%}else{%>alert-success<%}%>">
         <%out.print(request.getAttribute("message"));%>
     </div>
 <%}%>
