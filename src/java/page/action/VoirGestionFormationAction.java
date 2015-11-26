@@ -5,6 +5,7 @@
  */
 package page.action;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +23,27 @@ public class VoirGestionFormationAction implements Action{
         request.setAttribute("titre", "Gestion des formation");
         List<Formation> formations = new FormationDAO().SelectAll(); //recuperation des formations pour la page suivante
         request.setAttribute("formations", formations);
-        return "formations.jsp";
+        
+        if (formations == null) {
+            request.setAttribute("message", "Aucune formation dans la BDD");
+        } else {
+            List<Object[]> Tab = new ArrayList<Object[]>();
+
+            for (Formation f : formations) {
+                Object[] o = new Object[7];
+                o[0] = f.getIntitule();
+                o[1] = f.getDescription();
+                o[2] = f.getNombrePlace();
+                o[3] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifierFormation&id=" + f.getId() +"\\\">Modifier</a>";
+                o[4] = "<a class=\\\"btn btn-primary btn-danger\\\" onclick='createDialog(" + f.getId() + ")'>Supprimer</a>";
+                Tab.add(o);
+            }
+
+            request.setAttribute("leTableau", Tab);
+            request.setAttribute("sortL", 1);
+            request.setAttribute("sortC", "asc");
+        }
+        return "gestionFormations.jsp";
     }
     
 }

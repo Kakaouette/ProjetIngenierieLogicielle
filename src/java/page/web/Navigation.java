@@ -96,6 +96,9 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("supprimerFormation")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new SuppressionFormationAction();
+        }else if (action.equals("voirGestionFormation")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new VoirGestionFormationAction();
         }else{
             action = "index";
             menuSelect = 0;
