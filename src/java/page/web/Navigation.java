@@ -67,7 +67,8 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
-        }else if (action.equals("voirModifierComptes")) {
+        }/***Gestion comptes****/
+        else if (action.equals("voirModifierComptes")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new VoirModifierComptesAction();
         }else if (action.equals("voirGestionComptes")) {
@@ -76,7 +77,8 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modifierCompte")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new ModifierUtilisateurAction();
-        }else if (action.equals("voirAjoutFormation")) {
+        }/***Gestion formations****/
+        else if (action.equals("voirAjoutFormation")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new VoirAjoutFormationAction();
         }else if (action.equals("voirAjoutJustificatifDansAttribut")) {
@@ -91,6 +93,9 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("ajouterFormation")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new AjoutFormationAction();
+        }else if (action.equals("supprimerFormation")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new SuppressionFormationAction();
         }else{
             action = "index";
             menuSelect = 0;
