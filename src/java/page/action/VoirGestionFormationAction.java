@@ -35,7 +35,7 @@ public class VoirGestionFormationAction implements Action{
                 o[1] = f.getDescription();
                 o[2] = f.getNombrePlace();
                 o[3] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifierFormation&id=" + f.getId() +"\\\">Modifier</a>";
-                o[4] = "<a class=\\\"btn btn-primary btn-danger\\\" onclick='createDialog(" + f.getId() + ")'>Supprimer</a>";
+                o[4] = "<a class=\\\"btn btn-danger btn-block\\\" onclick='createDialog(" + f.getId() + ")'>Supprimer</a>";
                 Tab.add(o);
             }
 
