@@ -61,6 +61,14 @@ public class FormationDAO extends Dao {
         tx.commit();
     }
     
+    
+    public void delete(Formation unFormation) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(unFormation);
+        tx.commit();
+    }
+    
     /**
      * Selection de toutes les formations dans la BD
      * 

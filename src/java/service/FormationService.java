@@ -37,6 +37,6 @@ public class FormationService {
         }
         
         //suppression de la formation dans la BDD
-        formationDAO.save(formation);
+        formationDAO.delete(formation);
     }
 }

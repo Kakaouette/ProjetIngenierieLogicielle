@@ -40,7 +40,6 @@ public class SuppressionFormationAction implements Action{
             new FormationService().supprimerFormation(id);
             request.setAttribute("error", "false");
             request.setAttribute("message", "Formation supprimé.");
-            
         }catch(SuppressionFormationInvalideException e){
             request.setAttribute("error", "true");
             request.setAttribute("message", "La formation n'a pas été supprimé: " + e.getMessage());
