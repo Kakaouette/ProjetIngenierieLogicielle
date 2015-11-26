@@ -28,7 +28,10 @@ public class SuppressionFormationAction implements Action{
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
-                Logger.getLogger(AjoutFormationAction.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SuppressionFormationAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
+                request.setAttribute("error", "true");
+                request.setAttribute("message", ex.getMessage());
+                return new VoirGestionFormationAction().execute(request, response);
             }
         }
         

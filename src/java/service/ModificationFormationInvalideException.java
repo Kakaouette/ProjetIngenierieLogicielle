@@ -9,28 +9,31 @@ package service;
  *
  * @author Arthur
  */
-public class AjoutFormationInvalideException extends Exception{  
+public class ModificationFormationInvalideException extends Exception{  
     public enum cause{
         Formation_Vide,
-        Formation_Existante
+        Formation_Inexistante,
+        Intitule_Vide,
+        DateDebut_Vide,
+        DateFin_Vide
     }
     
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     */  
-    public AjoutFormationInvalideException() {}  
+    public ModificationFormationInvalideException() {}  
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     * @param message Le message détaillant exception 
     */  
-    public AjoutFormationInvalideException(String message) {  
+    public ModificationFormationInvalideException(String message) {  
             super(message); 
     } 
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     * @param cause L'exception à l'origine de cette exception 
     */  
-    public AjoutFormationInvalideException(Throwable cause) {  
+    public ModificationFormationInvalideException(Throwable cause) {  
             super(cause); 
     }  
     /**
@@ -38,7 +41,7 @@ public class AjoutFormationInvalideException extends Exception{
     * @param message Le message détaillant exception 
     * @param cause L'exception à l'origine de cette exception 
     */  
-    public AjoutFormationInvalideException(String message, Throwable cause) {  
+    public ModificationFormationInvalideException(String message, Throwable cause) {  
             super(message, cause); 
     }
 }
