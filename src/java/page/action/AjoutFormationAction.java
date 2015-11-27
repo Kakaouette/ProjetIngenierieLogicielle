@@ -93,7 +93,7 @@ public class AjoutFormationAction implements Action{
             request.setAttribute("nbPlace", nbPlaceForm);
             request.setAttribute("dateDebut", debut);
             request.setAttribute("dateFin", fin);
-            actionPageSuivante = new VoirGestionFormationAction();//VoirAjoutFormationAction(); //redirection
+            actionPageSuivante = new VoirAjoutFormationAction(); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté.");
