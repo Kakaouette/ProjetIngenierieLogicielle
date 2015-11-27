@@ -111,13 +111,10 @@
 </div>
 
 <!-- Button (Double) -->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="savenew"></label>
-  <div class="col-md-8">
-    <button id="save" name="save" type="submit" class="btn btn-primary">Enregistrer</button>
-    <button id="savenew" name="savenew" type="submit" class="btn btn-success">Enregistrer et nouveau</button>
+<div class="row col-md-offset-2">
+      <button id="save" name="bouton" type="submit" class="btn btn-primary" value="enregistrer">Enregistrer</button>
+      <button id="savenew" name="bouton" type="submit" class="btn btn-success" value="enregistrer&nouveau">Enregistrer et nouveau</button>
     <button id="annuler" name="annuler" href="Navigation?action=voirGestionDossier" class="btn btn-default">Annuler</button>
-  </div>
 </div>
 
 </fieldset>
