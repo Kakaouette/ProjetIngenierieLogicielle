@@ -51,7 +51,7 @@ public class AjoutDossierAction implements Action{
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
                 Logger.getLogger(AjoutDossierAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
-                request.setAttribute("error", "true");
+                request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
                 return new VoirCreerDossierValide().execute(request, response);
             }
@@ -70,7 +70,7 @@ public class AjoutDossierAction implements Action{
         }
         Formation formation = new FormationDAO().getFormationByIntitule(formationIntitule);
         if(formation == null){
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Formation inconnue");
             request.setAttribute("focus", "formation");
             return new VoirCreerDossierValide().execute(request, response);
@@ -93,7 +93,7 @@ public class AjoutDossierAction implements Action{
         //demande de creation du dossier
         try{
             new DossierService().ajouterDossier(nouveauDossier);
-            request.setAttribute("error", "false");
+            request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Dossier créé.");
             //redirection
             if(request.getParameter("bouton").equals("enregistrer")){
@@ -102,7 +102,7 @@ public class AjoutDossierAction implements Action{
                 actionPageSuivante = new VoirCreerDossierValide();
             }
         }catch(AjoutDossierInvalideException e){
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
             
             //keep formulaire
@@ -125,7 +125,7 @@ public class AjoutDossierAction implements Action{
             //redirection
             actionPageSuivante = new VoirCreerDossierValide();
         }catch(Exception e){ //exception bdd
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Le dossier n'a pas été créé.");
             //redirection
             actionPageSuivante = new VoirCreerDossierValide();

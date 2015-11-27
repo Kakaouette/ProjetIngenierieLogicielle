@@ -119,10 +119,11 @@
 
 </fieldset>
 </form>
-  
 
-<% if(request.getAttribute("message") != null){ %>
-    <div class="alert alert-success">
+<%  String message = (String) request.getAttribute("message");
+    String typeMsg = (String) request.getAttribute("typeMessage");
+    if(message != null){ %>
+    <div class="alert <%if(typeMsg != null){out.print("alert-"+typeMsg);}%>">
         <%out.print(request.getAttribute("message"));%>
     </div>
 <%}%>
