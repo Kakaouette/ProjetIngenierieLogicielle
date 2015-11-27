@@ -64,20 +64,10 @@ public class FormationDAO extends Dao {
     
     
     public void delete(Formation unFormation) {
-        //suppression des justificatif_formation inutiles
-        List<Justificatif> justificatifs = unFormation.getLesJustificatifs();
-        for(Justificatif justificatif:justificatifs){
-            new JustificatifDAO().delete(justificatif);
-        }
-        
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.remove(unFormation);
         tx.commit();
-        
-        for(Justificatif justificatif:justificatifs){
-            new JustificatifDAO().save(justificatif);
-        }
     }
     
     /**
