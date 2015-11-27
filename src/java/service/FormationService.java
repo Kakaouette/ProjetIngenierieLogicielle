@@ -35,8 +35,8 @@ public class FormationService {
     public void supprimerFormation(int id) throws SuppressionFormationInvalideException {
         //verification de la validité de la demande
         Formation formation = formationDAO.getById(id);
-        if(formation != null){
-            throw new SuppressionFormationInvalideException("Formation inexistante.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Inexistante.toString()));
+        if(formation == null){
+            throw new SuppressionFormationInvalideException("Formation " + id + " inexistante.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Inexistante.toString()));
         }
         
         //suppression de la formation dans la BDD
