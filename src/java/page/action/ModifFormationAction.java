@@ -39,7 +39,7 @@ public class ModifFormationAction implements Action{
         List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
         
         //verification de la validité du formulaire
-        if(idForm.isEmpty() || intitule.isEmpty() || nbPlaceForm.isEmpty() || debut == null || fin == null){
+        if(idForm.isEmpty() || intitule.isEmpty() || nbPlaceForm.isEmpty()){
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
@@ -53,8 +53,8 @@ public class ModifFormationAction implements Action{
         int id = Integer.parseInt(idForm);
         Formation formationModifiee = new FormationDAO().getById(id);
         int nbPlace = Integer.parseInt(nbPlaceForm);
-        Date dateDebut = new Date();
-        Date dateFin = new Date();
+        Date dateDebut = null;
+        Date dateFin = null;
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	try {
             dateDebut = formatter.parse(debut);
@@ -83,12 +83,6 @@ public class ModifFormationAction implements Action{
             request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
             if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
                 request.setAttribute("focus", "intitule");
-            }
-            if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.DateDebut_Vide.toString())){
-                request.setAttribute("focus", "dateDebut");
-            }
-            if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.DateFin_Vide.toString())){
-                request.setAttribute("focus", "dateFin");
             }
             actionPageSuivante = new VoirModifierFormationAction(); //redirection
         }catch(Exception e){ //exception bdd

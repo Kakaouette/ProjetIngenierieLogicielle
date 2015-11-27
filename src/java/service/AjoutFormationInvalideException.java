@@ -12,7 +12,9 @@ package service;
 public class AjoutFormationInvalideException extends Exception{  
     public enum cause{
         Formation_Vide,
-        Formation_Existante
+        Formation_Existante,
+        Intitule_Vide,
+        Date_Incohérentes
     }
     
     /** 

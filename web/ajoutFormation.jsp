@@ -50,12 +50,10 @@
         <div class="col-sm-3">
             <div class="input-daterange input-group" id="datepicker">
                 <% SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); %>
-                <input type="text" id="start" class="form-control" name="dateDebut" required readonly="readonly" 
-                       value="<%if (request.getAttribute("dateDebut") == null) {
-                               out.print(df.format(new Date()));
-                           }else if(df.parse(request.getParameter("dateFin")).before(df.parse(request.getAttribute("dateDebut").toString()))){ 
+                <input type="text" id="start" class="form-control" name="dateDebut" readonly="readonly" 
+                       value="<%/*if(df.parse(request.getParameter("dateFin")).before(df.parse(request.getAttribute("dateDebut").toString()))){ 
                                out.print(request.getAttribute("dateFin"));
-                           }else {
+                           }else*/ if(request.getAttribute("dateDebut") != null) {
                                out.print(request.getAttribute("dateDebut"));
                            }%>"/>
             </div>
@@ -65,11 +63,10 @@
         <label for="dateFin" class="col-sm-2 control-label">Date de fin</label>
         <div class="col-sm-3">
             <div class="input-daterange input-group" id="datepicker">
-                <input type="text" id="stop" class="form-control" name="dateFin" required readonly="readonly"
-                       value="<%
-                           if (request.getAttribute("dateFin") == null) {
-                               out.print(df.format(new Date()));
-                           } else {
+                <input type="text" id="stop" class="form-control" name="dateFin" readonly="readonly"
+                       value="<%/*if(df.parse(request.getParameter("dateDebut")).after(df.parse(request.getAttribute("dateFin").toString()))){ 
+                               out.print(request.getAttribute("dateDebut"));
+                           } else*/ if (request.getAttribute("dateFin") != null) {
                                out.print(request.getAttribute("dateFin"));
                            }%>"/>
             </div>

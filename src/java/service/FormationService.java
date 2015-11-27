@@ -24,8 +24,16 @@ public class FormationService {
         if(formation == null){
             throw new AjoutFormationInvalideException("Requête incorecte.", new Throwable(AjoutFormationInvalideException.cause.Formation_Vide.toString()));
         }
+        if(formation.getIntitule().isEmpty()){
+            throw new AjoutFormationInvalideException("Intitulé non rempli.", new Throwable(AjoutFormationInvalideException.cause.Intitule_Vide.toString()));
+        }
         if(formationDAO.getFormationByIntitule(formation.getIntitule()) != null){
             throw new AjoutFormationInvalideException("Formation déjà existante.", new Throwable(AjoutFormationInvalideException.cause.Formation_Existante.toString()));
+        }
+        if(formation.getDebut() != null && formation.getFin() != null){
+            if(formation.getDebut().after(formation.getFin())){
+                throw new AjoutFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(AjoutFormationInvalideException.cause.Date_Incohérentes.toString()));
+            }
         }
         
         //enregistrement de la formation dans la BDD
@@ -53,12 +61,6 @@ public class FormationService {
         }
         if(formation.getIntitule().isEmpty()){
             throw new ModificationFormationInvalideException("Intitulé non rempli.", new Throwable(ModificationFormationInvalideException.cause.Intitule_Vide.toString()));
-        }
-        if(formation.getDebut() == null){
-            throw new ModificationFormationInvalideException("Date de debut non rempli.", new Throwable(ModificationFormationInvalideException.cause.DateDebut_Vide.toString()));
-        }
-        if(formation.getFin() == null){
-            throw new ModificationFormationInvalideException("Date de fin non rempli.", new Throwable(ModificationFormationInvalideException.cause.DateFin_Vide.toString()));
         }
         
         //mise à jour de la formation dans la BDD
