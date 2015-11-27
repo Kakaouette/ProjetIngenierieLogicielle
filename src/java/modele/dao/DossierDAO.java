@@ -7,6 +7,7 @@ package modele.dao;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Dossier;
@@ -46,8 +47,9 @@ public class DossierDAO extends Dao {
             em.clear(); //supprime le cache des requêtes
             q = em.createQuery("SELECT D FROM Dossier D WHERE D.id LIKE :ID ORDER BY D.id DESC");
             q.setParameter("ID", "pst" + formater.format(date) + "%");
-            Dossier dossier = (Dossier) q.getResultList().get(0);
-            return dossier.getId();
+            List<Dossier> dossiers = (List<Dossier>) q.getResultList();
+            if(dossiers.isEmpty()){return "";}
+            return dossiers.get(0).getId();
         } catch (NoResultException e) {
             return "pst" + formater.format(date) + 0;
         }

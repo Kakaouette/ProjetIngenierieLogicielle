@@ -10,6 +10,8 @@
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
+
+<%@page import="service.DossierService"%>
 <!DOCTYPE html>
 
 <form action="Navigation?action=ajoutDossier" method="POST" class="form-horizontal">
@@ -22,7 +24,12 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="idDossier">Numéro du dossier :</label>  
   <div class="col-md-4">
-  <input id="idDossier" name="idDossier" type="text" placeholder="n° dossier" class="form-control input-md" required value="<%//out.print(DossierService.getNewID());%>">
+  <input id="idDossier" name="idDossier" type="text" placeholder="n° dossier" class="form-control input-md" 
+         value="<%if(request.getAttribute("idDossier") != null){
+                    out.print(request.getAttribute("idDossier"));
+                }else{
+                    out.print(new DossierService().getNewID());
+         }%>" autocomplete="off" required>
     
   </div>
 </div>
@@ -31,7 +38,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="nom">Nom :</label>  
   <div class="col-md-4">
-  <input id="nom" name="nom" type="text" placeholder="nom" class="form-control input-md" required="">
+  <input id="nom" name="nom" type="text" placeholder="nom" class="form-control input-md" value="<%if(request.getAttribute("nom") != null){out.print(request.getAttribute("nom"));}%>" autocomplete="off" required>
     
   </div>
 </div>
@@ -40,7 +47,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="prenom">Prénom : </label>  
   <div class="col-md-4">
-  <input id="prenom" name="prenom" type="text" placeholder="prénom" class="form-control input-md" required>
+  <input id="prenom" name="prenom" type="text" placeholder="prénom" class="form-control input-md" value="<%if(request.getAttribute("prenom") != null){out.print(request.getAttribute("prenom"));}%>" autocomplete="off" required>
     
   </div>
 </div>
@@ -49,7 +56,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="adresse">Adresse :</label>  
   <div class="col-md-4">
-  <input id="adresse" name="adresse" type="text" placeholder="adresse" class="form-control input-md" required>
+  <input id="adresse" name="adresse" type="text" placeholder="adresse" class="form-control input-md" value="<%if(request.getAttribute("adresse") != null){out.print(request.getAttribute("adresse"));}%>" autocomplete="off" required>
     
   </div>
 </div>
@@ -58,7 +65,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="ville">Ville :</label>  
   <div class="col-md-4">
-  <input id="ville" name="ville" type="text" placeholder="ville" class="form-control input-md" required>
+  <input id="ville" name="ville" type="text" placeholder="ville" class="form-control input-md" value="<%if(request.getAttribute("ville") != null){out.print(request.getAttribute("ville"));}%>" autocomplete="off" required>
     
   </div>
 </div>
@@ -67,7 +74,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="codePostal">Code Postal :</label>  
   <div class="col-md-2">
-  <input id="codePostal" name="codePostal" type="text" placeholder="code postal" class="form-control input-md" required>
+  <input id="codePostal" name="codePostal" type="text" placeholder="code postal" class="form-control input-md" value="<%if(request.getAttribute("codePostal") != null){out.print(request.getAttribute("codePostal"));}%>" autocomplete="off" required>
     
   </div>
 </div>
@@ -88,9 +95,10 @@
 </div>
 
 <div class="form-group">
-  <label class="col-md-2 control-label" for="admission">Admissibilté :</label>
+  <label class="col-md-2 control-label" for="type">Type:</label>
   <div class="col-md-4"> 
-      <input type="checkbox" name="admission" id="admission">
+      <input type="radio" name="type" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%>>Inscription
+      <input type="radio" name="type" value="admission" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%>>Admission
   </div>
 </div>
 
@@ -98,7 +106,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="notes">Notes</label>
   <div class="col-md-4">                     
-    <textarea class="form-control" id="notes" name="notes"></textarea>
+    <textarea class="form-control" id="notes" name="notes" autocomplete="off"><%if(request.getAttribute("notes") != null){out.print(request.getAttribute("notes"));}%></textarea>
   </div>
 </div>
 
@@ -114,5 +122,12 @@
 
 </fieldset>
 </form>
+  
 
-</html>
+<% if(request.getAttribute("message") != null){ %>
+    <div class="alert alert-success">
+        <%out.print(request.getAttribute("message"));%>
+    </div>
+<%}%>
+
+<%@include file="Modele/pied.jsp" %>

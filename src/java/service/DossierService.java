@@ -39,7 +39,11 @@ public class DossierService {
         
         String lastId = dossierDAO.getLastId(dateNow);
         String newID = "pst" + formater.format(dateNow);
-        newID += Integer.parseInt(lastId.substring(newID.length()))+1;
+        if(!lastId.equals("")){
+            newID += Integer.parseInt(lastId.substring(newID.length()))+1;
+        }else{
+            newID += 0;
+        }
         return newID;
     }
     

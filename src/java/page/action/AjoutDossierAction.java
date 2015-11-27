@@ -43,7 +43,7 @@ public class AjoutDossierAction implements Action{
         String ville = request.getParameter("ville");
         String notes = request.getParameter("notes");
         String formationIntitule = request.getParameter("formationIntitule");
-        String type = request.getParameter("admission");
+        String type = request.getParameter("type");
         
         //verification de la validité du formulaire
         if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || adresse.isEmpty() || codePostal.isEmpty() || ville.isEmpty() || formationIntitule.isEmpty() || type.isEmpty()){
@@ -57,7 +57,7 @@ public class AjoutDossierAction implements Action{
             }
         }
         //mise en forme des données
-        boolean typeAdmission = !type.equals("");
+        boolean typeAdmission = type.equals("admission");
         Adresse adressePostale = new AdresseDAO().getAdresseByCodePostal(codePostal);
         if(adressePostale == null){
             adressePostale = new Adresse(codePostal, ville);
@@ -73,7 +73,7 @@ public class AjoutDossierAction implements Action{
             request.setAttribute("error", "true");
             request.setAttribute("message", "Formation inconnue");
             request.setAttribute("focus", "formation");
-            return "creerDossier.jsp";
+            return new VoirCreerDossierValide().execute(request, response);
         }
         
         //données complémentaires necessaires pour la formation du dossier
@@ -104,6 +104,19 @@ public class AjoutDossierAction implements Action{
         }catch(AjoutDossierInvalideException e){
             request.setAttribute("error", "true");
             request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
+            
+            //keep formulaire
+            request.setAttribute("idDossier", idDossier);
+            request.setAttribute("nom", nom);
+            request.setAttribute("prenom", prenom);
+            request.setAttribute("sexe", sexe);
+            request.setAttribute("adresse", adresse);
+            request.setAttribute("codePostal", codePostal);
+            request.setAttribute("ville", ville);
+            request.setAttribute("notes", notes);
+            request.setAttribute("formationIntitule", formationIntitule);
+            request.setAttribute("type", type);
+        
             if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.ID_Invalide.toString())){
                 request.setAttribute("focus", "id");
             }else if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.Dossier_Existant.toString())){
