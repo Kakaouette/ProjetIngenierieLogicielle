@@ -86,6 +86,13 @@ public class AjoutFormationAction implements Action{
             if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Date_Incohérentes.toString())){
                 request.setAttribute("focus", "dateDebut");
             }
+            
+            //keep formulaire
+            request.setAttribute("intitule", intitule);
+            request.setAttribute("description", description);
+            request.setAttribute("nbPlace", nbPlaceForm);
+            request.setAttribute("dateDebut", debut);
+            request.setAttribute("dateFin", fin);
             actionPageSuivante = new VoirAjoutFormationAction(); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("error", "true");

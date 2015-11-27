@@ -27,21 +27,28 @@
     <div class="form-group">
         <label for="intitule" class="col-sm-2 control-label">Intitulé</label>
         <div class="col-sm-3">
-            <input type="text" name="intitule" id="intitule" class="form-control" value="" placeholder="Intitulé" autocomplete="off" required>
+            <input type="text" name="intitule" id="intitule" class="form-control" 
+                   value="<%if(request.getAttribute("intitule") != null){out.print(request.getAttribute("intitule"));}%>" 
+                   placeholder="Intitulé" autocomplete="off" required>
         </div>
     </div>
     
     <div class="form-group">
         <label for="description" class="col-sm-2 control-label">Description</label>
         <div class="col-sm-3">
-            <textarea type="text" name="description" id="description" class="form-control" value="" placeholder="Description" autocomplete="off"></textarea>
+            <textarea type="text" name="description" id="description" class="form-control" placeholder="Description" autocomplete="off"><%if(request.getAttribute("description") != null){out.print(request.getAttribute("description"));}%></textarea>
         </div>
     </div>
     
     <div class="form-group">
         <label for="nbPlace" class="col-sm-2 control-label">Nombre de place</label>
         <div class="col-sm-3">
-            <input type="number" min="0" name="nbPlace" id="nbPlace" class="form-control" value="0" required>
+            <input type="number" min="0" name="nbPlace" id="nbPlace" class="form-control" 
+                   value="<%if(request.getAttribute("nbPlace") != null){
+                       out.print(request.getAttribute("nbPlace"));
+                   }else{
+                        out.print("0");
+                   }%>" required>
         </div>
     </div>
     
@@ -79,13 +86,13 @@
             <a class="btn btn-link" href="Navigation?action=voirAjoutJustificatifDansAttribut"><i class="fa fa-plus-circle"></i> Ajouter</a>
         </div>
         
-        <div class="row">
+        <div class="row col-sm-offset-1">
         <ul>
         <% List<Justificatif> justificatifs=(List<Justificatif>) request.getSession().getAttribute("justificatifs");
            for (Justificatif justificatif : justificatifs){
         %>
         <li>
-            <label for="justificatifs" class="control-label"><%out.print(justificatif.getTitre());%></label>
+            <label id="justificatifs" name="justificatifs" class="control-label"><%out.print(justificatif.getTitre());%></label>
             <a class="btn btn-link" href="Navigation?action=supprimerJustificatifDansAttribut&justificatifASuppr=<%out.print(justificatif.getTitre());%>"><i class="fa fa-remove"></i> Supprimer</a>
         </li>
         <% }%>
@@ -110,6 +117,7 @@
 </form>
 <%  String message = (String) request.getAttribute("message");
     if(message != null){ %>
+    <br>
     <div class="alert <% if(request.getAttribute("error").equals("true")){%>alert-danger<%}else{%>alert-success<%}%>">
         <%out.print(request.getAttribute("message"));%>
     </div>
