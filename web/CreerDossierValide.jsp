@@ -112,9 +112,9 @@
 
 <!-- Button (Double) -->
 <div class="row col-md-offset-2">
-      <button id="save" name="bouton" type="submit" class="btn btn-primary" value="enregistrer">Enregistrer</button>
-      <button id="savenew" name="bouton" type="submit" class="btn btn-success" value="enregistrer&nouveau">Enregistrer et nouveau</button>
-    <button id="annuler" name="annuler" href="Navigation?action=voirGestionDossier" class="btn btn-default">Annuler</button>
+    <button id="save" name="bouton" type="submit" class="btn btn-primary" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
+    <button id="savenew" name="bouton" type="submit" class="btn btn-success" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
+    <a class="btn btn-default" href="Navigation?action=voirGestionComptes">Annuler</a>
 </div>
 
 </fieldset>
