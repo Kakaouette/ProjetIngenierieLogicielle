@@ -46,12 +46,13 @@
 </table>
 
 <%  String message = (String) request.getAttribute("message");
+    String typeMsg = (String) request.getAttribute("typeMessage");
     if(message != null){ %>
-    <div class="alert <% if(request.getAttribute("error").equals("true")){%>alert-danger<%}else{%>alert-success<%}%>">
+    <div class="alert <%if(typeMsg != null){out.print("alert-"+typeMsg);}%>">
         <%out.print(request.getAttribute("message"));%>
     </div>
 <%}%>
-        
+
 <%@include file="Modele/pied.jsp" %>
 <div id="dialog" title="Confirmer la suppression">
     <p>Voulez vous vraiment supprimer cette ligne ?</p>

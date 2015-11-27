@@ -29,7 +29,7 @@ public class SuppressionFormationAction implements Action{
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
                 Logger.getLogger(SuppressionFormationAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
-                request.setAttribute("error", "true");
+                request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
                 return new VoirGestionFormationAction().execute(request, response);
             }
@@ -41,13 +41,13 @@ public class SuppressionFormationAction implements Action{
         //demande de creation du dossier
         try{
             new FormationService().supprimerFormation(id);
-            request.setAttribute("error", "false");
+            request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Formation supprimé.");
         }catch(SuppressionFormationInvalideException e){
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été supprimé: " + e.getMessage());
         }catch(Exception e){ //exception bdd
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été supprimé.");
         }
         

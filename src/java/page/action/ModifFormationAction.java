@@ -44,7 +44,7 @@ public class ModifFormationAction implements Action{
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
                 Logger.getLogger(ModifFormationAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
-                request.setAttribute("error", "true");
+                request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
                 return new VoirModifierFormationAction().execute(request, response);
             }
@@ -74,19 +74,19 @@ public class ModifFormationAction implements Action{
         //demande de modification du dossier
         try{
             new FormationService().modifierFormation(formationModifiee);
-            request.setAttribute("error", "false");
+            request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Formation modifié.");
             request.getSession().removeAttribute("justificatifs"); //free justificatifs
             actionPageSuivante = new VoirGestionFormationAction(); //redirection
         }catch(ModificationFormationInvalideException e){
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
             if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
                 request.setAttribute("focus", "intitule");
             }
             actionPageSuivante = new VoirModifierFormationAction(); //redirection
         }catch(Exception e){ //exception bdd
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté.");
             actionPageSuivante = new VoirModifierFormationAction(); //redirection
         }

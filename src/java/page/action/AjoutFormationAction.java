@@ -63,7 +63,7 @@ public class AjoutFormationAction implements Action{
         //demande de creation du dossier
         try{
             new FormationService().ajouterFormation(nouvelleFormation);
-            request.setAttribute("error", "false");
+            request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Formation ajouté.");
             
             //redirection
@@ -75,7 +75,7 @@ public class AjoutFormationAction implements Action{
                 actionPageSuivante = new VoirAjoutFormationAction();
             }
         }catch(AjoutFormationInvalideException e){
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
             if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Formation_Existante.toString())){
                 request.setAttribute("focus", "intitule");
@@ -93,9 +93,9 @@ public class AjoutFormationAction implements Action{
             request.setAttribute("nbPlace", nbPlaceForm);
             request.setAttribute("dateDebut", debut);
             request.setAttribute("dateFin", fin);
-            actionPageSuivante = new VoirAjoutFormationAction(); //redirection
+            actionPageSuivante = new VoirGestionFormationAction();//VoirAjoutFormationAction(); //redirection
         }catch(Exception e){ //exception bdd
-            request.setAttribute("error", "true");
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté.");
             actionPageSuivante = new VoirAjoutFormationAction(); //redirection
         }

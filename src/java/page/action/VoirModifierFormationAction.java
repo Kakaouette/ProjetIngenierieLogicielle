@@ -29,7 +29,7 @@ public class VoirModifierFormationAction implements Action{
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
                 Logger.getLogger(VoirModifierFormationAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
-                request.setAttribute("error", "true");
+                request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
                 return new VoirGestionFormationAction().execute(request, response);
             }
@@ -43,7 +43,7 @@ public class VoirModifierFormationAction implements Action{
                 throw new Exception("Formation inexistante.");
             } catch (Exception ex) {
                 Logger.getLogger(VoirModifierFormationAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
-                request.setAttribute("error", "true");
+                request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
                 return new VoirGestionFormationAction().execute(request, response);
             }

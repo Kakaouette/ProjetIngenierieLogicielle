@@ -115,12 +115,13 @@
         </div>
     </div>
 </form>
+
 <%  String message = (String) request.getAttribute("message");
+    String typeMsg = (String) request.getAttribute("typeMessage");
     if(message != null){ %>
-    <br>
-    <div class="alert <% if(request.getAttribute("error").equals("true")){%>alert-danger<%}else{%>alert-success<%}%>">
+    <div class="alert <%if(typeMsg != null){out.print("alert-"+typeMsg);}%>">
         <%out.print(request.getAttribute("message"));%>
     </div>
-<%}%>       
+<%}%>
             
 <%@include file="Modele/pied.jsp" %>
