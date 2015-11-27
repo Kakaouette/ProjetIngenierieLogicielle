@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Formation;
+import modele.entite.Justificatif;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Formation</b>
@@ -63,10 +64,20 @@ public class FormationDAO extends Dao {
     
     
     public void delete(Formation unFormation) {
+        //suppression des justificatif_formation inutiles
+        List<Justificatif> justificatifs = unFormation.getLesJustificatifs();
+        for(Justificatif justificatif:justificatifs){
+            new JustificatifDAO().delete(justificatif);
+        }
+        
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.remove(unFormation);
         tx.commit();
+        
+        for(Justificatif justificatif:justificatifs){
+            new JustificatifDAO().save(justificatif);
+        }
     }
     
     /**
