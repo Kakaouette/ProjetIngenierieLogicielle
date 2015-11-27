@@ -89,7 +89,7 @@
         %>
         <li>
             <label for="justificatifs" class="control-label"><%out.print(justificatif.getTitre());%></label>
-            <a class="btn btn-danger" href="Navigation?action=supprimerJustificatifDansAttribut&justificatifASuppr=<%out.print(justificatif.getTitre());%>">Supprimer</a>
+            <a class="btn btn-link" href="Navigation?action=supprimerJustificatifDansAttribut&justificatifASuppr=<%out.print(justificatif.getTitre());%>">Supprimer</a>
         </li>
         <% }%>
         </ul>
