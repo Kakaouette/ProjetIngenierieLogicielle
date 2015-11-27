@@ -31,7 +31,7 @@
 </script>
 <%@include file="Modele/dataTablesFormationScript.jsp" %>
 <div class="col-sm-3">
-    <a class="btn btn-success" href="Navigation?action=voirAjoutFormation">Ajouter</a>
+    <a class="btn btn-success" href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a>
 </div><br>
 <table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive" width="100%">
     <thead>

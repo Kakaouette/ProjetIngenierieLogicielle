@@ -76,7 +76,7 @@
     <div class="form-group">
         <label for="justificatifs" class="col-sm-2 control-label">Justificatifs</label>
         <div class="row">
-            <a class="btn btn-success" href="Navigation?action=voirAjoutJustificatifDansAttribut">Ajouter</a>
+            <a class="btn btn-link" href="Navigation?action=voirAjoutJustificatifDansAttribut"><i class="fa fa-plus-circle"></i> Ajouter</a>
         </div>
         
         <div class="row">
@@ -86,7 +86,7 @@
         %>
         <li>
             <label for="justificatifs" class="control-label"><%out.print(justificatif.getTitre());%></label>
-            <a class="btn btn-link" href="Navigation?action=supprimerJustificatifDansAttribut&justificatifASuppr=<%out.print(justificatif.getTitre());%>">Supprimer</a>
+            <a class="btn btn-link" href="Navigation?action=supprimerJustificatifDansAttribut&justificatifASuppr=<%out.print(justificatif.getTitre());%>"><i class="fa fa-remove"></i> Supprimer</a>
         </li>
         <% }%>
         </ul>
@@ -94,14 +94,14 @@
     </div>
     
     <div class="row">
-        <div class="col-md-2 col-md-offset-2">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
+        <div class="col-md-1 col-md-offset-1">
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer"><i class="fa fa-save"></i> Enregister</button>
         </div>
-        <div class="col-md-2 col-md-offset-2">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau">Enregister et nouveau</button>
+        <div class="col-md-1 col-md-offset-1">
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregister et nouveau <i class="fa fa-plus"></i></button>
         </div>
-        <div class="col-md-2 col-md-offset-2">
-            <a class="btn btn-danger" href="Navigation?action=voirGestionFormation">Supprimer</a>
+        <div class="col-md-1 col-md-offset-2">
+            <a class="btn btn-danger" href="Navigation?action=voirGestionFormation"><i class="fa fa-remove"></i> Supprimer</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionFormation">Annuler</a>
