@@ -23,6 +23,15 @@
         });
     });
 </script>
+
+<%if(request.getAttribute("focus") != null){%>
+<script type="text/javascript">
+    window.onload=function(){
+        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+    };
+</script>
+<%}%>
+
 <form action="Navigation?action=ajouterFormation" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="intitule" class="col-sm-2 control-label">Intitulé</label>

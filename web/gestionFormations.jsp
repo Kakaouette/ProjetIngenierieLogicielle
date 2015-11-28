@@ -29,6 +29,15 @@
         $('#dialog').show();
     };
 </script>
+
+<%if(request.getAttribute("focus") != null){%>
+<script type="text/javascript">
+    window.onload=function(){
+        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+    };
+</script>
+<%}%>
+
 <%@include file="Modele/dataTablesFormationScript.jsp" %>
 <div class="col-sm-3">
     <a class="btn btn-success" href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a>
