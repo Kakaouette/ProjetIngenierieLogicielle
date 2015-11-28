@@ -10,7 +10,7 @@
 <%@include file="Modele/entete_avec_menu.jsp" %>
 
 <%@include file="Modele/dataTablesScript.jsp" %>
-<table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive" width="100%">
+<table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive text-center" width="100%">
     <thead>
         <tr>
             <th>Numéro</th>
@@ -18,7 +18,8 @@
             <th>Date</th>
             <th>Etat</th>
             <th>Formation demandé</th>
-            <th>Id de l'etudiant</th>
+            <th>Nom de l'etudiant</th>
+            <th>Prenom de l'etudiant</th>
             <th>Modifier</th>
         </tr>
     </thead>

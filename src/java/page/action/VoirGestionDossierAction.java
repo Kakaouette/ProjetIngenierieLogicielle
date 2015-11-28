@@ -26,14 +26,22 @@ public class VoirGestionDossierAction implements Action{
         List<Object[]> Tab = new ArrayList<Object[]>();
 
             for (Dossier c : dossiers) {
-                Object[] o = new Object[7];
+                Object[] o = new Object[8];
                 o[0] = c.getId();
-                o[1] = c.isAdmissible();
+                if(c.isAdmissible())
+                {
+                    o[1] = "Oui";
+                }
+                else
+                {
+                    o[1] = "Non";
+                }
                 o[2] = c.getDate();
                 o[3] = c.getEtat();
                 o[4] = c.getDemandeFormation().getIntitule();
-                o[5] = c.getEtudiant().getId();
-                o[6] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=#\\\">Modifier</a>";
+                o[5] = c.getEtudiant().getNom();
+                o[6] = c.getEtudiant().getPrenom();
+                o[7] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=#\\\">Modifier</a>";
                 Tab.add(o);
             }
 
