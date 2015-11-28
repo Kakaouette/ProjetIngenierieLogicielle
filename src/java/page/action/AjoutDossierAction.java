@@ -73,7 +73,7 @@ public class AjoutDossierAction implements Action{
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Formation inconnue");
             request.setAttribute("focus", "formation");
-            return new VoirCreerDossierValide().execute(request, response);
+            return stayHere(request, response); //redirection
         }
         
         //données complémentaires necessaires pour la formation du dossier
@@ -104,34 +104,34 @@ public class AjoutDossierAction implements Action{
         }catch(AjoutDossierInvalideException e){
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
-            
-            //keep formulaire
-            request.setAttribute("idDossier", idDossier);
-            request.setAttribute("nom", nom);
-            request.setAttribute("prenom", prenom);
-            request.setAttribute("sexe", sexe);
-            request.setAttribute("adresse", adresse);
-            request.setAttribute("codePostal", codePostal);
-            request.setAttribute("ville", ville);
-            request.setAttribute("notes", notes);
-            request.setAttribute("formationIntitule", formationIntitule);
-            request.setAttribute("type", type);
-        
+                    
             if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.ID_Invalide.toString())){
                 request.setAttribute("focus", "id");
             }else if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.Dossier_Existant.toString())){
                 request.setAttribute("focus", "formation");
             }
-            //redirection
-            actionPageSuivante = new VoirCreerDossierValide();
+            return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Le dossier n'a pas été créé.");
-            //redirection
-            actionPageSuivante = new VoirCreerDossierValide();
+            return stayHere(request, response); //redirection
         }
         
         return actionPageSuivante.execute(request, response);
     }
     
+    private String stayHere(HttpServletRequest request, HttpServletResponse response){
+        //keep formulaire
+        request.setAttribute("idDossier", request.getParameter("idDossier"));
+        request.setAttribute("nom", request.getParameter("nom"));
+        request.setAttribute("prenom", request.getParameter("prenom"));
+        request.setAttribute("sexe", request.getParameter("sexe"));
+        request.setAttribute("adresse", request.getParameter("adresse"));
+        request.setAttribute("codePostal", request.getParameter("codePostal"));
+        request.setAttribute("ville", request.getParameter("ville"));
+        request.setAttribute("notes", request.getParameter("notes"));
+        request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
+        request.setAttribute("type", request.getParameter("type"));
+        return new VoirCreerDossierValide().execute(request, response); //modif: voir récupérer page precedente
+    }
 }
