@@ -83,67 +83,31 @@ public class Navigation extends HttpServlet {
             classeAction = new ModifierUtilisateurAction();
         }/***Gestion formations****/
         else if (action.equals("voirAjoutFormation")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new VoirAjoutFormationAction();
         }else if (action.equals("voirAjoutJustificatifDansAttribut")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new VoirAjoutJustificatifDansAttribut();
         }else if (action.equals("ajoutJustificatifDansAttribut")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new AjoutJustificatifDansAttribut();
         }else if (action.equals("supprimerJustificatifDansAttribut")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new SuppressionJustificatifDansAttributAction();
         }else if (action.equals("ajouterFormation")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new AjoutFormationAction();
         }else if (action.equals("supprimerFormation")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new SuppressionFormationAction();
         }else if (action.equals("voirModifierFormation")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new VoirModifierFormationAction();
         }else if (action.equals("modifierFormation")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new ModifFormationAction();
         }else if (action.equals("voirGestionFormation")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new VoirGestionFormationAction();
         }else{
             action = "index";
