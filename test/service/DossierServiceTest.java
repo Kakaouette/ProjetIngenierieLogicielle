@@ -75,10 +75,19 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossier() throws Exception {
         System.out.println("ajouterDossier");
-        Dossier dossier = null;
-        instance.ajouterDossier(dossier);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Dossier dossier = new Dossier(new Date(), "UnEtat", "UneLettre", false, null, null);
+        dossier.setId("NeDoitPasPasser");
+        try {
+            instance.ajouterDossier(dossier);
+            fail("Ne doit pas passer ici.");
+        }
+        catch(AjoutDossierInvalideException e)
+        {
+            assertEquals("123","123");
+        }
+        
+        DossierDAO dossierDAO = new DossierDAO();
+        //dossierDAO.
     }
 
     /**
@@ -87,12 +96,16 @@ public class DossierServiceTest {
     @Test
     public void testRegexIdDossierValide() {
         System.out.println("regexIdDossierValide");
-        String idDossier = "";
-        boolean expResult = false;
-        boolean result = instance.regexIdDossierValide(idDossier);
-        assertEquals(expResult, result);
-        // TODO
-        fail("The test case is a prototype.");
+        assertEquals(true, instance.regexIdDossierValide("pst151120110"));
+        assertEquals(true, instance.regexIdDossierValide("pst251220151"));
+        assertEquals(true, instance.regexIdDossierValide("pst171119922"));
+        assertEquals(true, instance.regexIdDossierValide("pst151120113"));
+        assertEquals(false, instance.regexIdDossierValide("pst"));
+        assertEquals(false, instance.regexIdDossierValide(""));
+        assertEquals(false, instance.regexIdDossierValide("pst451120110"));
+        assertEquals(false, instance.regexIdDossierValide("pst601120111"));
+        assertEquals(false, instance.regexIdDossierValide("pst151920110"));
+        assertEquals(false, instance.regexIdDossierValide("pst150020111"));
     }
 
     /**
@@ -101,11 +114,9 @@ public class DossierServiceTest {
     @Test
     public void testGetRegexIdDossier() {
         System.out.println("getRegexIdDossier");
-        String expResult = "";
+        String expResult = "pst(([0-2][0-9])|3[0-1])(0[0-9]|1[0-2])([0-9]{4})[0-9]+";
         String result = instance.getRegexIdDossier();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
