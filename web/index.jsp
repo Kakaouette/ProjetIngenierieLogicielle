@@ -36,9 +36,17 @@
     <!--<![endif]-->
 </form>
 
-<% if(request.getAttribute("message") != null){ %>
-    <div class="alert alert-danger">
-        <%out.print(request.getAttribute("message"));%>
+<%  String message = (String) request.getAttribute("message");
+    if(message != null){
+        String[] msgSplited = message.split(":", 2);
+        int idxMsg = 0; if(msgSplited.length == 2){idxMsg = 1;}
+        String typeMsg = (String) request.getAttribute("typeMessage"); %>
+    <br>
+    <div class="alert <%if(typeMsg != null){
+        if(typeMsg.equals("success") || typeMsg.equals("danger") || typeMsg.equals("info") || typeMsg.equals("warning")){
+            out.print("alert-"+typeMsg);}}%>">
+        <strong><%if(msgSplited.length == 2){out.print(msgSplited[0] + ":");}%></strong><em><%out.print(msgSplited[idxMsg]);%></em>
     </div>
 <%}%>
+
 <%@include file="Modele/pied.jsp" %>

@@ -137,7 +137,7 @@
     <div class="alert <%if(typeMsg != null){
         if(typeMsg.equals("success") || typeMsg.equals("danger") || typeMsg.equals("info") || typeMsg.equals("warning")){
             out.print("alert-"+typeMsg);}}%>">
-        <strong><%if(msgSplited.length == 2){out.print(msgSplited[0] + ":");}%></strong><%out.print(msgSplited[idxMsg]);%>
+        <strong><%if(msgSplited.length == 2){out.print(msgSplited[0] + ":");}%></strong><em><%out.print(msgSplited[idxMsg]);%></em>
     </div>
 <%}%>
 
