@@ -97,7 +97,7 @@ public class Navigation extends HttpServlet {
         else if (action.equals("voirAjoutDossier")) {
             menuSelect = 3;
             classeAction = new VoirAjoutDossier();
-        }else if (action.equals("voirAjouterDossierValide")) {
+        }else if (action.equals("voirAjoutDossierValide")) {
             menuSelect = 3;
             classeAction = new VoirAjoutDossierValide();   
         }else if (action.equals("ajouterDossier")) {

@@ -7,8 +7,6 @@ package page.action;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.AdresseDAO;
@@ -71,7 +69,7 @@ public class AjoutDossierAction implements Action{
         if(formation == null){
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Formation inconnue");
-            request.setAttribute("focus", "formation");
+            request.setAttribute("focus", "formationIntitule");
             return stayHere(request, response); //redirection
         }
         
@@ -105,9 +103,9 @@ public class AjoutDossierAction implements Action{
             request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
                     
             if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.ID_Invalide.toString())){
-                request.setAttribute("focus", "id");
+                request.setAttribute("focus", "idDossier");
             }else if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.Dossier_Existant.toString())){
-                request.setAttribute("focus", "formation");
+                request.setAttribute("focus", "formationIntitule");
             }
             return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd

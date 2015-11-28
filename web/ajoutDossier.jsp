@@ -11,7 +11,15 @@
 <%@include file="Modele/entete_avec_menu.jsp" %>
 <!DOCTYPE html>
 
-<form action="Navigation?action=ajoutDossierValide" method="POST" class="form-horizontal">
+<%if(request.getAttribute("focus") != null){%>
+<script type="text/javascript">
+    window.onload=function(){
+        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+    };
+</script>
+<%}%>
+
+<form action="Navigation?action=voirAjoutDossierValide" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">

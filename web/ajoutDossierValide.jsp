@@ -14,7 +14,15 @@
 <%@page import="service.DossierService"%>
 <!DOCTYPE html>
 
-<form action="Navigation?action=ajoutDossier" method="POST" class="form-horizontal">
+<%if(request.getAttribute("focus") != null){%>
+<script type="text/javascript">
+    window.onload=function(){
+        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+    };
+</script>
+<%}%>
+
+<form action="Navigation?action=ajouterDossier" method="POST" class="form-horizontal">
 <fieldset>
 <div class="form-group">
   <input id="formationIntitule" name="formationIntitule" type="hidden" value="<%out.print(request.getAttribute("formationIntitule"));%>">
