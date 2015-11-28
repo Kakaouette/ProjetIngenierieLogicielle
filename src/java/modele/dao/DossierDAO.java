@@ -73,6 +73,13 @@ public class DossierDAO extends Dao {
         em.persist(unDossier);
         tx.commit();
     }
+    
+    public void delete(Dossier unDossier) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(unDossier);
+        tx.commit();
+    }
 
     public void update(Dossier unDossier) {
         EntityTransaction tx = em.getTransaction();
