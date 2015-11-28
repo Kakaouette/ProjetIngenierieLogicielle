@@ -5,10 +5,17 @@
  */
 package service;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modele.dao.AdresseDAO;
 import modele.dao.DossierDAO;
+import modele.dao.EtudiantDAO;
+import modele.entite.Adresse;
 import modele.entite.Dossier;
+import modele.entite.Etudiant;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -83,10 +90,20 @@ public class DossierServiceTest {
         }
         catch(AjoutDossierInvalideException e)
         {
-            assertEquals("123","123");
         }
+        dossier.setId("pst151119700");
+        Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
+        Etudiant unEtudiant = new Etudiant("test_Nom", "test_Prenom", "test_adressePostale", "test_Homme", uneAdresse);
+        instance.ajouterDossier(dossier);
         
-        DossierDAO dossierDAO = new DossierDAO();
+        /// on vérifi son existance.
+        Dossier cpt = new DossierDAO().getById("pst151119700");
+        assertEquals(dossier, cpt);
+        
+        new DossierDAO().delete(dossier);
+        
+        new AdresseDAO().delete(uneAdresse);
+        new EtudiantDAO().delete(unEtudiant);
         //dossierDAO.
     }
 
@@ -96,16 +113,20 @@ public class DossierServiceTest {
     @Test
     public void testRegexIdDossierValide() {
         System.out.println("regexIdDossierValide");
-        assertEquals(true, instance.regexIdDossierValide("pst151120110"));
-        assertEquals(true, instance.regexIdDossierValide("pst251220151"));
-        assertEquals(true, instance.regexIdDossierValide("pst171119922"));
-        assertEquals(true, instance.regexIdDossierValide("pst151120113"));
-        assertEquals(false, instance.regexIdDossierValide("pst"));
-        assertEquals(false, instance.regexIdDossierValide(""));
-        assertEquals(false, instance.regexIdDossierValide("pst451120110"));
-        assertEquals(false, instance.regexIdDossierValide("pst601120111"));
-        assertEquals(false, instance.regexIdDossierValide("pst151920110"));
-        assertEquals(false, instance.regexIdDossierValide("pst150020111"));
+        try {
+            assertEquals(true, instance.regexIdDossierValide("pst151120110"));
+            assertEquals(true, instance.regexIdDossierValide("pst251220151"));
+            assertEquals(true, instance.regexIdDossierValide("pst171119922"));
+            assertEquals(true, instance.regexIdDossierValide("pst151120113"));
+            assertEquals(false, instance.regexIdDossierValide("pst"));
+            assertEquals(false, instance.regexIdDossierValide(""));
+            assertEquals(false, instance.regexIdDossierValide("pst451120110"));
+            assertEquals(false, instance.regexIdDossierValide("pst601120111"));
+            assertEquals(false, instance.regexIdDossierValide("pst151920110"));
+            assertEquals(false, instance.regexIdDossierValide("pst150020111"));
+        } catch (Exception ex) {
+            Logger.getLogger(DossierServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -115,7 +136,12 @@ public class DossierServiceTest {
     public void testGetRegexIdDossier() {
         System.out.println("getRegexIdDossier");
         String expResult = "pst(([0-2][0-9])|3[0-1])(0[0-9]|1[0-2])([0-9]{4})[0-9]+";
-        String result = instance.getRegexIdDossier();
+        String result = "";
+        try {
+            result = instance.getRegexIdDossier();
+        } catch (IOException ex) {
+            Logger.getLogger(DossierServiceTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         assertEquals(expResult, result);
     }
     
