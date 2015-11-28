@@ -37,7 +37,7 @@
                     out.print(request.getAttribute("idDossier"));
                 }else{
                     out.print(new DossierService().getNewID());
-         }%>" autocomplete="off" required>
+                }%>" autocomplete="off" required autofocus>
     
   </div>
 </div>
