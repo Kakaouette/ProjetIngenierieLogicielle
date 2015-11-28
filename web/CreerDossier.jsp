@@ -39,22 +39,13 @@
          </div>
     <div class="row">
         <div class="col-md-2 col-md-offset-2">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="Retour" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Compte</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
-            <button class="btn btn-default" href="Navigation?action=voirGestionDossier">Retour</button>
-            <!--<![endif]-->
+            <a class="btn btn-default" href="Navigation?action=voirGestionDossier">Retour</a>
+        </div>
+        <div class="col-md-2">
+            <a class="btn btn-default" href="Navigation?action=voirLettreDocManquant">Demander les documents manquants</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="Retour" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Creation de dossier</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="Suivant">Suivant</button>
-            <!--<![endif]-->
         </div>
     </div>
         
@@ -72,4 +63,5 @@
         <strong><%if(msgSplited.length == 2){out.print(msgSplited[0] + ":");}%></strong><%out.print(msgSplited[idxMsg]);%>
     </div>
 <%}%>
+
 <%@include file="Modele/pied.jsp" %>
