@@ -25,7 +25,7 @@ public class VoirGestionFormationAction implements Action{
         request.setAttribute("formations", formations);
         
         if (formations == null) {
-            request.setAttribute("typeMessage", "info");
+            request.setAttribute("typeMessage", "warning");
             request.setAttribute("message", "Aucune formation dans la BDD");
         } else {
             List<Object[]> Tab = new ArrayList<Object[]>();

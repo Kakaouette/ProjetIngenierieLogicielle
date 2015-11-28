@@ -46,10 +46,15 @@
 </table>
 
 <%  String message = (String) request.getAttribute("message");
-    String typeMsg = (String) request.getAttribute("typeMessage");
-    if(message != null){ %>
-    <div class="alert <%if(typeMsg != null){out.print("alert-"+typeMsg);}%>">
-        <%out.print(request.getAttribute("message"));%>
+    if(message != null){
+        String[] msgSplited = message.split(":", 2);
+        int idxMsg = 0; if(msgSplited.length == 2){idxMsg = 1;}
+        String typeMsg = (String) request.getAttribute("typeMessage"); %>
+    <br>
+    <div class="alert <%if(typeMsg != null){
+        if(typeMsg.equals("success") || typeMsg.equals("danger") || typeMsg.equals("info") || typeMsg.equals("warning")){
+            out.print("alert-"+typeMsg);}}%>">
+        <strong><%if(msgSplited.length == 2){out.print(msgSplited[0] + ":");}%></strong><%out.print(msgSplited[idxMsg]);%>
     </div>
 <%}%>
 
