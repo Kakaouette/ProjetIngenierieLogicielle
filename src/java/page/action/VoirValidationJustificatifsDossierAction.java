@@ -42,6 +42,9 @@ public class VoirValidationJustificatifsDossierAction implements Action{
                 request.setAttribute("message", "Aucun justificatif trouvé dans la BDD");
             }else{
                 request.setAttribute("justificatifs", justificatifs);
+                if(request.getParameter("justificatifs") != null){
+                    request.setAttribute("justificatifsChecked", request.getParameter("justificatifs"));
+                }
             }
         }
         return "validationJustificatifsDossier.jsp";

@@ -69,7 +69,12 @@
             <a class="btn btn-default" href="Navigation?action=voirLettreDocManquant">Demander les documents manquants</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="suivant">Suivant</button>
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="suivant"
+                <%if(justificatifs == null){%><!--disabled--><%}
+                else if(request.getAttribute("justificatifsChecked") != null){
+                    List<Justificatif> justificatifsChecked = (List<Justificatif>) request.getAttribute("justificatifsChecked");
+                    if(justificatifsChecked != justificatifs){%>disabled<%}
+                }else{%>disabled<%}%>>Suivant</button>
         </div>
     </div>
         
