@@ -14,7 +14,15 @@
 <%@page import="service.DossierService"%>
 <!DOCTYPE html>
 
-<form action="Navigation?action=ajoutDossier" method="POST" class="form-horizontal">
+<%if(request.getAttribute("focus") != null){%>
+<script type="text/javascript">
+    window.onload=function(){
+        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+    };
+</script>
+<%}%>
+
+<form action="Navigation?action=ajouterDossier" method="POST" class="form-horizontal">
 <fieldset>
 <div class="form-group">
   <input id="formationIntitule" name="formationIntitule" type="hidden" value="<%out.print(request.getAttribute("formationIntitule"));%>">
@@ -106,7 +114,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="notes">Notes</label>
   <div class="col-md-4">                     
-    <textarea class="form-control" id="notes" name="notes" autocomplete="off"><%if(request.getAttribute("notes") != null){out.print(request.getAttribute("notes"));}%></textarea>
+      <textarea class="form-control" id="notes" name="notes" placeholder="Notes" autocomplete="off"><%if(request.getAttribute("notes") != null){out.print(request.getAttribute("notes"));}%></textarea>
   </div>
 </div>
 

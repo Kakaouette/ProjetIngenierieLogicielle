@@ -9,12 +9,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import modele.dao.AdresseDAO;
-import modele.dao.Dao;
 import modele.dao.DossierDAO;
 import modele.dao.EtudiantDAO;
 import modele.entite.Dossier;
@@ -50,8 +47,9 @@ public class DossierService {
     /**
      * @param dossier à ajouter
      * @throws service.AjoutDossierInvalideException
+     * @throws java.io.IOException
      */
-    public void ajouterDossier(Dossier dossier) throws service.AjoutDossierInvalideException{
+    public void ajouterDossier(Dossier dossier) throws service.AjoutDossierInvalideException, IOException{
         //verification de la validité de la demande
         if(regexIdDossierValide(dossier.getId())){ //verif id correspond au regex
             throw new AjoutDossierInvalideException("L'identifiant du dossier est invalide", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
@@ -78,8 +76,9 @@ public class DossierService {
     /**
      * @param idDossier: id à verifié
      * @return true: id valide par rapport au regex; false: else
+     * @throws java.io.IOException
      */
-    public boolean regexIdDossierValide(String idDossier){      
+    public boolean regexIdDossierValide(String idDossier) throws IOException{      
         // compilation de la regex
         Pattern p = Pattern.compile(getRegexIdDossier());
         // création d'un moteur de recherche
@@ -99,8 +98,9 @@ public class DossierService {
 
     /**
      * @return regex de l'id d'un dossier
+     * @throws java.io.IOException
      */
-    public String getRegexIdDossier(){
+    public String getRegexIdDossier() throws IOException{
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Properties properties = new Properties();
         String regex="";
@@ -109,7 +109,7 @@ public class DossierService {
             properties.load(classLoader.getResourceAsStream("serveur.properties"));
             regex=properties.getProperty("creerDossier.idDossier");
         } catch (IOException ex) {
-            Logger.getLogger(Dao.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException("Propriété regex pour l'ID d'un dossier introuvable", ex.getCause());
         }
         return regex;
     }

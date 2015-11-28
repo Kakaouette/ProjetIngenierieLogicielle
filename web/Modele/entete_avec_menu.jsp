@@ -101,9 +101,9 @@
                                 </li>
                             <%}%>
                             <%if (c.getType() == TypeCompte.secretaire_general || c.getType() == TypeCompte.secretaire_formation) {%>
-                                <li <%if (current.equals(1)) {%>class="active"<%}%> class="dropdown">
+                                <li <%if (current.equals(3)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Gestion dossier <span class="caret"></span>
+                                        Gestion dossiers <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="Navigation?action=voirAjoutDossier"><i class="fa fa-plus"></i> Ajouter</a></li>

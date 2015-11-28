@@ -6,6 +6,15 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_sans_menu.jsp" %>
+
+<%if(request.getAttribute("focus") != null){%>
+<script type="text/javascript">
+    window.onload=function(){
+        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+    };
+</script>
+<%}%>
+
 <form class="form-signin" action="Navigation" method="POST">
     <h1 class="form-signin-heading">Identification</h1>
     <label for="identifiant" class="sr-only">Identifiant</label>

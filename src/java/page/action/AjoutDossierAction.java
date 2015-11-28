@@ -7,8 +7,6 @@ package page.action;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.AdresseDAO;
@@ -50,10 +48,9 @@ public class AjoutDossierAction implements Action{
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
-                Logger.getLogger(AjoutDossierAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
-                return new VoirCreerDossierValide().execute(request, response);
+                return new VoirAjoutDossierValide().execute(request, response);
             }
         }
         //mise en forme des données
@@ -72,7 +69,7 @@ public class AjoutDossierAction implements Action{
         if(formation == null){
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Formation inconnue");
-            request.setAttribute("focus", "formation");
+            request.setAttribute("focus", "formationIntitule");
             return stayHere(request, response); //redirection
         }
         
@@ -99,16 +96,16 @@ public class AjoutDossierAction implements Action{
             if(request.getParameter("bouton").equals("enregistrer")){
                 actionPageSuivante = new VoirGestionFormationsAction(); //request.getParameter("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-                actionPageSuivante = new VoirCreerDossierValide();
+                actionPageSuivante = new VoirAjoutDossierValide();
             }
         }catch(AjoutDossierInvalideException e){
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
                     
             if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.ID_Invalide.toString())){
-                request.setAttribute("focus", "id");
+                request.setAttribute("focus", "idDossier");
             }else if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.Dossier_Existant.toString())){
-                request.setAttribute("focus", "formation");
+                request.setAttribute("focus", "formationIntitule");
             }
             return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
@@ -132,6 +129,6 @@ public class AjoutDossierAction implements Action{
         request.setAttribute("notes", request.getParameter("notes"));
         request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
         request.setAttribute("type", request.getParameter("type"));
-        return new VoirCreerDossierValide().execute(request, response); //modif: voir récupérer page precedente
+        return new VoirAjoutDossierValide().execute(request, response); //modif: voir récupérer page precedente
     }
 }

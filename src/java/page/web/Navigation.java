@@ -70,7 +70,8 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
-        }else if (action.equals("voirGestionComptes")) {
+        }/***Gestion comptes****/
+        else if (action.equals("voirGestionComptes")) {
             menuSelect = 1;
             classeAction = new VoirGestionComptesAction();
         }else if (action.equals("voirAjoutCompte")) {
@@ -82,7 +83,8 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modifierCompte")) {
             menuSelect = 1;
             classeAction = new ModifierCompteAction();
-        }else if (action.equals("voirGestionFormation")) {
+        }/***Gestion formations****/
+        else if (action.equals("voirGestionFormation")) {
             menuSelect = 2;
             classeAction = new VoirGestionFormationsAction();
         }else if (action.equals("voirAjoutFormation")) {
@@ -91,15 +93,16 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("voirDatesInscription")) {
             menuSelect = 2;
             classeAction = new VoirDatesInscriptionAction();
-        }else if (action.equals("voirAjoutDossier")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new VoirCreerDossier();
-        }else if (action.equals("ajoutDossier")) {
-            menuSelect = 0; //to modif later
+        }/***Gestion dossiers****/
+        else if (action.equals("voirAjoutDossier")) {
+            menuSelect = 3;
+            classeAction = new VoirAjoutDossier();
+        }else if (action.equals("voirAjoutDossierValide")) {
+            menuSelect = 3;
+            classeAction = new VoirAjoutDossierValide();   
+        }else if (action.equals("ajouterDossier")) {
+            menuSelect = 3;
             classeAction = new AjoutDossierAction();
-        }else if (action.equals("ajoutDossierValide")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new VoirCreerDossierValide();   
         }else{
             action = "index";
             menuSelect = 0;
