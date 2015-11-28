@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.entite.TypeCompte;
 import page.action.*;
 
 /**
@@ -79,31 +80,67 @@ public class Navigation extends HttpServlet {
             classeAction = new ModifierUtilisateurAction();
         }/***Gestion formations****/
         else if (action.equals("voirAjoutFormation")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new VoirAjoutFormationAction();
         }else if (action.equals("voirAjoutJustificatifDansAttribut")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new VoirAjoutJustificatifDansAttribut();
         }else if (action.equals("ajoutJustificatifDansAttribut")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new AjoutJustificatifDansAttribut();
         }else if (action.equals("supprimerJustificatifDansAttribut")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new SuppressionJustificatifDansAttributAction();
         }else if (action.equals("ajouterFormation")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new AjoutFormationAction();
         }else if (action.equals("supprimerFormation")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new SuppressionFormationAction();
         }else if (action.equals("voirModifierFormation")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new VoirModifierFormationAction();
         }else if (action.equals("modifierFormation")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new ModifFormationAction();
         }else if (action.equals("voirGestionFormation")) {
-            menuSelect = 1; //à modifier plus tard
+            if (compteActif.getType() == TypeCompte.admin) {
+                menuSelect = 2;
+            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
+                menuSelect = 1;
+            }
             classeAction = new VoirGestionFormationAction();
         }else{
             action = "index";
