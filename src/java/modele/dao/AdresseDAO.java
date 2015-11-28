@@ -54,6 +54,13 @@ public class AdresseDAO extends Dao {
         em.persist(unAdresse);
         tx.commit();
     }
+    
+    public void delete(Adresse unAdresse) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(unAdresse);
+        tx.commit();
+    }
 
     public void update(Adresse unAdresse) {
         EntityTransaction tx = em.getTransaction();
