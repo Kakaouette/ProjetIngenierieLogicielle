@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Sahare
  */
-public class VoirCreerDossier implements Action{
+public class VoirAjoutDossierValide implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Créer un dossier");
-        return "CreerDossier.jsp";
+        request.setAttribute("titre", "Ajouter un dossier");
+        request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
+        return "ajoutDossierValide.jsp";
     }
     
 }

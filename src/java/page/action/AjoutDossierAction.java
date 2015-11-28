@@ -50,10 +50,9 @@ public class AjoutDossierAction implements Action{
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
-                Logger.getLogger(AjoutDossierAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
-                return new VoirCreerDossierValide().execute(request, response);
+                return new VoirAjoutDossierValide().execute(request, response);
             }
         }
         //mise en forme des données
@@ -99,7 +98,7 @@ public class AjoutDossierAction implements Action{
             if(request.getParameter("bouton").equals("enregistrer")){
                 actionPageSuivante = new VoirGestionFormationsAction(); //request.getParameter("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-                actionPageSuivante = new VoirCreerDossierValide();
+                actionPageSuivante = new VoirAjoutDossierValide();
             }
         }catch(AjoutDossierInvalideException e){
             request.setAttribute("typeMessage", "danger");
@@ -132,6 +131,6 @@ public class AjoutDossierAction implements Action{
         request.setAttribute("notes", request.getParameter("notes"));
         request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
         request.setAttribute("type", request.getParameter("type"));
-        return new VoirCreerDossierValide().execute(request, response); //modif: voir récupérer page precedente
+        return new VoirAjoutDossierValide().execute(request, response); //modif: voir récupérer page precedente
     }
 }
