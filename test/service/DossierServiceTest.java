@@ -5,6 +5,9 @@
  */
 package service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -47,11 +50,23 @@ public class DossierServiceTest {
     @Test
     public void testGetNewID() {
         System.out.println("getNewID");
-        String expResult = "";
-        String result = instance.getNewID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        DossierDAO dossierDAO = new DossierDAO();
+        
+        Date dateNow = new Date(); //recuperation de la date actuelle
+        SimpleDateFormat formater = new SimpleDateFormat("ddMMyyyy");
+        String str = "pst" + formater.format(dateNow);
+        
+        String dernierID = dossierDAO.getLastId(dateNow);
+        
+        String result1 = instance.getNewID();
+        String result2 = instance.getNewID();
+        String result3 = instance.getNewID();
+        String result4 = instance.getNewID();
+        assertEquals(str+(dernierID+1), result1);
+        assertEquals(str+(dernierID+2), result2);
+        assertEquals(str+(dernierID+3), result3);
+        assertEquals(str+(dernierID+4), result4);
     }
 
     /**
