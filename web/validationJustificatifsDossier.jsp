@@ -5,6 +5,9 @@
 --%>
 
 
+<%@page import="page.action.VoirValidationJustificatifsDossierAction"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="modele.dao.FormationDAO"%>
 <%@page import="modele.entite.Formation"%>
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,13 +21,18 @@
     };
 </script>
 <%}%>
+<script>
+    function loadCheckboxs(){
+        <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
+    }
+</script>
 
 <form action="Navigation?action=voirAjoutDossier" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
             <!-- A faire : positionner le type actuel en selection par défaut -->
-            <select name="formationIntitule" id="formationIntitule" class="form-control">
+            <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="loadCheckboxs();">
                 <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
                 for (Formation formation : formations){
                 %>
@@ -33,9 +41,26 @@
                             }%>><%out.print(formation.getIntitule());%></option>
                 <%}%>
             </select>
-        
+            
         </div>
-         </div>
+    </div>
+    <div class="form-group">
+        <label for="justificatifs" class="col-sm-2 control-label">Justificatifs: </label>
+        <div class="col-sm-3">
+            <% List<Justificatif> justificatifs = (List<Justificatif>) request.getAttribute("justificatifs");
+            if(justificatifs != null){
+                for (Justificatif justificatif : justificatifs){
+                %>
+                    <input type="checkbox" name="justificatifs" id="justificatifs" value="<%out.print(justificatif.getTitre());%>" 
+                        <%if(request.getAttribute("justificatifsChecked") != null){
+                            List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
+                            if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
+                        }%>> <%out.print(justificatif.getTitre());%>
+                    <br>
+                <%}
+            }%>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionDossiers">Retour</a>
