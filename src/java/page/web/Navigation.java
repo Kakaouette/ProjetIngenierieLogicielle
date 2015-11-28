@@ -94,12 +94,12 @@ public class Navigation extends HttpServlet {
             menuSelect = 2;
             classeAction = new VoirDatesInscriptionAction();
         }/***Gestion dossiers****/
-        else if (action.equals("voirAjoutDossier")) {
+        else if (action.equals("voirValidationJustificatifsDossier")) {
             menuSelect = 3;
-            classeAction = new VoirAjoutDossier();
-        }else if (action.equals("voirAjoutDossierValide")) {
+            classeAction = new VoirValidationJustificatifsDossierAction();
+        }else if (action.equals("voirAjoutDossier")) {
             menuSelect = 3;
-            classeAction = new VoirAjoutDossierValide();   
+            classeAction = new VoirAjoutDossierAction();   
         }else if (action.equals("ajouterDossier")) {
             menuSelect = 3;
             classeAction = new AjoutDossierAction();

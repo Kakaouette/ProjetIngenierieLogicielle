@@ -50,7 +50,7 @@ public class AjoutDossierAction implements Action{
             } catch (Exception ex) {
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
-                return new VoirAjoutDossierValide().execute(request, response);
+                return new VoirAjoutDossierAction().execute(request, response);
             }
         }
         //mise en forme des données
@@ -96,7 +96,7 @@ public class AjoutDossierAction implements Action{
             if(request.getParameter("bouton").equals("enregistrer")){
                 actionPageSuivante = new VoirGestionFormationsAction(); //request.getParameter("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-                actionPageSuivante = new VoirAjoutDossierValide();
+                actionPageSuivante = new VoirAjoutDossierAction();
             }
         }catch(AjoutDossierInvalideException e){
             request.setAttribute("typeMessage", "danger");
@@ -129,6 +129,6 @@ public class AjoutDossierAction implements Action{
         request.setAttribute("notes", request.getParameter("notes"));
         request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
         request.setAttribute("type", request.getParameter("type"));
-        return new VoirAjoutDossierValide().execute(request, response); //modif: voir récupérer page precedente
+        return new VoirAjoutDossierAction().execute(request, response); //modif: voir récupérer page precedente
     }
 }
