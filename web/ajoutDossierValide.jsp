@@ -114,7 +114,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="notes">Notes</label>
   <div class="col-md-4">                     
-    <textarea class="form-control" id="notes" name="notes" autocomplete="off"><%if(request.getAttribute("notes") != null){out.print(request.getAttribute("notes"));}%></textarea>
+      <textarea class="form-control" id="notes" name="notes" placeholder="Notes" autocomplete="off"><%if(request.getAttribute("notes") != null){out.print(request.getAttribute("notes"));}%></textarea>
   </div>
 </div>
 
