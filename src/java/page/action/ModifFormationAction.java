@@ -46,7 +46,7 @@ public class ModifFormationAction implements Action{
                 Logger.getLogger(ModifFormationAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
-                return new VoirModifierFormationAction().execute(request, response);
+                return stayHere(request, response); //redirection
             }
         }
         //mise en forme des données
@@ -84,14 +84,23 @@ public class ModifFormationAction implements Action{
             if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
                 request.setAttribute("focus", "intitule");
             }
-            actionPageSuivante = new VoirModifierFormationAction(); //redirection
+            return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté.");
-            actionPageSuivante = new VoirModifierFormationAction(); //redirection
+            return stayHere(request, response); //redirection
         }
         
         return actionPageSuivante.execute(request, response);
     }
     
+    private String stayHere(HttpServletRequest request, HttpServletResponse response){
+        //keep formulaire
+        request.setAttribute("intitule", request.getParameter("intitule"));
+        request.setAttribute("description", request.getParameter("description"));
+        request.setAttribute("nbPlace", request.getParameter("nbPlace"));
+        request.setAttribute("dateDebut", request.getParameter("dateDebut"));
+        request.setAttribute("dateFin", request.getParameter("dateFin"));
+        return new VoirModifierFormationAction().execute(request, response); //modif: voir récupérer page precedente
+    }
 }

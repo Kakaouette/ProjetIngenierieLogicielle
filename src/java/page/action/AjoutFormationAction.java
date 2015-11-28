@@ -43,6 +43,7 @@ public class AjoutFormationAction implements Action{
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
                 Logger.getLogger(AjoutFormationAction.class.getName()).log(Level.SEVERE, null, ex);
+                return stayHere(request, response); //redirection
             }
         }
         //mise en forme des données
@@ -87,20 +88,24 @@ public class AjoutFormationAction implements Action{
                 request.setAttribute("focus", "dateDebut");
             }
             
-            //keep formulaire
-            request.setAttribute("intitule", intitule);
-            request.setAttribute("description", description);
-            request.setAttribute("nbPlace", nbPlaceForm);
-            request.setAttribute("dateDebut", debut);
-            request.setAttribute("dateFin", fin);
-            actionPageSuivante = new VoirAjoutFormationAction(); //redirection
+            return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté.");
-            actionPageSuivante = new VoirAjoutFormationAction(); //redirection
+            
+            return stayHere(request, response); //redirection
         }
         
         return actionPageSuivante.execute(request, response);
     }
     
+    private String stayHere(HttpServletRequest request, HttpServletResponse response){
+        //keep formulaire
+        request.setAttribute("intitule", request.getParameter("intitule"));
+        request.setAttribute("description", request.getParameter("description"));
+        request.setAttribute("nbPlace", request.getParameter("nbPlace"));
+        request.setAttribute("dateDebut", request.getParameter("dateDebut"));
+        request.setAttribute("dateFin", request.getParameter("dateFin"));
+        return new VoirAjoutFormationAction().execute(request, response); //modif: voir récupérer page precedente
+    }
 }
