@@ -71,52 +71,32 @@ public class Navigation extends HttpServlet {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
         }else if (action.equals("voirGestionComptes")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 1;
-            }
+            menuSelect = 1;
             classeAction = new VoirGestionComptesAction();
         }else if (action.equals("voirAjoutCompte")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 1;
-            }
+            menuSelect = 1;
             classeAction = new VoirAjoutCompteAction();
-        }else if (action.equals("ajoutDossier")) {
-            menuSelect = 0; //to modif later
-            classeAction = new AjoutDossierAction();
         }else if (action.equals("voirModifierCompte")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 1;
-            }
+            menuSelect = 1;
             classeAction = new VoirModifierCompteAction();
         }else if (action.equals("modifierCompte")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 1;
-            }
+            menuSelect = 1;
             classeAction = new ModifierCompteAction();
         }else if (action.equals("voirGestionFormation")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new VoirGestionFormationsAction();
         }else if (action.equals("voirAjoutFormation")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new VoirAjoutFormationAction();
         }else if (action.equals("voirDatesInscription")) {
-            if (compteActif.getType() == TypeCompte.admin) {
-                menuSelect = 2;
-            }else if (compteActif.getType() == TypeCompte.secretaire_formation) {
-                menuSelect = 1;
-            }
+            menuSelect = 2;
             classeAction = new VoirDatesInscriptionAction();
         }else if (action.equals("voirAjoutDossier")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new VoirCreerDossier();
+        }else if (action.equals("ajoutDossier")) {
+            menuSelect = 0; //to modif later
+            classeAction = new AjoutDossierAction();
         }else if (action.equals("ajoutDossierValide")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new VoirCreerDossierValide();   
