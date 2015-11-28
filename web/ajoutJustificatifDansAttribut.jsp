@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 
-<form action="Navigation?action=ajoutJustificatifDansAttribut" method="POST" class="form-horizontal">
+<form action="Navigation?action=ajouterJustificatifDansAttribut" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="justificatifs" class="col-sm-2 control-label">Justificatifs</label>
         <div class="col-sm-3">

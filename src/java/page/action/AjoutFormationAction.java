@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Formation;
@@ -42,7 +40,8 @@ public class AjoutFormationAction implements Action{
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
-                Logger.getLogger(AjoutFormationAction.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("typeMessage", "danger");
+                request.setAttribute("message", ex.getMessage());
                 return stayHere(request, response); //redirection
             }
         }
@@ -58,10 +57,10 @@ public class AjoutFormationAction implements Action{
             e.printStackTrace();
 	}
         
-        //formation du dossier
+        //formation de la formation
         Formation nouvelleFormation = new Formation(description, nbPlace, dateDebut, dateFin, intitule, justificatifs);
         
-        //demande de creation du dossier
+        //demande de creation de la formation
         try{
             new FormationService().ajouterFormation(nouvelleFormation);
             request.setAttribute("typeMessage", "success");
@@ -70,7 +69,7 @@ public class AjoutFormationAction implements Action{
             //redirection
             if(request.getParameter("bouton").equals("enregistrer")){
                 request.getSession().removeAttribute("justificatifs"); //free justificatifs
-                actionPageSuivante = new VoirGestionFormationAction(); //(String) request.getAttribute("pageRetour");
+                actionPageSuivante = new VoirGestionFormationsAction(); //(String) request.getAttribute("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
                 request.getSession().setAttribute("justificatifs", new ArrayList<Justificatif>());
                 actionPageSuivante = new VoirAjoutFormationAction();
@@ -80,25 +79,27 @@ public class AjoutFormationAction implements Action{
             request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
             if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Formation_Existante.toString())){
                 request.setAttribute("focus", "intitule");
-            }
-            if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Intitule_Vide.toString())){
+            }else if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Intitule_Vide.toString())){
                 request.setAttribute("focus", "intitule");
-            }
-            if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Date_Incohérentes.toString())){
+            }else if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Date_Incohérentes.toString())){
                 request.setAttribute("focus", "dateDebut");
             }
-            
             return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté.");
-            
             return stayHere(request, response); //redirection
         }
         
         return actionPageSuivante.execute(request, response);
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @return action de voir la page + retour de String correspondant à la page
+     */
     private String stayHere(HttpServletRequest request, HttpServletResponse response){
         //keep formulaire
         request.setAttribute("intitule", request.getParameter("intitule"));

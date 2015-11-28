@@ -9,8 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
@@ -43,15 +41,12 @@ public class ModifFormationAction implements Action{
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
-                Logger.getLogger(ModifFormationAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
                 return stayHere(request, response); //redirection
             }
         }
         //mise en forme des données
-        int id = Integer.parseInt(idForm);
-        Formation formationModifiee = new FormationDAO().getById(id);
         int nbPlace = Integer.parseInt(nbPlaceForm);
         Date dateDebut = null;
         Date dateFin = null;
@@ -63,7 +58,10 @@ public class ModifFormationAction implements Action{
             e.printStackTrace();
 	}
         
-        //formation du dossier
+        //recuperation de la formation
+        int id = Integer.parseInt(idForm);
+        Formation formationModifiee = new FormationDAO().getById(id);
+        //formation de la formation
         formationModifiee.setIntitule(intitule);
         formationModifiee.setDescription(description);
         formationModifiee.setNombrePlace(nbPlace);
@@ -71,18 +69,20 @@ public class ModifFormationAction implements Action{
         formationModifiee.setFin(dateFin);
         formationModifiee.setLesJustificatifs(justificatifs);
         
-        //demande de modification du dossier
+        //demande de modification de la formation
         try{
             new FormationService().modifierFormation(formationModifiee);
             request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Formation modifié.");
             request.getSession().removeAttribute("justificatifs"); //free justificatifs
-            actionPageSuivante = new VoirGestionFormationAction(); //redirection
+            actionPageSuivante = new VoirGestionFormationsAction(); //redirection
         }catch(ModificationFormationInvalideException e){
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
             if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
                 request.setAttribute("focus", "intitule");
+            }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Date_Incohérentes.toString())){
+                request.setAttribute("focus", "dateDebut");
             }
             return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
@@ -94,13 +94,20 @@ public class ModifFormationAction implements Action{
         return actionPageSuivante.execute(request, response);
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @return action de voir la page + retour de String correspondant à la page
+     */
     private String stayHere(HttpServletRequest request, HttpServletResponse response){
         //keep formulaire
+        request.setAttribute("id", request.getParameter("id"));
         request.setAttribute("intitule", request.getParameter("intitule"));
         request.setAttribute("description", request.getParameter("description"));
         request.setAttribute("nbPlace", request.getParameter("nbPlace"));
         request.setAttribute("dateDebut", request.getParameter("dateDebut"));
         request.setAttribute("dateFin", request.getParameter("dateFin"));
-        return new VoirModifierFormationAction().execute(request, response); //modif: voir récupérer page precedente
+        return new VoirModifFormationAction().execute(request, response); //modif: voir récupérer page precedente
     }
 }

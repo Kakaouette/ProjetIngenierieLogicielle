@@ -88,27 +88,27 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("voirAjoutJustificatifDansAttribut")) {
             menuSelect = 2;
             classeAction = new VoirAjoutJustificatifDansAttribut();
-        }else if (action.equals("ajoutJustificatifDansAttribut")) {
+        }else if (action.equals("ajouterJustificatifDansAttribut")) {
             menuSelect = 2;
             classeAction = new AjoutJustificatifDansAttribut();
         }else if (action.equals("supprimerJustificatifDansAttribut")) {
             menuSelect = 2;
-            classeAction = new SuppressionJustificatifDansAttributAction();
+            classeAction = new SupprJustificatifDansAttributAction();
         }else if (action.equals("ajouterFormation")) {
             menuSelect = 2;
             classeAction = new AjoutFormationAction();
         }else if (action.equals("supprimerFormation")) {
             menuSelect = 2;
-            classeAction = new SuppressionFormationAction();
-        }else if (action.equals("voirModifierFormation")) {
+            classeAction = new SupprFormationAction();
+        }else if (action.equals("voirModifFormation")) {
             menuSelect = 2;
-            classeAction = new VoirModifierFormationAction();
+            classeAction = new VoirModifFormationAction();
         }else if (action.equals("modifierFormation")) {
             menuSelect = 2;
             classeAction = new ModifFormationAction();
-        }else if (action.equals("voirGestionFormation")) {
+        }else if (action.equals("voirGestionFormations")) {
             menuSelect = 2;
-            classeAction = new VoirGestionFormationAction();
+            classeAction = new VoirGestionFormationsAction();
         }else{
             action = "index";
             menuSelect = 0;

@@ -107,11 +107,8 @@
         <div class="col-md-1 col-md-offset-1">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregister et nouveau <i class="fa fa-plus"></i></button>
         </div>
-        <div class="col-md-1 col-md-offset-2">
-            <a class="btn btn-danger" href="Navigation?action=voirGestionFormation"><i class="fa fa-remove"></i> Supprimer</a>
-        </div>
         <div class="col-md-2 col-md-offset-2">
-            <a class="btn btn-default" href="Navigation?action=voirGestionFormation">Annuler</a>
+            <a class="btn btn-default" href="Navigation?action=voirGestionFormations">Annuler</a>
         </div>
     </div>
 </form>

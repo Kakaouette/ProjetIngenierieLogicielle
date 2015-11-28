@@ -15,7 +15,7 @@ import modele.entite.Justificatif;
  *
  * @author Arthur
  */
-public class SuppressionJustificatifDansAttributAction implements Action{
+public class SupprJustificatifDansAttributAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

@@ -5,8 +5,6 @@
  */
 package page.action;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import service.FormationService;
@@ -16,7 +14,7 @@ import service.SuppressionFormationInvalideException;
  *
  * @author Arthur
  */
-public class SuppressionFormationAction implements Action{
+public class SupprFormationAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -28,17 +26,16 @@ public class SuppressionFormationAction implements Action{
             try {
                 throw new Exception("Un des champs requis est vide.");
             } catch (Exception ex) {
-                Logger.getLogger(SuppressionFormationAction.class.getName()).log(Level.SEVERE, null, ex); //msg console
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
-                return new VoirGestionFormationAction().execute(request, response);
+                return stayHere(request, response); //redirection
             }
         }
         
         //mise en forme des données
         int id = Integer.parseInt(idForm);
         
-        //demande de creation du dossier
+        //demande de suppression de la formation
         try{
             new FormationService().supprimerFormation(id);
             request.setAttribute("typeMessage", "success");
@@ -46,12 +43,23 @@ public class SuppressionFormationAction implements Action{
         }catch(SuppressionFormationInvalideException e){
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été supprimé: " + e.getMessage());
+            return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été supprimé.");
+            return stayHere(request, response); //redirection
         }
         
-        return new VoirGestionFormationAction().execute(request, response); //redirection
+        return new VoirGestionFormationsAction().execute(request, response); //redirection
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @return action de voir la page + retour de String correspondant à la page
+     */
+    private String stayHere(HttpServletRequest request, HttpServletResponse response){
+        return new VoirGestionFormationsAction().execute(request, response); //modif: voir récupérer page precedente
+    }
 }

@@ -39,6 +39,8 @@
             <th>Intitulé</th>
             <th>Description</th>
             <th>Nombre de place</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
             <th>Modifier</th>
             <th>Supprimer</th>
         </tr>

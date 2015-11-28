@@ -5,6 +5,8 @@
  */
 package page.action;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -16,27 +18,29 @@ import modele.entite.Formation;
  *
  * @author Arthur
  */
-public class VoirGestionFormationAction implements Action{
+public class VoirGestionFormationsAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Gestion des formation");
         List<Formation> formations = new FormationDAO().SelectAll(); //recuperation des formations pour la page suivante
-        request.setAttribute("formations", formations);
         
         if (formations == null) {
             request.setAttribute("typeMessage", "warning");
             request.setAttribute("message", "Aucune formation dans la BDD");
         } else {
             List<Object[]> Tab = new ArrayList<Object[]>();
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
             for (Formation f : formations) {
                 Object[] o = new Object[7];
                 o[0] = f.getIntitule();
                 o[1] = f.getDescription();
                 o[2] = f.getNombrePlace();
-                o[3] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifierFormation&id=" + f.getId() +"\\\">Modifier</a>";
-                o[4] = "<a class=\\\"btn btn-danger btn-block\\\" onclick='createDialog(" + f.getId() + ")'>Supprimer</a>";
+                o[3] = df.format(f.getDebut());
+                o[4] = df.format(f.getFin());
+                o[5] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifierFormation&id=" + f.getId() +"\\\">Modifier</a>";
+                o[6] = "<a class=\\\"btn btn-danger btn-block\\\" onclick='createDialog(" + f.getId() + ")'>Supprimer</a>";
                 Tab.add(o);
             }
 

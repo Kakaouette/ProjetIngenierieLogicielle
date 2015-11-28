@@ -19,6 +19,11 @@ public class FormationService {
         this.formationDAO = new FormationDAO();
     }
     
+    /**
+     * 
+     * @param formation: formation à ajouter
+     * @throws AjoutFormationInvalideException 
+     */
     public void ajouterFormation(Formation formation) throws AjoutFormationInvalideException{
         //verification de la validité de la demande
         if(formation == null){
@@ -40,6 +45,11 @@ public class FormationService {
         formationDAO.save(formation);
     }
 
+    /**
+     * 
+     * @param id: id de la formation à supprimer
+     * @throws SuppressionFormationInvalideException 
+     */
     public void supprimerFormation(int id) throws SuppressionFormationInvalideException {
         //verification de la validité de la demande
         Formation formation = formationDAO.getById(id);
@@ -51,6 +61,11 @@ public class FormationService {
         formationDAO.delete(formation);
     }
     
+    /**
+     * 
+     * @param formation: formation modifié contenant l'id de la formation à modifier
+     * @throws ModificationFormationInvalideException 
+     */
     public void modifierFormation(Formation formation) throws ModificationFormationInvalideException {
         //verification de la validité de la demande
         if(formation == null){
@@ -61,6 +76,11 @@ public class FormationService {
         }
         if(formation.getIntitule().isEmpty()){
             throw new ModificationFormationInvalideException("Intitulé non rempli.", new Throwable(ModificationFormationInvalideException.cause.Intitule_Vide.toString()));
+        }
+        if(formation.getDebut() != null && formation.getFin() != null){
+            if(formation.getDebut().after(formation.getFin())){
+                throw new ModificationFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(ModificationFormationInvalideException.cause.Date_Incohérentes.toString()));
+            }
         }
         
         //mise à jour de la formation dans la BDD
