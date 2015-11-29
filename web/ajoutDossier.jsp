@@ -26,7 +26,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label" for="formationIntitule">Formation :</label>
         <div class="col-md-4">
-            <input id="formationIntitule" name="formationIntitule" type="text" class="form-control input-md" value="<%out.print(request.getAttribute("formationIntitule"));%>" disabled>
+            <input id="formationIntitule" name="formationIntitule" type="text" class="form-control input-md" value="<%out.print(request.getAttribute("formationIntitule"));%>" readonly>
         </div>
     </div>
 
@@ -39,7 +39,8 @@
                     out.print(request.getAttribute("idDossier"));
                 }else{
                     out.print(new DossierService().getNewID());
-                }%>" autocomplete="off" required autofocus>
+                }%>" pattern="<%out.print(new DossierService().getRegexIdDossier());%>" 
+                title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required autofocus>
         </div>
     </div>
 
