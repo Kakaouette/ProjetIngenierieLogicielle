@@ -39,15 +39,30 @@ public class ModifFormationAction implements Action{
         String[] justificatifsForm = request.getParameterValues("justificatifs");
         
         //verification de la validité du formulaire
-        if(idForm.isEmpty() || intitule.isEmpty() || nbPlaceForm.isEmpty()){
+        String[] required = {idForm, intitule, nbPlaceForm};
+        String[] requiredToString = {"id du formulaire", "intitulé", "nombre de place"};
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].isEmpty()){
+                empty.add(requiredToString[i]);
+            }
+        }
+        if(!empty.isEmpty()){
             try {
-                throw new Exception("Un des champs requis est vide.");
+                String champs = "";
+                for(String champ : empty){
+                    if(!champs.equals("")){champs+=", ";}
+                    champs += champ;
+                }
+                if(empty.size()==1){ throw new Exception("Un champ requis est vide. (" + champs + ")");
+                }else{ throw new Exception("Des champs requis sont vides. (" + champs + ")"); }
             } catch (Exception ex) {
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
                 return stayHere(request, response); //redirection
             }
         }
+        
         //mise en forme des données
         int nbPlace = Integer.parseInt(nbPlaceForm);
         Date dateDebut = null;

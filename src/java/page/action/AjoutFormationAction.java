@@ -37,9 +37,24 @@ public class AjoutFormationAction implements Action{
         String[] justificatifsForm = request.getParameterValues("justificatifs");
         
         //verification de la validité du formulaire
-        if(intitule.isEmpty() || nbPlaceForm.isEmpty()){
+        
+        String[] required = {intitule, nbPlaceForm};
+        String[] requiredToString = {"intitulé", "nombre de place"};
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].isEmpty()){
+                empty.add(requiredToString[i]);
+            }
+        }
+        if(!empty.isEmpty()){
             try {
-                throw new Exception("Un des champs requis est vide.");
+                String champs = "";
+                for(String champ : empty){
+                    if(!champs.equals("")){champs+=", ";}
+                    champs += champ;
+                }
+                if(empty.size()==1){ throw new Exception("Un champ requis est vide. (" + champs + ")");
+                }else{ throw new Exception("Des champs requis sont vides. (" + champs + ")"); }
             } catch (Exception ex) {
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());

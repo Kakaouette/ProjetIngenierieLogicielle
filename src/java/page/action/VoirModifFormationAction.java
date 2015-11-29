@@ -29,9 +29,23 @@ public class VoirModifFormationAction implements Action{
         String idForm = request.getParameter("id");
         
         //verification de la validité du parametre
-        if(idForm.isEmpty()){
+        String[] required = {idForm};
+        String[] requiredToString = {"idForm"};
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].isEmpty()){
+                empty.add(requiredToString[i]);
+            }
+        }
+        if(!empty.isEmpty()){
             try {
-                throw new Exception("Un des champs requis est vide.");
+                String champs = "";
+                for(String champ : empty){
+                    if(!champs.equals("")){champs+=", ";}
+                    champs += champ;
+                }
+                if(empty.size()==1){ throw new Exception("Un champ requis est vide. (" + champs + ")");
+                }else{ throw new Exception("Des champs requis sont vides. (" + champs + ")"); }
             } catch (Exception ex) {
                 request.setAttribute("typeMessage", "danger");
                 request.setAttribute("message", ex.getMessage());
