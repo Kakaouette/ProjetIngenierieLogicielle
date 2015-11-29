@@ -8,11 +8,10 @@ package page.action;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
+import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 
@@ -58,8 +57,14 @@ public class VoirModifFormationAction implements Action{
         Date debut = formation.getDebut();
         Date fin = formation.getFin();
         List<Justificatif> justificatifs = formation.getLesJustificatifs();
+        //recuperation des données complémentaires
+        List<Justificatif> tousJustificatifs = new JustificatifDAO().SelectAll();
+        request.setAttribute("tousJustificatifs", tousJustificatifs);
                 
         //remplissage du formulaire
+        if(request.getAttribute("id") == null){
+            request.setAttribute("id", idForm);
+        }
         if(request.getAttribute("intitule") == null){
             if(intitule != null){
                 request.setAttribute("intitule", intitule);
@@ -83,14 +88,41 @@ public class VoirModifFormationAction implements Action{
                 request.setAttribute("dateFin", fin);
             }
         }
-        if(request.getSession().getAttribute("justificatifs") == null){
+        if(request.getAttribute("justificatifs") == null){
             if(justificatifs == null){
                 justificatifs = new ArrayList<Justificatif>();
             }
-            request.getSession().setAttribute("justificatifs", justificatifs);
+            String[] justificatifsToString = new String[0];
+            for(Justificatif jTemp : justificatifs){
+                //add slot
+                if (justificatifsToString==null)
+                    justificatifsToString = new String[1];
+                else {
+                    String[] tabTemp = new String [justificatifsToString.length+1];
+                    for( int i = 0 ;i<justificatifsToString.length ; i++){ //load old values
+                         tabTemp[i] = justificatifsToString[i];
+                    }
+                    justificatifsToString=tabTemp;
+                }
+                
+                justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+            }
+            request.setAttribute("justificatifs", justificatifsToString);
         }
         
-        return "ajoutFormation.jsp";
+        return "modifFormation.jsp";
     }
     
+    public void addSlot(String[] tab){
+        if (tab==null)
+            tab = new String[1];
+        else {
+            int position = tab.length;
+            String[] tabTemp = new String [position+1];
+            for( int i = 0 ;i<tab.length ; i++){
+                 tabTemp[i] = tab[i];
+            }
+            tab=tabTemp;
+        }
+    }
 }
