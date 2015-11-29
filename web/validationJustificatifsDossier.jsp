@@ -51,11 +51,14 @@
             if(justificatifs != null){
                 for (Justificatif justificatif : justificatifs){
                 %>
-                    <input type="checkbox" name="justificatifs" id="justificatifs" value="<%out.print(justificatif.getTitre());%>" 
-                        <%if(request.getAttribute("justificatifsChecked") != null){
-                            List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
-                            if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
-                        }%>> <%out.print(justificatif.getTitre());%>
+                    <label class="checkbox-inline" for="justificatifs-<%out.print(justificatif.getTitre());%>">
+                        <input type="checkbox" name="justificatifs" id="justificatifs-<%out.print(justificatif.getTitre());%>" 
+                            value="<%out.print(justificatif.getTitre());%>" 
+                            <%if(request.getAttribute("justificatifsChecked") != null){
+                                List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
+                                if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
+                            }%>> <%out.print(justificatif.getTitre());%>
+                    </label>
                     <br>
                 <%}
             }%>
@@ -66,7 +69,7 @@
             <a class="btn btn-default" href="Navigation?action=voirGestionDossiers">Retour</a>
         </div>
         <div class="col-md-2">
-            <a class="btn btn-default" href="Navigation?action=voirLettreDocManquant">Demander les documents manquants</a>
+            <a class="btn btn-default" href="Navigation?action=voirLettreDocManquant"><i class="fa fa-envelope"></i> Demander les documents manquants</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="suivant"
@@ -74,7 +77,7 @@
                 else if(request.getAttribute("justificatifsChecked") != null){
                     List<Justificatif> justificatifsChecked = (List<Justificatif>) request.getAttribute("justificatifsChecked");
                     if(justificatifsChecked != justificatifs){%>disabled<%}
-                }else{%>disabled<%}%>>Suivant</button>
+                }else{%>disabled<%}%>>Suivant <i class="fa fa-arrow-right"></i></button>
         </div>
     </div>
         

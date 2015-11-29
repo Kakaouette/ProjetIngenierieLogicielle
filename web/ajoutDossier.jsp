@@ -23,109 +23,107 @@
 <%}%>
 
 <form action="Navigation?action=ajouterDossier" method="POST" class="form-horizontal">
-<fieldset>
-<div class="form-group">
-  <input id="formationIntitule" name="formationIntitule" type="hidden" value="<%out.print(request.getAttribute("formationIntitule"));%>">
-</div>
-    
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="idDossier">Numéro du dossier :</label>  
-  <div class="col-md-4">
-  <input id="idDossier" name="idDossier" type="text" placeholder="n° dossier" class="form-control input-md" 
-         value="<%if(request.getAttribute("idDossier") != null){
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="formationIntitule">Formation :</label>
+        <div class="col-md-4">
+            <input id="formationIntitule" name="formationIntitule" type="text" class="form-control input-md" value="<%out.print(request.getAttribute("formationIntitule"));%>" disabled>
+        </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="idDossier">Numéro du dossier :</label>  
+        <div class="col-md-4">
+            <input id="idDossier" name="idDossier" type="text" placeholder="n° dossier" class="form-control input-md" 
+                value="<%if(request.getAttribute("idDossier") != null){
                     out.print(request.getAttribute("idDossier"));
                 }else{
                     out.print(new DossierService().getNewID());
                 }%>" autocomplete="off" required autofocus>
-    
-  </div>
-</div>
+        </div>
+    </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="nom">Nom :</label>  
-  <div class="col-md-4">
-  <input id="nom" name="nom" type="text" placeholder="nom" class="form-control input-md" value="<%if(request.getAttribute("nom") != null){out.print(request.getAttribute("nom"));}%>" autocomplete="off" required>
-    
-  </div>
-</div>
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="nom">Nom :</label>  
+        <div class="col-md-4">
+            <input id="nom" name="nom" type="text" placeholder="nom" class="form-control input-md" value="<%if(request.getAttribute("nom") != null){out.print(request.getAttribute("nom"));}%>" autocomplete="off" required>
+        </div>
+    </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="prenom">Prénom : </label>  
-  <div class="col-md-4">
-  <input id="prenom" name="prenom" type="text" placeholder="prénom" class="form-control input-md" value="<%if(request.getAttribute("prenom") != null){out.print(request.getAttribute("prenom"));}%>" autocomplete="off" required>
-    
-  </div>
-</div>
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="prenom">Prénom : </label>  
+        <div class="col-md-4">
+            <input id="prenom" name="prenom" type="text" placeholder="prénom" class="form-control input-md" value="<%if(request.getAttribute("prenom") != null){out.print(request.getAttribute("prenom"));}%>" autocomplete="off" required>
+        </div>
+    </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="adresse">Adresse :</label>  
-  <div class="col-md-4">
-  <input id="adresse" name="adresse" type="text" placeholder="adresse" class="form-control input-md" value="<%if(request.getAttribute("adresse") != null){out.print(request.getAttribute("adresse"));}%>" autocomplete="off" required>
-    
-  </div>
-</div>
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="adresse">Adresse :</label>  
+        <div class="col-md-4">
+            <input id="adresse" name="adresse" type="text" placeholder="adresse" class="form-control input-md" value="<%if(request.getAttribute("adresse") != null){out.print(request.getAttribute("adresse"));}%>" autocomplete="off" required>
+        </div>
+    </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="ville">Ville :</label>  
-  <div class="col-md-4">
-  <input id="ville" name="ville" type="text" placeholder="ville" class="form-control input-md" value="<%if(request.getAttribute("ville") != null){out.print(request.getAttribute("ville"));}%>" autocomplete="off" required>
-    
-  </div>
-</div>
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="ville">Ville :</label>  
+        <div class="col-md-4">
+            <input id="ville" name="ville" type="text" placeholder="ville" class="form-control input-md" value="<%if(request.getAttribute("ville") != null){out.print(request.getAttribute("ville"));}%>" autocomplete="off" required>
+        </div>
+    </div>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="codePostal">Code Postal :</label>  
-  <div class="col-md-2">
-  <input id="codePostal" name="codePostal" type="text" placeholder="code postal" class="form-control input-md" value="<%if(request.getAttribute("codePostal") != null){out.print(request.getAttribute("codePostal"));}%>" autocomplete="off" required>
-    
-  </div>
-</div>
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="codePostal">Code Postal :</label>  
+        <div class="col-md-2">
+            <input id="codePostal" name="codePostal" type="text" placeholder="code postal" class="form-control input-md" value="<%if(request.getAttribute("codePostal") != null){out.print(request.getAttribute("codePostal"));}%>" autocomplete="off" required>
+        </div>
+    </div>
 
-<!-- Multiple Radios (inline) -->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="sexe">Sexe :</label>
-  <div class="col-md-4"> 
-    <label class="radio-inline" for="sexe-0">
-      <input type="radio" name="sexe" id="sexe-0" value="M" checked="checked">
-      M
-    </label> 
-    <label class="radio-inline" for="sexe-1">
-      <input type="radio" name="sexe" id="sexe-1" value="F">
-      F
-    </label>
-  </div>
-</div>
+    <!-- Multiple Radios (inline) -->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="sexe">Sexe :</label>
+        <div class="col-md-4"> 
+            <label class="radio-inline" for="sexe-0">
+                <input type="radio" name="sexe" id="sexe-0" value="M" checked="checked">
+                M
+            </label> 
+            <label class="radio-inline" for="sexe-1">
+                <input type="radio" name="sexe" id="sexe-1" value="F">
+                F
+            </label>
+        </div>
+    </div>
 
-<div class="form-group">
-  <label class="col-md-2 control-label" for="type">Type:</label>
-  <div class="col-md-4"> 
-      <input type="radio" name="type" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%>>Inscription
-      <input type="radio" name="type" value="admission" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%>>Admission
-  </div>
-</div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="type">Type:</label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="type-0">
+                <input type="radio" name="type" id="type-0" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%>> Inscription
+            </label>
+            <label class="radio-inline" for="type-1">
+                <input type="radio" name="type" id="type-1" value="admission" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%>> Admission
+            </label>
+        </div>
+    </div>
 
-<!-- Textarea -->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="notes">Notes</label>
-  <div class="col-md-4">                     
-      <textarea class="form-control" id="notes" name="notes" placeholder="Notes" autocomplete="off"><%if(request.getAttribute("notes") != null){out.print(request.getAttribute("notes"));}%></textarea>
-  </div>
-</div>
+    <!-- Textarea -->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="notes">Notes</label>
+        <div class="col-md-4">                     
+            <textarea class="form-control" id="notes" name="notes" placeholder="Notes" autocomplete="off"><%if(request.getAttribute("notes") != null){out.print(request.getAttribute("notes"));}%></textarea>
+        </div>
+    </div>
 
-<!-- Button (Double) -->
-<div class="row col-md-offset-2">
-    <button id="save" name="bouton" type="submit" class="btn btn-primary" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
-    <button id="savenew" name="bouton" type="submit" class="btn btn-success" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
-    <a class="btn btn-default" href="Navigation?action=voirValidationJustificatifsDossier&formationIntitule=<%out.print(request.getAttribute("formationIntitule"));%>">Annuler</a>
-</div>
-
-</fieldset>
+    <!-- Button (Double) -->
+    <div class="row col-md-offset-2">
+        <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
+        <button id="savenew" name="bouton" type="submit" class="btn btn-primary" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
+        <a class="btn btn-default" href="Navigation?action=voirValidationJustificatifsDossier&formationIntitule=<%out.print(request.getAttribute("formationIntitule"));%>">Annuler</a>
+    </div>
 </form>
 
 <%  String message = (String) request.getAttribute("message");
