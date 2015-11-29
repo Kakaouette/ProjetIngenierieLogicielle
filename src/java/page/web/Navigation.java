@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
-import modele.entite.TypeCompte;
 import page.action.*;
 
 /**
@@ -73,13 +72,13 @@ public class Navigation extends HttpServlet {
             classeAction = new GererAuthentificationAction();
         }/***Gestion comptes****/
         else if (action.equals("voirModifierComptes")) {
-            menuSelect = 1; //à modifier plus tard
+            menuSelect = 1;
             classeAction = new VoirModifierComptesAction();
         }else if (action.equals("voirGestionComptes")) {
-            menuSelect = 1; //à modifier plus tard
+            menuSelect = 1;
             classeAction = new VoirGestionUtilisateurAction();
         }else if (action.equals("modifierCompte")) {
-            menuSelect = 1; //à modifier plus tard
+            menuSelect = 1;
             classeAction = new ModifierUtilisateurAction();
         }/***Gestion formations****/
         else if (action.equals("voirAjoutFormation")) {
