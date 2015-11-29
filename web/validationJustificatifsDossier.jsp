@@ -19,14 +19,25 @@
             document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
         };
     <%}%>
+    
     document.getElementById("formationIntitule").onchange=function(){
         <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
     };
-    
     $(document).ready(function(){
         $("select#formationIntitule").change(function(){
-            alert("The text has been changed.");
+            alert("The select has been changed.");
+            <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
         });
+        $('input[type="checkbox"]').change(function(){
+            alert("Changed.");
+            var allChecked = $('input[type="checkbox"]:checked').length === $('input[type="checkbox"]').length;
+            if(allChecked){
+                $("button#bouton").prop("disabled", false );
+            }else{
+                $("button#bouton").prop("disabled", true );
+            }
+        });
+        
     });
 </script>
 
@@ -83,8 +94,7 @@
                 }else{%>disabled<%}%>>Suivant <i class="fa fa-arrow-right"></i></button>
         </div>
     </div>
-        
-    </div>
+</form>
 
 <%  String message = (String) request.getAttribute("message");
     if(message != null){
