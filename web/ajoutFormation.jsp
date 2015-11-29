@@ -117,7 +117,7 @@
                                out.print(request.getAttribute("dateFin"));
                            }else*/ if(request.getAttribute("dateDebut") != null) {
                                out.print(request.getAttribute("dateDebut"));
-                           }%>"/>
+                           }%>"  pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
             </div>
         </div>
     </div>
@@ -130,7 +130,7 @@
                                out.print(request.getAttribute("dateDebut"));
                            } else*/ if (request.getAttribute("dateFin") != null) {
                                out.print(request.getAttribute("dateFin"));
-                           }%>"/>
+                           }%>" pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
             </div>
         </div>
     </div>

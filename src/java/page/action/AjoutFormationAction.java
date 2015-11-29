@@ -73,17 +73,19 @@ public class AjoutFormationAction implements Action{
             e.printStackTrace();
 	}
         List<Justificatif> justificatifs = new ArrayList<Justificatif>();
-        for(String justificatif : justificatifsForm){
-            Justificatif jTemp = new JustificatifDAO().getJustificatifbyTitre(justificatif);
-            if(jTemp != null){
-                justificatifs.add(jTemp);
-            }else{
-                try {
-                    throw new Exception("Un des justificatifs est inexistant. (" + justificatif + ")");
-                } catch (Exception ex) {
-                    request.setAttribute("typeMessage", "danger");
-                    request.setAttribute("message", ex.getMessage());
-                    return stayHere(request, response); //redirection
+        if(justificatifsForm != null){
+            for(String justificatif : justificatifsForm){
+                Justificatif jTemp = new JustificatifDAO().getJustificatifbyTitre(justificatif);
+                if(jTemp != null){
+                    justificatifs.add(jTemp);
+                }else{
+                    try {
+                        throw new Exception("Un des justificatifs est inexistant. (" + justificatif + ")");
+                    } catch (Exception ex) {
+                        request.setAttribute("typeMessage", "danger");
+                        request.setAttribute("message", ex.getMessage());
+                        return stayHere(request, response); //redirection
+                    }
                 }
             }
         }
