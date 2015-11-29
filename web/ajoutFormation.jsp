@@ -14,6 +14,7 @@
 <link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 
 <script>
+<link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
     $(function() {
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
@@ -31,6 +32,51 @@
     };
 </script>
 <%}%>
+
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript">
+    $(function() {
+        $('#dialog').hide();
+    });
+
+    function createDialog() {
+        $('#dialog').dialog({
+            modal: true,
+            buttons: {
+                "Ajouter": function() {
+                    $('ul#justificatifsAdded').append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("#justificatifAAjouter").val() + '</label>'));
+                    $('ul#justificatifsAdded li:last').append($('<input>').attr('type', "hidden").attr('name', "justificatifs").attr('value', $("#justificatifAAjouter").val()));            
+                    $('ul#justificatifsAdded li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + $("#justificatifAAjouter").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
+                    $(this).dialog("close");
+                },
+                "Annuler": function() {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        
+        $('select#justificatifAAjouter option').remove(); //suppr all item
+        <% List<Justificatif> tousJustificatifs=(List<Justificatif>) request.getAttribute("tousJustificatifs");
+           for (Justificatif justificatif : tousJustificatifs){
+        %>
+            var isIn = false; 
+            $('ul#justificatifsAdded li label#justificatifs').map(function() { //for each justificatif added
+                    if("<%out.print(justificatif.getTitre());%>" === $(this).text()){
+                        isIn = true;
+                    }
+            });
+            if(!isIn){ //justificatif pas déjà dans la liste des added
+                $('select#justificatifAAjouter').append($('<option>').append("<%out.print(justificatif.getTitre());%>"));
+            }
+        <%}%>
+        $('#dialog').show();
+    };
+    
+    function deleteJ(val){
+        $('li:contains('+val+')').remove();
+    }
+</script>
 
 <form action="Navigation?action=ajouterFormation" method="POST" class="form-horizontal">
     <div class="form-group">
@@ -90,22 +136,25 @@
     </div>
     
     <div class="form-group">
-        <label for="justificatifs" class="col-sm-2 control-label">Justificatifs</label>
+        <label for="justificatifsAdded" class="col-sm-2 control-label">Justificatifs</label>
         <div class="row">
-            <a class="btn btn-link" href="Navigation?action=voirAjoutJustificatifDansAttribut"><i class="fa fa-plus-circle"></i> Ajouter</a>
+            <a class="btn btn-link" onclick='createDialog()'><i class="fa fa-plus-circle"></i> Ajouter</a>
         </div>
         
         <div class="row col-sm-offset-1">
-        <ul>
-        <% List<Justificatif> justificatifs=(List<Justificatif>) request.getSession().getAttribute("justificatifs");
-           for (Justificatif justificatif : justificatifs){
-        %>
-        <li>
-            <label id="justificatifs" name="justificatifs" class="control-label"><%out.print(justificatif.getTitre());%></label>
-            <a class="btn btn-link" href="Navigation?action=supprimerJustificatifDansAttribut&justificatifASuppr=<%out.print(justificatif.getTitre());%>"><i class="fa fa-remove"></i> Supprimer</a>
-        </li>
-        <% }%>
-        </ul>
+            <ul id="justificatifsAdded" name="justificatifsAdded">
+                <% if(request.getAttribute("justificatifs") != null){
+                    String[] justificatifs=(String[]) request.getAttribute("justificatifs");
+                    for (String justificatif : justificatifs){
+                %>
+                        <li>
+                            <label id="justificatifs" name="justificatifs" class="control-label"><%out.print(justificatif);%></label>
+                            <input type="hidden" name="justificatifs" value="<%out.print(justificatif);%>"/>
+                            <a class="btn btn-link" onclick='deleteJ(&quot;<%out.print( justificatif );%>&quot;)'><i class="fa fa-remove"></i> Supprimer</a>
+                        </li>
+                    <%}
+                }%>
+            </ul>
         </div>
     </div>
     
@@ -136,3 +185,8 @@
 <%}%>
             
 <%@include file="Modele/pied.jsp" %>
+
+<div id="dialog" title="Ajouter un justificatif">
+    <select name="justificatifAAjouter" id="justificatifAAjouter" class="form-control">
+    </select>
+</div>

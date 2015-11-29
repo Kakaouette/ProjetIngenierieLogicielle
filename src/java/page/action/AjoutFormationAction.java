@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import service.AjoutFormationInvalideException;
@@ -33,7 +34,7 @@ public class AjoutFormationAction implements Action{
         String nbPlaceForm = request.getParameter("nbPlace");
         String debut = request.getParameter("dateDebut");
         String fin = request.getParameter("dateFin");
-        List<Justificatif> justificatifs = (List<Justificatif>) request.getSession().getAttribute("justificatifs");
+        String[] justificatifsForm = request.getParameterValues("justificatifs");
         
         //verification de la validité du formulaire
         if(intitule.isEmpty() || nbPlaceForm.isEmpty()){
@@ -56,6 +57,21 @@ public class AjoutFormationAction implements Action{
 	} catch (ParseException e) {
             e.printStackTrace();
 	}
+        List<Justificatif> justificatifs = new ArrayList<Justificatif>();
+        for(String justificatif : justificatifsForm){
+            Justificatif jTemp = new JustificatifDAO().getJustificatifbyTitre(justificatif);
+            if(jTemp != null){
+                justificatifs.add(jTemp);
+            }else{
+                try {
+                    throw new Exception("Un des justificatifs est inexistant. (" + justificatif + ")");
+                } catch (Exception ex) {
+                    request.setAttribute("typeMessage", "danger");
+                    request.setAttribute("message", ex.getMessage());
+                    return stayHere(request, response); //redirection
+                }
+            }
+        }
         
         //formation de la formation
         Formation nouvelleFormation = new Formation(description, nbPlace, dateDebut, dateFin, intitule, justificatifs);
@@ -68,10 +84,8 @@ public class AjoutFormationAction implements Action{
             
             //redirection
             if(request.getParameter("bouton").equals("enregistrer")){
-                request.getSession().removeAttribute("justificatifs"); //free justificatifs
                 actionPageSuivante = new VoirGestionFormationsAction(); //(String) request.getAttribute("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-                request.getSession().setAttribute("justificatifs", new ArrayList<Justificatif>());
                 actionPageSuivante = new VoirAjoutFormationAction();
             }
         }catch(AjoutFormationInvalideException e){
@@ -107,6 +121,7 @@ public class AjoutFormationAction implements Action{
         request.setAttribute("nbPlace", request.getParameter("nbPlace"));
         request.setAttribute("dateDebut", request.getParameter("dateDebut"));
         request.setAttribute("dateFin", request.getParameter("dateFin"));
+        request.setAttribute("justificatifs", request.getParameterValues("justificatifs"));
         return new VoirAjoutFormationAction().execute(request, response); //modif: voir récupérer page precedente
     }
 }
