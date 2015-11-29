@@ -6,25 +6,28 @@
 
 
 <%@page import="page.action.VoirValidationJustificatifsDossierAction"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="modele.dao.FormationDAO"%>
 <%@page import="modele.entite.Formation"%>
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 <!DOCTYPE html>
 
-<%if(request.getAttribute("focus") != null){%>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script type="text/javascript">
-    window.onload=function(){
-        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
-    };
-</script>
-<%}%>
-<script>
-    function loadCheckboxs(){
+    <%if(request.getAttribute("focus") != null){%>
+        window.onload=function(){
+            document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+        };
+    <%}%>
+    document.getElementById("formationIntitule").onchange=function(){
         <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
-    }
+    };
+    
+    $(document).ready(function(){
+        $("select#formationIntitule").change(function(){
+            alert("The text has been changed.");
+        });
+    });
 </script>
 
 <form action="Navigation?action=voirAjoutDossier" method="POST" class="form-horizontal">
@@ -32,7 +35,7 @@
         <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
             <!-- A faire : positionner le type actuel en selection par défaut -->
-            <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="loadCheckboxs();">
+            <select name="formationIntitule" id="formationIntitule" class="form-control">
                 <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
                 for (Formation formation : formations){
                 %>
@@ -73,7 +76,7 @@
         </div>
         <div class="col-md-2 col-md-offset-2">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="suivant"
-                <%if(justificatifs == null){%><!--disabled--><%}
+                <%if(justificatifs == null){/*disabled ->*/%><%}
                 else if(request.getAttribute("justificatifsChecked") != null){
                     List<Justificatif> justificatifsChecked = (List<Justificatif>) request.getAttribute("justificatifsChecked");
                     if(justificatifsChecked != justificatifs){%>disabled<%}
