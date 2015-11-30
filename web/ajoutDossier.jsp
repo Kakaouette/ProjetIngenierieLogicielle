@@ -10,8 +10,6 @@
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
-
-<%@page import="service.DossierService"%>
 <!DOCTYPE html>
 
 <%if(request.getAttribute("focus") != null){%>

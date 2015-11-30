@@ -24,20 +24,40 @@
         <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
     };
     $(document).ready(function(){
-        $("select#formationIntitule").change(function(){
-            alert("The select has been changed.");
-            <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
-        });
-        $('input[type="checkbox"]').change(function(){
-            alert("Changed.");
-            var allChecked = $('input[type="checkbox"]:checked').length === $('input[type="checkbox"]').length;
-            if(allChecked){
-                $("button#bouton").prop("disabled", false );
-            }else{
-                $("button#bouton").prop("disabled", true );
-            }
-        });
         
+    });
+    
+    $("select#formationIntitule").change(function(){
+        alert("The select has been changed.");
+        <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
+    });
+    function loadJustificatifs(){
+        //alert("The select has been changed.");
+        <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
+            <% List<Justificatif> justificatifs = (List<Justificatif>) request.getAttribute("justificatifs");
+            if(justificatifs != null){
+                for (Justificatif justificatif : justificatifs){
+                %>
+                    $("div#justificatifsDiv").append('<label class="checkbox-inline" for="justificatifs-<%out.print(justificatif.getTitre());%>">
+                        <input type="checkbox" name="justificatifs" id="justificatifs-<%out.print(justificatif.getTitre());%>" 
+                            value="<%out.print(justificatif.getTitre());%>" 
+                            <%if(request.getAttribute("justificatifsChecked") != null){
+                                List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
+                                if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
+                            }%>> <%out.print(justificatif.getTitre());%>
+                    </label>
+                    <br>')
+                <%}
+            }%>
+    }
+    $('input[type="checkbox"]').change(function(){
+        alert("Changed.");
+        var allChecked = $('input[type="checkbox"]:checked').length === $('input[type="checkbox"]').length;
+        if(allChecked){
+            $("button#bouton").prop("disabled", false );
+        }else{
+            $("button#bouton").prop("disabled", true );
+        }
     });
 </script>
 
@@ -46,7 +66,7 @@
         <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
             <!-- A faire : positionner le type actuel en selection par défaut -->
-            <select name="formationIntitule" id="formationIntitule" class="form-control">
+            <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="loadJustificatifs()">
                 <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
                 for (Formation formation : formations){
                 %>
@@ -60,7 +80,7 @@
     </div>
     <div class="form-group">
         <label for="justificatifs" class="col-sm-2 control-label">Justificatifs: </label>
-        <div class="col-sm-3">
+        <div class="col-sm-3" id="justificatifsDiv">
             <% List<Justificatif> justificatifs = (List<Justificatif>) request.getAttribute("justificatifs");
             if(justificatifs != null){
                 for (Justificatif justificatif : justificatifs){
