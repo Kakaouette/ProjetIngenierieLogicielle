@@ -7,6 +7,7 @@ package page.action;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.AdresseDAO;
@@ -44,14 +45,14 @@ public class AjoutDossierAction implements Action{
         String type = request.getParameter("type");
         
         //verification de la validité du formulaire
-        if(idDossier.isEmpty() || nom.isEmpty() || prenom.isEmpty() || sexe.isEmpty() || adresse.isEmpty() || codePostal.isEmpty() || ville.isEmpty() || formationIntitule.isEmpty() || type.isEmpty()){
-            try {
-                throw new Exception("Un des champs requis est vide.");
-            } catch (Exception ex) {
-                request.setAttribute("typeMessage", "danger");
-                request.setAttribute("message", ex.getMessage());
-                return new VoirAjoutDossierAction().execute(request, response);
-            }
+        String[] required = {idDossier, nom, prenom, sexe, adresse, codePostal, ville, formationIntitule, type};
+        String[] requiredToString = {"id du dossier", "nom", "prénom", "sexe", "adresse", "code postal", "ville", "intitulé de la formation", "type"};
+        try {
+            validerFormulaire(required, requiredToString);
+        } catch (Exception ex) {
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", ex.getMessage());
+            return stayHere(request, response);
         }
         //mise en forme des données
         boolean typeAdmission = type.equals("admission");
@@ -130,5 +131,28 @@ public class AjoutDossierAction implements Action{
         request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
         request.setAttribute("type", request.getParameter("type"));
         return new VoirAjoutDossierAction().execute(request, response); //modif: voir récupérer page precedente
+    }
+    
+    private void validerFormulaire(String[] required, String[] requiredToString) throws Exception{
+        
+        //verification de la validité du formulaire
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].isEmpty()){
+                empty.add(requiredToString[i]);
+            }
+        }
+        if(!empty.isEmpty()){
+            String champs = "";
+            for(String champ : empty){
+                if(!champs.equals("")){champs+=", ";}
+                champs += champ;
+            }
+            if(empty.size()==1){
+                throw new Exception("Un champ requis est vide. (" + champs + ")");
+            }else{
+                throw new Exception("Des champs requis sont vides. (" + champs + ")");
+            }
+        }
     }
 }
