@@ -45,6 +45,9 @@
             modal: true,
             buttons: {
                 "Ajouter": function() {
+                    if($("#justificatifAAjouter").parent().attr("id") == "inscription"){
+                        
+                    }
                     $('ul#justificatifsAdded').append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("#justificatifAAjouter").val() + '</label>'));
                     $('ul#justificatifsAdded li:last').append($('<input>').attr('type', "hidden").attr('name', "justificatifs").attr('value', $("#justificatifAAjouter").val()));            
                     $('ul#justificatifsAdded li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + $("#justificatifAAjouter").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
@@ -57,8 +60,8 @@
         });
         
         $('select#justificatifAAjouter option').remove(); //suppr all item
-        <% List<Justificatif> tousJustificatifs=(List<Justificatif>) request.getAttribute("tousJustificatifs");
-           for (Justificatif justificatif : tousJustificatifs){
+        <% List<Justificatif> justificatifsInscription=(List<Justificatif>) request.getAttribute("justificatifsInscription");
+           for (Justificatif justificatif : justificatifsInscription){
         %>
             var isIn = false; 
             $('ul#justificatifsAdded li label#justificatifs').map(function() { //for each justificatif added
@@ -67,7 +70,33 @@
                     }
             });
             if(!isIn){ //justificatif pas déjà dans la liste des added
-                $('select#justificatifAAjouter').append($('<option>').append("<%out.print(justificatif.getTitre());%>"));
+                $('select#justificatifAAjouter optgroup#inscription').append($('<option>').append("<%out.print(justificatif.getTitre());%>"));
+            }
+        <%}%>
+        <% List<Justificatif> justificatifsAdmissibilite=(List<Justificatif>) request.getAttribute("justificatifsAdmissibilite");
+           for (Justificatif justificatif : justificatifsAdmissibilite){
+        %>
+            var isIn = false; 
+            $('ul#justificatifsAdded li label#justificatifs').map(function() { //for each justificatif added
+                    if("<%out.print(justificatif.getTitre());%>" === $(this).text()){
+                        isIn = true;
+                    }
+            });
+            if(!isIn){ //justificatif pas déjà dans la liste des added
+                $('select#justificatifAAjouter optgroup#admissibilite').append($('<option>').append("<%out.print(justificatif.getTitre());%>"));
+            }
+        <%}%>
+        <% List<Justificatif> justificatifsEtranger=(List<Justificatif>) request.getAttribute("justificatifsEtranger");
+           for (Justificatif justificatif : justificatifsEtranger){
+        %>
+            var isIn = false; 
+            $('ul#justificatifsAdded li label#justificatifs').map(function() { //for each justificatif added
+                    if("<%out.print(justificatif.getTitre());%>" === $(this).text()){
+                        isIn = true;
+                    }
+            });
+            if(!isIn){ //justificatif pas déjà dans la liste des added
+                $('select#justificatifAAjouter optgroup#etranger').append($('<option>').append("<%out.print(justificatif.getTitre());%>"));
             }
         <%}%>
         $('#dialog').show();
@@ -142,19 +171,34 @@
         </div>
         
         <div class="row col-sm-offset-1">
-            <ul id="justificatifsAdded" name="justificatifsAdded">
-                <% if(request.getAttribute("justificatifs") != null){
-                    String[] justificatifs=(String[]) request.getAttribute("justificatifs");
-                    for (String justificatif : justificatifs){
-                %>
-                        <li>
-                            <label id="justificatifs" name="justificatifs" class="control-label"><%out.print(justificatif);%></label>
-                            <input type="hidden" name="justificatifs" value="<%out.print(justificatif);%>"/>
-                            <a class="btn btn-link" onclick='deleteJ(&quot;<%out.print( justificatif );%>&quot;)'><i class="fa fa-remove"></i> Supprimer</a>
-                        </li>
-                    <%}
-                }%>
-            </ul>
+            <table>
+                <thead>
+                    <th>Iscription</th>
+                    <th>Admlissibilité</th>
+                    <th>Etranger</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="inscription">
+                            <ul id="justificatifsAdded" name="justificatifsAdded">
+                                <% if(request.getAttribute("justificatifs") != null){
+                                    String[] justificatifs=(String[]) request.getAttribute("justificatifs");
+                                    for (String justificatif : justificatifs){
+                                %>
+                                        <li>
+                                            <label id="justificatifs" name="justificatifs" class="control-label"><%out.print(justificatif);%></label>
+                                            <input type="hidden" name="justificatifs" value="<%out.print(justificatif);%>"/>
+                                            <a class="btn btn-link" onclick='deleteJ(&quot;<%out.print( justificatif );%>&quot;)'><i class="fa fa-remove"></i> Supprimer</a>
+                                        </li>
+                                    <%}
+                                }%>
+                            </ul>
+                        </td>
+                        <td id="admissibilite"></td>
+                        <td id="etranger"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     
@@ -188,5 +232,8 @@
 
 <div id="dialog" title="Ajouter un justificatif">
     <select name="justificatifAAjouter" id="justificatifAAjouter" class="form-control">
+        <optgroup id="inscription" label="Inscription"></optgroup>
+        <optgroup id="admissibilite" label="Admissiblité"></optgroup>
+        <optgroup id="etranger" label="Etranger"></optgroup>
     </select>
 </div>
