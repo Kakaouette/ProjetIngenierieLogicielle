@@ -1,13 +1,16 @@
 <%-- 
     Document   : modifierDossier
-    Created on : 22 nov. 2015, 10:53:41
+    Created on : 22 nov. 2015, 10:42:42
     Author     : phanjoseph
 --%>
 
 <%@page import="modele.entite.Dossier"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_sans_menu.jsp" %>
-<form action="Navigation?action=modifierDossier" method="POST" class="form-horizontal">
+<%
+            Dossier d = (Dossier) request.getAttribute("dossier");
+        %>
+<form action="<%out.print("Navigation?action=modifierDossier&idDossier="+d.getId());%>" method="POST" class="form-horizontal">
     <!--<div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
         <div class="col-sm-3">-->
@@ -21,49 +24,36 @@
             </select>
         </div>
     </div>-->
-        <%
-            Dossier d = (Dossier) request.getAttribute("dossier");
-        %>
+        
         
     <fieldset>
         <legend>Informations postulant</legend>
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Numéro du dossier</label>
         <div class="col-sm-3">
-            <input type="text" name="id" id="login" class="form-control" value="<%out.print(d.getId());%>" required disabled>
+            <input type="text" name="id" id="login" class="form-control" value="<%out.print(d.getId());%>" required readonly>
         </div>
     </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Nom du postulant</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getNom());%>" required disabled>
+            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getNom());%>" required readonly>
         </div>
     </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Prénom du postulant</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getPrenom());%>" required disabled>
+            <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getPrenom());%>" required readonly>
         </div>
     </div>
         
     <div class="form-group">
             <label for="login" class="col-sm-2 control-label">Sexe</label>
             <div class="col-sm-3">
-                <%
-                    if(d.getEtudiant().getSexe().contains("M"))
-                    {
-                        out.print("<input type=\"radio\" name=\"sexe\" value=\"male\" checked disabled> Homme<br>");
-                        out.print("<input type=\"radio\" name=\"sexe\" value=\"female\" disabled> Femme");
-                    }
-                    else
-                    {
-                        out.print("<input type=\"radio\" name=\"sexe\" value=\"male\" disabled> Homme<br>");
-                        out.print("<input type=\"radio\" name=\"sexe\" value=\"female\" checked disabled> Femme");
-                    }
-                    %>
-                
+                <input type="radio" name="sexe" value="male" <%if(d.getEtudiant().getSexe().contains("M")){%>checked<%}%> disabled> Homme<br>
+                <input type="radio" name="sexe" value="female" <%if(!d.getEtudiant().getSexe().contains("M")){%>checked<%}%> disabled> Femme
             </div>
     </div>
     </fieldset>
@@ -73,21 +63,21 @@
         <div class="form-group">
             <label for="login" class="col-sm-2 control-label">Rue</label>
             <div class="col-sm-3">
-                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdressePostale());%>" required disabled>
+                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdressePostale());%>" required readonly>
             </div>
         </div>
             
         <div class="form-group">
             <label for="login" class="col-sm-2 control-label">Code Postal</label>
             <div class="col-sm-3">
-                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdresse().getCodePostal());%>" required disabled>
+                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdresse().getCodePostal());%>" required readonly>
             </div>
         </div>
             
         <div class="form-group">
             <label for="login" class="col-sm-2 control-label">Ville</label>
             <div class="col-sm-3">
-                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdresse().getVille());%>" required disabled>
+                <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getAdresse().getVille());%>" required readonly>
             </div>
         </div>
             
@@ -99,44 +89,39 @@
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Crée le </label>
         <div class="col-sm-3">
-            <input type="text" name="date" id="login" class="form-control" value="<%out.print(d.getDate());%>" required>
+            <input type="text" name="date" id="login" class="form-control" value="<%out.print(d.getDate().getDay()+"/"+d.getDate().getMonth()+"/"+d.getDate().getYear());%>" required readonly>
         </div>
     </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">État du dossier </label>
         <div class="col-sm-3"> 
-           <input type="text" name="etat" id="login" class="form-control" value="<%out.print(d.getEtat());%>" required>
+            <select id="disabledSelect" class="form-control">
+                <option>Disabled select</option>
+                <option>Disabled select</option>
+                <option>Disabled select</option>
+            </select>
         </div>
     </div>
        
     <div class="form-group">
-        <label for="login" class="col-sm-2 control-label">Admissibilité </label>
+        <label for="login" class="col-sm-2 control-label">Type </label>
         <div class="col-sm-3">
-            <%
-                if(d.isAdmissible())
-                {
-                    out.print("<INPUT type=\"checkbox\" name=\"admissibilite\" value=\"true\" checked>");
-                }
-                else
-                {
-                    out.print("<INPUT type=\"checkbox\" name=\"admissibilite\" value=\"false\">");
-                }
-            %>
-            
+            <label><input type="radio" name="admissibilite" value="true" <%if(d.isAdmissible()){%>checked<%};%>> Inscription</label>
+            <label><input type="radio" name="admissibilite" value="false" <%if(!d.isAdmissible()){%>checked<%};%>> Admission</label>
         </div>
     </div>
         
-    <!--<div class="form-group">
+    <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Notes </label>
         <div class="col-sm-3">
-            <textarea rows="4" cols="50" name="comment"></textarea>
+            <textarea rows="4" cols="50" name="msg_histo"></textarea>
         </div>
-    </div>-->
+    </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Historique </label>
-        <div class="col-sm-4">
+        <div class="col-sm-offset-2">
             <table class="table table-hover">
                 <thead
                     <tr>
@@ -145,15 +130,23 @@
                       <td>Modification</td>
                     </tr>
                 </thead>
-                <tbody
+                <tbody>
             <%  
             if(d.getHistorique().size()>0)
             {
-                for(int i = 0 ; i < d.getHistorique().size() ; i++)
+                int max=0;
+                if(d.getHistorique().size() > 3)
                 {
-                    String nom = d.getHistorique().get(i).getCompte().getNom();
-                    String date = String.valueOf(d.getHistorique().get(i).getDate());
-                    String modification = d.getHistorique().get(i).getMessage();
+                    max = 3;
+                }else{
+                    max = d.getHistorique().size();
+                }
+                for(int i = 1 ; i <= max ; i++)
+                {
+                    int size = d.getHistorique().size();
+                    String nom = d.getHistorique().get(size-i).getCompte().getNom();
+                    String date = String.valueOf(d.getHistorique().get(size-i).getDate());
+                    String modification = d.getHistorique().get(size-i).getMessage();
                     out.print("<tr><td>" + nom + "</td><td>"+ date +"</td><td>"+ modification+"</td></tr>");
                 }
             }
@@ -173,7 +166,7 @@
     
         
     <div class="row">
-        <div class="col-md-2 col-md-offset-2">
+        <div class="col-md-1 col-md-offset-2">
             <!--[if IE]>
             <input type="hidden" name="action" value="enregistrerModifs" />
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
@@ -182,21 +175,21 @@
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
             <!--<![endif]-->
         </div>
-        <div class="col-md-2 col-md-offset-2">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="annulerModifs" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Annuler</a>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
+        <div class="col-md-1">
             <!--[if IE]>
             <input type="hidden" name="action" value="supprUtilisateur" />
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
+            <a class="btn btn-danger" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
+        </div>
+        <div class="col-md-2 col-md-offset-1">
+            <!--[if IE]>
+            <input type="hidden" name="action" value="annulerModifs" />
+            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
+            <![endif]-->
+            <!--[if !IE]><!-->
+            <a class="btn btn-default" href="Navigation?action=afficherInformationsUtilisateur">Annuler</a>
         </div>
     </div>
 </form>

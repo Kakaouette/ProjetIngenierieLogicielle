@@ -6,6 +6,8 @@ package page.action;
  * and open the template in the editor.
  */
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -28,7 +30,8 @@ public class ModifierDossierAction implements Action{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         
         //recuperation du dossier original
-        String idDossier = request.getParameter("id");
+        String idDossier = request.getParameter("idDossier");
+
         Dossier dossierorigin=new DossierDAO().getById(idDossier);
         
         //recuperation des infos et modif de l'objet Dossier
@@ -38,19 +41,28 @@ public class ModifierDossierAction implements Action{
         dossierorigin.setEtat(etatDossier);
         String dateDossier=request.getParameter("date");
         dossierorigin.setDate(new Date(dateDossier));
-        String lettreDossier=request.getParameter("lettre");
-        dossierorigin.setLettre(lettreDossier);
+        /*String lettreDossier=request.getParameter("lettre");
+        dossierorigin.setLettre(lettreDossier);*/
+        
         //historique
         String messageHisto=request.getParameter("msg_histo");
-        String dateHisto=request.getParameter("date_histo");
-        Historique histo=new Historique();
-        histo.setMessage(messageHisto);
-        histo.setDate(new Date(dateHisto));
-        //ajout du nouvel historique dans le dossier
-        List<Historique> histodossier=dossierorigin.getHistorique();
-        histodossier.add(histo);
-        dossierorigin.setHistorique(histodossier);
+        if(!messageHisto.isEmpty())
+        {
+             Date date = Calendar.getInstance().getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - hhmmss");
+            String dateHisto = sdf.format(date);
+
+            Historique histo=new Historique();
+            histo.setMessage(messageHisto);
+            histo.setDate(new Date(dateHisto));
+
+            //ajout du nouvel historique dans le dossier
+            List<Historique> histodossier=dossierorigin.getHistorique();
+            histodossier.add(histo);
+            dossierorigin.setHistorique(histodossier);
+        }
         
+       
         try{
             new DossierDAO().update(dossierorigin);
             request.setAttribute("error", "false");
@@ -60,7 +72,7 @@ public class ModifierDossierAction implements Action{
             request.setAttribute("message", "Le dossier n'a pas été modifié !");
         }
         
-        return "consulteDossier.jsp";
+        return "index.jsp";
         
     }
     

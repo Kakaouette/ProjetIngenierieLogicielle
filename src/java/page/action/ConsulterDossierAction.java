@@ -34,77 +34,11 @@ public class ConsulterDossierAction implements Action{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         
         //recuperation de l'id du formulaire
-        //String idDossier = request.getParameter("idDossier");
-        //String idDossier = "1";
+        String idDossier = request.getParameter("idDossier");
         
         //recuperation du dossier
-        //Dossier dossier = new DossierDAO().getById(idDossier);
-        /*
-        =============================================================================
-        
-        
-        
-                            Classe utilisée pour les tests
-                                        À supprimer
-        
-        
-        =============================================================================
-        */
-        
-        Formation formation = new Formation();
-        formation.setDebut(new Date("02/04/1994"));
-        formation.setDescription("cocu");
-        formation.setFin(new Date("25/04/1994"));
-        formation.setId(1);
-        formation.setIntitule("trololol");
-        formation.setLesJustificatifs(null);
-        formation.setNombrePlace(40);
-        
-        List<Formation> l = new ArrayList();
-        l.add(formation);
-        
-        Compte compte = new Compte();
-        compte.setId(1);
-        compte.setLogin("vphan");
-        compte.setMail("phan@me.com");
-        compte.setMdp("lsdjfmlsdjfklmq");
-        compte.setNom("Phan");
-        compte.setPrenom("Joseph");
-        compte.setType(TypeCompte.admin);
-        compte.setFormationAssocie(l);
-        
-        Adresse adresse = new Adresse();
-        adresse.setId(1);
-        adresse.setVille("La Rochelle");
-        adresse.setCodePostal("17000");
-        
-        Etudiant etudiant = new Etudiant();
-        etudiant.setNom("Phan");
-        etudiant.setPrenom("Joseph");
-        etudiant.setId(1);
-        etudiant.setSexe("M");
-        etudiant.setAdresse(adresse);
-        etudiant.setAdressePostale("17000");
-        
-        Historique historique = new Historique();
-        historique.setAction("Ajout feuille");
-        historique.setDate(new Date("23/09/2014"));
-        historique.setId(1);
-        historique.setMessage("Cocu !");
-        historique.setCompte(compte);
-        
-        List<Historique> h = new ArrayList();
-        h.add(historique);
-        
-        Dossier dossier = new Dossier();
-        dossier.setId("1");
-        dossier.setLettre("Coucou");
-        dossier.setEtudiant(etudiant);
-        dossier.setEtat("En cours");
-        dossier.setDemandeFormation(formation);        
-        dossier.setHistorique(h);
-        dossier.setDate(new Date("23/08/1990"));
-        
+        Dossier dossier = new DossierDAO().getById(idDossier);
+     
         //si dossier n'existe pas => retour vers la liste des dossiers 
         if(dossier != null){
 
