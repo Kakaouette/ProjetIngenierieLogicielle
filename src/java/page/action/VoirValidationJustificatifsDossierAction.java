@@ -31,20 +31,23 @@ public class VoirValidationJustificatifsDossierAction implements Action{
             request.setAttribute("formations", formations);
         }
         
+        String intitule = request.getParameter("formationIntitule");
         //keep formulaire
         if(request.getParameter("formationIntitule") != null){
-            request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
-            
-            Formation formation = new FormationDAO().getFormationByIntitule(request.getParameter("formationIntitule"));
-            List<Justificatif> justificatifs = formation.getLesJustificatifs();
-            if(justificatifs == null) {
-                justificatifs = new ArrayList<Justificatif>();
-                request.setAttribute("message", "Aucun justificatif trouvé dans la BDD");
-            }else{
-                request.setAttribute("justificatifs", justificatifs);
-                if(request.getParameter("justificatifs") != null){
-                    request.setAttribute("justificatifsChecked", request.getParameter("justificatifs"));
-                }
+            intitule = request.getParameter("formationIntitule");
+        }else{
+            intitule = formations.get(0).getIntitule();
+        }
+        request.setAttribute("formationIntitule", intitule);
+        Formation formation = new FormationDAO().getFormationByIntitule(intitule);
+        List<Justificatif> justificatifs = formation.getLesJustificatifs();
+        if(justificatifs == null) {
+            justificatifs = new ArrayList<Justificatif>();
+            request.setAttribute("message", "Aucun justificatif trouvé dans la BDD");
+        }else{
+            request.setAttribute("justificatifs", justificatifs);
+            if(request.getParameter("justificatifs") != null){
+                request.setAttribute("justificatifsChecked", request.getParameter("justificatifs"));
             }
         }
         return "validationJustificatifsDossier.jsp";

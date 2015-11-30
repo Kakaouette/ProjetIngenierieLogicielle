@@ -25,10 +25,10 @@ public class VoirAjoutDossierAction implements Action{
         //verification de la validité du formulaire
         if(formationIntitule.isEmpty()){
             try {
-                throw new Exception("Un des champs requis est vide.");
+                throw new Exception();
             } catch (Exception ex) {
                 request.setAttribute("typeMessage", "danger");
-                request.setAttribute("message", ex.getMessage());
+                request.setAttribute("message", "Un des champs requis est vide.");
                 return stayHere(request, response); //redirection
             }
         }

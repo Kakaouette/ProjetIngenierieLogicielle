@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="modele.dao.FormationDAO"%>
 <%@page import="page.action.VoirValidationJustificatifsDossierAction"%>
 <%@page import="modele.entite.Formation"%>
 <%@page import="modele.entite.Justificatif"%>
@@ -13,6 +14,7 @@
 <!DOCTYPE html>
 
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
     <%if(request.getAttribute("focus") != null){%>
         window.onload=function(){
@@ -20,48 +22,21 @@
         };
     <%}%>
     
-    document.getElementById("formationIntitule").onchange=function(){
-        <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
-    };
-    $(document).ready(function(){
-        
-    });
-    
-    $("select#formationIntitule").change(function(){
-        alert("The select has been changed.");
-        <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
-    });
     function loadJustificatifs(){
-        //alert("The select has been changed.");
-        <%new VoirValidationJustificatifsDossierAction().execute(request, response);%>
-            <% List<Justificatif> justificatifs = (List<Justificatif>) request.getAttribute("justificatifs");
-            if(justificatifs != null){
-                for (Justificatif justificatif : justificatifs){
-                %>
-                    $("div#justificatifsDiv").append('<label class="checkbox-inline" for="justificatifs-<%out.print(justificatif.getTitre());%>">
-                        <input type="checkbox" name="justificatifs" id="justificatifs-<%out.print(justificatif.getTitre());%>" 
-                            value="<%out.print(justificatif.getTitre());%>" 
-                            <%if(request.getAttribute("justificatifsChecked") != null){
-                                List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
-                                if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
-                            }%>> <%out.print(justificatif.getTitre());%>
-                    </label>
-                    <br>')
-                <%}
-            }%>
-    }
-    $('input[type="checkbox"]').change(function(){
-        alert("Changed.");
+       $("form#formation").prop("action", "Navigation?action=voirValidationJustificatifsDossier");
+       $("form#formation").submit();
+    };
+    function verifAllChecked(){
         var allChecked = $('input[type="checkbox"]:checked').length === $('input[type="checkbox"]').length;
         if(allChecked){
             $("button#bouton").prop("disabled", false );
         }else{
             $("button#bouton").prop("disabled", true );
         }
-    });
+    };
 </script>
 
-<form action="Navigation?action=voirAjoutDossier" method="POST" class="form-horizontal">
+<form action="Navigation?action=voirAjoutDossier" method="POST" class="form-horizontal" id="formation">
     <div class="form-group">
         <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
@@ -70,7 +45,7 @@
                 <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
                 for (Formation formation : formations){
                 %>
-                    <option <%if(request.getAttribute("formationIntitule") != null){
+                <option value="<%out.print(formation.getIntitule());%>"<%if(request.getAttribute("formationIntitule") != null){
                                 if(request.getAttribute("formationIntitule").equals(formation.getIntitule())){%>selected<%}
                             }%>><%out.print(formation.getIntitule());%></option>
                 <%}%>
@@ -91,7 +66,7 @@
                             <%if(request.getAttribute("justificatifsChecked") != null){
                                 List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
                                 if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
-                            }%>> <%out.print(justificatif.getTitre());%>
+                            }%> onchange="verifAllChecked()"> <%out.print(justificatif.getTitre());%>
                     </label>
                     <br>
                 <%}
