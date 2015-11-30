@@ -37,7 +37,6 @@ public class AjoutFormationAction implements Action{
         String[] justificatifsForm = request.getParameterValues("justificatifs");
         
         //verification de la validité du formulaire
-        
         String[] required = {intitule, nbPlaceForm};
         String[] requiredToString = {"intitulé", "nombre de place"};
         List<String> empty = new ArrayList<String>();
