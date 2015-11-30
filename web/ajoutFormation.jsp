@@ -171,9 +171,9 @@
         </div>
         
         <div class="row col-sm-offset-1">
-            <table>
+            <table cellspacing="0" class="table table-bordered table-condensed dt-responsive" width="100%">
                 <thead>
-                    <th>Iscription</th>
+                    <th>Inscription</th>
                     <th>Admlissibilité</th>
                     <th>Etranger</th>
                 </thead>
