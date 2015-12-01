@@ -99,6 +99,12 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("voirGestionFormations")) {
             menuSelect = 2;
             classeAction = new VoirGestionFormationsAction();
+        }else if (action.equals("voirGestionDatesInscription")) {
+            menuSelect = 2;
+            classeAction = new VoirGestionDatesInscriptionAction();
+        }else if (action.equals("modiferDatesInscription")) {
+            menuSelect = 2;
+            classeAction = new ModiferDatesInscriptionAction();
         }else{
             action = "index";
             menuSelect = 0;

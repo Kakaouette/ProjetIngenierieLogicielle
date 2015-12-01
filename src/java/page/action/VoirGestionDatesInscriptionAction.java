@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Arthur
  */
-public class VoirDatesInscriptionAction implements Action{
+public class VoirGestionDatesInscriptionAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Gestion des dates d'inscription");
-        return "datesInscription.jsp";
+        return "gestionDatesInscription.jsp";
     }
     
 }
