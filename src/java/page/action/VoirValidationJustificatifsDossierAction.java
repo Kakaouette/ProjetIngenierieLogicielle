@@ -79,10 +79,8 @@ public class VoirValidationJustificatifsDossierAction implements Action{
                 }else if(type.equals("admission")){
                     condition = (jtemp.getTypeAdmissible() == TypeJustificatif.admissibilite);
                 }
-                if(nationalite.equals("francais")){
-                    condition &= (jtemp.getTypeNationalite() == TypeJustificatifEtranger.francais);
-                }else if(nationalite.equals("etranger")){
-                    condition &= (jtemp.getTypeNationalite() == TypeJustificatifEtranger.etranger);
+                if(nationalite.equals("etranger")){
+                    condition = condition || (jtemp.getTypeNationalite() == TypeJustificatifEtranger.etranger);
                 }
                 if(condition){
                     goodJustificatifs.add(jtemp);
