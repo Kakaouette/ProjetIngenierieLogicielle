@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
+import modele.entite.TypeJustificatif;
+import modele.entite.TypeJustificatifEtranger;
 
 /**
  *
@@ -39,16 +41,46 @@ public class VoirValidationJustificatifsDossierAction implements Action{
             intitule = formations.get(0).getIntitule();
         }
         request.setAttribute("formationIntitule", intitule);
+        String type = request.getParameter("type");
+        //keep formulaire
+        if(request.getParameter("type") != null){
+            type = request.getParameter("type");
+        }else{
+            type = "inscription";
+        }
+        request.setAttribute("type", type);
+        String nationalite = request.getParameter("nationalite");
+        if(request.getParameter("nationalite") != null){
+            nationalite = request.getParameter("nationalite");
+        }else{
+            nationalite = "francais";
+        }
+        request.setAttribute("nationalite", nationalite);
+        
         Formation formation = new FormationDAO().getFormationByIntitule(intitule);
         List<Justificatif> justificatifs = formation.getLesJustificatifs();
         if(justificatifs == null) {
             justificatifs = new ArrayList<Justificatif>();
             request.setAttribute("message", "Aucun justificatif trouvé dans la BDD");
         }else{
-            request.setAttribute("justificatifs", justificatifs);
-            if(request.getParameter("justificatifs") != null){
-                request.setAttribute("justificatifsChecked", request.getParameter("justificatifs"));
+            List<Justificatif> goodJustificatifs = new ArrayList<Justificatif>();
+            for(Justificatif jtemp:justificatifs){
+                boolean condition = false;
+                if(type.equals("inscription")){
+                    condition = (jtemp.getTypeAdmissible() == TypeJustificatif.admissible);
+                }else if(type.equals("admission")){
+                    condition = (jtemp.getTypeAdmissible() == TypeJustificatif.admissibilite);
+                }
+                if(nationalite.equals("francais")){
+                    condition &= (jtemp.getTypeNationalite() == TypeJustificatifEtranger.francais);
+                }else if(nationalite.equals("etranger")){
+                    condition &= (jtemp.getTypeNationalite() == TypeJustificatifEtranger.etranger);
+                }
+                if(condition){
+                    goodJustificatifs.add(jtemp);
+                }
             }
+            request.setAttribute("justificatifs", goodJustificatifs);
         }
         return "validationJustificatifsDossier.jsp";
     }

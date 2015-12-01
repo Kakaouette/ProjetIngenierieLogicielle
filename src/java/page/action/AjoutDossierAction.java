@@ -8,6 +8,8 @@ package page.action;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.AdresseDAO;
@@ -17,6 +19,7 @@ import modele.entite.Adresse;
 import modele.entite.Compte;
 import modele.entite.Dossier;
 import modele.entite.Etudiant;
+import modele.entite.EtudiantEtranger;
 import modele.entite.Formation;
 import modele.entite.Historique;
 import service.AjoutDossierInvalideException;
@@ -43,12 +46,18 @@ public class AjoutDossierAction implements Action{
         String notes = request.getParameter("notes");
         String formationIntitule = request.getParameter("formationIntitule");
         String type = request.getParameter("type");
+        String nationalite = request.getParameter("nationalite");
+        if(request.getParameter("nationalite") != null){
+            nationalite = request.getParameter("nationalite");
+        }else{
+            nationalite = "francais";
+        }
         
         //verification de la validité du formulaire
         String[] required = {idDossier, nom, prenom, sexe, adresse, codePostal, ville, formationIntitule, type};
-        String[] requiredToString = {"id du dossier", "nom", "prénom", "sexe", "adresse", "code postal", "ville", "intitulé de la formation", "type"};
+        String[] requiredName = {"id du dossier", "nom", "prénom", "sexe", "adresse", "code postal", "ville", "intitulé de la formation", "type"};
         try {
-            validerFormulaire(required, requiredToString);
+            validerFormulaire(required, requiredName);
         } catch (Exception ex) {
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", ex.getMessage());
@@ -64,7 +73,28 @@ public class AjoutDossierAction implements Action{
         }
         Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom(nom, prenom); //add: gestion etudiant etranger
         if(etudiant == null){
-            etudiant = new Etudiant(nom, prenom, adresse, sexe, adressePostale);
+            if(nationalite.equals("francais")){
+                etudiant = new Etudiant(nom, prenom, adresse, sexe, adressePostale);
+            }else if(nationalite.equals("etranger")){
+                String avis = request.getParameter("avis");
+                String niveau = request.getParameter("niveau");
+                try {
+                    String[] requiredEtranger = {niveau};
+                    String[] requiredEtrangerName = {"niveau"};
+                    validerFormulaire(requiredEtranger, requiredEtrangerName);
+                } catch (Exception ex) {
+                    request.setAttribute("typeMessage", "danger");
+                    request.setAttribute("message", ex.getMessage());
+                    return stayHere(request, response);
+                }
+                etudiant = new EtudiantEtranger(avis, niveau, nom, prenom, codePostal, sexe, adressePostale);
+            }
+        }else{
+            if((nationalite.equals("francais") && etudiant instanceof EtudiantEtranger) || (nationalite.equals("etranger") && etudiant instanceof Etudiant)){
+                    request.setAttribute("typeMessage", "danger");
+                    request.setAttribute("message", "La nationalité de l'étudiant n'est pas valide");
+                    return stayHere(request, response);
+            }
         }
         Formation formation = new FormationDAO().getFormationByIntitule(formationIntitule);
         if(formation == null){
@@ -130,16 +160,23 @@ public class AjoutDossierAction implements Action{
         request.setAttribute("notes", request.getParameter("notes"));
         request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
         request.setAttribute("type", request.getParameter("type"));
+        request.setAttribute("nationalite", request.getParameter("nationalite"));
+        if(request.getParameter("nationalite") == null){
+            if(request.getParameter("nationalite").equals("etranger")){
+                request.setAttribute("avis", request.getParameter("avis"));
+                request.setAttribute("niveau", request.getParameter("niveau"));
+            }
+        }
         return new VoirAjoutDossierAction().execute(request, response); //modif: voir récupérer page precedente
     }
     
-    private void validerFormulaire(String[] required, String[] requiredToString) throws Exception{
+    private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
         
         //verification de la validité du formulaire
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){
             if(required[i].isEmpty()){
-                empty.add(requiredToString[i]);
+                empty.add(requiredName[i]);
             }
         }
         if(!empty.isEmpty()){

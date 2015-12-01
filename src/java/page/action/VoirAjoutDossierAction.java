@@ -5,6 +5,8 @@
  */
 package page.action;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
@@ -22,15 +24,20 @@ public class VoirAjoutDossierAction implements Action{
         
         //recuperation du formulaire
         String formationIntitule = request.getParameter("formationIntitule");
+        String type = request.getParameter("type");
+        String nationalite = request.getParameter("nationalite");
+        if(nationalite == null){
+            nationalite = "francais";
+        }
         //verification de la validité du formulaire
-        if(formationIntitule.isEmpty()){
-            try {
-                throw new Exception();
-            } catch (Exception ex) {
-                request.setAttribute("typeMessage", "danger");
-                request.setAttribute("message", "Un des champs requis est vide.");
-                return stayHere(request, response); //redirection
-            }
+        String[] required = {formationIntitule, type, nationalite};
+        String[] requiredName = {"intitulé de la formation", "type", "nationalité"};
+        try {
+            validerFormulaire(required, requiredName);
+        } catch (Exception ex) {
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", ex.getMessage());
+            return stayHere(request, response);
         }
         
         //mise en forme des données
@@ -42,13 +49,40 @@ public class VoirAjoutDossierAction implements Action{
             return stayHere(request, response); //redirection
         }
         
-        request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
+        request.setAttribute("formationIntitule", formationIntitule);
+        request.setAttribute("type", request.getParameter("type"));
+        request.setAttribute("nationalite", request.getParameter("nationalite"));
         return "ajoutDossier.jsp";
     }
     
     private String stayHere(HttpServletRequest request, HttpServletResponse response){
         //keep formulaire
         request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
+        request.setAttribute("type", request.getParameter("type"));
+        request.setAttribute("nationalite", request.getParameter("nationalite"));
         return new VoirValidationJustificatifsDossierAction().execute(request, response); //modif: voir récupérer page precedente
+    }
+    
+    private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
+        
+        //verification de la validité du formulaire
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].isEmpty()){
+                empty.add(requiredName[i]);
+            }
+        }
+        if(!empty.isEmpty()){
+            String champs = "";
+            for(String champ : empty){
+                if(!champs.equals("")){champs+=", ";}
+                champs += champ;
+            }
+            if(empty.size()==1){
+                throw new Exception("Un champ requis est vide. (" + champs + ")");
+            }else{
+                throw new Exception("Des champs requis sont vides. (" + champs + ")");
+            }
+        }
     }
 }

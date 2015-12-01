@@ -38,9 +38,20 @@
 
 <form action="Navigation?action=voirAjoutDossier" method="POST" class="form-horizontal" id="formation">
     <div class="form-group">
+        <label class="col-md-2 control-label" for="type">Type:</label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="type-0">
+                <input type="radio" name="type" id="type-0" value="inscription" onchange="loadJustificatifs()" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%>> Inscription
+            </label>
+            <label class="radio-inline" for="type-1">
+                <input type="radio" name="type" id="type-1" value="admission" onchange="loadJustificatifs()" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%>> Admission
+            </label>
+        </div>
+    </div>
+            
+    <div class="form-group">
         <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
-            <!-- A faire : positionner le type actuel en selection par défaut -->
             <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="loadJustificatifs()">
                 <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
                 for (Formation formation : formations){
@@ -53,6 +64,19 @@
             
         </div>
     </div>
+            
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="nationalite">Nationalité: </label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="nationalite-0">
+                <input type="radio" name="nationalite" id="type-0" value="francais" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals("francais")){%>checked<%}%>> Français
+            </label>
+            <label class="radio-inline" for="nationalite-1">
+                <input type="radio" name="nationalite" id="type-1" value="etranger" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals("etranger")){%>checked<%}}%>> Etranger
+            </label>
+        </div>
+    </div>
+        
     <div class="form-group">
         <label for="justificatifs" class="col-sm-2 control-label">Justificatifs: </label>
         <div class="col-sm-3" id="justificatifsDiv">
@@ -82,11 +106,12 @@
         </div>
         <div class="col-md-2 col-md-offset-2">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="suivant"
-                <%if(justificatifs == null){/*disabled ->*/%><%}
-                else if(request.getAttribute("justificatifsChecked") != null){
-                    List<Justificatif> justificatifsChecked = (List<Justificatif>) request.getAttribute("justificatifsChecked");
-                    if(justificatifsChecked != justificatifs){%>disabled<%}
-                }else{%>disabled<%}%>>Suivant <i class="fa fa-arrow-right"></i></button>
+                <%if(justificatifs != null){
+                    if(justificatifs.size()>0){
+                        if(request.getAttribute("justificatifsChecked") != null){
+                            List<Justificatif> justificatifsChecked = (List<Justificatif>) request.getAttribute("justificatifsChecked");
+                            if(justificatifsChecked != justificatifs){%>disabled<%}
+                }else{%>disabled<%}}}%>>Suivant <i class="fa fa-arrow-right"></i></button>
         </div>
     </div>
 </form>

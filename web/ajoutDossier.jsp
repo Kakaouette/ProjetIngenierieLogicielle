@@ -22,12 +22,24 @@
 
 <form action="Navigation?action=ajouterDossier" method="POST" class="form-horizontal">
     <div class="form-group">
+        <label class="col-md-2 control-label" for="type">Type:</label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="type-0">
+                <input type="radio" name="type" id="type-0" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%> readonly> Inscription
+            </label>
+            <label class="radio-inline" for="type-1">
+                <input type="radio" name="type" id="type-1" value="admission" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%> readonly> Admission
+            </label>
+        </div>
+    </div>
+            
+    <div class="form-group">
         <label class="col-md-2 control-label" for="formationIntitule">Formation :</label>
         <div class="col-md-4">
             <input id="formationIntitule" name="formationIntitule" type="text" class="form-control input-md" value="<%out.print(request.getAttribute("formationIntitule"));%>" readonly>
         </div>
     </div>
-
+            
     <!-- Text input-->
     <div class="form-group">
         <label class="col-md-2 control-label" for="idDossier">Numéro du dossier :</label>  
@@ -42,7 +54,15 @@
         </div>
     </div>
 
-    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="nationalite">Nationalité: </label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="nationalite">
+            <input type="checkbox" name="nationalite" value="etranger" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals("etranger")){%>checked<%}%> readonly> Etranger
+            </label>
+        </div>
+    </div>
+            
     <div class="form-group">
         <label class="col-md-2 control-label" for="nom">Nom :</label>  
         <div class="col-md-4">
@@ -96,19 +116,22 @@
             </label>
         </div>
     </div>
-
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="type">Type:</label>
-        <div class="col-md-4">
-            <label class="radio-inline" for="type-0">
-                <input type="radio" name="type" id="type-0" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%>> Inscription
-            </label>
-            <label class="radio-inline" for="type-1">
-                <input type="radio" name="type" id="type-1" value="admission" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%>> Admission
-            </label>
+    
+    <%if(request.getAttribute("nationalite") != null){
+    if(request.getAttribute("nationalite").equals("etranger")){%>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="niveau">Niveau :</label>  
+            <div class="col-md-4">
+                <input id="nom" name="niveau" type="text" placeholder="niveau" class="form-control input-md" value="<%if(request.getAttribute("niveau") != null){out.print(request.getAttribute("niveau"));}%>" autocomplete="off" required>
+            </div>
         </div>
-    </div>
-
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="avis">Avis</label>
+            <div class="col-md-4">                     
+                <textarea class="form-control" id="avis" name="avis" placeholder="avis" autocomplete="off"><%if(request.getAttribute("avis") != null){out.print(request.getAttribute("avis"));}%></textarea>
+            </div>
+        </div>
+    <%}}%>
     <!-- Textarea -->
     <div class="form-group">
         <label class="col-md-2 control-label" for="notes">Notes</label>
