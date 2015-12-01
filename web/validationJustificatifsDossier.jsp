@@ -69,10 +69,10 @@
         <label class="col-md-2 control-label" for="nationalite">Nationalité: </label>
         <div class="col-md-4">
             <label class="radio-inline" for="nationalite-0">
-                <input type="radio" name="nationalite" id="type-0" value="francais" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals("francais")){%>checked<%}%>> Français
+                <input type="radio" name="nationalite" id="nationalite-0" value="francais" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals("francais")){%>checked<%}%>> Français
             </label>
             <label class="radio-inline" for="nationalite-1">
-                <input type="radio" name="nationalite" id="type-1" value="etranger" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals("etranger")){%>checked<%}}%>> Etranger
+                <input type="radio" name="nationalite" id="nationalite-1" value="etranger" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals("etranger")){%>checked<%}}%>> Etranger
             </label>
         </div>
     </div>

@@ -25,10 +25,10 @@
         <label class="col-md-2 control-label" for="type">Type:</label>
         <div class="col-md-4">
             <label class="radio-inline" for="type-0">
-                <input type="radio" name="type" id="type-0" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%> readonly> Inscription
+                <input type="radio" name="type" id="type-0" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%> disabled> Inscription
             </label>
             <label class="radio-inline" for="type-1">
-                <input type="radio" name="type" id="type-1" value="admission" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%> readonly> Admission
+                <input type="radio" name="type" id="type-1" value="admission" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%> disabled> Admission
             </label>
         </div>
     </div>
@@ -58,7 +58,7 @@
         <label class="col-md-2 control-label" for="nationalite">Nationalité: </label>
         <div class="col-md-4">
             <label class="radio-inline" for="nationalite">
-            <input type="checkbox" name="nationalite" value="etranger" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals("etranger")){%>checked<%}%> readonly> Etranger
+                <input type="checkbox" name="nationalite" value="etranger" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals("etranger")){%>checked<%}%> disabled> Etranger
             </label>
         </div>
     </div>
