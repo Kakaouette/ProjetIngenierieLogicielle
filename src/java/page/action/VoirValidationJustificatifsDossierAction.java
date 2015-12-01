@@ -10,8 +10,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
+import modele.entite.Compte;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
+import modele.entite.TypeCompte;
 import modele.entite.TypeJustificatif;
 import modele.entite.TypeJustificatifEtranger;
 
@@ -23,15 +25,21 @@ public class VoirValidationJustificatifsDossierAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        Compte compte = (Compte) request.getSession().getAttribute("compte");
         request.setAttribute("titre", "Ajouter un dossier - Validation des justificatifs");
         
-        List<Formation> formations = new FormationDAO().SelectAll(); //recuperation des formations pour la page suivante
-        if(formations == null) {
+        List<Formation> formations = null; 
+        //recuperation des formations pour la page suivante celon le type de compte
+        if(compte.getType() == TypeCompte.admin || compte.getType() == TypeCompte.secretaire_general){
+            formations = new FormationDAO().SelectAll();
+        }else if(compte.getType() == TypeCompte.secretaire_formation){
+            formations = compte.getFormationAssocie();
+        }
+        if(formations == null){
             formations = new ArrayList<Formation>();
             request.setAttribute("message", "Aucune formation trouvé dans la BDD");
-        }else{
-            request.setAttribute("formations", formations);
         }
+        request.setAttribute("formations", formations);
         
         String intitule = request.getParameter("formationIntitule");
         //keep formulaire
