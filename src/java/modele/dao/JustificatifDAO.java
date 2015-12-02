@@ -70,41 +70,6 @@ public class JustificatifDAO extends Dao {
         tx.commit();
     }
     
-    public List<Justificatif> SelectInscriptions() {
-        try {
-            em.clear(); //supprime le cache des requêtes
-            q = em.createQuery("SELECT J FROM Justificatif J WHERE J.typeAdmissible = :TYPE AND J.typeNationalite = :NATIONALITE");
-            q.setParameter("TYPE", TypeJustificatif.admissible);
-            q.setParameter("NATIONALITE", TypeJustificatifEtranger.francais);
-            return (List<Justificatif>) q.getResultList();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-    
-    public List<Justificatif> SelectAdmissibilite() {
-        try {
-            em.clear(); //supprime le cache des requêtes
-            q = em.createQuery("SELECT J FROM Justificatif J WHERE J.typeAdmissible = :TYPE AND J.typeNationalite = :NATIONALITE");
-            q.setParameter("TYPE", TypeJustificatif.admissibilite);
-            q.setParameter("NATIONALITE", TypeJustificatifEtranger.francais);
-            return (List<Justificatif>) q.getResultList();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-    
-    public List<Justificatif> SelectEtranger() {
-        try {
-            em.clear(); //supprime le cache des requêtes
-            q = em.createQuery("SELECT J FROM Justificatif J WHERE J.typeNationalite = :NATIONALITE");
-            q.setParameter("NATIONALITE", TypeJustificatifEtranger.etranger);
-            return (List<Justificatif>) q.getResultList();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-    
     /**
      * Selection de tous les justificatifs dans la BDD
      * 

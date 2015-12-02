@@ -12,9 +12,10 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
+import modele.entite.TypeJustificatif;
+import modele.entite.TypeJustificatifEtranger;
 import service.AjoutFormationInvalideException;
 import service.FormationService;
 
@@ -34,7 +35,10 @@ public class AjoutFormationAction implements Action{
         String nbPlaceForm = request.getParameter("nbPlace");
         String debut = request.getParameter("dateDebut");
         String fin = request.getParameter("dateFin");
-        String[] justificatifsForm = request.getParameterValues("justificatifs");
+        String[] justificatifsInscriptionFrancaisForm = request.getParameterValues("justificatifsInscriptionFrancais");
+        String[] justificatifsAdmissionFrancaisForm = request.getParameterValues("justificatifsAdmissionFrancais");
+        String[] justificatifsInscriptionEtrangerForm = request.getParameterValues("justificatifsInscriptionEtranger");
+        String[] justificatifsAdmissionEtrangerForm = request.getParameterValues("justificatifsAdmissionEtranger");
         
         //verification de la validité du formulaire
         String[] required = {intitule, nbPlaceForm};
@@ -59,20 +63,28 @@ public class AjoutFormationAction implements Action{
             e.printStackTrace();
 	}
         List<Justificatif> justificatifs = new ArrayList<Justificatif>();
-        if(justificatifsForm != null){
-            for(String justificatif : justificatifsForm){
-                Justificatif jTemp = new JustificatifDAO().getJustificatifbyTitre(justificatif);
-                if(jTemp != null){
-                    justificatifs.add(jTemp);
-                }else{
-                    try {
-                        throw new Exception("Un des justificatifs est inexistant. (" + justificatif + ")");
-                    } catch (Exception ex) {
-                        request.setAttribute("typeMessage", "danger");
-                        request.setAttribute("message", ex.getMessage());
-                        return stayHere(request, response); //redirection
-                    }
-                }
+        if(justificatifsInscriptionFrancaisForm != null){
+            for(String titre : justificatifsInscriptionFrancaisForm){
+                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissible, TypeJustificatifEtranger.francais);
+                justificatifs.add(jTemp);
+            }
+        }
+        if(justificatifsAdmissionFrancaisForm != null){
+            for(String titre : justificatifsAdmissionFrancaisForm){
+                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissibilite, TypeJustificatifEtranger.francais);
+                justificatifs.add(jTemp);
+            }
+        }
+        if(justificatifsInscriptionEtrangerForm != null){
+            for(String titre : justificatifsInscriptionEtrangerForm){
+                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissible, TypeJustificatifEtranger.etranger);
+                justificatifs.add(jTemp);
+            }
+        }
+        if(justificatifsAdmissionEtrangerForm != null){
+            for(String titre : justificatifsAdmissionEtrangerForm){
+                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissibilite, TypeJustificatifEtranger.etranger);
+                justificatifs.add(jTemp);
             }
         }
         
@@ -124,7 +136,10 @@ public class AjoutFormationAction implements Action{
         request.setAttribute("nbPlace", request.getParameter("nbPlace"));
         request.setAttribute("dateDebut", request.getParameter("dateDebut"));
         request.setAttribute("dateFin", request.getParameter("dateFin"));
-        request.setAttribute("justificatifs", request.getParameterValues("justificatifs"));
+        request.setAttribute("justificatifsInscriptionFrancais", request.getParameterValues("justificatifsInscriptionFrancais"));
+        request.setAttribute("justificatifsAdmissionFrancais", request.getParameterValues("justificatifsAdmissionFrancais"));
+        request.setAttribute("justificatifsInscriptionEtranger", request.getParameterValues("justificatifsInscriptionEtranger"));
+        request.setAttribute("justificatifsAdmissionEtranger", request.getParameterValues("justificatifsAdmissionEtranger"));
         return new VoirAjoutFormationAction().execute(request, response); //modif: voir récupérer page precedente
     }
     

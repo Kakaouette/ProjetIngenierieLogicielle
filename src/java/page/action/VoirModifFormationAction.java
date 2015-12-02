@@ -14,6 +14,8 @@ import modele.dao.FormationDAO;
 import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
+import modele.entite.TypeJustificatif;
+import modele.entite.TypeJustificatifEtranger;
 
 /**
  *
@@ -50,10 +52,12 @@ public class VoirModifFormationAction implements Action{
                 return new VoirGestionFormationsAction().execute(request, response); //redirection
             }
         }
-        if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){ //verif formation editable
-            request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation ne peut être modifier pendant la période d'inscription");
-            return new VoirGestionFormationsAction().execute(request, response); //redirection
+        if(formation.getDebut() != null && formation.getFin()!= null){
+            if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){ //verif formation editable
+                request.setAttribute("typeMessage", "danger");
+                request.setAttribute("message", "La formation ne peut être modifier pendant la période d'inscription");
+                return new VoirGestionFormationsAction().execute(request, response); //redirection
+            }
         }
         
         //recuperation des données
@@ -63,57 +67,78 @@ public class VoirModifFormationAction implements Action{
         Date debut = formation.getDebut();
         Date fin = formation.getFin();
         List<Justificatif> justificatifs = formation.getLesJustificatifs();
-        //recuperation des données complémentaires
-        List<Justificatif> tousJustificatifs = new JustificatifDAO().SelectAll();
-        request.setAttribute("tousJustificatifs", tousJustificatifs);
                 
         //remplissage du formulaire
-        if(request.getAttribute("id") == null){
+        if(request.getParameter("id") != null){
             request.setAttribute("id", idForm);
         }
-        if(request.getAttribute("intitule") == null){
+        if(request.getParameter("intitule") == null){
             if(intitule != null){
                 request.setAttribute("intitule", intitule);
             }
         }
-        if(request.getAttribute("description") == null){
+        if(request.getParameter("description") == null){
             if(description != null){
                 request.setAttribute("description", description);
             }
         }
-        if(request.getAttribute("nbPlace") == null){
+        if(request.getParameter("nbPlace") != null){
             request.setAttribute("nbPlace", nbPlace);
         }
-        if(request.getAttribute("dateDebut") == null){
+        if(request.getParameter("dateDebut") == null){
             if(debut != null){
                 request.setAttribute("dateDebut", debut);
             }
         }
-        if(request.getAttribute("dateFin") == null){
+        if(request.getParameter("dateFin") == null){
             if(fin != null){
                 request.setAttribute("dateFin", fin);
             }
         }
-        if(request.getAttribute("justificatifs") == null){
-            if(justificatifs == null){
-                justificatifs = new ArrayList<Justificatif>();
-            }
-            String[] justificatifsToString = new String[0];
-            for(Justificatif jTemp : justificatifs){
-                //add slot
-                if (justificatifsToString==null)
-                    justificatifsToString = new String[1];
-                else {
-                    String[] tabTemp = new String [justificatifsToString.length+1];
-                    for( int i = 0 ;i<justificatifsToString.length ; i++){ //load old values
-                         tabTemp[i] = justificatifsToString[i];
+        if(request.getAttribute("message") == null){
+            if(justificatifs != null){
+                String[] justificatifsToString = new String[0];
+                for(Justificatif jTemp : justificatifs){
+                    if(jTemp.getTypeAdmissible() == TypeJustificatif.admissible && jTemp.getTypeNationalite() == TypeJustificatifEtranger.francais){
+                        justificatifsToString = addSlot(justificatifsToString); //add slot
+
+                        justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
                     }
-                    justificatifsToString=tabTemp;
                 }
-                
-                justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+                justificatifsToString = new String[0];
+                for(Justificatif jTemp : justificatifs){
+                    if(jTemp.getTypeAdmissible() == TypeJustificatif.admissibilite && jTemp.getTypeNationalite() == TypeJustificatifEtranger.francais){
+                        justificatifsToString = addSlot(justificatifsToString); //add slot
+
+                        justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+                    }
+                }
+                justificatifsToString = new String[0];
+                for(Justificatif jTemp : justificatifs){
+                    if(jTemp.getTypeAdmissible() == TypeJustificatif.admissible && jTemp.getTypeNationalite() == TypeJustificatifEtranger.etranger){
+                        justificatifsToString = addSlot(justificatifsToString); //add slot
+
+                        justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+                    }
+                }
+                justificatifsToString = new String[0];
+                for(Justificatif jTemp : justificatifs){
+                    if(jTemp.getTypeAdmissible() == TypeJustificatif.admissibilite && jTemp.getTypeNationalite() == TypeJustificatifEtranger.etranger){
+                        justificatifsToString = addSlot(justificatifsToString); //add slot
+
+                        justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+                    }
+                }
+                request.setAttribute("justificatifsInscriptionFrancais", justificatifsToString);
+                request.setAttribute("justificatifsAdmissionFrancais", justificatifsToString);
+                request.setAttribute("justificatifsInscriptionEtranger", justificatifsToString);
+                request.setAttribute("justificatifsAdmissionEtranger", justificatifsToString);
             }
-            request.setAttribute("justificatifs", justificatifsToString);
+        }else{
+            request.setAttribute("justificatifsInscriptionFrancais", request.getParameterValues("justificatifsInscriptionFrancais"));
+            request.setAttribute("justificatifsAdmissionFrancais", request.getParameterValues("justificatifsAdmissionFrancais"));
+            request.setAttribute("justificatifsInscriptionEtranger", request.getParameterValues("justificatifsInscriptionEtranger"));
+            request.setAttribute("justificatifsAdmissionEtranger", request.getParameterValues("justificatifsAdmissionEtranger"));
         }
         
         return "modifFormation.jsp";
@@ -124,7 +149,7 @@ public class VoirModifFormationAction implements Action{
         //verification de la validité du formulaire
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){
-            if(required[i].isEmpty()){
+            if(required[i].equals("null")){
                 empty.add(requiredName[i]);
             }
         }
@@ -142,16 +167,17 @@ public class VoirModifFormationAction implements Action{
         }
     }
     
-    public void addSlot(String[] tab){
+    public String[] addSlot(String[] tab){
         if (tab==null)
             tab = new String[1];
         else {
             int position = tab.length;
             String[] tabTemp = new String [position+1];
-            for( int i = 0 ;i<tab.length ; i++){
+            for( int i = 0; i<tab.length; i++){
                  tabTemp[i] = tab[i];
             }
             tab=tabTemp;
         }
+        return tab;
     }
 }

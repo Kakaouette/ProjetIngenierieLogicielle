@@ -5,9 +5,13 @@
  */
 package service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import modele.dao.FormationDAO;
+import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
+import modele.entite.Justificatif;
 
 /**
  *
@@ -41,6 +45,9 @@ public class FormationService {
                 throw new AjoutFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(AjoutFormationInvalideException.cause.Date_Incohérentes.toString()));
             }
         }
+        for(Justificatif justificatif:formation.getLesJustificatifs()){
+            new JustificatifDAO().save(justificatif);
+        }
         
         //enregistrement de la formation dans la BDD
         formationDAO.save(formation);
@@ -57,8 +64,16 @@ public class FormationService {
         if(formation == null){
             throw new SuppressionFormationInvalideException("Formation " + id + " inexistante.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Inexistante.toString()));
         }
-        if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){ //verif formation editable
-            throw new SuppressionFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(SuppressionFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
+        if(formation.getDebut() != null && formation.getFin() != null){
+            if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){ //verif formation editable
+                throw new SuppressionFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(SuppressionFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
+            }
+        }
+        List<Justificatif> justificatifs = formation.getLesJustificatifs();
+        formation.setLesJustificatifs(new ArrayList<Justificatif>());
+        formationDAO.update(formation);
+        for(Justificatif justificatif:justificatifs){
+            new JustificatifDAO().delete(justificatif);
         }
         
         //suppression de la formation dans la BDD
@@ -88,6 +103,19 @@ public class FormationService {
             if(formation.getDebut().after(formation.getFin())){
                 throw new ModificationFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(ModificationFormationInvalideException.cause.Date_Incohérentes.toString()));
             }
+        }
+        List<Justificatif> oldJustificatifs = formationDAO.getById(formation.getId()).getLesJustificatifs();
+        List<Justificatif> newJustificatifs = formation.getLesJustificatifs();
+        List<Justificatif> justificatifsToAdd = newJustificatifs;
+        justificatifsToAdd.removeAll(oldJustificatifs);
+        List<Justificatif> justificatifsToSuppr = oldJustificatifs;
+        justificatifsToSuppr.removeAll(newJustificatifs);
+        formationDAO.update(formation);
+        for(Justificatif justificatif:justificatifsToSuppr){
+            new JustificatifDAO().delete(justificatif);
+        }
+        for(Justificatif justificatif:justificatifsToAdd){
+            new JustificatifDAO().save(justificatif);
         }
         
         //mise à jour de la formation dans la BDD

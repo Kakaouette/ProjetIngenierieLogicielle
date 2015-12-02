@@ -13,9 +13,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
-import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
+import modele.entite.TypeJustificatif;
+import modele.entite.TypeJustificatifEtranger;
 import service.FormationService;
 import service.ModificationFormationInvalideException;
 
@@ -36,31 +37,20 @@ public class ModifFormationAction implements Action{
         String nbPlaceForm = request.getParameter("nbPlace");
         String debut = request.getParameter("dateDebut");
         String fin = request.getParameter("dateFin");
-        String[] justificatifsForm = request.getParameterValues("justificatifs");
+        String[] justificatifsInscriptionFrancaisForm = request.getParameterValues("justificatifsInscriptionFrancais");
+        String[] justificatifsAdmissionFrancaisForm = request.getParameterValues("justificatifsAdmissionFrancais");
+        String[] justificatifsInscriptionEtrangerForm = request.getParameterValues("justificatifsInscriptionEtranger");
+        String[] justificatifsAdmissionEtrangerForm = request.getParameterValues("justificatifsAdmissionEtranger");
         
         //verification de la validité du formulaire
         String[] required = {idForm, intitule, nbPlaceForm};
-        String[] requiredToString = {"id de la formation", "intitulé", "nombre de place"};
-        List<String> empty = new ArrayList<String>();
-        for(int i=0; i<required.length; i++){
-            if(required[i].isEmpty()){
-                empty.add(requiredToString[i]);
-            }
-        }
-        if(!empty.isEmpty()){
-            try {
-                String champs = "";
-                for(String champ : empty){
-                    if(!champs.equals("")){champs+=", ";}
-                    champs += champ;
-                }
-                if(empty.size()==1){ throw new Exception("Un champ requis est vide. (" + champs + ")");
-                }else{ throw new Exception("Des champs requis sont vides. (" + champs + ")"); }
-            } catch (Exception ex) {
-                request.setAttribute("typeMessage", "danger");
-                request.setAttribute("message", ex.getMessage());
-                return stayHere(request, response); //redirection
-            }
+        String[] requiredName = {"id de la formation", "intitulé", "nombre de place"};
+        try {
+            validerFormulaire(required, requiredName);
+        } catch (Exception ex) {
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", ex.getMessage());
+            return stayHere(request, response); //redirection
         }
         
         //mise en forme des données
@@ -75,20 +65,28 @@ public class ModifFormationAction implements Action{
             e.printStackTrace();
 	}
         List<Justificatif> justificatifs = new ArrayList<Justificatif>();
-        if(justificatifsForm != null){
-            for(String justificatif : justificatifsForm){
-                Justificatif jTemp = new JustificatifDAO().getJustificatifbyTitre(justificatif);
-                if(jTemp != null){
-                    justificatifs.add(jTemp);
-                }else{
-                    try {
-                        throw new Exception("Un des justificatifs est inexistant. (" + justificatif + ")");
-                    } catch (Exception ex) {
-                        request.setAttribute("typeMessage", "danger");
-                        request.setAttribute("message", ex.getMessage());
-                        return stayHere(request, response); //redirection
-                    }
-                }
+        if(justificatifsInscriptionFrancaisForm != null){
+            for(String titre : justificatifsInscriptionFrancaisForm){
+                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissible, TypeJustificatifEtranger.francais);
+                justificatifs.add(jTemp);
+            }
+        }
+        if(justificatifsAdmissionFrancaisForm != null){
+            for(String titre : justificatifsAdmissionFrancaisForm){
+                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissibilite, TypeJustificatifEtranger.francais);
+                justificatifs.add(jTemp);
+            }
+        }
+        if(justificatifsInscriptionEtrangerForm != null){
+            for(String titre : justificatifsInscriptionEtrangerForm){
+                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissible, TypeJustificatifEtranger.etranger);
+                justificatifs.add(jTemp);
+            }
+        }
+        if(justificatifsAdmissionEtrangerForm != null){
+            for(String titre : justificatifsAdmissionEtrangerForm){
+                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissibilite, TypeJustificatifEtranger.etranger);
+                justificatifs.add(jTemp);
             }
         }
         
@@ -141,7 +139,33 @@ public class ModifFormationAction implements Action{
         request.setAttribute("nbPlace", request.getParameter("nbPlace"));
         request.setAttribute("dateDebut", request.getParameter("dateDebut"));
         request.setAttribute("dateFin", request.getParameter("dateFin"));
-        request.setAttribute("justificatifs", request.getParameterValues("justificatifs"));
+        request.setAttribute("justificatifsInscriptionFrancais", request.getParameterValues("justificatifsInscriptionFrancais"));
+        request.setAttribute("justificatifsAdmissionFrancais", request.getParameterValues("justificatifsAdmissionFrancais"));
+        request.setAttribute("justificatifsInscriptionEtranger", request.getParameterValues("justificatifsInscriptionEtranger"));
+        request.setAttribute("justificatifsAdmissionEtranger", request.getParameterValues("justificatifsAdmissionEtranger"));
         return new VoirModifFormationAction().execute(request, response); //modif: voir récupérer page precedente
+    }
+    
+    private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
+        
+        //verification de la validité du formulaire
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].equals("null")){
+                empty.add(requiredName[i]);
+            }
+        }
+        if(!empty.isEmpty()){
+            String champs = "";
+            for(String champ : empty){
+                if(!champs.equals("")){champs+=", ";}
+                champs += champ;
+            }
+            if(empty.size()==1){
+                throw new Exception("Un champ requis est vide. (" + champs + ")");
+            }else{
+                throw new Exception("Des champs requis sont vides. (" + champs + ")");
+            }
+        }
     }
 }
