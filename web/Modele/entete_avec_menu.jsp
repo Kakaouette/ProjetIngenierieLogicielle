@@ -100,7 +100,7 @@
                                     </ul>
                                 </li>
                             <%}%>
-                            <%if (c.getType() == TypeCompte.secretaire_general || c.getType() == TypeCompte.secretaire_formation) {%>
+                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secretaire_general || c.getType() == TypeCompte.secretaire_formation) {%>
                                 <li <%if (current.equals(3)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         Gestion dossiers <span class="caret"></span>

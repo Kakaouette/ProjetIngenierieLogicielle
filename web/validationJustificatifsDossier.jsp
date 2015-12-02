@@ -30,13 +30,15 @@
         var allChecked = $('input[type="checkbox"]:checked').length === $('input[type="checkbox"]').length;
         if(allChecked){
             $("button#bouton").prop("disabled", false );
+            $("button#askDocMissed").prop("disabled", true );
         }else{
             $("button#bouton").prop("disabled", true );
+            $("button#askDocMissed").prop("disabled", false );
         }
     };
 </script>
 
-<form action="Navigation?action=voirAjoutDossier" method="POST" class="form-horizontal" id="formation">
+<form action="Navigation" method="POST" class="form-horizontal" id="formation">
     <div class="form-group">
         <label class="col-md-2 control-label" for="type">Type:</label>
         <div class="col-md-4">
@@ -102,10 +104,10 @@
             <a class="btn btn-default" href="Navigation?action=voirGestionDossiers">Retour</a>
         </div>
         <div class="col-md-2">
-            <a class="btn btn-default" href="Navigation?action=voirLettreDocManquant"><i class="fa fa-envelope"></i> Demander les documents manquants</a>
+            <button class="btn btn-default" id="askDocMissed" name="action" value="voirLettreDocManquant"><i class="fa fa-envelope"></i> Demander les documents manquants</button>
         </div>
         <div class="col-md-2 col-md-offset-2">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="suivant"
+            <button class="btn btn-success" type="submit" name="action" id="bouton" value="voirAjoutDossier"
                 <%if(justificatifs != null){
                     if(justificatifs.size()>0){
                         if(request.getAttribute("justificatifsChecked") != null){
