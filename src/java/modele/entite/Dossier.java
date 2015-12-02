@@ -44,6 +44,16 @@ public class Dossier implements Serializable{
     @OneToMany(targetEntity = Historique.class, cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
     List<Historique> historique;
 
+    public Dossier(String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation) {
+        this.id = id;
+        this.date = date;
+        this.etat = etat;
+        this.lettre = lettre;
+        this.admissible = admissible;
+        this.etudiant = etudiant;
+        this.demandeFormation = demandeFormation;
+    }
+    
     public Dossier(Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation) {
         this.date = date;
         this.etat = etat;

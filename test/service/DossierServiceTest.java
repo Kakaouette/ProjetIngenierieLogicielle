@@ -67,10 +67,12 @@ public class DossierServiceTest {
         String dernierID = dossierDAO.getLastId(dateNow);
         
         String result1 = instance.getNewID();
+        //String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation
+        dossierDAO.save(new Dossier(result1, new Date(), "testEtat", null, true, null, null));
         String result2 = instance.getNewID();
         String result3 = instance.getNewID();
         String result4 = instance.getNewID();
-        assertEquals(str+(dernierID+1), result1);
+
         assertEquals(str+(dernierID+2), result2);
         assertEquals(str+(dernierID+3), result3);
         assertEquals(str+(dernierID+4), result4);
