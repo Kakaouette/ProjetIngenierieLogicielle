@@ -13,7 +13,7 @@
         </init-param>
     </filter>
     <filter>
-        <description>Filtrage des appel direct au jsp</description>
+        <description>Filtrage des requêtes uniquement vers du contenu autorisé (Navigation ou ressource comme le dossier "images")</description>
         <filter-name>NavigationFilter</filter-name>
         <filter-class>page.web.NavigationFilter</filter-class>
     </filter>
