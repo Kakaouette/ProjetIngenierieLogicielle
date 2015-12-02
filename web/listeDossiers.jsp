@@ -13,10 +13,10 @@
 <table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive text-center" width="100%">
     <thead>
         <tr>
-            <th>Numéro</th>
-            <th>Admissible</th>
-            <th>Date</th>
             <th>Etat</th>
+            <th>Numéro</th>
+            <th>Type</th>
+            <th>Date</th>
             <th>Formation demandé</th>
             <th>Nom de l'etudiant</th>
             <th>Prenom de l'etudiant</th>

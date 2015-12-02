@@ -32,7 +32,7 @@ public class Dossier implements Serializable {
     String lettre;
 
     @Column
-    boolean admissible;
+    TypeDossier type;
 
     @JoinColumn(nullable = false)
     @ManyToOne
@@ -44,22 +44,22 @@ public class Dossier implements Serializable {
     @OneToMany(targetEntity = Historique.class, cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     List<Historique> historique;
 
-    public Dossier(String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation) {
+    public Dossier(String id, Date date, String etat, String lettre, TypeDossier admissible, Etudiant etudiant, Formation demandeFormation) {
         this.id = id;
         this.date = date;
         this.etat = etat;
         this.lettre = lettre;
-        this.admissible = admissible;
+        this.type = admissible;
         this.etudiant = etudiant;
         this.demandeFormation = demandeFormation;
     }
 
-    public Dossier(String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique) {
+    public Dossier(String id, Date date, String etat, String lettre, TypeDossier admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique) {
         this.id = id;
         this.date = date;
         this.etat = etat;
         this.lettre = lettre;
-        this.admissible = admissible;
+        this.type = admissible;
         this.etudiant = etudiant;
         this.demandeFormation = demandeFormation;
         this.historique = historique;
@@ -81,8 +81,8 @@ public class Dossier implements Serializable {
         this.lettre = lettre;
     }
 
-    public void setAdmissible(boolean admissible) {
-        this.admissible = admissible;
+    public void setAdmissible(TypeDossier admissible) {
+        this.type = admissible;
     }
 
     public void setEtudiant(Etudiant etudiant) {
@@ -116,8 +116,8 @@ public class Dossier implements Serializable {
         return lettre;
     }
 
-    public boolean isAdmissible() {
-        return admissible;
+    public TypeDossier getAdmissible() {
+        return type;
     }
 
     public Etudiant getEtudiant() {

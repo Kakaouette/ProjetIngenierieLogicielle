@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
+import modele.entite.TypeDossier;
 
 /**
  *
@@ -29,14 +30,10 @@ public class AfficherInformationsDossiersAction implements Action {
         
         for (Dossier c : dossiers) {
             Object[] o = new Object[8];
-            o[0] = c.getId();
-            if (c.isAdmissible()) {
-                o[1] = "Oui";
-            } else {
-                o[1] = "Non";
-            }
-            o[2] = format.format(c.getDate());
-            o[3] = c.getEtat();
+            o[0] = c.getEtat();
+            o[1] = c.getId();
+            o[2] = c.getAdmissible();
+            o[3] = format.format(c.getDate());
             o[4] = c.getDemandeFormation().getIntitule();
             o[5] = c.getEtudiant().getNom();
             o[6] = c.getEtudiant().getPrenom();

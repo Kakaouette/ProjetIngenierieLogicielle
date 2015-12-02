@@ -21,6 +21,16 @@ import java.io.Serializable;
  *
  * @author Nicolas Roulon
  */
-public enum TypeJustificatif implements Serializable {
-    admissibilite, admissible;
+public enum TypeDossier implements Serializable {
+    admissibilite, inscription;
+
+    @Override
+    public String toString() {
+        if(this.equals(admissibilite))
+            return "Admissibilité";
+        else if(this.equals(inscription))
+            return "Inscription";
+        
+        return this.name();
+    }
 }

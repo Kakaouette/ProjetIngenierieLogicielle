@@ -80,9 +80,9 @@ public class GestULRPeuplement {
         Historique hist3 = new HistoriqueDAO().getHistoriqueByMessage("Autre");
         
         // Création des justificatifs
-        Justificatif j1 = new Justificatif("Photocopie de la carte d'identitée", TypeJustificatif.admissible, TypeJustificatifEtranger.francais);
-        Justificatif j2 = new Justificatif("Photocopie de la carte de séjour", TypeJustificatif.admissible, TypeJustificatifEtranger.etranger);
-        Justificatif j3 = new Justificatif("Entretien oral", TypeJustificatif.admissibilite, TypeJustificatifEtranger.francais);
+        Justificatif j1 = new Justificatif("Photocopie de la carte d'identitée", TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
+        Justificatif j2 = new Justificatif("Photocopie de la carte de séjour", TypeDossier.admissibilite, TypeJustificatifEtranger.etranger);
+        Justificatif j3 = new Justificatif("Entretien oral", TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
         
         new JustificatifDAO().save(j1);
         new JustificatifDAO().save(j2);
@@ -159,9 +159,9 @@ public class GestULRPeuplement {
         histList1.add(hist1);
         
         //Création des dossiers
-        Dossier d1 = new Dossier("pst181120151", new Date(), "En cours de traitement", "Blalalalalalalalala", true, etu1, form2, histList1);
-        Dossier d2 = new Dossier("pst181120152", new Date(), "Accepté", "yeah", true, etu1, form1);
-        Dossier d3 = new Dossier("pst181120153", new Date(), "Refusé", "sad", true, etu2, form3);
+        Dossier d1 = new Dossier("pst181120151", new Date(), "En cours de traitement", "Blalalalalalalalala", TypeDossier.admissibilite, etu1, form2, histList1);
+        Dossier d2 = new Dossier("pst181120152", new Date(), "Accepté", "yeah", TypeDossier.admissibilite, etu1, form1);
+        Dossier d3 = new Dossier("pst181120153", new Date(), "Refusé", "sad", TypeDossier.inscription, etu2, form3);
         
         new DossierDAO().save(d1);
         new DossierDAO().save(d2);

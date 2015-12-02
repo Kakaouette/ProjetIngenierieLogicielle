@@ -28,7 +28,7 @@ public class Justificatif implements Serializable{
     String titre;
     
     @Enumerated(EnumType.STRING)
-    TypeJustificatif typeAdmissible;
+    TypeDossier typeAdmissible;
     
     @Enumerated(EnumType.STRING)
     TypeJustificatifEtranger typeNationalite;
@@ -36,7 +36,7 @@ public class Justificatif implements Serializable{
     public Justificatif() {
     }
 
-    public Justificatif(String titre, TypeJustificatif typeAdmissible, TypeJustificatifEtranger typeNationalite) {
+    public Justificatif(String titre, TypeDossier typeAdmissible, TypeJustificatifEtranger typeNationalite) {
         this.titre = titre;
         this.typeAdmissible = typeAdmissible;
         this.typeNationalite = typeNationalite;
@@ -60,11 +60,11 @@ public class Justificatif implements Serializable{
         this.titre = titre;
     }
 
-    public TypeJustificatif getTypeAdmissible() {
+    public TypeDossier getTypeAdmissible() {
         return typeAdmissible;
     }
 
-    public void setTypeAdmissible(TypeJustificatif typeAdmissible) {
+    public void setTypeAdmissible(TypeDossier typeAdmissible) {
         this.typeAdmissible = typeAdmissible;
     }
 
