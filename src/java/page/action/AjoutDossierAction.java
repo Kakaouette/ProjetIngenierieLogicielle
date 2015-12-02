@@ -8,8 +8,6 @@ package page.action;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.AdresseDAO;
@@ -175,7 +173,7 @@ public class AjoutDossierAction implements Action{
         //verification de la validité du formulaire
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){
-            if(required[i].isEmpty()){
+            if(required[i].equals("null")){
                 empty.add(requiredName[i]);
             }
         }
