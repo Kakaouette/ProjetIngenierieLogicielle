@@ -10,6 +10,7 @@
     <class>modele.entite.EtudiantEtranger</class>
     <class>modele.entite.Historique</class>
     <class>modele.entite.Justificatif</class>
+    <class>modele.entite.Action</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/gestULR?zeroDateTimeBehavior=convertToNull"/>

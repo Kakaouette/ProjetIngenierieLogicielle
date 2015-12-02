@@ -166,8 +166,20 @@ public class GestULRPeuplement {
         new DossierDAO().save(d1);
         new DossierDAO().save(d2);
         new DossierDAO().save(d3);
-
-
+        
+        //Création d'action
+        ActionDAO actionDAO = new ActionDAO();
+        List<TypeCompte> typecompte = new ArrayList();
+        typecompte.add(TypeCompte.admin);
+        Action a = new Action("voirAjoutCompte", typecompte);
+        actionDAO.save(a);
+        
+        typecompte = new ArrayList();
+        typecompte.add(TypeCompte.admin);
+        typecompte.add(TypeCompte.secretaire_formation);
+        typecompte.add(TypeCompte.secretaire_general);
+        a = new Action("afficherInformationsDossiers", typecompte);
+        actionDAO.save(a);
     }
     
     

@@ -18,8 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
 
 /**
- *
- * @author roulonn
+ * NavigationFiltre est un filtre qui vérifie que les requête n'appelle pas une 
+ * JSP directement (c'est à dire sans passer par le gestionnaire de servlet : Navigation)
+ * 
+ * Si il y a un appel à une jsp, le filtre redirige la requête vers Navigation (sans action, ce qui conduit à la page d'index ou d'accueil)
+ * 
+ * @author nicol
  */
 @WebFilter("/*")
 public class NavigationFiltre implements Filter {
@@ -28,18 +32,31 @@ public class NavigationFiltre implements Filter {
     public void init(FilterConfig fc) throws ServletException {
     }
 
+    /**
+     * Vérification que le contexte de la requête ne contient pas un ".jsp".
+     * <ul>
+     * <li>Si il y a un ".jsp" la requête est redirigé vers /Navigation sans action, ce qui conduit à la page d'index ou d'accueil)</li>
+     * <li>Sinon la requête continue normalement et le filtre ne touche à rien</li>
+     * </ul>
+     * 
+     * @param sr (objet requête http)
+     * @param sr1 (objet response http)
+     * @param fc (chaîne de filtre, tomcat les applique un par un, l'utiliser signifie passe au filtre suivant)
+     * @throws IOException
+     * @throws ServletException 
+     */
     @Override
     public void doFilter(ServletRequest sr, ServletResponse sr1, FilterChain fc) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) sr;
-
         HttpServletResponse response = (HttpServletResponse) sr1;
         Compte c = (Compte) request.getSession().getAttribute("compte");
 
-        if (request.getServletPath().contains(".jsp")) {
+        if (!request.getServletPath().contains(".jsp")) {
+            fc.doFilter(sr, sr1);
+        }else{
             response.sendRedirect(request.getContextPath() + "/Navigation");
         }
-
-        fc.doFilter(sr, sr1);
+        
     }
 
     @Override
