@@ -12,10 +12,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.entite.Compte;
 
 /**
  * NavigationFiltre est un filtre qui vérifie que les requête n'appelle pas une 
@@ -25,8 +23,8 @@ import modele.entite.Compte;
  * 
  * @author nicol
  */
-@WebFilter("/*")
-public class NavigationFiltre implements Filter {
+
+public class NavigationFilter implements Filter {
 
     @Override
     public void init(FilterConfig fc) throws ServletException {
@@ -49,9 +47,15 @@ public class NavigationFiltre implements Filter {
     public void doFilter(ServletRequest sr, ServletResponse sr1, FilterChain fc) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) sr;
         HttpServletResponse response = (HttpServletResponse) sr1;
-        Compte c = (Compte) request.getSession().getAttribute("compte");
+        String path = request.getServletPath();
 
-        if (!request.getServletPath().contains(".jsp")) {
+        if (path.startsWith("/Navigation") || (request.getServletPath().equals("/index.jsp") && request.getSession().getAttribute("compte") == null)) {
+            fc.doFilter(sr, sr1);
+        }else if(path.startsWith("/bootstrap/")){
+            fc.doFilter(sr, sr1);
+        }else if(path.startsWith("/images/")){
+            fc.doFilter(sr, sr1);
+        }else if(path.startsWith("/jQuery/")){
             fc.doFilter(sr, sr1);
         }else{
             response.sendRedirect(request.getContextPath() + "/Navigation");

@@ -13,7 +13,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Action;
@@ -29,9 +28,8 @@ import service.ActionService;
  * 
  * @author roulonn
  */
-//WebFilter /* signifie que le filtre s'applique sur toutes les requêtes sur cette application
-//@WebFilter("/*")
-public class ActionFiltre implements Filter {
+
+public class ActionFilter implements Filter {
     /**
      * Init du filtre, chargement de la liste des Actions dans le ServletContext.
      * ServletContext garde la variable toute la durée de vie de l'application (ApplicationScope).
