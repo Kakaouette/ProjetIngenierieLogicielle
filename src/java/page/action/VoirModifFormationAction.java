@@ -8,6 +8,8 @@ package page.action;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
@@ -30,28 +32,15 @@ public class VoirModifFormationAction implements Action{
         
         //verification de la validité du parametre
         String[] required = {idForm};
-        String[] requiredToString = {"idForm"};
-        List<String> empty = new ArrayList<String>();
-        for(int i=0; i<required.length; i++){
-            if(required[i].isEmpty()){
-                empty.add(requiredToString[i]);
-            }
+        String[] requiredName = {"ID de la formation"};
+        try {
+            validerFormulaire(required, requiredName);
+        } catch (Exception ex) {
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", ex.getMessage());
+            return new VoirGestionFormationsAction().execute(request, response); //redirection
         }
-        if(!empty.isEmpty()){
-            try {
-                String champs = "";
-                for(String champ : empty){
-                    if(!champs.equals("")){champs+=", ";}
-                    champs += champ;
-                }
-                if(empty.size()==1){ throw new Exception("Un champ requis est vide. (" + champs + ")");
-                }else{ throw new Exception("Des champs requis sont vides. (" + champs + ")"); }
-            } catch (Exception ex) {
-                request.setAttribute("typeMessage", "danger");
-                request.setAttribute("message", ex.getMessage());
-                return new VoirGestionFormationsAction().execute(request, response); //redirection
-            }
-        }
+        
         int id = Integer.parseInt(idForm);
         Formation formation = new FormationDAO().getById(id);
         if(formation == null){
@@ -63,7 +52,7 @@ public class VoirModifFormationAction implements Action{
                 return new VoirGestionFormationsAction().execute(request, response); //redirection
             }
         }
-        if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){
+        if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){ //verif formation editable
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation ne peut être modifier pendant la période d'inscription");
             return new VoirGestionFormationsAction().execute(request, response); //redirection
@@ -130,6 +119,29 @@ public class VoirModifFormationAction implements Action{
         }
         
         return "modifFormation.jsp";
+    }
+    
+    private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
+        
+        //verification de la validité du formulaire
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].isEmpty()){
+                empty.add(requiredName[i]);
+            }
+        }
+        if(!empty.isEmpty()){
+            String champs = "";
+            for(String champ : empty){
+                if(!champs.equals("")){champs+=", ";}
+                champs += champ;
+            }
+            if(empty.size()==1){
+                throw new Exception("Un champ requis est vide. (" + champs + ")");
+            }else{
+                throw new Exception("Des champs requis sont vides. (" + champs + ")");
+            }
+        }
     }
     
     public void addSlot(String[] tab){

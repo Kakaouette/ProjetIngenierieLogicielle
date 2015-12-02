@@ -25,7 +25,7 @@ public class SupprFormationAction implements Action{
         
         //verification de la validité du parametre
         String[] required = {idForm};
-        String[] requiredName = {"id du formulaire"};
+        String[] requiredName = {"id de la formation"};
         try {
             validerFormulaire(required, requiredName);
         } catch (Exception ex) {

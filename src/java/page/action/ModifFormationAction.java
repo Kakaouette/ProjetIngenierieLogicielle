@@ -40,7 +40,7 @@ public class ModifFormationAction implements Action{
         
         //verification de la validité du formulaire
         String[] required = {idForm, intitule, nbPlaceForm};
-        String[] requiredToString = {"id du formulaire", "intitulé", "nombre de place"};
+        String[] requiredToString = {"id de la formation", "intitulé", "nombre de place"};
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){
             if(required[i].isEmpty()){
