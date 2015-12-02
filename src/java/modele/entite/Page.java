@@ -31,7 +31,7 @@ public class Page implements Serializable {
     private int id;
     
     @Column(unique = true, nullable = false)
-    private String jsp;
+    private String actionName;
     
     @Column
     private String titre;
@@ -40,8 +40,8 @@ public class Page implements Serializable {
     @OneToMany(targetEntity = Compte.class, cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
     private List<TypeCompte> comptesAutorises;
     
-    public void setJsp(String jsp) {
-        this.jsp = jsp;
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 
     public void setTitre(String titre) {
@@ -52,8 +52,8 @@ public class Page implements Serializable {
         this.comptesAutorises = comptesAutorises;
     }
 
-    public String getJsp() {
-        return jsp;
+    public String getActionName() {
+        return actionName;
     }
 
     public String getTitre() {
@@ -74,7 +74,7 @@ public class Page implements Serializable {
 
     @Override
     public String toString() {
-        return "Page{" + "id=" + id + ", jsp=" + jsp + ", titre=" + titre + ", comptesAutorises=" + comptesAutorises + '}';
+        return "Page{" + "id=" + id + ", jsp=" + actionName + ", titre=" + titre + ", comptesAutorises=" + comptesAutorises + '}';
     }
 
     @Override
@@ -96,7 +96,7 @@ public class Page implements Serializable {
             return false;
         }
         final Page other = (Page) obj;
-        if (!Objects.equals(this.jsp, other.jsp)) {
+        if (!Objects.equals(this.actionName, other.actionName)) {
             return false;
         }
         if (!Objects.equals(this.titre, other.titre)) {

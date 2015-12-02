@@ -13,20 +13,24 @@
 <script src="jQuery/bootstrap-datepicker.js"></script>
 <link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 
+<script>
+    $(function() {
+        $('.input-daterange').datepicker({
+            format: "dd/mm/yyyy",
+            todayBtn: true,
+            language: "fr",
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+</script>
+
 <script type="text/javascript">
     <%if(request.getAttribute("focus") != null){%>
         window.onload=function(){
             document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
         };
     <%}%>
-    $(function() {
-        $('.input-daterange').datepicker({
-            format: "dd/mm/yyyy",
-            language: "fr",
-            todayBtn: true,
-            autoclose: true
-        });
-    });
 </script>
 
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -36,17 +40,15 @@
         $('#dialog').hide();
     });
 
-    function createDialog() {
+    function createDialog(location) {
         $('#dialog').dialog({
             modal: true,
             buttons: {
                 "Ajouter": function() {
-                    if($("#justificatifAAjouter").parent().attr("id") == "inscription"){
-                        
-                    }
-                    $('ul#justificatifsAdded').append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("#justificatifAAjouter").val() + '</label>'));
-                    $('ul#justificatifsAdded li:last').append($('<input>').attr('type', "hidden").attr('name', "justificatifs").attr('value', $("#justificatifAAjouter").val()));            
-                    $('ul#justificatifsAdded li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + $("#justificatifAAjouter").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
+                    $path = location + ' ul#justificatifsAdded';
+                    $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("#justificatifAAjouter").val() + '</label>'));
+                    $($path + ' li:last').append($('<input>').attr('type', "hidden").attr('name', "justificatifs").attr('value', $("#justificatifAAjouter").val()));            
+                    $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + $("#justificatifAAjouter").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
                     $(this).dialog("close");
                 },
                 "Annuler": function() {
@@ -133,45 +135,34 @@
     </div>
     
     <div class="form-group">
-        <label for="dateDebut" class="col-sm-2 control-label">Date de début</label>
-        <div class="col-sm-3">
+        <label for="datepicker" class="col-sm-2 control-label">Période d'inscription</label>
+        <div class="col-sm-3">    
             <div class="input-daterange input-group" id="datepicker">
-                <% SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); %>
-                <input type="text" id="start" class="form-control" name="dateDebut" readonly="readonly" placeholder="Date de début" autocomplete="off"
-                       value="<%/*if(df.parse(request.getParameter("dateFin")).before(df.parse(request.getAttribute("dateDebut").toString()))){ 
-                               out.print(request.getAttribute("dateFin"));
-                           }else*/ if(request.getAttribute("dateDebut") != null) {
-                               out.print(request.getAttribute("dateDebut"));
-                           }%>"  pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="dateFin" class="col-sm-2 control-label">Date de fin</label>
-        <div class="col-sm-3">
-            <div class="input-daterange input-group" id="datepicker">
-                <input type="text" id="stop" class="form-control" name="dateFin" readonly="readonly" placeholder="Date de fin" autocomplete="off"
-                       value="<%/*if(df.parse(request.getParameter("dateDebut")).after(df.parse(request.getAttribute("dateFin").toString()))){ 
-                               out.print(request.getAttribute("dateDebut"));
-                           } else*/ if (request.getAttribute("dateFin") != null) {
-                               out.print(request.getAttribute("dateFin"));
-                           }%>" pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
+                <input type="text" class="input-sm form-control" name="dateDebut" placeholder="Date de début" autocomplete="off"
+                   value="<%if (request.getAttribute("dateFin") != null) {
+                           out.print(request.getAttribute("dateFin"));
+                       }%>"/>
+                <span class="input-group-addon">au</span>
+                <input type="text" class="input-sm form-control" name="dateFin" placeholder="Date de fin" autocomplete="off"
+                   value="<%if(request.getAttribute("dateDebut") != null) {
+                           out.print(request.getAttribute("dateDebut"));
+                       }%>"/>
             </div>
         </div>
     </div>
     
     <div class="form-group">
-        <label for="justificatifsAdded" class="col-sm-2 control-label">Justificatifs</label>
-        <div class="row">
-            <a class="btn btn-link" onclick='createDialog()'><i class="fa fa-plus-circle"></i> Ajouter</a>
-        </div>
+        <label for="justificatifsAdded" class="col-sm-2 control-label">Justificatifs français</label>
         
         <div class="row col-sm-offset-1">
-            <table cellspacing="0" class="table table-bordered table-condensed dt-responsive" width="100%">
+            <table cellspacing="0" class="table table-bordered table-condensed dt-responsive" width="100%" id="justificatifsFrancais">
                 <thead>
-                    <th>Inscription</th>
-                    <th>Admlissibilité</th>
-                    <th>Etranger</th>
+                    <th>Inscription
+                        <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#inscription")'><i class="fa fa-plus-circle"></i> Ajouter</a>
+                    </th>
+                    <th>Admlissibilité
+                        <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#admissibilite")'><i class="fa fa-plus-circle"></i> Ajouter</a>
+                    </th>
                 </thead>
                 <tbody>
                     <tr>
@@ -190,8 +181,60 @@
                                 }%>
                             </ul>
                         </td>
-                        <td id="admissibilite"></td>
-                        <td id="etranger"></td>
+                        <td id="admissibilite">
+                            <ul id="justificatifsAdded" name="justificatifsAdded">
+                                
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="justificatifsAdded" class="col-sm-2 control-label">Justificatifs étranger</label>        
+        <div class="row col-sm-offset-1">
+            <table cellspacing="0" class="table table-bordered table-condensed dt-responsive" width="100%" id="justificatifsEtranger">
+                <thead>
+                    <th>Inscription
+                        <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#inscription")'><i class="fa fa-plus-circle"></i> Ajouter</a>
+                    </th>
+                    <th>Admlissibilité
+                        <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#admissibilite")'><i class="fa fa-plus-circle"></i> Ajouter</a>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="inscription">
+                            <ul id="justificatifsAdded" name="justificatifsAdded">
+                                <% if(request.getAttribute("justificatifsInscriptionEtranger") != null){
+                                    String[] justificatifs=(String[]) request.getAttribute("justificatifsInscriptionEtranger");
+                                    for (String justificatif : justificatifs){
+                                %>
+                                        <li>
+                                            <label id="justificatifsInscriptionEtranger" name="justificatifsInscriptionEtranger" class="control-label"><%out.print(justificatif);%></label>
+                                            <input type="hidden" name="justificatifsInscriptionEtranger" value="<%out.print(justificatif);%>"/>
+                                            <a class="btn btn-link" onclick='deleteJ(&quot;<%out.print( justificatif );%>&quot;)'><i class="fa fa-remove"></i> Supprimer</a>
+                                        </li>
+                                    <%}
+                                }%>
+                            </ul>
+                        </td>
+                        <td id="admissibilite">
+                            <ul id="justificatifsAdded" name="justificatifsAdded">
+                                <% if(request.getAttribute("justificatifsAdmissionEtranger") != null){
+                                    String[] justificatifs=(String[]) request.getAttribute("justificatifsAdmissionEtranger");
+                                    for (String justificatif : justificatifs){
+                                %>
+                                        <li>
+                                            <label id="justificatifsInscriptionEtranger" name="justificatifsAdmissionEtranger" class="control-label"><%out.print(justificatif);%></label>
+                                            <input type="hidden" name="justificatifsAdmissionEtranger" value="<%out.print(justificatif);%>"/>
+                                            <a class="btn btn-link" onclick='deleteJ(&quot;<%out.print( justificatif );%>&quot;)'><i class="fa fa-remove"></i> Supprimer</a>
+                                        </li>
+                                    <%}
+                                }%>
+                            </ul>
+                        </td>
                     </tr>
                 </tbody>
             </table>

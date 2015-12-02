@@ -70,7 +70,7 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
-        }/***Gestion comptes****/
+        }/***Gestion comptes***/
         else if (action.equals("voirModifierComptes")) {
             menuSelect = 1;
             classeAction = new VoirModifierComptesAction();
@@ -80,7 +80,7 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modifierCompte")) {
             menuSelect = 1;
             classeAction = new ModifierUtilisateurAction();
-        }/***Gestion formations****/
+        }/***Gestion formations***/
         else if (action.equals("voirAjoutFormation")) {
             menuSelect = 2;
             classeAction = new VoirAjoutFormationAction();

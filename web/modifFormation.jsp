@@ -14,7 +14,6 @@
 <link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 
 <script>
-<link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
     $(function() {
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
