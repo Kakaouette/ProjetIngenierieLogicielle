@@ -55,7 +55,7 @@ public class GererAuthentificationAction implements Action {
                 // traitement a effectuer pour la page d'accueil de l'admin
                 return "accueil.jsp";
             }
-            else if(compte.getType()== TypeCompte.commission)
+            else if(compte.getType()== TypeCompte.reponsable_formation)
             {
                 // traitement a effectuer pour la page d'accueil de la commission
                 return "accueil.jsp";

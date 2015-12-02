@@ -16,11 +16,11 @@
     <div class="input-group">
         <span class="input-group-addon" id="addId"><i class="fa fa-users"></i></span>
         <select name="type" id="type" class="form-control" aria-describedby="addType" required>
-            <option value="Secretaire Pole" default>Secrétaire Pôle</option>
-            <option value="Secretaire Formation">Secrétaire Formation</option>
-            <option value="Commission">Commission</option>
-            <option value="Directeur Pole">Directeur Pôle</option>
-            <option value="Administrateur">Administrateur</option>
+            <option value="<%out.print(TypeCompte.secretaire_general.name()); %>" default><%out.print(TypeCompte.secretaire_general.toString());%></option>
+            <option value="<%out.print(TypeCompte.secretaire_formation.name()); %>"><%out.print(TypeCompte.secretaire_formation.toString());%></option>
+            <option value="<%out.print(TypeCompte.reponsable_formation.name()); %>"><%out.print(TypeCompte.reponsable_formation.toString());%></option>
+            <option value="<%out.print(TypeCompte.directeur_pole.name()); %>"><%out.print(TypeCompte.directeur_pole.toString());%></option>
+            <option value="<%out.print(TypeCompte.admin.name()); %>"><%out.print(TypeCompte.admin.toString());%></option>
         </select>
     </div>
     <label for="name" class="sr-only">Nom</label>

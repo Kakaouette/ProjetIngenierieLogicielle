@@ -35,14 +35,13 @@
     <div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
         <div class="col-sm-3">
-            <!-- A faire : positionner le type actuel en selection par défaut -->
             <select name="type" id="type" class="form-control">
                 <% out.print(request.getAttribute("type"));%>
-                <option <%if(request.getAttribute("type") == TypeCompte.admin){ %>selected="selected"<%}%>>admin</option>
-                <option <%if(request.getAttribute("type") == TypeCompte.directeur_pole){ %>selected="selected"<%}%>>directeur_pole</option>
-                <option <%if(request.getAttribute("type") == TypeCompte.secretaire_general){ %>selected="selected"<%}%>>secretaire_general</option>
-                <option <%if(request.getAttribute("type") == TypeCompte.secretaire_formation){ %>selected="selected"<%}%>>secretaire_formation</option>
-                <option <%if(request.getAttribute("type") == TypeCompte.commission){ %>selected="selected"<%}%>>commission</option>
+                <option value="<%out.print(TypeCompte.admin.name());%>" <%if(request.getAttribute("type") == TypeCompte.admin){ %>selected="selected"<%}%>>Admin</option>
+                <option value="<%out.print(TypeCompte.directeur_pole.name());%>" <%if(request.getAttribute("type") == TypeCompte.directeur_pole){ %>selected="selected"<%}%>>Directeur de pole</option>
+                <option value="<%out.print(TypeCompte.secretaire_general.name());%>" <%if(request.getAttribute("type") == TypeCompte.secretaire_general){ %>selected="selected"<%}%>>Secrétaire général</option>
+                <option value="<%out.print(TypeCompte.secretaire_formation.name());%>" <%if(request.getAttribute("type") == TypeCompte.secretaire_formation){ %>selected="selected"<%}%>>Secrétaire de formation</option>
+                <option value="<%out.print(TypeCompte.reponsable_formation.name());%>" <%if(request.getAttribute("type") == TypeCompte.reponsable_formation){ %>selected="selected"<%}%>>Responsable de formation</option>
             </select>
         </div>
     </div>

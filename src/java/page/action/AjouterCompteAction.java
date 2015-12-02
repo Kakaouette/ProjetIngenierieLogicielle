@@ -55,28 +55,7 @@ public class AjouterCompteAction implements Action {
 
             return "createUser.jsp";
         }
-
-        switch (type) {
-            case "Secretaire Pole":
-                nouveauCompte.setType(TypeCompte.secretaire_general);
-                break;
-            case "Secretaire Formation":
-                nouveauCompte.setType(TypeCompte.secretaire_formation);
-                break;
-            case "Commission":
-                nouveauCompte.setType(TypeCompte.commission);
-                break;
-            case "Directeur Pole":
-                nouveauCompte.setType(TypeCompte.directeur_pole);
-                break;
-            case "Administrateur":
-                nouveauCompte.setType(TypeCompte.admin);
-                break;
-            default:
-                request.setAttribute("error", "true");
-                request.setAttribute("message", "Tous les champs doivent être remplis !");
-                return "createUser.jsp";
-        }
+        nouveauCompte.setType(TypeCompte.valueOf(type));
 
         try {
             new CompteService().ajouterUtilisateur(nouveauCompte);

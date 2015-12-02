@@ -53,7 +53,7 @@ public class GestULRPeuplement {
         Compte c2 = new Compte("secretaire_general", cryptageMDP("azerty"), "secretaire", "générale", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.secretaire_general, null);
         Compte c3 = new Compte("directeur_pole", cryptageMDP("azerty"), "directeur", "pole", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.directeur_pole, null);
         Compte c4 = new Compte("secretaire_formation", cryptageMDP("azerty"), "secretaire", "formation", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.secretaire_formation, null);
-        Compte c5 = new Compte("commission", cryptageMDP("azerty"), "commission", "commission", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.commission, null);
+        Compte c5 = new Compte("reponsable_formation", cryptageMDP("azerty"), "reponsable_formation", "reponsable_formation", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.reponsable_formation, null);
         
         new CompteDAO().save(c1);
         new CompteDAO().save(c2);
