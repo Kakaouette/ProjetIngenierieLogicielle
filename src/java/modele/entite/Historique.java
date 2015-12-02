@@ -7,6 +7,7 @@ package modele.entite;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -88,5 +89,34 @@ public class Historique implements Serializable{
 
     public void setCompte(Compte compte) {
         this.compte = compte;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 23 * hash + this.id;
+        hash = 23 * hash + Objects.hashCode(this.date);
+        hash = 23 * hash + Objects.hashCode(this.message);
+        hash = 23 * hash + Objects.hashCode(this.action);
+        hash = 23 * hash + Objects.hashCode(this.compte);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Historique other = (Historique) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
 }

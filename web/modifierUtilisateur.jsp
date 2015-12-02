@@ -117,5 +117,5 @@
             
 <%@include file="Modele/pied.jsp" %>
 <div id="dialog" title="Confirmer la suppression">
-    <p>Voulez vous vraiment supprimer cette ligne ?</p>
+    <p>Voulez vous vraiment supprimer ce compte ?</p>
 </div>

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Compte;
+import modele.entite.Dossier;
 import modele.entite.Historique;
 
 /**
@@ -74,6 +75,11 @@ public class HistoriqueDAO extends Dao {
     }
     
     public void delete(Historique unHistorique) {
+        DossierDAO dossierDAO = new DossierDAO();
+        Dossier d = dossierDAO.getByHistorique(unHistorique);
+        d.getHistorique().remove(unHistorique);
+        dossierDAO.update(d);
+        
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.remove(unHistorique);

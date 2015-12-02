@@ -15,36 +15,37 @@ import javax.persistence.*;
  * @author Val
  */
 @Entity
-public class Dossier implements Serializable{
-    
+public class Dossier implements Serializable {
+
     @Id
     String id;
-    
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     Date date;
-    
+
     @Column(nullable = false)
     String etat;
-        
+
     @Lob
     @Column
     String lettre;
 
     @Column
     boolean admissible;
-    
+
     @JoinColumn(nullable = false)
     @ManyToOne
     Etudiant etudiant;
-    
+
     @ManyToOne
     Formation demandeFormation;
-    
-    @OneToMany(targetEntity = Historique.class, cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
+
+    @OneToMany(targetEntity = Historique.class, cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     List<Historique> historique;
 
-    public Dossier(Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation) {
+    public Dossier(String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation) {
+        this.id = id;
         this.date = date;
         this.etat = etat;
         this.lettre = lettre;
@@ -53,7 +54,8 @@ public class Dossier implements Serializable{
         this.demandeFormation = demandeFormation;
     }
 
-    public Dossier(Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique) {
+    public Dossier(String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique) {
+        this.id = id;
         this.date = date;
         this.etat = etat;
         this.lettre = lettre;
@@ -98,7 +100,6 @@ public class Dossier implements Serializable{
     public Dossier() {
     }
 
-    
     public String getId() {
         return id;
     }
@@ -130,9 +131,5 @@ public class Dossier implements Serializable{
     public List<Historique> getHistorique() {
         return historique;
     }
-    
-    
-    
-    
-    
+
 }

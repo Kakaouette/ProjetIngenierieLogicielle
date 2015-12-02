@@ -159,12 +159,9 @@ public class GestULRPeuplement {
         histList1.add(hist1);
         
         //Création des dossiers
-        Dossier d1 = new Dossier(new Date(), "En cours de traitement", "Blalalalalalalalala", true, etu1, form2, histList1);
-        Dossier d2 = new Dossier(new Date(), "Accepté", "yeah", true, etu1, form1);
-        Dossier d3 = new Dossier(new Date(), "Refusé", "sad", true, etu2, form3);
-        d1.setId("pst181120151");
-        d2.setId("pst181120152");
-        d3.setId("pst181120153");
+        Dossier d1 = new Dossier("pst181120151", new Date(), "En cours de traitement", "Blalalalalalalalala", true, etu1, form2, histList1);
+        Dossier d2 = new Dossier("pst181120152", new Date(), "Accepté", "yeah", true, etu1, form1);
+        Dossier d3 = new Dossier("pst181120153", new Date(), "Refusé", "sad", true, etu2, form3);
         
         new DossierDAO().save(d1);
         new DossierDAO().save(d2);
