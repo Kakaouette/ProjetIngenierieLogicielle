@@ -78,12 +78,12 @@
                 <input type="text" class="input-sm form-control" name="dateDebut" placeholder="Date de début" autocomplete="off"
                    value="<%if (request.getAttribute("dateFin") != null) {
                            out.print(request.getAttribute("dateFin"));
-                       }%>" pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
+                       }%>"/>
                 <span class="input-group-addon">au</span>
                 <input type="text" class="input-sm form-control" name="dateFin" placeholder="Date de fin" autocomplete="off"
                    value="<%if(request.getAttribute("dateDebut") != null) {
                            out.print(request.getAttribute("dateDebut"));
-                       }%>"  pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
+                       }%>"/>
             </div>
         </div>
     </div>
