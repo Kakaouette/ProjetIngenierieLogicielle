@@ -63,6 +63,11 @@ public class VoirModifFormationAction implements Action{
                 return new VoirGestionFormationsAction().execute(request, response); //redirection
             }
         }
+        if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", "La formation ne peut être modifier pendant la période d'inscription");
+            return new VoirGestionFormationsAction().execute(request, response); //redirection
+        }
         
         //recuperation des données
         String intitule = formation.getIntitule();

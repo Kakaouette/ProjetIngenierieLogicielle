@@ -5,6 +5,7 @@
  */
 package service;
 
+import java.util.Date;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
 
@@ -56,6 +57,9 @@ public class FormationService {
         if(formation == null){
             throw new SuppressionFormationInvalideException("Formation " + id + " inexistante.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Inexistante.toString()));
         }
+        if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){
+            throw new SuppressionFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(SuppressionFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
+        }
         
         //suppression de la formation dans la BDD
         formationDAO.delete(formation);
@@ -73,6 +77,9 @@ public class FormationService {
         }
         if(formationDAO.getById(formation.getId()) == null){
             throw new ModificationFormationInvalideException("Formation inexistante.", new Throwable(ModificationFormationInvalideException.cause.Formation_Inexistante.toString()));
+        }
+        if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){
+            throw new ModificationFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(ModificationFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
         }
         if(formation.getIntitule().isEmpty()){
             throw new ModificationFormationInvalideException("Intitulé non rempli.", new Throwable(ModificationFormationInvalideException.cause.Intitule_Vide.toString()));

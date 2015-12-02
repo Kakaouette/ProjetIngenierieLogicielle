@@ -13,8 +13,12 @@
 <script src="jQuery/bootstrap-datepicker.js"></script>
 <link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 
-<script>
-<link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
+<script type="text/javascript">
+    <%if(request.getAttribute("focus") != null){%>
+        window.onload=function(){
+            document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+        };
+    <%}%>
     $(function() {
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
@@ -24,14 +28,6 @@
         });
     });
 </script>
-
-<%if(request.getAttribute("focus") != null){%>
-<script type="text/javascript">
-    window.onload=function(){
-        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
-    };
-</script>
-<%}%>
 
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">

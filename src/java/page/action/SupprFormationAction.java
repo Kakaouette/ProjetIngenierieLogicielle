@@ -25,27 +25,13 @@ public class SupprFormationAction implements Action{
         
         //verification de la validité du parametre
         String[] required = {idForm};
-        String[] requiredToString = {"id du formulaire"};
-        List<String> empty = new ArrayList<String>();
-        for(int i=0; i<required.length; i++){
-            if(required[i].isEmpty()){
-                empty.add(requiredToString[i]);
-            }
-        }
-        if(!empty.isEmpty()){
-            try {
-                String champs = "";
-                for(String champ : empty){
-                    if(!champs.equals("")){champs+=", ";}
-                    champs += champ;
-                }
-                if(empty.size()==1){ throw new Exception("Un champ requis est vide. (" + champs + ")");
-                }else{ throw new Exception("Des champs requis sont vides. (" + champs + ")"); }
-            } catch (Exception ex) {
-                request.setAttribute("typeMessage", "danger");
-                request.setAttribute("message", ex.getMessage());
-                return stayHere(request, response); //redirection
-            }
+        String[] requiredName = {"id du formulaire"};
+        try {
+            validerFormulaire(required, requiredName);
+        } catch (Exception ex) {
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", ex.getMessage());
+            return stayHere(request, response); //redirection
         }
         
         //mise en forme des données
@@ -77,5 +63,28 @@ public class SupprFormationAction implements Action{
      */
     private String stayHere(HttpServletRequest request, HttpServletResponse response){
         return new VoirGestionFormationsAction().execute(request, response); //modif: voir récupérer page precedente
+    }
+    
+    private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
+        
+        //verification de la validité du formulaire
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].isEmpty()){
+                empty.add(requiredName[i]);
+            }
+        }
+        if(!empty.isEmpty()){
+            String champs = "";
+            for(String champ : empty){
+                if(!champs.equals("")){champs+=", ";}
+                champs += champ;
+            }
+            if(empty.size()==1){
+                throw new Exception("Un champ requis est vide. (" + champs + ")");
+            }else{
+                throw new Exception("Des champs requis sont vides. (" + champs + ")");
+            }
+        }
     }
 }
