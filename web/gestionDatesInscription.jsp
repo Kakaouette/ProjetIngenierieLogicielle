@@ -15,9 +15,10 @@
     $(function() {
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
-            language: "fr",
             todayBtn: true,
-            autoclose: true
+            language: "fr",
+            autoclose: true,
+            todayHighlight: true
         });
     });
 </script>
@@ -71,34 +72,22 @@
     </div>
     
     <div class="form-group">
-        <label for="dateDebut" class="col-sm-2 control-label">Date de début</label>
-        <div class="col-sm-3">
+        <label for="datepicker" class="col-sm-2 control-label">Période d'inscription</label>
+        <div class="col-sm-3">    
             <div class="input-daterange input-group" id="datepicker">
-                <% SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy"); %>
-                <input type="text" id="start" class="form-control" name="dateDebut" readonly="readonly" placeholder="Date de début" autocomplete="off"
-                       value="<%/*if(df.parse(request.getParameter("dateFin")).before(df.parse(request.getAttribute("dateDebut").toString()))){ 
-                               out.print(request.getAttribute("dateFin"));
-                           }else*/ if(request.getAttribute("dateDebut") != null) {
-                               out.print(request.getAttribute("dateDebut"));
-                           }%>"  pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
+                <input type="text" class="input-sm form-control" name="dateDebut" placeholder="Date de début" autocomplete="off"
+                   value="<%if (request.getAttribute("dateFin") != null) {
+                           out.print(request.getAttribute("dateFin"));
+                       }%>" pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
+                <span class="input-group-addon">au</span>
+                <input type="text" class="input-sm form-control" name="dateFin" placeholder="Date de fin" autocomplete="off"
+                   value="<%if(request.getAttribute("dateDebut") != null) {
+                           out.print(request.getAttribute("dateDebut"));
+                       }%>"  pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
             </div>
         </div>
     </div>
-            
-    <div class="form-group">
-        <label for="dateFin" class="col-sm-2 control-label">Date de fin</label>
-        <div class="col-sm-3">
-            <div class="input-daterange input-group" id="datepicker">
-                <input type="text" id="stop" class="form-control" name="dateFin" readonly="readonly" placeholder="Date de fin" autocomplete="off"
-                       value="<%/*if(df.parse(request.getParameter("dateDebut")).after(df.parse(request.getAttribute("dateFin").toString()))){ 
-                               out.print(request.getAttribute("dateDebut"));
-                           } else*/ if (request.getAttribute("dateFin") != null) {
-                               out.print(request.getAttribute("dateFin"));
-                           }%>" pattern="dd/MM/yyyy" title="dd/MM/yyyy"/>
-            </div>
-        </div>
-    </div>
-    
+                
     <div class="row">
         <div class="col-md-1 col-md-offset-1">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer"><i class="fa fa-save"></i> Enregister</button>

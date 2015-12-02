@@ -7,6 +7,7 @@ package page.action;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,9 +54,17 @@ public class VoirGestionDatesInscriptionAction implements Action{
         }
         request.setAttribute("description", formationModifiee.getDescription());
         request.setAttribute("nbPlace", formationModifiee.getNombrePlace());
+        Date debut = new Date();
+        if(formationModifiee.getDebut() != null){
+            debut = formationModifiee.getDebut();
+        }
+        Date fin = new Date();
+        if(formationModifiee.getFin() != null){
+            fin = formationModifiee.getFin();
+        }
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        request.setAttribute("dateDebut", df.format(formationModifiee.getDebut()));
-        request.setAttribute("dateFin", df.format(formationModifiee.getFin()));
+        request.setAttribute("dateDebut", df.format(debut));
+        request.setAttribute("dateFin", df.format(fin));
         request.setAttribute("formations", formations);
         
         return "gestionDatesInscription.jsp";
