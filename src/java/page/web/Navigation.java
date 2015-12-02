@@ -104,7 +104,7 @@ public class Navigation extends HttpServlet {
             classeAction = new VoirGestionDatesInscriptionAction();
         }else if (action.equals("modiferDatesInscription")) {
             menuSelect = 2;
-            classeAction = new ModiferDatesInscriptionAction();
+            classeAction = new ModifDatesInscriptionAction();
         }else{
             action = "index";
             menuSelect = 0;

@@ -4,6 +4,7 @@
     Author     : Arthur
 --%>
 
+<%@page import="modele.entite.Formation"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
@@ -26,10 +27,31 @@
     window.onload=function(){
         document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
     };
+    
+    function reloadPage(){
+       $("form#formation").prop("action", "Navigation?action=voirGestionDatesInscription");
+       $("form#formation").submit();
+    };
 </script>
 <%}%>
 
-<form action="Navigation?action=modiferDatesInscription" method="POST" class="form-horizontal">
+<form action="Navigation?action=modiferDatesInscription" method="POST" class="form-horizontal"> 
+    <div class="form-group">
+        <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
+        <div class="col-sm-3">
+            <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="reloadPage()">
+                <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
+                for (Formation formation : formations){
+                %>
+                <option value="<%out.print(formation.getIntitule());%>"<%if(request.getAttribute("formationIntitule") != null){
+                                if(request.getAttribute("formationIntitule").equals(formation.getIntitule())){%>selected<%}
+                            }%>><%out.print(formation.getIntitule());%></option>
+                <%}%>
+            </select>
+            
+        </div>
+    </div>
+            
     <div class="form-group">
         <label for="intitule" class="col-sm-2 control-label">Intitulé</label>
         <div class="col-sm-3">
