@@ -39,8 +39,13 @@
 <%}%>
 
 <%@include file="Modele/dataTablesFormationScript.jsp" %>
+    <div class="row">
 <div class="col-sm-3">
     <a class="btn btn-success" href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a>
+</div>
+<div class="col-sm-3">
+    <a class="btn btn-success" href="Navigation?action=voirGestionDatesInscription"><i class="fa fa-calendar"></i> Gestion des dates d'inscription</a>
+</div>
 </div><br>
 <table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive" width="100%">
     <thead>

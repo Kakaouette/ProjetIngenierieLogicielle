@@ -13,9 +13,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
-import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
-import modele.entite.Justificatif;
 import service.FormationService;
 import service.ModificationFormationInvalideException;
 
@@ -36,27 +34,13 @@ public class ModifDatesInscriptionAction implements Action{
         
         //verification de la validité du formulaire
         String[] required = {intitule, debut, fin};
-        String[] requiredToString = {"intitulé", "date de début", "date de fin"};
-        List<String> empty = new ArrayList<String>();
-        for(int i=0; i<required.length; i++){
-            if(required[i].isEmpty()){
-                empty.add(requiredToString[i]);
-            }
-        }
-        if(!empty.isEmpty()){
-            try {
-                String champs = "";
-                for(String champ : empty){
-                    if(!champs.equals("")){champs+=", ";}
-                    champs += champ;
-                }
-                if(empty.size()==1){ throw new Exception("Un champ requis est vide. (" + champs + ")");
-                }else{ throw new Exception("Des champs requis sont vides. (" + champs + ")"); }
-            } catch (Exception ex) {
-                request.setAttribute("typeMessage", "danger");
-                request.setAttribute("message", ex.getMessage());
-                return stayHere(request, response); //redirection
-            }
+        String[] requiredName = {"intitulé", "date de début", "date de fin"};
+        try {
+            validerFormulaire(required, requiredName);
+        } catch (Exception ex) {
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", ex.getMessage());
+            return stayHere(request, response);
         }
         
         //mise en forme des données
@@ -85,11 +69,11 @@ public class ModifDatesInscriptionAction implements Action{
         try{
             new FormationService().modifierFormation(formationModifiee);
             request.setAttribute("typeMessage", "success");
-            request.setAttribute("message", "Formation modifié.");
+            request.setAttribute("message", "Période d'inscription modifié.");
             actionPageSuivante = new VoirGestionFormationsAction(); //redirection
         }catch(ModificationFormationInvalideException e){
             request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
+            request.setAttribute("message", "La période d'inscription n'a pas été modifié: " + e.getMessage());
             if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
                 request.setAttribute("focus", "intitule");
             }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Date_Incohérentes.toString())){
@@ -98,7 +82,7 @@ public class ModifDatesInscriptionAction implements Action{
             return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation n'a pas été ajouté.");
+            request.setAttribute("message", "La période d'inscription n'a pas été modifié.");
             return stayHere(request, response); //redirection
         }
         
@@ -114,9 +98,33 @@ public class ModifDatesInscriptionAction implements Action{
     private String stayHere(HttpServletRequest request, HttpServletResponse response){
         //keep formulaire
         request.setAttribute("intitule", request.getParameter("intitule"));
+        request.setAttribute("description", request.getParameter("description"));
         request.setAttribute("nbPlace", request.getParameter("nbPlace"));
         request.setAttribute("dateDebut", request.getParameter("dateDebut"));
         request.setAttribute("dateFin", request.getParameter("dateFin"));
         return new VoirGestionDatesInscriptionAction().execute(request, response); //modif: voir récupérer page precedente
+    }
+    
+    private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
+        
+        //verification de la validité du formulaire
+        List<String> empty = new ArrayList<String>();
+        for(int i=0; i<required.length; i++){
+            if(required[i].isEmpty()){
+                empty.add(requiredName[i]);
+            }
+        }
+        if(!empty.isEmpty()){
+            String champs = "";
+            for(String champ : empty){
+                if(!champs.equals("")){champs+=", ";}
+                champs += champ;
+            }
+            if(empty.size()==1){
+                throw new Exception("Un champ requis est vide. (" + champs + ")");
+            }else{
+                throw new Exception("Des champs requis sont vides. (" + champs + ")");
+            }
+        }
     }
 }

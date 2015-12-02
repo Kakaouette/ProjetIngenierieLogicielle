@@ -22,42 +22,32 @@
     });
 </script>
 
-<%if(request.getAttribute("focus") != null){%>
 <script type="text/javascript">
-    window.onload=function(){
-        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
-    };
-    
+    <%if(request.getAttribute("focus") != null){%>
+        window.onload=function(){
+            document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+        };
+    <%}%>
     function reloadPage(){
-       $("form#formation").prop("action", "Navigation?action=voirGestionDatesInscription");
-       $("form#formation").submit();
+       $("form#dates").prop("action", "Navigation?action=voirGestionDatesInscription");
+       $("form#dates").submit();
     };
 </script>
-<%}%>
 
-<form action="Navigation?action=modiferDatesInscription" method="POST" class="form-horizontal"> 
+<form id="dates" action="Navigation?action=modiferDatesInscription" method="POST" class="form-horizontal"> 
     <div class="form-group">
-        <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
+        <label for="intitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
-            <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="reloadPage()">
+            <select name="intitule" id="intitule" class="form-control" onchange="reloadPage()">
                 <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
                 for (Formation formation : formations){
                 %>
-                <option value="<%out.print(formation.getIntitule());%>"<%if(request.getAttribute("formationIntitule") != null){
-                                if(request.getAttribute("formationIntitule").equals(formation.getIntitule())){%>selected<%}
+                <option value="<%out.print(formation.getIntitule());%>"<%if(request.getAttribute("intitule") != null){
+                                if(request.getAttribute("intitule").equals(formation.getIntitule())){%>selected<%}
                             }%>><%out.print(formation.getIntitule());%></option>
                 <%}%>
             </select>
             
-        </div>
-    </div>
-            
-    <div class="form-group">
-        <label for="intitule" class="col-sm-2 control-label">Intitulé</label>
-        <div class="col-sm-3">
-            <input type="text" name="intitule" id="intitule" class="form-control" 
-                   value="<%if(request.getAttribute("intitule") != null){out.print(request.getAttribute("intitule"));}%>" 
-                   placeholder="Intitulé" autocomplete="off" required autofocus readonly>
         </div>
     </div>
     

@@ -111,7 +111,7 @@ public class ModifFormationAction implements Action{
             actionPageSuivante = new VoirGestionFormationsAction(); //redirection
         }catch(ModificationFormationInvalideException e){
             request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
+            request.setAttribute("message", "La formation n'a pas été modifié: " + e.getMessage());
             if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
                 request.setAttribute("focus", "intitule");
             }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Date_Incohérentes.toString())){
@@ -120,7 +120,7 @@ public class ModifFormationAction implements Action{
             return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
             request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation n'a pas été ajouté.");
+            request.setAttribute("message", "La formation n'a pas été modifié.");
             return stayHere(request, response); //redirection
         }
         

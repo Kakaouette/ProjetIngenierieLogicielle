@@ -5,6 +5,7 @@
  */
 package page.action;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +37,43 @@ public class VoirGestionDatesInscriptionAction implements Action{
             formations = new ArrayList<Formation>();
             request.setAttribute("message", "Aucune formation trouvé dans la BDD");
         }
+        
+        String intitule = formations.get(0).getIntitule();
+        //keep formulaire
+        if(request.getParameter("intitule") != null){
+            intitule = request.getParameter("intitule");
+        }
+        request.setAttribute("intitule", intitule);
+        //recuperation de la formation
+        Formation formationModifiee = new FormationDAO().getFormationByIntitule(intitule);
+        if(formationModifiee == null){
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", "Formation inconnue");
+            return stayHere(request, response); //redirection
+        }
+        request.setAttribute("description", formationModifiee.getDescription());
+        request.setAttribute("nbPlace", formationModifiee.getNombrePlace());
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        request.setAttribute("dateDebut", df.format(formationModifiee.getDebut()));
+        request.setAttribute("dateFin", df.format(formationModifiee.getFin()));
         request.setAttribute("formations", formations);
         
         return "gestionDatesInscription.jsp";
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @return action de voir la page + retour de String correspondant à la page
+     */
+    private String stayHere(HttpServletRequest request, HttpServletResponse response){
+        //keep formulaire
+        request.setAttribute("intitule", request.getParameter("intitule"));
+        request.setAttribute("description", request.getParameter("description"));
+        request.setAttribute("nbPlace", request.getParameter("nbPlace"));
+        request.setAttribute("dateDebut", request.getParameter("dateDebut"));
+        request.setAttribute("dateFin", request.getParameter("dateFin"));
+        return new VoirGestionDatesInscriptionAction().execute(request, response); //modif: voir récupérer page precedente
+    }
 }
