@@ -13,6 +13,8 @@
 <script src="jQuery/bootstrap-datepicker.js"></script>
 <link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 
+<script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
+<link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
 <script>
     $(function() {
         $('.input-daterange').datepicker({
@@ -25,8 +27,6 @@
     });
 </script>
 
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
     <%if(request.getAttribute("focus") != null){%>
         window.onload=function(){
@@ -45,33 +45,37 @@
         $('div#dialogJustificatifAAjouter').dialog({
             modal: true,
             buttons: {
-                "Ajouter": function() {
-                    $path = location + ' ul#justificatifsAdded';
-                    if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0){
-                        $name = "justificatifs";
-                        if(location.contains("inscription")){
-                            $name += "Inscription";
-                        }else if(location.contains("admission")){
-                            $name += "Admission"
+                "Ajouter":{
+                    text : 'Ajouter' ,class : 'btn btn-success', click : function() {
+                        $path = location + ' ul#justificatifsAdded';
+                        if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0){
+                            $name = "justificatifs";
+                            if(location.contains("inscription")){
+                                $name += "Inscription";
+                            }else if(location.contains("admission")){
+                                $name += "Admission"
+                            }
+                            if(location.contains("Francais")){
+                                $name += "Francais"
+                            }else if(location.contains("Etranger")){
+                                $name += "Etranger"
+                            }
+
+                            $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("div#dialogJustificatifAAjouter input#titre").val() + '</label>'));
+                            $($path + ' li:last').append($('<input>').attr('type', "hidden").attr('name', $name).attr('value', $("div#dialogJustificatifAAjouter input#titre").val()));            
+                            $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + $("div#dialogJustificatifAAjouter input#titre").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
+                            $(this).dialog("close");
+                        }else{
+                            $('div#dialogJustificatifAAjouter').append($('<br>'))
+                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie</em>'))
+                            //<em></em>
                         }
-                        if(location.contains("Francais")){
-                            $name += "Francais"
-                        }else if(location.contains("Etranger")){
-                            $name += "Etranger"
-                        }
-                        
-                        $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("div#dialogJustificatifAAjouter input#titre").val() + '</label>'));
-                        $($path + ' li:last').append($('<input>').attr('type', "hidden").attr('name', $name).attr('value', $("div#dialogJustificatifAAjouter input#titre").val()));            
-                        $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + $("div#dialogJustificatifAAjouter input#titre").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
-                        $(this).dialog("close");
-                    }else{
-                        $('div#dialogJustificatifAAjouter').append($('<br>'))
-                        $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie</em>'))
-                        //<em></em>
                     }
                 },
-                "Annuler": function() {
-                    $(this).dialog("close");
+                "Annuler": {
+                    text : 'Annuler' ,class : 'btn btn-default', click : function() {
+                        $(this).dialog("close");
+                    }
                 }
             }
         });

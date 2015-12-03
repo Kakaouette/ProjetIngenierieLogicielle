@@ -108,6 +108,7 @@ public class VoirModifFormationAction implements Action{
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
                     }
                 }
+                request.setAttribute("justificatifsInscriptionFrancais", justificatifsToString);
                 justificatifsToString = new String[0];
                 for(Justificatif jTemp : justificatifs){
                     if(jTemp.getTypeAdmissible() == TypeDossier.admissibilite && jTemp.getTypeNationalite() == TypeJustificatifEtranger.francais){
@@ -116,6 +117,7 @@ public class VoirModifFormationAction implements Action{
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
                     }
                 }
+                request.setAttribute("justificatifsAdmissionFrancais", justificatifsToString);
                 justificatifsToString = new String[0];
                 for(Justificatif jTemp : justificatifs){
                     if(jTemp.getTypeAdmissible() == TypeDossier.inscription && jTemp.getTypeNationalite() == TypeJustificatifEtranger.etranger){
@@ -124,6 +126,7 @@ public class VoirModifFormationAction implements Action{
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
                     }
                 }
+                request.setAttribute("justificatifsInscriptionEtranger", justificatifsToString);
                 justificatifsToString = new String[0];
                 for(Justificatif jTemp : justificatifs){
                     if(jTemp.getTypeAdmissible() == TypeDossier.admissibilite && jTemp.getTypeNationalite() == TypeJustificatifEtranger.etranger){
@@ -132,9 +135,6 @@ public class VoirModifFormationAction implements Action{
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
                     }
                 }
-                request.setAttribute("justificatifsInscriptionFrancais", justificatifsToString);
-                request.setAttribute("justificatifsAdmissionFrancais", justificatifsToString);
-                request.setAttribute("justificatifsInscriptionEtranger", justificatifsToString);
                 request.setAttribute("justificatifsAdmissionEtranger", justificatifsToString);
             }
         }else{
