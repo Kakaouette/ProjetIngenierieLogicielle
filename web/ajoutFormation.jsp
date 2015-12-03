@@ -19,24 +19,20 @@
             format: "dd/mm/yyyy",
             todayBtn: true,
             language: "fr",
-            todayBtn: true,
             autoclose: true,
             todayHighlight: true
         });
     });
 </script>
 
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
     <%if(request.getAttribute("focus") != null){%>
         window.onload=function(){
             document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
         };
     <%}%>
-</script>
-
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script type="text/javascript">
     $(function() {
         $('div#dialogJustificatifAAjouter').hide();
     });

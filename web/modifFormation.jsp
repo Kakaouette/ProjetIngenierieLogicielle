@@ -17,24 +17,22 @@
     $(function() {
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
-            language: "fr",
             todayBtn: true,
-            autoclose: true
+            language: "fr",
+            autoclose: true,
+            todayHighlight: true
         });
     });
 </script>
 
-<%if(request.getAttribute("focus") != null){%>
-<script type="text/javascript">
-    window.onload=function(){
-        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
-    };
-</script>
-<%}%>
-
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
+    <%if(request.getAttribute("focus") != null){%>
+        window.onload=function(){
+            document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+        };
+    <%}%>
     $(function() {
         $('div#dialogJustificatifAAjouter').hide();
     });

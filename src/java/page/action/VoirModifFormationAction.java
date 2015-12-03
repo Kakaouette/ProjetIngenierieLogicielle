@@ -5,6 +5,8 @@
  */
 package page.action;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,6 +67,7 @@ public class VoirModifFormationAction implements Action{
         int nbPlace = formation.getNombrePlace();
         Date debut = formation.getDebut();
         Date fin = formation.getFin();
+
         List<Justificatif> justificatifs = formation.getLesJustificatifs();
                 
         //remplissage du formulaire
@@ -84,14 +87,15 @@ public class VoirModifFormationAction implements Action{
         if(request.getParameter("nbPlace") != null){
             request.setAttribute("nbPlace", nbPlace);
         }
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         if(request.getParameter("dateDebut") == null){
             if(debut != null){
-                request.setAttribute("dateDebut", debut);
+                request.setAttribute("dateDebut", df.format(debut));
             }
         }
         if(request.getParameter("dateFin") == null){
             if(fin != null){
-                request.setAttribute("dateFin", fin);
+                request.setAttribute("dateFin", df.format(fin));
             }
         }
         if(request.getAttribute("message") == null){
