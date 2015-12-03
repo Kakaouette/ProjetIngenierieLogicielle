@@ -41,7 +41,7 @@ public class GererAuthentificationAction implements Action {
         } else {
             request.getSession().setAttribute("compte", compte);
             
-            if(compte.getType()== TypeCompte.secretaire_general)
+            if(compte.getType() == TypeCompte.secretaire_general)
             {
                 // traitement a effectuer pour la page d'accueil de la secretaire generale
                 return new AfficherInformationsDossiersAction().execute(request, response); // charge les dossiers + retourne "listeDossiers.jsp"

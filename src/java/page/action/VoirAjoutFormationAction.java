@@ -5,13 +5,8 @@
  */
 package page.action;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.dao.JustificatifDAO;
-import modele.entite.Justificatif;
-import modele.entite.TypeJustificatifEtranger;
 
 /**
  *
