@@ -10,12 +10,11 @@
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
-<script src="jQuery/bootstrap-datepicker.js"></script>
-<link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 
 <script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
-<link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
-<script>
+<script src="jQuery/bootstrap-datepicker.js"></script>
+<link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
+<script type="text/javascript">
     $(function() {
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
@@ -27,6 +26,7 @@
     });
 </script>
 
+<link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
 <script type="text/javascript">
     <%if(request.getAttribute("focus") != null){%>
         window.onload=function(){

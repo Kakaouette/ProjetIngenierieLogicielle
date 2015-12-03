@@ -8,10 +8,10 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
+
 <script src="jQuery/bootstrap-datepicker.js"></script>
 <link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
-
-<script>
+<script type="text/javascript">
     $(function() {
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
@@ -21,14 +21,13 @@
             todayHighlight: true
         });
     });
-</script>
-
-<script type="text/javascript">
+    
     <%if(request.getAttribute("focus") != null){%>
         window.onload=function(){
             document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
         };
     <%}%>
+    
     function reloadPage(){
        $("form#dates").prop("action", "Navigation?action=voirGestionDatesInscription");
        $("form#dates").submit();

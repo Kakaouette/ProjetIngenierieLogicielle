@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.FormationDAO;
+import modele.entite.Formation;
 import service.FormationService;
 import service.SuppressionFormationInvalideException;
 
@@ -36,10 +38,20 @@ public class SupprFormationAction implements Action{
         
         //mise en forme des données
         int id = Integer.parseInt(idForm);
+        //recuperation de la formation
+        Formation formation = new FormationDAO().getById(id);
+        //verif id correct
+        if(formation == null){
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", "Formation " + id + " inexistante.");
+        }else if(formation.getId() != id){
+            request.setAttribute("typeMessage", "info");
+            request.setAttribute("message", "Bien tenté");
+        }
         
         //demande de suppression de la formation
         try{
-            new FormationService().supprimerFormation(id);
+            new FormationService().supprimerFormation(formation);
             request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Formation supprimé.");
         }catch(SuppressionFormationInvalideException e){

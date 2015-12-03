@@ -14,6 +14,7 @@ public class ModificationFormationInvalideException extends Exception{
         Formation_Vide,
         Formation_Inexistante,
         Intitule_Vide,
+        Formation_Existante,
         Date_Incohérentes,
         Inscriptions_En_Cours
     }

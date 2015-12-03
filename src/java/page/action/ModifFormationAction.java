@@ -93,6 +93,14 @@ public class ModifFormationAction implements Action{
         //recuperation de la formation
         int id = Integer.parseInt(idForm);
         Formation formationModifiee = new FormationDAO().getById(id);
+        //verif id correct
+        if(formationModifiee == null){
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", "Formation " + id + " inexistante.");
+        }else if(formationModifiee.getId() != id){
+            request.setAttribute("typeMessage", "info");
+            request.setAttribute("message", "Bien tenté");
+        }
         //formation de la formation
         formationModifiee.setIntitule(intitule);
         formationModifiee.setDescription(description);

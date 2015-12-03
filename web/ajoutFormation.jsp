@@ -10,12 +10,11 @@
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
-<script src="jQuery/bootstrap-datepicker.js"></script>
-<link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 
 <script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
-<link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
-<script>
+<script src="jQuery/bootstrap-datepicker.js"></script>
+<link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
+<script type="text/javascript">
     $(function() {
         $('.input-daterange').datepicker({
             format: "dd/mm/yyyy",
@@ -27,6 +26,7 @@
     });
 </script>
 
+<link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
 <script type="text/javascript">
     <%if(request.getAttribute("focus") != null){%>
         window.onload=function(){
@@ -38,7 +38,7 @@
     });
 
     function createDialog(location) {
-        $('div#dialogJustificatifAAjouter input#titre').val('')
+        $('div#dialogJustificatifAAjouter input#titre').val('');
         $('div#dialogJustificatifAAjouter br').remove();
         $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove();
         
@@ -53,12 +53,12 @@
                             if(location.contains("inscription")){
                                 $name += "Inscription";
                             }else if(location.contains("admission")){
-                                $name += "Admission"
+                                $name += "Admission";
                             }
                             if(location.contains("Francais")){
-                                $name += "Francais"
+                                $name += "Francais";
                             }else if(location.contains("Etranger")){
-                                $name += "Etranger"
+                                $name += "Etranger";
                             }
 
                             $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("div#dialogJustificatifAAjouter input#titre").val() + '</label>'));
@@ -66,8 +66,8 @@
                             $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + $("div#dialogJustificatifAAjouter input#titre").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
                             $(this).dialog("close");
                         }else{
-                            $('div#dialogJustificatifAAjouter').append($('<br>'))
-                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie</em>'))
+                            $('div#dialogJustificatifAAjouter').append($('<br>'));
+                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie</em>'));
                             //<em></em>
                         }
                     }
