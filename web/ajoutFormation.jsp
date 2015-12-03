@@ -38,9 +38,16 @@
     });
 
     function createDialog(location) {
-        $('div#dialogJustificatifAAjouter input#titre').val('');
-        $('div#dialogJustificatifAAjouter br').remove();
-        $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove();
+        //creation et ajout du dialog
+        $('body').append('\
+            <div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">\n\
+                <div class="row">\n\
+                    <label for="titre" class="col-sm-2 control-label">Titre</label>\n\
+                    <div class="col-sm-10">\n\
+                        <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" autocomplete="off" required autofocus>\n\
+                    </div>\n\
+                </div>\n\
+            </div>');
         
         $('div#dialogJustificatifAAjouter').dialog({
             modal: true,
@@ -64,6 +71,7 @@
                             $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("div#dialogJustificatifAAjouter input#titre").val() + '</label>'));
                             $($path + ' li:last').append($('<input>').attr('type', "hidden").attr('name', $name).attr('value', $("div#dialogJustificatifAAjouter input#titre").val()));            
                             $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + $("div#dialogJustificatifAAjouter input#titre").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
+                            $('div#dialogJustificatifAAjouter').remove(); //suppression du dialog
                             $(this).dialog("close");
                         }else{
                             $('div#dialogJustificatifAAjouter').append($('<br>'));
@@ -74,6 +82,7 @@
                 },
                 "Annuler": {
                     text : 'Annuler' ,class : 'btn btn-default', click : function() {
+                        $('div#dialogJustificatifAAjouter').remove(); //suppression du dialog
                         $(this).dialog("close");
                     }
                 }
@@ -261,12 +270,3 @@
 <%}%>
             
 <%@include file="Modele/pied.jsp" %>
-
-<div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">
-    <div class="row">
-        <label for="titre" class="col-sm-2 control-label">Titre</label>
-        <div class="col-sm-10">
-            <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" autocomplete="off" required autofocus>
-        </div>
-    </div>
-</div>

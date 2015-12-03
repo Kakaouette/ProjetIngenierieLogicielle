@@ -25,38 +25,44 @@ public class FormationService {
     }
     
     /**
+     * Fonction permettant d'ajouter une formation dans la BDD
      * 
-     * @param formation: formation à ajouter
-     * @throws AjoutFormationInvalideException 
+     * @param formationToAdd: formation à ajouter dans la BDD
+     * @throws AjoutFormationInvalideException: exceptions empechant l'ajout
      */
-    public void ajouterFormation(Formation formation) throws AjoutFormationInvalideException{
+    public void ajouterFormation(Formation formationToAdd) throws AjoutFormationInvalideException{
         //verification de la validité de la demande
-        if(formation == null){
+        if(formationToAdd == null){
             throw new AjoutFormationInvalideException("Requête incorrecte.", new Throwable(AjoutFormationInvalideException.cause.Formation_Vide.toString()));
         }
-        if(formation.getIntitule().isEmpty()){
+        if(formationToAdd.getIntitule() == null){
+            throw new AjoutFormationInvalideException("Intitulé non rempli.", new Throwable(AjoutFormationInvalideException.cause.Intitule_Vide.toString()));
+        }else if(formationToAdd.getIntitule().isEmpty()){
             throw new AjoutFormationInvalideException("Intitulé non rempli.", new Throwable(AjoutFormationInvalideException.cause.Intitule_Vide.toString()));
         }
-        if(formationDAO.getFormationByIntitule(formation.getIntitule()) != null){
+        if(formationDAO.getFormationByIntitule(formationToAdd.getIntitule()) != null){
             throw new AjoutFormationInvalideException("Formation déjà existante.", new Throwable(AjoutFormationInvalideException.cause.Formation_Existante.toString()));
         }
-        if(formation.getDebut() != null && formation.getFin() != null){
-            if(formation.getDebut().after(formation.getFin())){
+        if(formationToAdd.getDebut() != null && formationToAdd.getFin() != null){
+            if(formationToAdd.getDebut().after(formationToAdd.getFin())){
                 throw new AjoutFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(AjoutFormationInvalideException.cause.Date_Incohérentes.toString()));
             }
         }
-        for(Justificatif justificatif:formation.getLesJustificatifs()){
-            new JustificatifDAO().save(justificatif);
+        if(formationToAdd.getLesJustificatifs() != null){
+            for(Justificatif justificatif:formationToAdd.getLesJustificatifs()){
+                new JustificatifDAO().save(justificatif);
+            }
         }
         
         //enregistrement de la formation dans la BDD
-        formationDAO.save(formation);
+        formationDAO.save(formationToAdd);
     }
 
     /**
+     * Fonction permettant de supprimer une formation de la BDD
      * 
-     * @param formationToSuppr: formation à supprimer de la BDD
-     * @throws SuppressionFormationInvalideException 
+     * @param formationToSuppr: formation à supprimer de la BDD (contenant l'id de la formation à modifier)
+     * @throws SuppressionFormationInvalideException: exceptions empechant la suppression
      */
     public void supprimerFormation(Formation formationToSuppr) throws SuppressionFormationInvalideException {
         //verification de la validité de la demande
@@ -83,9 +89,10 @@ public class FormationService {
     }
     
     /**
+     * Fonction permettant de modifier une formation dans la BDD
      * 
-     * @param formationToModif: formation modifié contenant l'id de la formation à modifier
-     * @throws ModificationFormationInvalideException 
+     * @param formationToModif: formation modifié (contenant l'id de la formation à modifier dans la BDD)
+     * @throws ModificationFormationInvalideException: exceptions empechant la modification
      */
     public void modifierFormation(Formation formationToModif) throws ModificationFormationInvalideException {
         //verification de la validité de la demande
