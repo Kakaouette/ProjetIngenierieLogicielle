@@ -40,7 +40,7 @@ public class ModifierUtilisateurAction implements Action {
             Compte compte = new CompteDAO().getById(idCompte);
             
             if(compte == null)
-                return new VoirGestionComptesAction().execute(request, response);
+                return new VoirGestionDossiersAction().execute(request, response);
 
             if (type == null) {
                 type = compte.getType().name();
@@ -74,7 +74,7 @@ public class ModifierUtilisateurAction implements Action {
             } else {
                 request.setAttribute("message", "Modification effectuée");
 
-                return new VoirGestionComptesAction().execute(request, response);
+                return new VoirGestionDossiersAction().execute(request, response);
             }
         } else {
             System.out.println("test3");

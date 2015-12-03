@@ -28,7 +28,7 @@ public class VoirModifierComptesAction implements Action {
         Compte compte = new CompteDAO().getById(id);
         
         if(compte == null)
-            return new VoirGestionComptesAction().execute(request, response);
+            return new VoirGestionDossiersAction().execute(request, response);
         
         String login = compte.getLogin();
         String nom = compte.getNom();

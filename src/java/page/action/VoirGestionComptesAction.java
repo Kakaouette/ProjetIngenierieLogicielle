@@ -5,16 +5,12 @@
  */
 package page.action;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
 import modele.dao.CompteDAO;
-import modele.dao.DossierDAO;
-import modele.entite.Dossier;
 
 /**
  *
@@ -24,27 +20,36 @@ public class VoirGestionComptesAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Gestion des dossiers");
-        List<Dossier> dossiers = new DossierDAO().SelectAll(); //recuperation des comptes pour la page suivante        
-        List<Object[]> Tab = new ArrayList<Object[]>();
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        
-        for (Dossier c : dossiers) {
-            Object[] o = new Object[8];
-            o[0] = c.getEtat();
-            o[1] = c.getId();
-            o[2] = c.getAdmissible();
-            o[3] = format.format(c.getDate());
-            o[4] = c.getDemandeFormation().getIntitule();
-            o[5] = c.getEtudiant().getNom();
-            o[6] = c.getEtudiant().getPrenom();
-            o[7] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=#\\\">Modifier</a>";
-            Tab.add(o);
-        }
+        request.setAttribute("titre", "Gestion des comptes");
 
-        request.setAttribute("leTableau", Tab);
-        request.setAttribute("sortL", 1);
-        request.setAttribute("sortC", "asc");
-        return "listeDossiers.jsp";
+        List<Compte> comptes;
+        comptes = null;
+
+        comptes = new CompteDAO().SelectAll();
+
+        if (comptes == null) {
+            request.setAttribute("message", "ERREUR : Utilisateur non trouvé dans la BDD");
+            return "listeUtilisateurs.jsp";
+        } else {
+            List<Object[]> Tab = new ArrayList<Object[]>();
+
+            for (Compte c : comptes) {
+                Object[] o = new Object[7];
+                o[0] = c.getLogin();
+                o[1] = c.getNom();
+                o[2] = c.getPrenom();
+                o[3] = c.getType().toString();
+                o[4] = c.getMail();
+                o[5] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifierUtilisateur&id=" + c.getId() +"\\\">Modifier</a>";
+                o[6] = "<a class=\\\"btn btn-primary btn-danger\\\" onclick='createDialog(" + c.getId() + ")'>Supprimer</a>";
+                Tab.add(o);
+            }
+
+            request.setAttribute("leTableau", Tab);
+            request.setAttribute("sortL", 1);
+            request.setAttribute("sortC", "asc");
+            return "listeUtilisateurs.jsp";
+        }
     }
+
 }
