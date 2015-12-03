@@ -22,6 +22,7 @@ import modele.entite.Formation;
 import modele.entite.Historique;
 import modele.entite.TypeCompte;
 import modele.entite.TypeDossier;
+import modele.entite.TypeEtatDossier;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -183,7 +184,7 @@ public class CompteServiceTest {
         unCompte.setFormationAssocie(new ArrayList<>());
         unCompte.getFormationAssocie().add(f);
         
-        Dossier d = new Dossier("pstTEST", new Date(), "test", null, TypeDossier.admissibilite, e, null, new ArrayList<>());
+        Dossier d = new Dossier("pstTEST", new Date(), TypeEtatDossier.creer, null, TypeDossier.admissibilite, e, null, new ArrayList<>());
         d.getHistorique().add(historique);
 
         compteDAO.save(unCompte);

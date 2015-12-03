@@ -159,13 +159,23 @@ public class GestULRPeuplement {
         histList1.add(hist1);
         
         //Création des dossiers
-        Dossier d1 = new Dossier("pst181120151", new Date(), "En cours de traitement", "Blalalalalalalalala", TypeDossier.admissibilite, etu1, form2, histList1);
-        Dossier d2 = new Dossier("pst181120152", new Date(), "Accepté", "yeah", TypeDossier.admissibilite, etu1, form1);
-        Dossier d3 = new Dossier("pst181120153", new Date(), "Refusé", "sad", TypeDossier.inscription, etu2, form3);
+        Dossier d1 = new Dossier("pst181120151", new Date(), TypeEtatDossier.creer, "Blalalalalalalalala", TypeDossier.admissibilite, etu1, form2, histList1);
+        Dossier d2 = new Dossier("pst181120152", new Date(), TypeEtatDossier.en_attente_commission, "yeah", TypeDossier.admissibilite, etu1, form1);
+        Dossier d3 = new Dossier("pst181120153", new Date(), TypeEtatDossier.en_transfert_vers_directeur, "sad", TypeDossier.inscription, etu2, form3);
+        Dossier d4 = new Dossier("pst181120154", new Date(), TypeEtatDossier.finalisation, "sad", TypeDossier.inscription, etu2, form3);
+        Dossier d5 = new Dossier("pst181120155", new Date(), TypeEtatDossier.retour_ver_secretariat, "sad", TypeDossier.inscription, etu2, form3);
+        Dossier d6 = new Dossier("pst181120156", new Date(), TypeEtatDossier.terminée, "sad", TypeDossier.inscription, etu2, form3);
+        Dossier d7 = new Dossier("pst181120157", new Date(), TypeEtatDossier.traitement_secretariat_formation, "sad", TypeDossier.inscription, etu2, form3);
+        Dossier d8 = new Dossier("pst181120158", new Date(), TypeEtatDossier.transfert_vers_secretariat, "sad", TypeDossier.inscription, etu2, form3);
         
         new DossierDAO().save(d1);
         new DossierDAO().save(d2);
         new DossierDAO().save(d3);
+        new DossierDAO().save(d4);
+        new DossierDAO().save(d5);
+        new DossierDAO().save(d6);
+        new DossierDAO().save(d7);
+        new DossierDAO().save(d8);
         
         //Création d'action
         ActionDAO actionDAO = new ActionDAO();

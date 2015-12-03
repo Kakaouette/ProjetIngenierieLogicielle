@@ -24,14 +24,14 @@ public class Dossier implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     Date date;
 
-    @Column(nullable = false)
-    String etat;
+    @Enumerated(EnumType.STRING)
+    TypeEtatDossier etat;
 
     @Lob
     @Column
     String lettre;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     TypeDossier type;
 
     @JoinColumn(nullable = false)
@@ -44,7 +44,7 @@ public class Dossier implements Serializable {
     @OneToMany(targetEntity = Historique.class, cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     List<Historique> historique;
 
-    public Dossier(String id, Date date, String etat, String lettre, TypeDossier admissible, Etudiant etudiant, Formation demandeFormation) {
+    public Dossier(String id, Date date, TypeEtatDossier etat, String lettre, TypeDossier admissible, Etudiant etudiant, Formation demandeFormation) {
         this.id = id;
         this.date = date;
         this.etat = etat;
@@ -54,7 +54,7 @@ public class Dossier implements Serializable {
         this.demandeFormation = demandeFormation;
     }
 
-    public Dossier(String id, Date date, String etat, String lettre, TypeDossier admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique) {
+    public Dossier(String id, Date date, TypeEtatDossier etat, String lettre, TypeDossier admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique) {
         this.id = id;
         this.date = date;
         this.etat = etat;
@@ -73,7 +73,7 @@ public class Dossier implements Serializable {
         this.date = date;
     }
 
-    public void setEtat(String etat) {
+    public void setEtat(TypeEtatDossier etat) {
         this.etat = etat;
     }
 
@@ -108,7 +108,7 @@ public class Dossier implements Serializable {
         return date;
     }
 
-    public String getEtat() {
+    public TypeEtatDossier getEtat() {
         return etat;
     }
 
