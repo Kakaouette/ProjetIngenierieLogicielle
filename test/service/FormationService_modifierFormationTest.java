@@ -23,9 +23,9 @@ import static org.junit.Assert.*;
  *
  * @author Arthur
  */
-public class FormationService_supprimerFormationTest {
+public class FormationService_modifierFormationTest {
     
-    public FormationService_supprimerFormationTest() {
+    public FormationService_modifierFormationTest() {
     }
     
     @BeforeClass
@@ -46,14 +46,14 @@ public class FormationService_supprimerFormationTest {
 
     boolean done;
     @Test
-    public void testSupprimerFormationNull(){
-        System.out.println("===testSupprimerFormationNull===");
+    public void testModifierFormationNull(){
+        System.out.println("===testModifierFormationNull===");
         //formation == null
         Formation formation = null;
         try {
-            new FormationService().supprimerFormation(formation);
+            new FormationService().modifierFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (ModificationFormationInvalideException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -61,24 +61,23 @@ public class FormationService_supprimerFormationTest {
         System.out.println("Test validé: " + (done == false));
     }
     @Test
-    public void testSupprimerFormationVide(){
-        System.out.println("===testSupprimerFormationVide===");
+    public void testModifierFormationVide(){
+        System.out.println("===testModifierFormationVide===");
         //formation vide
         Formation formation = new Formation();
         try {
-            new FormationService().supprimerFormation(formation);
+            new FormationService().modifierFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (ModificationFormationInvalideException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        ;
         assertFalse(done);
         System.out.println("Test validé: " + (done == false));
     }
     @Test
-    public void testSupprimerFormationIdNull(){
-        System.out.println("===testSupprimerFormationIdNull===");
+    public void testModifierFormationIdNull(){
+        System.out.println("===testModifierFormationIdNull===");
         //formation id null (champ requis)
         Formation formation = new Formation();
         formation.setDebut(new Date());
@@ -88,9 +87,9 @@ public class FormationService_supprimerFormationTest {
         formation.setNombrePlace(0);
         formation.setLesJustificatifs(new ArrayList<Justificatif>());
         try {
-            new FormationService().supprimerFormation(formation);
+            new FormationService().modifierFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (ModificationFormationInvalideException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -98,8 +97,8 @@ public class FormationService_supprimerFormationTest {
         System.out.println("Test validé: " + (done == false));
     }
     @Test
-    public void testSupprimerFormationIdInexistante(){
-        System.out.println("===testSupprimerFormationIdInexistante===");
+    public void testModifierFormationIdInexistante(){
+        System.out.println("===testModifierFormationIdInexistante===");
         //formation id inexistant
         int idInutilisee = 0;
         while(new FormationDAO().getById(idInutilisee) != null){
@@ -108,9 +107,9 @@ public class FormationService_supprimerFormationTest {
         Formation formation = new Formation("", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
         formation.setId(idInutilisee);
         try {
-            new FormationService().supprimerFormation(formation);
+            new FormationService().modifierFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (ModificationFormationInvalideException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -118,22 +117,50 @@ public class FormationService_supprimerFormationTest {
         System.out.println("Test validé: " + (done == false));
     }
     @Test
-    public void testSupprimerFormationValide(){
-        System.out.println("===testSupprimerFormationValide===");
-        //formation valide
+    public void testModifierFormationIntituleExistant(){
+        System.out.println("===testModifierFormationIntituleExistant===");
+        //formation intitulé déjà utilisé par une formation
+        int idUtilisee = 0;
+        while(new FormationDAO().getById(idUtilisee) == null){
+            idUtilisee++;
+        }
         Formation formation = new Formation("", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
         try {
             new FormationService().ajouterFormation(formation);
         } catch (AjoutFormationInvalideException ex) {
         }
         
+        String intituleUtilisee = new FormationDAO().getById(idUtilisee).getIntitule();
+        formation.setIntitule(intituleUtilisee);
         try {
-            new FormationService().supprimerFormation(formation);
+            new FormationService().modifierFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (ModificationFormationInvalideException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        assertTrue("Test validé: " + (done == true), done);
+        assertFalse(done);
+        System.out.println("Test validé: " + (done == false));
+    }
+    @Test
+    public void testModifierFormationDatesIncoherantes(){
+        System.out.println("===testModifierFormationDatesIncoherantes===");
+        //formation dates de début après dates de fin
+        Formation formation = new Formation("", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
+        try {
+            new FormationService().ajouterFormation(formation);
+        } catch (AjoutFormationInvalideException ex) {
+        }
+        
+        formation = new Formation("", 0, new Date(0, 0, 2), new Date(0, 0, 1), "datesIncoherantes", new ArrayList<Justificatif>());
+        try {
+            new FormationService().modifierFormation(formation);
+            done = true;
+        } catch (ModificationFormationInvalideException ex) {
+            System.out.println("Exception relevé: " + ex.getMessage());
+            done = false;
+        }
+        assertFalse(done);
+        System.out.println("Test validé: " + (done == false));
     }
 }

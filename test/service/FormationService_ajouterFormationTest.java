@@ -145,6 +145,21 @@ public class FormationService_ajouterFormationTest {
         System.out.println("Test validé: " + (done == false));
     }
     @Test
+    public void testAjouterFormationDatesIncoherantes(){
+        System.out.println("===testAjouterFormationDatesIncoherantes===");
+        //formation dates de début après dates de fin
+        Formation formation = new Formation("", 0, new Date(0, 0, 2), new Date(0, 0, 1), "datesIncoherantes", new ArrayList<Justificatif>());
+        try {
+            new FormationService().ajouterFormation(formation);
+            done = true;
+        } catch (AjoutFormationInvalideException ex) {
+            System.out.println("Exception relevé: " + ex.getMessage());
+            done = false;
+        }
+        assertFalse(done);
+        System.out.println("Test validé: " + (done == false));
+    }
+    @Test
     public void testAjouterFormationValide(){
         System.out.println("===testAjouterFormationValide===");
         //formation valide
