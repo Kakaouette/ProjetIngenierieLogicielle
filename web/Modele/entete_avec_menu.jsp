@@ -16,17 +16,18 @@
 %>
 <html lang="fr">
     <head>
-        <title><% out.print(titre); %></title>
+        <title>GIST - <% out.print(titre); %></title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="icon" href="/static/img/favicon.png">
+        <link rel="icon" href="images/favicon.ico">
         <!-- Bootstrap core CSS -->
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="bootstrap/css/ULR.css" rel="stylesheet">
         <script src="jQuery/jquery-1.11.2.js"></script>
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -90,6 +91,17 @@
                                     </ul>
                                 </li>
                             <%}%>
+                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secretaire_formation) {%>
+                                <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Gestion dossiers <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li><a href="Navigation?action=afficherInformationsDossiers"><i class="fa fa-edit"></i> Modifier</a></li>
+                                    </ul>
+                                </li>
+                            <%}%>
                             <li>
                                 <a href=Navigation?action=gererAuthentification&session=deco>
                                     <i class="fa fa-power-off"></i> Déconnexion
@@ -103,3 +115,4 @@
         <!-- Main -->
         <div class="container" id="main">
             <h1 class="page-header"><%=titre%></h1>
+

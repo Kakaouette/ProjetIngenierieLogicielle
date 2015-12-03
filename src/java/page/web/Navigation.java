@@ -76,10 +76,19 @@ public class Navigation extends HttpServlet {
             classeAction = new VoirModifierComptesAction();
         }else if (action.equals("voirGestionComptes")) {
             menuSelect = 1;
-            classeAction = new VoirGestionUtilisateurAction();
+            classeAction = new VoirGestionComptesAction();
         }else if (action.equals("modifierCompte")) {
             menuSelect = 1;
             classeAction = new ModifierUtilisateurAction();
+        }else if (action.equals("voirAjoutCompte")) {
+            menuSelect = 1;
+            classeAction = new voirAjouterCompteAction();
+        }else if (action.equals("creerUtilisateur")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new AjouterCompteAction();
+        }else if (action.equals("supprimerUtilisateur")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new SupprimerUtilisateurAction();
         }/***Gestion formations***/
         else if (action.equals("voirAjoutFormation")) {
             menuSelect = 2;

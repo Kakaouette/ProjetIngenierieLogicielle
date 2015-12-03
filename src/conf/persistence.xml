@@ -10,6 +10,7 @@
     <class>modele.entite.EtudiantEtranger</class>
     <class>modele.entite.Historique</class>
     <class>modele.entite.Justificatif</class>
+    <class>modele.entite.Action</class>
     <class>modele.entite.Page</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>

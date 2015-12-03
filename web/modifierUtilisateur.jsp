@@ -6,18 +6,42 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
+<script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
+<link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
+<script type="text/javascript">
+    $(function() {
+        $('#dialog').hide();
+    });
 
-<form action="Navigation?action=modifierCompte" method="POST" class="form-horizontal">
+    function createDialog(id) {
+        $('#dialog').dialog({
+            modal: true,
+            buttons: {
+                "Oui": {
+                    text : 'Oui' ,class : 'btn btn-success', click : function() {
+                    window.location.replace('Navigation?action=supprimerUtilisateur&id=' + id);
+                }
+                },
+                "Non": {text : 'Non' ,class : 'btn btn-danger', click : function() {
+                    $(this).dialog("close");}
+                }
+            }
+        });
+        $('#dialog').show();
+    };
+    </script>
+
+<form action="Navigation?action=modifierUtilisateur&id=<% out.print(request.getAttribute("id")); %>" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="type" class="col-sm-2 control-label">Type</label>
         <div class="col-sm-3">
-            <!-- A faire : positionner le type actuel en selection par défaut -->
             <select name="type" id="type" class="form-control">
-                <option>admin</option>
-                <option>directeur_pole</option>
-                <option>secretaire_general</option>
-                <option>secretaire_formation</option>
-                <option>commission</option>
+                <% out.print(request.getAttribute("type"));%>
+                <option value="<%out.print(TypeCompte.admin.name());%>" <%if(request.getAttribute("type") == TypeCompte.admin){ %>selected="selected"<%}%>>Admin</option>
+                <option value="<%out.print(TypeCompte.directeur_pole.name());%>" <%if(request.getAttribute("type") == TypeCompte.directeur_pole){ %>selected="selected"<%}%>>Directeur de pole</option>
+                <option value="<%out.print(TypeCompte.secretaire_general.name());%>" <%if(request.getAttribute("type") == TypeCompte.secretaire_general){ %>selected="selected"<%}%>>Secrétaire général</option>
+                <option value="<%out.print(TypeCompte.secretaire_formation.name());%>" <%if(request.getAttribute("type") == TypeCompte.secretaire_formation){ %>selected="selected"<%}%>>Secrétaire de formation</option>
+                <option value="<%out.print(TypeCompte.reponsable_formation.name());%>" <%if(request.getAttribute("type") == TypeCompte.reponsable_formation){ %>selected="selected"<%}%>>Responsable de formation</option>
             </select>
         </div>
     </div>
@@ -52,7 +76,7 @@
     <div class="form-group">
         <label for="motDePasse" class="col-sm-2 control-label">Mot de passe</label>
         <div class="col-sm-3">
-            <input type="text" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
+            <input type="password" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
         </div>
     </div>
     <div class="row">
@@ -79,15 +103,18 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=voirGestionComptes">Supprimer</a>
+            <a class="btn btn-primary btn-danger" onclick='createDialog(<% out.print(request.getAttribute("id")); %>)'>Supprimer</a>
         </div>
     </div>
-</form>
+</form><br/>
 
 <% if(request.getAttribute("message") != null){ %>
-    <div class="alert alert-success">
+    <div class="alert alert-danger">
         <%out.print(request.getAttribute("message"));%>
     </div>
 <%}%>            
             
 <%@include file="Modele/pied.jsp" %>
+<div id="dialog" title="Confirmer la suppression">
+    <p>Voulez vous vraiment supprimer ce compte ?</p>
+</div>

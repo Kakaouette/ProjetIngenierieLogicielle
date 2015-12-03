@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
-import modele.entite.TypeJustificatif;
+import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
 
 /**
@@ -102,7 +102,7 @@ public class VoirModifFormationAction implements Action{
             if(justificatifs != null){
                 String[] justificatifsToString = new String[0];
                 for(Justificatif jTemp : justificatifs){
-                    if(jTemp.getTypeAdmissible() == TypeJustificatif.admissible && jTemp.getTypeNationalite() == TypeJustificatifEtranger.francais){
+                    if(jTemp.getTypeAdmissible() == TypeDossier.inscription && jTemp.getTypeNationalite() == TypeJustificatifEtranger.francais){
                         justificatifsToString = addSlot(justificatifsToString); //add slot
 
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
@@ -110,7 +110,7 @@ public class VoirModifFormationAction implements Action{
                 }
                 justificatifsToString = new String[0];
                 for(Justificatif jTemp : justificatifs){
-                    if(jTemp.getTypeAdmissible() == TypeJustificatif.admissibilite && jTemp.getTypeNationalite() == TypeJustificatifEtranger.francais){
+                    if(jTemp.getTypeAdmissible() == TypeDossier.admissibilite && jTemp.getTypeNationalite() == TypeJustificatifEtranger.francais){
                         justificatifsToString = addSlot(justificatifsToString); //add slot
 
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
@@ -118,7 +118,7 @@ public class VoirModifFormationAction implements Action{
                 }
                 justificatifsToString = new String[0];
                 for(Justificatif jTemp : justificatifs){
-                    if(jTemp.getTypeAdmissible() == TypeJustificatif.admissible && jTemp.getTypeNationalite() == TypeJustificatifEtranger.etranger){
+                    if(jTemp.getTypeAdmissible() == TypeDossier.inscription && jTemp.getTypeNationalite() == TypeJustificatifEtranger.etranger){
                         justificatifsToString = addSlot(justificatifsToString); //add slot
 
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
@@ -126,7 +126,7 @@ public class VoirModifFormationAction implements Action{
                 }
                 justificatifsToString = new String[0];
                 for(Justificatif jTemp : justificatifs){
-                    if(jTemp.getTypeAdmissible() == TypeJustificatif.admissibilite && jTemp.getTypeNationalite() == TypeJustificatifEtranger.etranger){
+                    if(jTemp.getTypeAdmissible() == TypeDossier.admissibilite && jTemp.getTypeNationalite() == TypeJustificatifEtranger.etranger){
                         justificatifsToString = addSlot(justificatifsToString); //add slot
 
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();

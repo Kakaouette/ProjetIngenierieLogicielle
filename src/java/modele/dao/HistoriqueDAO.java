@@ -5,9 +5,12 @@
  */
 package modele.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import modele.entite.Compte;
+import modele.entite.Dossier;
 import modele.entite.Historique;
 
 /**
@@ -47,6 +50,16 @@ public class HistoriqueDAO extends Dao {
         }
     }
     
+    public List<Historique> getHistoriquesByCompte(Compte compte){
+        try{
+        q = em.createQuery("SELECT H FROM Historique H WHERE H.compte = :COMPTE");
+        q.setParameter("COMPTE", compte);
+        return (List<Historique>) q.getResultList();
+        }catch (NoResultException e){
+            return null;
+        }
+    }
+    
     public void save(Historique unHistorique) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
@@ -58,6 +71,18 @@ public class HistoriqueDAO extends Dao {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.merge(unHistorique);
+        tx.commit();
+    }
+    
+    public void delete(Historique unHistorique) {
+        DossierDAO dossierDAO = new DossierDAO();
+        Dossier d = dossierDAO.getByHistorique(unHistorique);
+        d.getHistorique().remove(unHistorique);
+        dossierDAO.update(d);
+        
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(unHistorique);
         tx.commit();
     }
 }

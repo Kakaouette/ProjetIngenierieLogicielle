@@ -6,6 +6,8 @@
 package page.action;
 
 import java.util.List;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.CompteDAO;
@@ -20,77 +22,65 @@ public class ModifierUtilisateurAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        request.setAttribute("titre", "Gestion des comptes");
+
         String valueButton = request.getParameter("bouton");
         System.out.println(valueButton);
-        
-        if(valueButton.equals("enregistrer"))
-        {
+
+        if (valueButton.equals("enregistrer")) {
             //System.out.println("test");
             String type = request.getParameter("type");
             String login = request.getParameter("login");
             String nom = request.getParameter("nom");
             String prenom = request.getParameter("prenom");
             String mail = request.getParameter("email");
-            String mdp = request.getParameter("motDePasse"); 
+            String mdp = request.getParameter("motDePasse");
+            int idCompte = Integer.parseInt(request.getParameter("id"));
+
+            Compte compte = new CompteDAO().getById(idCompte);
             
-            Compte compte=new CompteDAO().getComptebyLogin(login);
-            //System.out.println(compte);
-            int idCompte = compte.getId();
-            //System.out.println(idCompte);
-            
-            if(type==null)
-            {
-                type=compte.getType().toString();
+            if(compte == null)
+                return new VoirGestionComptesAction().execute(request, response);
+
+            if (type == null) {
+                type = compte.getType().name();
             }
-            if(nom==null)
-            {
-                nom=compte.getNom();
+            if (nom == null) {
+                nom = compte.getNom();
             }
-            if(prenom==null)
-            {
-                prenom=compte.getPrenom();
+            if (prenom == null) {
+                prenom = compte.getPrenom();
             }
-            if(mail==null)
-            {
-                mail=compte.getMail();
+            if (mail == null) {
+                mail = compte.getMail();
             }
-            if(mdp==null)
-            {
-                mdp=compte.getMdp();
+            if (mdp == null) {
+                mdp = compte.getMdp();
             }
-            
-            /*System.out.println(type);
-            System.out.println(login);
-            System.out.println(nom);
-            System.out.println(prenom);
-            System.out.println(mail);
-            System.out.println(mdp);*/
-            
+
+            try {
+                InternetAddress emailAddr = new InternetAddress(mail);
+                emailAddr.validate();
+            } catch (AddressException ex) {
+                request.setAttribute("message", "ERREUR : L'adresse email n'est pas valide");
+                return new VoirModifierComptesAction().execute(request, response);
+            }
+
             Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
             if (update == false) {
                 System.out.println("test");
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
                 return "modifierUtilisateur.jsp";
             } else {
-                System.out.println("test2");
                 request.setAttribute("message", "Modification effectuée");
-                
-                List<Compte> comptes;
 
-                comptes = new CompteDAO().SelectAll();
-                
-                request.setAttribute("comptes", comptes);
-                request.setAttribute("compte", compte);
-                
-                return "listeUtilisateurs.jsp";
+                return new VoirGestionComptesAction().execute(request, response);
             }
-        }
-        else
-        {
+        } else {
             System.out.println("test3");
             request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
             return "modifierUtilisateur.jsp";
         }
     }
-    
+
 }

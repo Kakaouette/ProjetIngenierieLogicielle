@@ -53,7 +53,7 @@ public class GestULRPeuplement {
         Compte c2 = new Compte("secretaire_general", cryptageMDP("azerty"), "secretaire", "générale", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.secretaire_general, null);
         Compte c3 = new Compte("directeur_pole", cryptageMDP("azerty"), "directeur", "pole", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.directeur_pole, null);
         Compte c4 = new Compte("secretaire_formation", cryptageMDP("azerty"), "secretaire", "formation", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.secretaire_formation, null);
-        Compte c5 = new Compte("commission", cryptageMDP("azerty"), "commission", "commission", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.commission, null);
+        Compte c5 = new Compte("reponsable_formation", cryptageMDP("azerty"), "reponsable_formation", "reponsable_formation", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.reponsable_formation, null);
         
         new CompteDAO().save(c1);
         new CompteDAO().save(c2);
@@ -80,9 +80,9 @@ public class GestULRPeuplement {
         Historique hist3 = new HistoriqueDAO().getHistoriqueByMessage("Autre");
         
         // Création des justificatifs
-        Justificatif j1 = new Justificatif("Photocopie de la carte d'identitée", TypeJustificatif.admissible, TypeJustificatifEtranger.francais);
-        Justificatif j2 = new Justificatif("Photocopie de la carte de séjour", TypeJustificatif.admissible, TypeJustificatifEtranger.etranger);
-        Justificatif j3 = new Justificatif("Entretien oral", TypeJustificatif.admissibilite, TypeJustificatifEtranger.francais);
+        Justificatif j1 = new Justificatif("Photocopie de la carte d'identitée", TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
+        Justificatif j2 = new Justificatif("Photocopie de la carte de séjour", TypeDossier.admissibilite, TypeJustificatifEtranger.etranger);
+        Justificatif j3 = new Justificatif("Entretien oral", TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
         
         new JustificatifDAO().save(j1);
         new JustificatifDAO().save(j2);
@@ -159,18 +159,27 @@ public class GestULRPeuplement {
         histList1.add(hist1);
         
         //Création des dossiers
-        Dossier d1 = new Dossier(new Date(), "En cours de traitement", "Blalalalalalalalala", true, etu1, form2, histList1);
-        Dossier d2 = new Dossier(new Date(), "Accepté", "yeah", true, etu1, form1);
-        Dossier d3 = new Dossier(new Date(), "Refusé", "sad", true, etu2, form3);
-        d1.setId("pst181120151");
-        d2.setId("pst181120152");
-        d3.setId("pst181120153");
+        Dossier d1 = new Dossier("pst181120151", new Date(), "En cours de traitement", "Blalalalalalalalala", TypeDossier.admissibilite, etu1, form2, histList1);
+        Dossier d2 = new Dossier("pst181120152", new Date(), "Accepté", "yeah", TypeDossier.admissibilite, etu1, form1);
+        Dossier d3 = new Dossier("pst181120153", new Date(), "Refusé", "sad", TypeDossier.inscription, etu2, form3);
         
         new DossierDAO().save(d1);
         new DossierDAO().save(d2);
         new DossierDAO().save(d3);
-
-
+        
+        //Création d'action
+        ActionDAO actionDAO = new ActionDAO();
+        List<TypeCompte> typecompte = new ArrayList();
+        typecompte.add(TypeCompte.admin);
+        Action a = new Action("voirAjoutCompte", typecompte);
+        actionDAO.save(a);
+        
+        typecompte = new ArrayList();
+        typecompte.add(TypeCompte.admin);
+        typecompte.add(TypeCompte.secretaire_formation);
+        typecompte.add(TypeCompte.secretaire_general);
+        a = new Action("afficherInformationsDossiers", typecompte);
+        actionDAO.save(a);
     }
     
     

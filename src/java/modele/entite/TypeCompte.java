@@ -22,16 +22,20 @@ import java.io.Serializable;
  * @author Nicolas Roulon
  */
 public enum TypeCompte implements Serializable {
-    admin, secretaire_general, secretaire_formation, directeur_pole, commission;
+    admin, secretaire_general, secretaire_formation, directeur_pole, reponsable_formation;
 
     @Override
     public String toString() {
         if(this.equals(secretaire_general)){
-            return "secrétaire générale";
+            return "Secrétaire générale";
         }else if(this.equals(secretaire_formation)){
-            return "secrétaire formation";
+            return "Secrétaire de formation";
         }else if(this.equals(directeur_pole)){
-            return "directeur pôle";
+            return "Directeur de pôle";
+        }else if(this.equals(reponsable_formation)){
+            return "Reponsable de formation";
+        }else if(this.equals(admin)){
+            return "Admin";
         }
         
         return this.name();

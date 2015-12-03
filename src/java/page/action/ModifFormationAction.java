@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
-import modele.entite.TypeJustificatif;
+import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
 import service.FormationService;
 import service.ModificationFormationInvalideException;
@@ -67,25 +67,25 @@ public class ModifFormationAction implements Action{
         List<Justificatif> justificatifs = new ArrayList<Justificatif>();
         if(justificatifsInscriptionFrancaisForm != null){
             for(String titre : justificatifsInscriptionFrancaisForm){
-                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissible, TypeJustificatifEtranger.francais);
+                Justificatif jTemp = new Justificatif(titre, TypeDossier.inscription, TypeJustificatifEtranger.francais);
                 justificatifs.add(jTemp);
             }
         }
         if(justificatifsAdmissionFrancaisForm != null){
             for(String titre : justificatifsAdmissionFrancaisForm){
-                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissibilite, TypeJustificatifEtranger.francais);
+                Justificatif jTemp = new Justificatif(titre, TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
                 justificatifs.add(jTemp);
             }
         }
         if(justificatifsInscriptionEtrangerForm != null){
             for(String titre : justificatifsInscriptionEtrangerForm){
-                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissible, TypeJustificatifEtranger.etranger);
+                Justificatif jTemp = new Justificatif(titre, TypeDossier.inscription, TypeJustificatifEtranger.etranger);
                 justificatifs.add(jTemp);
             }
         }
         if(justificatifsAdmissionEtrangerForm != null){
             for(String titre : justificatifsAdmissionEtrangerForm){
-                Justificatif jTemp = new Justificatif(titre, TypeJustificatif.admissibilite, TypeJustificatifEtranger.etranger);
+                Justificatif jTemp = new Justificatif(titre, TypeDossier.admissibilite, TypeJustificatifEtranger.etranger);
                 justificatifs.add(jTemp);
             }
         }
