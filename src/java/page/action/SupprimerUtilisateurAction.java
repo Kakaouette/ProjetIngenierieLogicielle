@@ -29,7 +29,7 @@ public class SupprimerUtilisateurAction implements Action {
         boolean supprimer = compteService.supprimerUtilisateur(id);
         if (supprimer) {
             request.setAttribute("message", "Suppression effectuée");
-            return new VoirGestionDossiersAction().execute(request, response);
+            return new VoirGestionComptesAction().execute(request, response);
         } else {
             request.setAttribute("message", "Erreur: Le compte n'existe pas");
             return new VoirModifierComptesAction().execute(request, response);

@@ -74,7 +74,7 @@ public class ModifierUtilisateurAction implements Action {
             } else {
                 request.setAttribute("message", "Modification effectuée");
 
-                return new VoirGestionDossiersAction().execute(request, response);
+                return new VoirGestionComptesAction().execute(request, response);
             }
         } else {
             System.out.println("test3");
