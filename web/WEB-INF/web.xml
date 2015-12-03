@@ -17,11 +17,6 @@
         <filter-name>NavigationFilter</filter-name>
         <filter-class>page.web.NavigationFilter</filter-class>
     </filter>
-    <filter>
-        <description>Vérification des droits d'accès à chaque requête via le paramètre action</description>
-        <filter-name>ActionFilter</filter-name>
-        <filter-class>page.web.ActionFilter</filter-class>
-    </filter>
     <filter-mapping>
         <filter-name>setCharacterFilter</filter-name>
         <url-pattern>*</url-pattern>
