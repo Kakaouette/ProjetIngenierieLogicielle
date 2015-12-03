@@ -29,6 +29,7 @@
     $(document).ready(function() {
         $.fn.dataTable.moment('DD/MM/YYYY à HH:mm:ss');
         var table = $('#myTable').dataTable({
+    <% if(request.getAttribute("addScript") != null){out.print(request.getAttribute("addScript"));} %>
         "language": {
         "url": "https://cdn.datatables.net/plug-ins/1.10.7/i18n/French.json"
         },

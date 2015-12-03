@@ -40,9 +40,20 @@ public class AfficherInformationsDossiersAction implements Action {
             o[7] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=#\\\">Modifier</a>";
             Tab.add(o);
         }
-
+        request.setAttribute("addScript", ""+
+                "\"createdRow\": function ( row, data, index ) {\n" +
+"                   if ( data[0] == 'Creer' ) {\n" +
+"                       $('td', row).eq(0).addClass('info');\n" +
+"            }else if ( data[0] == 'Terminée' ) {\n" +
+"                       $('td', row).eq(0).addClass('purple');\n" +
+"            }else if ( data[0] == 'Retour vers le secrétariat' ) {\n" +
+"                       $('td', row).eq(0).addClass('warning');\n" +
+"            }else if ( data[0] == 'Traitement par le secréatariat' ) {\n" +
+"                       $('td', row).eq(0).addClass('danger');\n" +
+"            }" +
+"        },\n");
         request.setAttribute("leTableau", Tab);
-        request.setAttribute("sortL", 1);
+        request.setAttribute("sortL", 0);
         request.setAttribute("sortC", "asc");
         return "listeDossiers.jsp";
     }
