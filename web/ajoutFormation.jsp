@@ -57,14 +57,14 @@
                         $path = location + ' ul#justificatifsAdded';
                         if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0){
                             $name = "justificatifs";
-                            if(location.contains("inscription")){
+                            if(location.indexOf("inscription") !== -1){
                                 $name += "Inscription";
-                            }else if(location.contains("admission")){
+                            }else if(location.indexOf("admission") !== -1){
                                 $name += "Admission";
                             }
-                            if(location.contains("Francais")){
+                            if(location.indexOf("Francais") !== -1){
                                 $name += "Francais";
-                            }else if(location.contains("Etranger")){
+                            }else if(location.indexOf("Etranger") !== -1){
                                 $name += "Etranger";
                             }
 

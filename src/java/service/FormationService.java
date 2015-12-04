@@ -81,6 +81,7 @@ public class FormationService {
         formationToSuppr.setLesJustificatifs(new ArrayList<Justificatif>());
         formationDAO.update(formationToSuppr);
         for(Justificatif justificatif:justificatifs){
+            new JustificatifDAO().update(justificatif);
             new JustificatifDAO().delete(justificatif);
         }
         
