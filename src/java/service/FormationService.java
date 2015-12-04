@@ -82,11 +82,11 @@ public class FormationService {
         formationDAO.update(formationToSuppr);
         for(Justificatif justificatif:justificatifs){
             new JustificatifDAO().update(justificatif);
-            new JustificatifDAO().delete(justificatif);
+            new JustificatifDAO().delete(justificatif.getId());
         }
         
         //suppression de la formation dans la BDD
-        formationDAO.delete(formationToSuppr);
+        formationDAO.delete(formationToSuppr.getId());
     }
     
     /**
