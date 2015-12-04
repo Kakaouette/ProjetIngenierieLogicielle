@@ -77,16 +77,17 @@ public class FormationService {
                 throw new SuppressionFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(SuppressionFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
             }
         }
-        List<Justificatif> justificatifs = formationToSuppr.getLesJustificatifs();
-        formationToSuppr.setLesJustificatifs(new ArrayList<Justificatif>());
-        formationDAO.update(formationToSuppr);
-        for(Justificatif justificatif:justificatifs){
-            new JustificatifDAO().update(justificatif);
-            new JustificatifDAO().delete(justificatif);
+        if(formationToSuppr.getLesJustificatifs() != null){
+            List<Justificatif> justificatifs = formationToSuppr.getLesJustificatifs();
+            formationToSuppr.setLesJustificatifs(new ArrayList<Justificatif>());
+            formationDAO.update(formationToSuppr);
+            for(Justificatif justificatif:justificatifs){
+                new JustificatifDAO().delete(justificatif.getId());
+            }
         }
         
         //suppression de la formation dans la BDD
-        formationDAO.delete(formationToSuppr);
+        formationDAO.delete(formationToSuppr.getId());
     }
     
     /**
@@ -103,13 +104,17 @@ public class FormationService {
         if(formationDAO.getById(formationToModif.getId()) == null){
             throw new ModificationFormationInvalideException("Formation " + formationToModif.getId() + " inexistante.", new Throwable(ModificationFormationInvalideException.cause.Formation_Inexistante.toString()));
         }
-        if(formationToModif.getDebut().before(new Date()) && formationToModif.getFin().after(new Date())){ //verif formation editable
-            throw new ModificationFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(ModificationFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
+        if(formationToModif.getDebut() != null && formationToModif.getFin()!= null){
+            if(formationToModif.getDebut().before(new Date()) && formationToModif.getFin().after(new Date())){ //verif formation editable
+                throw new ModificationFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(ModificationFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
+            }
         }
-        if(formationToModif.getIntitule().isEmpty()){
+        if(formationToModif.getIntitule() == null){
+            throw new ModificationFormationInvalideException("Intitulé non rempli.", new Throwable(ModificationFormationInvalideException.cause.Intitule_Vide.toString()));
+        }else if(formationToModif.getIntitule().isEmpty()){
             throw new ModificationFormationInvalideException("Intitulé non rempli.", new Throwable(ModificationFormationInvalideException.cause.Intitule_Vide.toString()));
         }
-        if(formationDAO.getFormationByIntitule(formationToModif.getIntitule()) != null){
+        if(formationDAO.getFormationByIntitule(formationToModif.getIntitule()) != null && formationDAO.getFormationByIntitule(formationToModif.getIntitule()).getId() != formationToModif.getId()){
             throw new ModificationFormationInvalideException("Formation déjà existante.", new Throwable(ModificationFormationInvalideException.cause.Formation_Existante.toString()));
         }
         if(formationToModif.getDebut() != null && formationToModif.getFin() != null){
@@ -118,20 +123,12 @@ public class FormationService {
             }
         }
         List<Justificatif> oldJustificatifs = formationDAO.getById(formationToModif.getId()).getLesJustificatifs();
-        List<Justificatif> newJustificatifs = formationToModif.getLesJustificatifs();
-        List<Justificatif> justificatifsToAdd = newJustificatifs;
-        justificatifsToAdd.removeAll(oldJustificatifs);
-        List<Justificatif> justificatifsToSuppr = oldJustificatifs;
-        justificatifsToSuppr.removeAll(newJustificatifs);
-        formationDAO.update(formationToModif);
-        for(Justificatif justificatif:justificatifsToSuppr){
-            new JustificatifDAO().delete(justificatif);
-        }
-        for(Justificatif justificatif:justificatifsToAdd){
-            new JustificatifDAO().save(justificatif);
-        }
         
         //mise à jour de la formation dans la BDD
         formationDAO.update(formationToModif);
+        //supression des jstificatifs inutiles
+        for(Justificatif justificatif:oldJustificatifs){
+            new JustificatifDAO().delete(justificatif.getId());
+        }
     }
 }

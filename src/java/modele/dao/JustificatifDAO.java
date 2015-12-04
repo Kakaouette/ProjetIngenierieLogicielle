@@ -62,10 +62,10 @@ public class JustificatifDAO extends Dao {
         tx.commit();
     }
     
-    public void delete(Justificatif unJustificatif) {
+    public void delete(int idJustificatif) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.remove(unJustificatif);
+        em.remove(getById(idJustificatif));
         tx.commit();
     }
     

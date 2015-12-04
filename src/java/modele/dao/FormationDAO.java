@@ -62,11 +62,10 @@ public class FormationDAO extends Dao {
         tx.commit();
     }
     
-    
-    public void delete(Formation unFormation) {
+    public void delete(int idFormation) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.remove(unFormation);
+        em.remove(getById(idFormation));
         tx.commit();
     }
     
