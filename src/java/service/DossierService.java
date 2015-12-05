@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import modele.dao.AdresseDAO;
 import modele.dao.DossierDAO;
 import modele.dao.EtudiantDAO;
+import modele.dao.FormationDAO;
 import modele.dao.HistoriqueDAO;
 import modele.entite.Dossier;
 import modele.entite.Historique;
@@ -64,6 +65,9 @@ public class DossierService {
         }
         if(dossier.getEtudiant() == null || dossier.getDemandeFormation() == null){
             throw new AjoutDossierInvalideException("Dossier incomplet", new Throwable(AjoutDossierInvalideException.cause.Dossier_Incomplet.toString()));
+        }
+        if(new FormationDAO().getById(dossier.getDemandeFormation().getId()) == null){
+            throw new AjoutDossierInvalideException("Formation inexistante", new Throwable(AjoutDossierInvalideException.cause.Formation_Inexistante.toString()));
         }
         if(new DossierDAO().getByEtudiantAndFormation(dossier.getEtudiant(), dossier.getDemandeFormation()) != null){ //verif dossier existant
             throw new AjoutDossierInvalideException("Un dossier pour cet formation existe déjà pour cet étudiant", new Throwable(AjoutDossierInvalideException.cause.Dossier_Existant.toString())); //Le dossier existe déjà !

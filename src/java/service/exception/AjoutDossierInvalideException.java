@@ -13,6 +13,7 @@ public class AjoutDossierInvalideException extends Exception{
     public enum cause{
         ID_Invalide,
         Dossier_Incomplet,
+        Formation_Inexistante,
         Dossier_Existant
     }
 
