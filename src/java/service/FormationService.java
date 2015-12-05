@@ -5,6 +5,9 @@
  */
 package service;
 
+import service.exception.AjoutFormationInvalideException;
+import service.exception.ModificationFormationInvalideException;
+import service.exception.SuppressionFormationInvalideException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,12 +46,12 @@ public class FormationService {
         if(formationDAO.getFormationByIntitule(formationToAdd.getIntitule()) != null){
             throw new AjoutFormationInvalideException("Formation déjà existante.", new Throwable(AjoutFormationInvalideException.cause.Formation_Existante.toString()));
         }
-        if(formationToAdd.getDebut() != null && formationToAdd.getFin() != null){
+        if(formationToAdd.getDebut() != null && formationToAdd.getFin() != null){ //eviter les null pointer
             if(formationToAdd.getDebut().after(formationToAdd.getFin())){
                 throw new AjoutFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(AjoutFormationInvalideException.cause.Date_Incohérentes.toString()));
             }
         }
-        if(formationToAdd.getLesJustificatifs() != null){
+        if(formationToAdd.getLesJustificatifs() != null){ //eviter les null pointer
             for(Justificatif justificatif:formationToAdd.getLesJustificatifs()){
                 new JustificatifDAO().save(justificatif);
             }
@@ -72,12 +75,12 @@ public class FormationService {
         if(formationDAO.getById(formationToSuppr.getId()) == null){
             throw new SuppressionFormationInvalideException("Formation " + formationToSuppr.getId() + " inexistante.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Inexistante.toString()));
         }
-        if(formationToSuppr.getDebut() != null && formationToSuppr.getFin() != null){
+        if(formationToSuppr.getDebut() != null && formationToSuppr.getFin() != null){ //eviter les null pointer
             if(formationToSuppr.getDebut().before(new Date()) && formationToSuppr.getFin().after(new Date())){ //verif formation editable
                 throw new SuppressionFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(SuppressionFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
             }
         }
-        if(formationToSuppr.getLesJustificatifs() != null){
+        if(formationToSuppr.getLesJustificatifs() != null){ //eviter les null pointer
             List<Justificatif> justificatifs = formationToSuppr.getLesJustificatifs();
             formationToSuppr.setLesJustificatifs(new ArrayList<Justificatif>());
             formationDAO.update(formationToSuppr);
@@ -104,12 +107,12 @@ public class FormationService {
         if(formationDAO.getById(formationToModif.getId()) == null){
             throw new ModificationFormationInvalideException("Formation " + formationToModif.getId() + " inexistante.", new Throwable(ModificationFormationInvalideException.cause.Formation_Inexistante.toString()));
         }
-        if(formationToModif.getDebut() != null && formationToModif.getFin()!= null){
+        if(formationToModif.getDebut() != null && formationToModif.getFin()!= null){ //eviter les null pointer
             if(formationToModif.getDebut().before(new Date()) && formationToModif.getFin().after(new Date())){ //verif formation editable
                 throw new ModificationFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(ModificationFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
             }
         }
-        if(formationToModif.getIntitule() == null){
+        if(formationToModif.getIntitule() == null){ //eviter les null pointer
             throw new ModificationFormationInvalideException("Intitulé non rempli.", new Throwable(ModificationFormationInvalideException.cause.Intitule_Vide.toString()));
         }else if(formationToModif.getIntitule().isEmpty()){
             throw new ModificationFormationInvalideException("Intitulé non rempli.", new Throwable(ModificationFormationInvalideException.cause.Intitule_Vide.toString()));
@@ -117,7 +120,7 @@ public class FormationService {
         if(formationDAO.getFormationByIntitule(formationToModif.getIntitule()) != null && formationDAO.getFormationByIntitule(formationToModif.getIntitule()).getId() != formationToModif.getId()){
             throw new ModificationFormationInvalideException("Formation déjà existante.", new Throwable(ModificationFormationInvalideException.cause.Formation_Existante.toString()));
         }
-        if(formationToModif.getDebut() != null && formationToModif.getFin() != null){
+        if(formationToModif.getDebut() != null && formationToModif.getFin() != null){ //eviter les null pointer
             if(formationToModif.getDebut().after(formationToModif.getFin())){
                 throw new ModificationFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(ModificationFormationInvalideException.cause.Date_Incohérentes.toString()));
             }
@@ -126,9 +129,11 @@ public class FormationService {
         
         //mise à jour de la formation dans la BDD
         formationDAO.update(formationToModif);
-        //supression des jstificatifs inutiles
-        for(Justificatif justificatif:oldJustificatifs){
-            new JustificatifDAO().delete(justificatif.getId());
+        //supression des justificatifs inutiles
+        if(oldJustificatifs != null){ //eviter les null pointer
+            for(Justificatif justificatif:oldJustificatifs){
+                new JustificatifDAO().delete(justificatif.getId());
+            }
         }
     }
 }

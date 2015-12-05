@@ -5,6 +5,7 @@
  */
 package service;
 
+import service.exception.AjoutFormationInvalideException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;

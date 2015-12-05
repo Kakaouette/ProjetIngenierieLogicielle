@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import service.FormationService;
-import service.SuppressionFormationInvalideException;
+import service.exception.SuppressionFormationInvalideException;
 
 /**
  *
@@ -55,10 +55,12 @@ public class SupprFormationAction implements Action{
             request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Formation supprimé.");
         }catch(SuppressionFormationInvalideException e){
+            e.printStackTrace();
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été supprimé: " + e.getMessage());
             return stayHere(request, response); //redirection
         }catch(Exception e){ //exception bdd
+            e.printStackTrace();
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été supprimé.");
             return stayHere(request, response); //redirection

@@ -16,7 +16,7 @@ import modele.entite.Formation;
 import modele.entite.Justificatif;
 import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
-import service.AjoutFormationInvalideException;
+import service.exception.AjoutFormationInvalideException;
 import service.FormationService;
 
 /**

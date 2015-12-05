@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import service.FormationService;
-import service.ModificationFormationInvalideException;
+import service.exception.ModificationFormationInvalideException;
 
 /**
  *

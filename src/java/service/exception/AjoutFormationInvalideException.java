@@ -3,35 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service;
+package service.exception;
 
 /**
  *
  * @author Arthur
  */
-public class SuppressionFormationInvalideException extends Exception{  
+public class AjoutFormationInvalideException extends Exception{  
     public enum cause{
         Formation_Vide,
-        Formation_Inexistante,
-        Inscriptions_En_Cours
+        Intitule_Vide,
+        Formation_Existante,
+        Date_Incohérentes
     }
     
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     */  
-    public SuppressionFormationInvalideException() {}  
+    public AjoutFormationInvalideException() {}  
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     * @param message Le message détaillant exception 
     */  
-    public SuppressionFormationInvalideException(String message) {  
+    public AjoutFormationInvalideException(String message) {  
             super(message); 
     } 
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     * @param cause L'exception à l'origine de cette exception 
     */  
-    public SuppressionFormationInvalideException(Throwable cause) {  
+    public AjoutFormationInvalideException(Throwable cause) {  
             super(cause); 
     }  
     /**
@@ -39,7 +40,7 @@ public class SuppressionFormationInvalideException extends Exception{
     * @param message Le message détaillant exception 
     * @param cause L'exception à l'origine de cette exception 
     */  
-    public SuppressionFormationInvalideException(String message, Throwable cause) {  
+    public AjoutFormationInvalideException(String message, Throwable cause) {  
             super(message, cause); 
     }
 }
