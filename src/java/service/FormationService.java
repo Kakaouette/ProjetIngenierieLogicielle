@@ -47,7 +47,7 @@ public class FormationService {
             throw new AjoutFormationInvalideException("Formation déjà existante.", new Throwable(AjoutFormationInvalideException.cause.Formation_Existante.toString()));
         }
         if(formationToAdd.getDebut() != null && formationToAdd.getFin() != null){ //eviter les null pointer
-            if(formationToAdd.getDebut().after(formationToAdd.getFin())){
+            if(formationToAdd.getDebut().after(formationToAdd.getFin())){ //verif date fin est après date début
                 throw new AjoutFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(AjoutFormationInvalideException.cause.Date_Incohérentes.toString()));
             }
         }
@@ -121,7 +121,7 @@ public class FormationService {
             throw new ModificationFormationInvalideException("Formation déjà existante.", new Throwable(ModificationFormationInvalideException.cause.Formation_Existante.toString()));
         }
         if(formationToModif.getDebut() != null && formationToModif.getFin() != null){ //eviter les null pointer
-            if(formationToModif.getDebut().after(formationToModif.getFin())){
+            if(formationToModif.getDebut().after(formationToModif.getFin())){ //verif date fin est après date début
                 throw new ModificationFormationInvalideException("Dates de début et de fin incohérentes", new Throwable(ModificationFormationInvalideException.cause.Date_Incohérentes.toString()));
             }
         }

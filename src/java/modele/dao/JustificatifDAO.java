@@ -69,13 +69,6 @@ public class JustificatifDAO extends Dao {
         tx.commit();
     }
     
-    public void delete(int id) {
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        em.remove(getById(id));
-        tx.commit();
-    }
-    
     /**
      * Selection de tous les justificatifs dans la BDD
      * 

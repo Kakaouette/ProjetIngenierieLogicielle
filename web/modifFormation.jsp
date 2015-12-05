@@ -16,7 +16,7 @@
 <link href="jQuery/bootstrap-datepicker3.css" rel="stylesheet">
 <script type="text/javascript">
     $(function() {
-        $('.input-daterange').datepicker({
+        $('.input-daterange').datepicker({ //adaptation auto date start et date end compris
             format: "dd/mm/yyyy",
             todayBtn: true,
             language: "fr",
