@@ -69,17 +69,6 @@ public class CompteDAO extends Dao {
         }
     }
     
-    public Compte getComptebyIdentifiant(String identifiant, String mdp){
-        try {
-            q = em.createQuery("SELECT C FROM Compte C WHERE C.login = :ID AND C.mdp = :MDP");
-            q.setParameter("ID", identifiant);
-            q.setParameter("MDP", mdp);
-            return (Compte) q.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-    
     /**
      * Selection d'un compte en fonction de son login
      * 

@@ -64,7 +64,7 @@ public class Navigation extends HttpServlet {
         String vue = "";
         int menuSelect = 0;
 
-        if (action.equals("gererAuthentification")) {
+        if (action.equals("index")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
         }else if (action.equals("voirModifierUtilisateur")) {
@@ -91,7 +91,7 @@ public class Navigation extends HttpServlet {
         }else{
             action = "index";
             menuSelect = 0;
-            classeAction = new VoirIndexAction();
+            classeAction = new GererAuthentificationAction();
         }
 
         if (classeAction != null) {

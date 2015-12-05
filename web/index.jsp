@@ -6,30 +6,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_sans_menu.jsp" %>
-<form class="form-signin" action="Navigation" method="POST">
-    <h1 class="form-signin-heading">Identification</h1>
-    <label for="identifiant" class="sr-only">Identifiant</label>
-    <div class="input-group">
-        <span class="input-group-addon" id="addId"><i class="fa fa-user"></i></span>
-        <input type="text" name="identifiant" id="identifiant" class="form-control" placeholder="Identifiant" aria-describedby="addId" required autofocus>
-    </div>
-    <label for="mdp" class="sr-only">Mot de passe</label>
-    <div class="input-group" id="divMargin">
-        <span class="input-group-addon" id="addMdp"><i class="fa fa-lock"></i></span>
-        <input type="password" name="mdp" id="mdp" class="form-control" placeholder="Mot de passe" aria-describedby="addMdp" required>
-    </div>
-    <!--[if IE]>
-    <input type="hidden" name="action" value="gererAuthentification" />
-    <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-    <![endif]-->
-    <!--[if !IE]><!-->
-    <button class="btn btn-lg btn-success btn-block" type="submit" name="action" value="gererAuthentification">Connexion</button>
-    <!--<![endif]-->
-</form>
-
-<% if(request.getAttribute("message") != null){ %>
-    <div class="alert alert-danger">
-        <%out.print(request.getAttribute("message"));%>
-    </div>
+<% if(request.getAttribute("logout") == null){ %>
+Votre compte n'existe pas dans notre base, contacter veuillez l’administrateur.
+<% }else{ %>
+Vous êtes déconnecté de l'application mais pas de tous les services : 
+<a href="https://localhost/cas/logout">cliquez ici pour vous déconnectez de tous les services</a>
+sinon quittez simplement cette page
 <%}%>
 <%@include file="Modele/pied.jsp" %>

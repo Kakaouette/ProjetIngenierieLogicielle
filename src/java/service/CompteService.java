@@ -61,21 +61,18 @@ public class CompteService {
     }
 
     /**
-     * Vérifie que les identifiant passé en paramètres sont correctes
+     * Vérifie que le username passé en paramètre existe
      *
-     * @param identifiant
-     * @param mdp
-     * @return Compte si identifiant correcte
+     * @param username
+     * @return Compte si identifiant correcte sinon null
      */
-    public Compte verifierAuthentification(String identifiant, String mdp) {
-        //récupération du mot de passe crypté
-        String mdpCrypt = cryptageMDP(mdp);
-        //vérification de l'existance d'un compte avec le coup identifiant + mdp crypté
-        Compte compte = compteDAO.getComptebyIdentifiant(identifiant, mdpCrypt);
+    public Compte verifierAuthentification(String username) {
+        //vérification de l'existance d'un compte
+        Compte compte = compteDAO.getComptebyIdentifiant(username);
 
         //si existe return le compte sinon on return null
         if (compte != null) {
-            if (compte.getLogin().equals(identifiant)) {
+            if (compte.getLogin().equals(username)) {
                 return compte;
             }
         }

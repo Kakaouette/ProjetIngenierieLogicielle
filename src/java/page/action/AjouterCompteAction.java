@@ -56,10 +56,10 @@ public class AjouterCompteAction implements Action {
             return "createUser.jsp";
         }
         nouveauCompte.setType(TypeCompte.valueOf(type));
-
+Compte compte = null;
         try {
             new CompteService().ajouterUtilisateur(nouveauCompte);
-            Compte compte = new CompteService().verifierAuthentification(login, mdp);
+            //Compte compte = new CompteService().verifierAuthentification(login, mdp);
 
             if (compte == null) {
                 request.setAttribute("error", "true");
@@ -71,7 +71,8 @@ public class AjouterCompteAction implements Action {
         } catch (Exception e) {
             request.setAttribute("error", "true");
             request.setAttribute("message", "L'utilisateur n'a pas été crée");
-            Compte compte = new CompteService().verifierAuthentification(login, mdp);
+           //Compte compte = new CompteService().verifierAuthentification(login, mdp);
+           
             if (compte != null) {
                 request.setAttribute("error", "true");
                 request.setAttribute("message", "L'utilisateur existe déjà !");

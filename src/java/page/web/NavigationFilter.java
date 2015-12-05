@@ -49,7 +49,9 @@ public class NavigationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) sr1;
         String path = request.getServletPath();
 
-        if (path.startsWith("/Navigation") || (request.getServletPath().equals("/index.jsp") && request.getSession().getAttribute("compte") == null)) {
+        if (path.startsWith("/Navigation") && request.getSession().getAttribute("compte") != null) {
+            fc.doFilter(sr, sr1);
+        }else if((request.getServletPath().equals("/index.jsp") || (request.getServletPath().equals("/Navigation")))&& request.getSession().getAttribute("compte") == null){
             fc.doFilter(sr, sr1);
         }else if(path.startsWith("/bootstrap/")){
             fc.doFilter(sr, sr1);
