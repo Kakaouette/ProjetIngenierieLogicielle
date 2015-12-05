@@ -49,4 +49,24 @@ public class DossierService {
         }
         return regex;
     }
+    
+    /**
+     * Récupère le dossier par le biais de son ID
+     * @param idDossier
+     * @return le dossier
+     */
+    public Dossier recupererDossier(String idDossier)
+    {
+        return new DossierDAO().getById(idDossier);
+    }
+    
+    /**
+     * Modifier le dossier
+     * @param dossier modifié
+     * @return rien
+     */
+    public void modifierDossier(Dossier unDossier)
+    {
+        this.dossierDAO.update(unDossier);
+    }
 }

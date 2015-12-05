@@ -17,6 +17,7 @@ import modele.dao.Dao;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import modele.entite.Historique;
+import service.DossierService;
 
 /**
  * Gestion des dossiers - Modification d'un dossier
@@ -32,7 +33,7 @@ public class ModifierDossierAction implements Action{
         //recuperation du dossier original
         String idDossier = request.getParameter("idDossier");
 
-        Dossier dossierorigin=new DossierDAO().getById(idDossier);
+        Dossier dossierorigin= new DossierService().recupererDossier(idDossier);
         
         //recuperation des infos et modif de l'objet Dossier
         boolean admDossier = new Boolean(request.getParameter("admissibilite"));
@@ -48,7 +49,7 @@ public class ModifierDossierAction implements Action{
         String messageHisto=request.getParameter("msg_histo");
         if(!messageHisto.isEmpty())
         {
-             Date date = Calendar.getInstance().getTime();
+            Date date = Calendar.getInstance().getTime();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - hhmmss");
             String dateHisto = sdf.format(date);
 
@@ -64,7 +65,7 @@ public class ModifierDossierAction implements Action{
         
        
         try{
-            new DossierDAO().update(dossierorigin);
+            new DossierService().modifierDossier(dossierorigin);
             request.setAttribute("error", "false");
             request.setAttribute("message", "Le dossier a été modifié avec succès !");
         }catch(Exception e){

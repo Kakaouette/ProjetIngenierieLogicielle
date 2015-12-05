@@ -21,6 +21,7 @@ import modele.entite.Etudiant;
 import modele.entite.Formation;
 import modele.entite.Historique;
 import modele.entite.TypeCompte;
+import service.DossierService;
 
 /**
  * Gestion des dossiers - Consultation en detail un dossier
@@ -37,7 +38,7 @@ public class ConsulterDossierAction implements Action{
         String idDossier = request.getParameter("idDossier");
         
         //recuperation du dossier
-        Dossier dossier = new DossierDAO().getById(idDossier);
+        Dossier dossier = new DossierService().recupererDossier(idDossier);
      
         //si dossier n'existe pas => retour vers la liste des dossiers 
         if(dossier != null){
