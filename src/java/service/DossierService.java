@@ -5,6 +5,7 @@
  */
 package service;
 
+import service.exception.AjoutDossierInvalideException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,7 +15,9 @@ import java.util.regex.Pattern;
 import modele.dao.AdresseDAO;
 import modele.dao.DossierDAO;
 import modele.dao.EtudiantDAO;
+import modele.dao.HistoriqueDAO;
 import modele.entite.Dossier;
+import modele.entite.Historique;
 
 /**
  *
@@ -28,7 +31,7 @@ public class DossierService {
     }
     
     /**
-     * @return ID de dossier valide
+     * @return ID de dossier valide non utilisé dans la BDD
      */
     public String getNewID(){
         Date dateNow = new Date(); //recuperation de la date actuelle
@@ -46,16 +49,21 @@ public class DossierService {
     
     /**
      * @param dossier à ajouter
-     * @throws service.AjoutDossierInvalideException
+     * @throws service.exception.AjoutDossierInvalideException
      * @throws java.io.IOException
      */
-    public void ajouterDossier(Dossier dossier) throws service.AjoutDossierInvalideException, IOException{
+    public void ajouterDossier(Dossier dossier) throws service.exception.AjoutDossierInvalideException, IOException{
         //verification de la validité de la demande
-        if(regexIdDossierValide(dossier.getId())){ //verif id correspond au regex
+        if(dossier.getId() == null){
+            throw new AjoutDossierInvalideException("L'identifiant du dossier est invalide", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
+        }else if(!regexIdDossierValide(dossier.getId())){ //verif id correspond au regex
             throw new AjoutDossierInvalideException("L'identifiant du dossier est invalide", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
         }
         if(new DossierDAO().getById(dossier.getId()) != null){ //verif id non utilisé
             throw new AjoutDossierInvalideException("L'identifiant du dossier est déjà utilisé", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
+        }
+        if(dossier.getEtudiant() == null || dossier.getDemandeFormation() == null){
+            throw new AjoutDossierInvalideException("Dossier incomplet", new Throwable(AjoutDossierInvalideException.cause.Dossier_Incomplet.toString()));
         }
         if(new DossierDAO().getByEtudiantAndFormation(dossier.getEtudiant(), dossier.getDemandeFormation()) != null){ //verif dossier existant
             throw new AjoutDossierInvalideException("Un dossier pour cet formation existe déjà pour cet étudiant", new Throwable(AjoutDossierInvalideException.cause.Dossier_Existant.toString())); //Le dossier existe déjà !
@@ -68,13 +76,18 @@ public class DossierService {
         if(new EtudiantDAO().getById(dossier.getEtudiant().getId()) == null){
             new EtudiantDAO().save(dossier.getEtudiant()); //ajout dans la base de donnée
         }
+        if(dossier.getHistorique() != null){
+            for(Historique historique:dossier.getHistorique()){
+                new HistoriqueDAO().save(historique); //ajout dans la base de donnée
+            }
+        }
         
         //sauvegarde du dossier dans la BDD
         dossierDAO.save(dossier);
     }
     
     /**
-     * @param idDossier: id à verifié
+     * @param idDossier: id à verifier
      * @return true: id valide par rapport au regex; false: else
      * @throws java.io.IOException
      */

@@ -24,6 +24,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label" for="type">Type:</label>
         <div class="col-md-4">
+            <input type="hidden" name="type" value="<%out.print(request.getAttribute("type"));%>">
             <label class="radio-inline" for="type-0">
                 <input type="radio" name="type" id="type-0" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%> disabled> Inscription
             </label>

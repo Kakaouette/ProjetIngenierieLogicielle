@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service;
+package service.exception;
 
 /**
  *
@@ -12,6 +12,7 @@ package service;
 public class AjoutDossierInvalideException extends Exception{  
     public enum cause{
         ID_Invalide,
+        Dossier_Incomplet,
         Dossier_Existant
     }
 

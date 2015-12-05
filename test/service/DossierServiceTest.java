@@ -5,6 +5,7 @@
  */
 package service;
 
+import service.exception.AjoutDossierInvalideException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -20,7 +20,7 @@ import modele.entite.Etudiant;
 import modele.entite.EtudiantEtranger;
 import modele.entite.Formation;
 import modele.entite.Historique;
-import service.AjoutDossierInvalideException;
+import service.exception.AjoutDossierInvalideException;
 import service.DossierService;
 
 /**
@@ -44,7 +44,7 @@ public class AjoutDossierAction implements Action{
         String notes = request.getParameter("notes");
         String formationIntitule = request.getParameter("formationIntitule");
         String type = request.getParameter("type");
-        String nationalite = request.getParameter("nationalite");
+        String nationalite;
         if(request.getParameter("nationalite") != null){
             nationalite = request.getParameter("nationalite");
         }else{
@@ -159,11 +159,13 @@ public class AjoutDossierAction implements Action{
         request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
         request.setAttribute("type", request.getParameter("type"));
         request.setAttribute("nationalite", request.getParameter("nationalite"));
-        if(request.getParameter("nationalite") == null){
+        if(request.getParameter("nationalite") != null){
             if(request.getParameter("nationalite").equals("etranger")){
                 request.setAttribute("avis", request.getParameter("avis"));
                 request.setAttribute("niveau", request.getParameter("niveau"));
             }
+        }else{
+            request.setAttribute("nationalite", "francais");
         }
         return new VoirAjoutDossierAction().execute(request, response); //modif: voir récupérer page precedente
     }
@@ -173,7 +175,7 @@ public class AjoutDossierAction implements Action{
         //verification de la validité du formulaire
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){
-            if(required[i].equals("null")){
+            if(required[i] == null){
                 empty.add(requiredName[i]);
             }
         }
