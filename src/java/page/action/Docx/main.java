@@ -14,10 +14,13 @@ public class main {
 		//String[] text = DocReader.readDocxFile("Test.docx");
 		//DocReader.createDoc("Hey");
 		//DocReader.readDocFile("C:\\Test.doc");
-		DocReader.replaceName("Test.docx","Dupont Jean");
+		/*DocReader.replaceName("Test.docx","Dupont Jean");
 		DocReader.replaceFirstname("Test.docx","Dupont");
 		DocReader.replaceLastname("Test.docx","Jean");
-		ConvertDocxToPDF.convert("Test.docx");
+		ConvertDocxToPDF.convert("Test.docx");*/
+                String fileName;
+                //fileName=DocReaderAccuseReception.replaceAccuseReception("Accuse_Reception.docx", "pst181120151");
+                fileName=DocReaderLettreAudition.replaceLettreAudition("Ltrre AUDITIONS Master 2 _PSTSPE_OK.docx", "pst181120151");
 	}
 
 }

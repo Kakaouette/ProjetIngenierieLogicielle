@@ -32,7 +32,7 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
  *  - Transformer tout cela en action avec comme appel des fonction les éléments de la BD
  * 
  */
-public class DocReaderAccuseReception
+public class DocReaderLettreAudition
 {
 	public static String[] readDocxFile(String fileName)
         {
@@ -56,57 +56,21 @@ public class DocReaderAccuseReception
 			return null;
 		}
 	}
-        public static String replaceAccuseReception(String filename, String idDossier)throws InvalidFormatException, IOException
+        public static String replaceLettreAudition(String filename, String idDossier)throws InvalidFormatException, IOException
         {
             /*Dossier dossier = new DossierDAO().getById(idDossier);
             
             Formation formation = dossier.getDemandeFormation();
             
-            String annee;
-            if(formation.getIntitule().contains("1"))
-            {
-                annee="1ère";
-            }
-            else if(formation.getIntitule().contains("2"))
-            {
-                annee="2ème";
-            }
-            else if(formation.getIntitule().contains("3"))
-            {
-                annee="3ème";
-            }
-            else
-            {
-                annee="1ère";
-                System.out.println("Erreur pour l'année, fonction replaceAccuseReception");
-            }
             
-            String type;
-            if(formation.getDescription().contains("Licence"))
-            {
-                type="licence";
-            }
-            else if(formation.getDescription().contains("Master"))
-            {
-                type="master";
-            }
-            else
-            {
-                type="master";
-                System.out.println("Erreur pour le type, fonction replaceAccuseReception");
-            }
-            
-            String mention=formation.getDescription();
-            //A completer lorsque la BDD sera revue
-            
-            String parcours=formation.getIntitule();
-            
-            String typeFormation="formation initiale"; //A completer lorsque la BDD sera update avec le nouveau champs
             */
-            String annee="1ère";String type="master";String mention="Informatique";String parcours="ICONE";String typeFormation="formation initiale";
+            String date="6 decembre 2015";String nom="Gaunt";String prenom="Damian";String adresse="9 rue leconte";String codePostal="84450";
+            String ville="BOUHET";String civilite="Monsieur";String typeDossier;/*?????*/String dateCommission="25/06/2015";String annee="1ère";
+            String type="master";String mention="Informatique";String parcours="ICONE";String typeFormation="formation initiale";
+            
             System.out.println(filename);
             
-            String newFileName=idDossier+" Accuse De Reception.docx";
+            String newFileName=idDossier+" Lettre audition.docx";
             
             XWPFDocument doc = new XWPFDocument(OPCPackage.open("./lettres/models/"+filename));
             doc.write(new FileOutputStream("./lettres/target/"+newFileName));
@@ -230,6 +194,198 @@ public class DocReaderAccuseReception
                           p.removeRun(i);
                     }
                     String text = sb.toString().replace("$formation", typeFormation);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement du type de la formation effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$date"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$date", date);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement de la date effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$civilite"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$civilite", civilite);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement de la civilite effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$prenom"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$prenom", prenom);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement du prenom effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$nom"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$nom", nom);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement du nom effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$adresse"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$adresse", adresse);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement de l'adresse effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$codePostal"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$codePostal", codePostal);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement du code postal effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$ville"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$ville", ville);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement de la ville effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$Commission"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$Commission", dateCommission);
                     XWPFRun run = p.getRuns().get(0);
                     run.setText(text, 0);
                     System.out.println("Changement du type de la formation effectue");
