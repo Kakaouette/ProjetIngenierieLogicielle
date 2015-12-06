@@ -9,31 +9,29 @@ package service.exception;
  *
  * @author Arthur
  */
-public class AjoutDossierInvalideException extends Exception{  
+public class AjoutAdresseInvalideException extends Exception{
     public enum cause{
-        Dossier_Null,
-        ID_Invalide,
-        Dossier_Incomplet,
-        Formation_Inexistante,
-        Dossier_Existant
+        Adresse_Null,
+        Adresse_Incomplete,
+        Adresse_Existante
     }
 
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     */  
-    public AjoutDossierInvalideException() {}  
+    public AjoutAdresseInvalideException() {}  
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     * @param message Le message détaillant exception 
     */  
-    public AjoutDossierInvalideException(String message) {  
+    public AjoutAdresseInvalideException(String message) {  
             super(message); 
     } 
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     * @param cause L'exception à l'origine de cette exception 
     */  
-    public AjoutDossierInvalideException(Throwable cause) {  
+    public AjoutAdresseInvalideException(Throwable cause) {  
             super(cause); 
     }  
     /**
@@ -41,7 +39,7 @@ public class AjoutDossierInvalideException extends Exception{
     * @param message Le message détaillant exception 
     * @param cause L'exception à l'origine de cette exception 
     */  
-    public AjoutDossierInvalideException(String message, Throwable cause) {  
+    public AjoutAdresseInvalideException(String message, Throwable cause) {  
             super(message, cause); 
     }
 }

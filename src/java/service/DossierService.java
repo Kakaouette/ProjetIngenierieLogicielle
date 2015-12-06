@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import modele.dao.AdresseDAO;
@@ -19,6 +21,9 @@ import modele.dao.FormationDAO;
 import modele.dao.HistoriqueDAO;
 import modele.entite.Dossier;
 import modele.entite.Historique;
+import service.exception.AjoutAdresseInvalideException;
+import service.exception.AjoutEtudiantInvalideException;
+import service.exception.AjoutHistoriqueInvalideException;
 
 /**
  *
@@ -52,37 +57,43 @@ public class DossierService {
      * @param dossier à ajouter
      * @throws service.exception.AjoutDossierInvalideException
      * @throws java.io.IOException
+     * @throws service.exception.AjoutAdresseInvalideException
+     * @throws service.exception.AjoutEtudiantInvalideException
+     * @throws service.exception.AjoutHistoriqueInvalideException
      */
-    public void ajouterDossier(Dossier dossier) throws service.exception.AjoutDossierInvalideException, IOException{
+    public void ajouterDossier(Dossier dossier) throws service.exception.AjoutDossierInvalideException, IOException, AjoutAdresseInvalideException, AjoutEtudiantInvalideException, AjoutHistoriqueInvalideException{
         //verification de la validité de la demande
+        if(dossier == null){
+            throw new AjoutDossierInvalideException("Requête incorrecte.", new Throwable(AjoutDossierInvalideException.cause.Dossier_Null.toString()));
+        }
         if(dossier.getId() == null){
             throw new AjoutDossierInvalideException("L'identifiant du dossier est invalide", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
         }else if(!regexIdDossierValide(dossier.getId())){ //verif id correspond au regex
             throw new AjoutDossierInvalideException("L'identifiant du dossier est invalide", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
         }
-        if(new DossierDAO().getById(dossier.getId()) != null){ //verif id non utilisé
+        if(dossierDAO.getById(dossier.getId()) != null){ //verif id non utilisé
             throw new AjoutDossierInvalideException("L'identifiant du dossier est déjà utilisé", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
         }
-        if(dossier.getEtudiant() == null || dossier.getDemandeFormation() == null){
+        if(dossier.getEtudiant() == null || dossier.getDemandeFormation() == null){ //verif champs requis remplis
             throw new AjoutDossierInvalideException("Dossier incomplet", new Throwable(AjoutDossierInvalideException.cause.Dossier_Incomplet.toString()));
         }
         if(new FormationDAO().getById(dossier.getDemandeFormation().getId()) == null){
             throw new AjoutDossierInvalideException("Formation inexistante", new Throwable(AjoutDossierInvalideException.cause.Formation_Inexistante.toString()));
         }
-        if(new DossierDAO().getByEtudiantAndFormation(dossier.getEtudiant(), dossier.getDemandeFormation()) != null){ //verif dossier existant
+        if(dossierDAO.getByEtudiantAndFormation(dossier.getEtudiant(), dossier.getDemandeFormation()) != null){ //verif dossier existant
             throw new AjoutDossierInvalideException("Un dossier pour cet formation existe déjà pour cet étudiant", new Throwable(AjoutDossierInvalideException.cause.Dossier_Existant.toString())); //Le dossier existe déjà !
         }
         
         //ajout des entitées inexistante
         if(new AdresseDAO().getById(dossier.getEtudiant().getAdresse().getId()) == null){
-            new AdresseDAO().save(dossier.getEtudiant().getAdresse()); //ajout dans la base de donnée
+            new AdresseService().ajouterAdresse(dossier.getEtudiant().getAdresse()); //ajout dans la base de donnée
         }
         if(new EtudiantDAO().getById(dossier.getEtudiant().getId()) == null){
-            new EtudiantDAO().save(dossier.getEtudiant()); //ajout dans la base de donnée
+            new EtudiantService().ajouterEtudiant(dossier.getEtudiant()); //ajout dans la base de donnée
         }
         if(dossier.getHistorique() != null){
             for(Historique historique:dossier.getHistorique()){
-                new HistoriqueDAO().save(historique); //ajout dans la base de donnée
+                new HistoriqueService().ajouterHistorique(historique); //ajout dans la base de donnée
             }
         }
         
