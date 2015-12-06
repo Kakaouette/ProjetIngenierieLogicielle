@@ -5,6 +5,7 @@
  */
 package page.action;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
 import service.FormationService;
 import service.exception.ModificationFormationInvalideException;
+import service.exception.SuppressionJustificatifInvalideException;
 
 /**
  *
@@ -115,18 +117,21 @@ public class ModifFormationAction implements Action{
             request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Formation modifié.");
             actionPageSuivante = new VoirGestionFormationsAction(); //redirection
-        }catch(ModificationFormationInvalideException e){
+        }catch(ModificationFormationInvalideException | SuppressionJustificatifInvalideException | IOException e){
+            //set msg d'erreur
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été modifié: " + e.getMessage());
-            if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
-                request.setAttribute("focus", "intitule");
-            }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Date_Incohérentes.toString())){
-                request.setAttribute("focus", "dateDebut");
+            //modif requete celon le type d'erreur
+            if(e instanceof ModificationFormationInvalideException){
+                if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
+                    request.setAttribute("focus", "intitule");
+                }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Date_Incohérentes.toString())){
+                    request.setAttribute("focus", "dateDebut");
+                }
+            }else if(e instanceof IOException){ //exception bdd
+                request.setAttribute("message", "La formation n'a pas été ajouté.");
             }
-            return stayHere(request, response); //redirection
-        }catch(Exception e){ //exception bdd
-            request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation n'a pas été modifié.");
+            //reload la page
             return stayHere(request, response); //redirection
         }
         

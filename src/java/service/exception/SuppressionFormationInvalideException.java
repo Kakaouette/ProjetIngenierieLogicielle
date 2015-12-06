@@ -11,7 +11,7 @@ package service.exception;
  */
 public class SuppressionFormationInvalideException extends Exception{  
     public enum cause{
-        Formation_Vide,
+        Formation_Null,
         Formation_Inexistante,
         Inscriptions_En_Cours
     }

@@ -5,12 +5,11 @@
  */
 package service;
 
+import java.io.IOException;
 import service.exception.AjoutFormationInvalideException;
 import service.exception.SuppressionFormationInvalideException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
@@ -20,6 +19,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import service.exception.AjoutJustificatifInvalideException;
+import service.exception.SuppressionJustificatifInvalideException;
 
 /**
  *
@@ -55,7 +56,7 @@ public class FormationService_supprimerFormationTest {
         try {
             new FormationService().supprimerFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (SuppressionFormationInvalideException | SuppressionJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -70,7 +71,7 @@ public class FormationService_supprimerFormationTest {
         try {
             new FormationService().supprimerFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (SuppressionFormationInvalideException | SuppressionJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -92,7 +93,7 @@ public class FormationService_supprimerFormationTest {
         try {
             new FormationService().supprimerFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (SuppressionFormationInvalideException | SuppressionJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -112,7 +113,7 @@ public class FormationService_supprimerFormationTest {
         try {
             new FormationService().supprimerFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (SuppressionFormationInvalideException | SuppressionJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -126,13 +127,13 @@ public class FormationService_supprimerFormationTest {
         Formation formation = new Formation("", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
         try {
             new FormationService().ajouterFormation(formation);
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
         }
         
         try {
             new FormationService().supprimerFormation(formation);
             done = true;
-        } catch (SuppressionFormationInvalideException ex) {
+        } catch (SuppressionFormationInvalideException | SuppressionJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }

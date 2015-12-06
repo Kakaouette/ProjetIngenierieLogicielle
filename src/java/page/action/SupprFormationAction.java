@@ -5,6 +5,7 @@
  */
 package page.action;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import service.FormationService;
 import service.exception.SuppressionFormationInvalideException;
+import service.exception.SuppressionJustificatifInvalideException;
 
 /**
  *
@@ -54,15 +56,15 @@ public class SupprFormationAction implements Action{
             new FormationService().supprimerFormation(formation);
             request.setAttribute("typeMessage", "success");
             request.setAttribute("message", "Formation supprimé.");
-        }catch(SuppressionFormationInvalideException e){
-            e.printStackTrace();
+        }catch(SuppressionFormationInvalideException | SuppressionJustificatifInvalideException | IOException e){
+            //set msg d'erreur
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été supprimé: " + e.getMessage());
-            return stayHere(request, response); //redirection
-        }catch(Exception e){ //exception bdd
-            e.printStackTrace();
-            request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation n'a pas été supprimé.");
+            //modif requete celon le type d'erreur
+            if(e instanceof IOException){ //exception bdd
+                request.setAttribute("message", "La formation n'a pas été ajouté.");
+            }
+            //reload la page
             return stayHere(request, response); //redirection
         }
         

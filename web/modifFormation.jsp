@@ -48,7 +48,11 @@
                 "Ajouter":{
                     text : 'Ajouter' ,class : 'btn btn-success', click : function() {
                         $path = location + ' ul#justificatifsAdded';
-                        if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0){
+                        if($("div#dialogJustificatifAAjouter input#titre").val() === ""){
+                            $('div#dialogJustificatifAAjouter').append($('<br>'))
+                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Entrez le titre de justificatif.</em>'))
+                            //<em></em>
+                        }else if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0){
                             $name = "justificatifs";
                             if(location.contains("inscription")){
                                 $name += "Inscription";

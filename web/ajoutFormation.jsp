@@ -55,7 +55,7 @@
                 "Ajouter":{
                     text : 'Ajouter' ,class : 'btn btn-success', click : function() {
                         $path = location + ' ul#justificatifsAdded';
-                        if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0){
+                        if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0 && ){
                             $name = "justificatifs";
                             if(location.indexOf("inscription") !== -1){
                                 $name += "Inscription";

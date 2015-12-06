@@ -5,6 +5,7 @@
  */
 package page.action;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
 import service.exception.AjoutFormationInvalideException;
 import service.FormationService;
+import service.exception.AjoutJustificatifInvalideException;
 
 /**
  *
@@ -103,20 +105,23 @@ public class AjoutFormationAction implements Action{
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
                 actionPageSuivante = new VoirAjoutFormationAction();
             }
-        }catch(AjoutFormationInvalideException e){
+        }catch(AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException e){
+            //set msg d'erreur
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
-            if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Formation_Existante.toString())){
-                request.setAttribute("focus", "intitule");
-            }else if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Intitule_Vide.toString())){
-                request.setAttribute("focus", "intitule");
-            }else if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Date_Incohérentes.toString())){
-                request.setAttribute("focus", "dateDebut");
+            //modif requete celon le type d'erreur
+            if(e instanceof AjoutFormationInvalideException){
+                if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Formation_Existante.toString())){
+                    request.setAttribute("focus", "intitule");
+                }else if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Intitule_Vide.toString())){
+                    request.setAttribute("focus", "intitule");
+                }else if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Date_Incohérentes.toString())){
+                    request.setAttribute("focus", "dateDebut");
+                }
+            }else if(e instanceof IOException){ //exception bdd
+                request.setAttribute("message", "La formation n'a pas été ajouté.");
             }
-            return stayHere(request, response); //redirection
-        }catch(Exception e){ //exception bdd
-            request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation n'a pas été ajouté.");
+            //reload la page
             return stayHere(request, response); //redirection
         }
         

@@ -9,32 +9,28 @@ package service.exception;
  *
  * @author Arthur
  */
-public class ModificationFormationInvalideException extends Exception{  
+public class SuppressionJustificatifInvalideException extends Exception{  
     public enum cause{
-        Formation_Null,
-        Formation_Inexistante,
-        Intitule_Vide,
-        Formation_Existante,
-        Date_Incohérentes,
-        Inscriptions_En_Cours
+        Justificatif_Null,
+        Justificatif_Inexistant
     }
     
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     */  
-    public ModificationFormationInvalideException() {}  
+    public SuppressionJustificatifInvalideException() {}  
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     * @param message Le message détaillant exception 
     */  
-    public ModificationFormationInvalideException(String message) {  
+    public SuppressionJustificatifInvalideException(String message) {  
             super(message); 
     } 
     /** 
     * Crée une nouvelle instance de IDDossierInvalideException 
     * @param cause L'exception à l'origine de cette exception 
     */  
-    public ModificationFormationInvalideException(Throwable cause) {  
+    public SuppressionJustificatifInvalideException(Throwable cause) {  
             super(cause); 
     }  
     /**
@@ -42,7 +38,7 @@ public class ModificationFormationInvalideException extends Exception{
     * @param message Le message détaillant exception 
     * @param cause L'exception à l'origine de cette exception 
     */  
-    public ModificationFormationInvalideException(String message, Throwable cause) {  
+    public SuppressionJustificatifInvalideException(String message, Throwable cause) {  
             super(message, cause); 
     }
 }

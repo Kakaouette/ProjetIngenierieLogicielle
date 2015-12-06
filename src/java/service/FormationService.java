@@ -5,6 +5,7 @@
  */
 package service;
 
+import java.io.IOException;
 import service.exception.AjoutFormationInvalideException;
 import service.exception.ModificationFormationInvalideException;
 import service.exception.SuppressionFormationInvalideException;
@@ -15,6 +16,8 @@ import modele.dao.FormationDAO;
 import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
+import service.exception.AjoutJustificatifInvalideException;
+import service.exception.SuppressionJustificatifInvalideException;
 
 /**
  *
@@ -32,11 +35,13 @@ public class FormationService {
      * 
      * @param formationToAdd: formation à ajouter dans la BDD
      * @throws AjoutFormationInvalideException: exceptions empechant l'ajout
+     * @throws service.exception.AjoutJustificatifInvalideException
+     * @throws java.io.IOException: exception bdd
      */
-    public void ajouterFormation(Formation formationToAdd) throws AjoutFormationInvalideException{
+    public void ajouterFormation(Formation formationToAdd) throws AjoutFormationInvalideException, AjoutJustificatifInvalideException, IOException{
         //verification de la validité de la demande
         if(formationToAdd == null){
-            throw new AjoutFormationInvalideException("Requête incorrecte.", new Throwable(AjoutFormationInvalideException.cause.Formation_Vide.toString()));
+            throw new AjoutFormationInvalideException("Requête incorrecte.", new Throwable(AjoutFormationInvalideException.cause.Formation_Null.toString()));
         }
         if(formationToAdd.getIntitule() == null){
             throw new AjoutFormationInvalideException("Intitulé non rempli.", new Throwable(AjoutFormationInvalideException.cause.Intitule_Vide.toString()));
@@ -53,7 +58,7 @@ public class FormationService {
         }
         if(formationToAdd.getLesJustificatifs() != null){ //eviter les null pointer
             for(Justificatif justificatif:formationToAdd.getLesJustificatifs()){
-                new JustificatifDAO().save(justificatif);
+                new JustificatifService().ajouterJustificatif(justificatif);
             }
         }
         
@@ -66,11 +71,13 @@ public class FormationService {
      * 
      * @param formationToSuppr: formation à supprimer de la BDD (contenant l'id de la formation à modifier)
      * @throws SuppressionFormationInvalideException: exceptions empechant la suppression
+     * @throws service.exception.SuppressionJustificatifInvalideException
+     * @throws java.io.IOException: exception bdd
      */
-    public void supprimerFormation(Formation formationToSuppr) throws SuppressionFormationInvalideException {
+    public void supprimerFormation(Formation formationToSuppr) throws SuppressionFormationInvalideException, SuppressionJustificatifInvalideException, IOException {
         //verification de la validité de la demande
         if(formationToSuppr == null){
-            throw new SuppressionFormationInvalideException("Requête incorecte.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Vide.toString()));
+            throw new SuppressionFormationInvalideException("Requête incorecte.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Null.toString()));
         }
         if(formationDAO.getById(formationToSuppr.getId()) == null){
             throw new SuppressionFormationInvalideException("Formation " + formationToSuppr.getId() + " inexistante.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Inexistante.toString()));
@@ -85,7 +92,7 @@ public class FormationService {
             formationToSuppr.setLesJustificatifs(new ArrayList<Justificatif>());
             formationDAO.update(formationToSuppr);
             for(Justificatif justificatif:justificatifs){
-                new JustificatifDAO().delete(justificatif.getId());
+                new JustificatifService().supprimerJustificatif(justificatif);
             }
         }
         
@@ -98,11 +105,13 @@ public class FormationService {
      * 
      * @param formationToModif: formation modifié (contenant l'id de la formation à modifier dans la BDD)
      * @throws ModificationFormationInvalideException: exceptions empechant la modification
+     * @throws service.exception.SuppressionJustificatifInvalideException
+     * @throws java.io.IOException: exception bdd
      */
-    public void modifierFormation(Formation formationToModif) throws ModificationFormationInvalideException {
+    public void modifierFormation(Formation formationToModif) throws ModificationFormationInvalideException, SuppressionJustificatifInvalideException, IOException {
         //verification de la validité de la demande
         if(formationToModif == null){
-            throw new ModificationFormationInvalideException("Requête incorecte.", new Throwable(ModificationFormationInvalideException.cause.Formation_Vide.toString()));
+            throw new ModificationFormationInvalideException("Requête incorecte.", new Throwable(ModificationFormationInvalideException.cause.Formation_Null.toString()));
         }
         if(formationDAO.getById(formationToModif.getId()) == null){
             throw new ModificationFormationInvalideException("Formation " + formationToModif.getId() + " inexistante.", new Throwable(ModificationFormationInvalideException.cause.Formation_Inexistante.toString()));
@@ -132,7 +141,7 @@ public class FormationService {
         //supression des justificatifs inutiles
         if(oldJustificatifs != null){ //eviter les null pointer
             for(Justificatif justificatif:oldJustificatifs){
-                new JustificatifDAO().delete(justificatif.getId());
+                new JustificatifService().supprimerJustificatif(justificatif);
             }
         }
     }
