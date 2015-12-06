@@ -61,21 +61,26 @@ public class DossierServiceTest {
         DossierDAO dossierDAO = new DossierDAO();
         
         Date dateNow = new Date(); //recuperation de la date actuelle
-        SimpleDateFormat formater = new SimpleDateFormat("ddMMyyyy");
-        String str = "pst" + formater.format(dateNow);
-        
         String dernierID = dossierDAO.getLastId(dateNow);
         
-        String result1 = instance.getNewID();
         //String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation
-        dossierDAO.save(new Dossier(result1, new Date(), "testEtat", null, true, null, null));
+        Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
+        String result1 = instance.getNewID();
+        dossierDAO.save(new Dossier(result1, new Date(), "testEtat", null, true, etudiant, null));
         String result2 = instance.getNewID();
+        dossierDAO.save(new Dossier(result2, new Date(), "testEtat", null, true, etudiant, null));
         String result3 = instance.getNewID();
+        dossierDAO.save(new Dossier(result3, new Date(), "testEtat", null, true, etudiant, null));
         String result4 = instance.getNewID();
+        dossierDAO.save(new Dossier(result4, new Date(), "testEtat", null, true, etudiant, null));
 
-        assertEquals(str+(dernierID+2), result2);
-        assertEquals(str+(dernierID+3), result3);
-        assertEquals(str+(dernierID+4), result4);
+        System.out.println("----result4:"+result4);
+        System.out.println("----result4_:"+dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+3));
+        ////        / DATE DU DOSSIER        / /    ID DOSSIER                      ////
+        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+0), result1);
+        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+1), result2);
+        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+2), result3);
+        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+3), result4);
     }
 
     /**
