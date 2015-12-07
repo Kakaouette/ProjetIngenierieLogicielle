@@ -34,26 +34,20 @@ public class ModifierDossierAction implements Action{
         
         //recuperation des infos et modif de l'objet Dossier
         boolean admDossier = new Boolean(request.getParameter("admissibilite"));
-        dossierorigin.setAdmissible(admDossier);
+        
         String etatDossier = request.getParameter("etat");
-        dossierorigin.setEtat(etatDossier);
+        
         String dateDossier=request.getParameter("date");
-        dossierorigin.setDate(new Date(dateDossier));
+        
         String lettreDossier=request.getParameter("lettre");
-        dossierorigin.setLettre(lettreDossier);
+        
         //historique
         String messageHisto=request.getParameter("msg_histo");
         String dateHisto=request.getParameter("date_histo");
-        Historique histo=new Historique();
-        histo.setMessage(messageHisto);
-        histo.setDate(new Date(dateHisto));
-        //ajout du nouvel historique dans le dossier
-        List<Historique> histodossier=dossierorigin.getHistorique();
-        histodossier.add(histo);
-        dossierorigin.setHistorique(histodossier);
+        
         
         try{
-            new DossierService().modifierDossier(dossierorigin);
+            new DossierService().modifierDossier(dossierorigin, admDossier, etatDossier, dateDossier, lettreDossier, messageHisto, dateHisto);
             request.setAttribute("error", "false");
             request.setAttribute("message", "Le dossier a été modifié avec succès !");
         }catch(Exception e){
