@@ -31,7 +31,7 @@ public class DossierDAO extends Dao {
 
     public DossierDAO(){}
 
-    public Dossier getById(int idDossier) {
+    public Dossier getById(String idDossier) {
         Dossier unDossier = null;
         unDossier = em.find(Dossier.class, idDossier);
 
