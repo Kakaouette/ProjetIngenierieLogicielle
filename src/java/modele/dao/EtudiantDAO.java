@@ -55,6 +55,13 @@ public class EtudiantDAO extends Dao {
         tx.commit();
     }
 
+    public void delete(int idEtudiant) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(getById(idEtudiant));
+        tx.commit();
+    }
+    
     public void update(Etudiant unEtudiant) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();

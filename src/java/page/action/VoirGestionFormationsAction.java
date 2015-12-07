@@ -15,7 +15,7 @@ import modele.entite.Formation;
  *
  * @author Arthur
  */
-public class VoirGestionFormationAction implements Action{
+public class VoirGestionFormationsAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

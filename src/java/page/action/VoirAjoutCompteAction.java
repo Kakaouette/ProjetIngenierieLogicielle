@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Arthur
  */
-public class VoirAjoutUtilisateurAction implements Action{
+public class VoirAjoutCompteAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Ajouter un utilisateur");
-        return "createUser.jsp";
+        return "ajoutCompte.jsp";
     }
     
 }

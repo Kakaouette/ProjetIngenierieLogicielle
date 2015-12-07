@@ -7,6 +7,7 @@ package modele.entite;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 /**
  *
@@ -25,7 +26,7 @@ public class EtudiantEtranger extends Etudiant implements Serializable{
     }
 
     public EtudiantEtranger(String niveau, String avis, String nom, String prenom, String adressePostale, String sexe, Adresse adresse, String ine) {
-        super(nom, prenom, adressePostale, sexe, adresse, ine);
+        super(ine, nom, prenom, adressePostale, sexe, adresse);
         this.niveau = niveau;
         this.avis = avis;
     }
@@ -45,4 +46,32 @@ public class EtudiantEtranger extends Etudiant implements Serializable{
     public String getAvis() {
         return avis;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.niveau);
+        hash = 29 * hash + Objects.hashCode(this.avis);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EtudiantEtranger other = (EtudiantEtranger) obj;
+        if (!Objects.equals(this.niveau, other.niveau)) {
+            return false;
+        }
+        if (!Objects.equals(this.avis, other.avis)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

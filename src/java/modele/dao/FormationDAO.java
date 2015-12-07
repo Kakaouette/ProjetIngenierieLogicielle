@@ -69,7 +69,7 @@ public class FormationDAO extends Dao {
     public List<Formation> SelectAll() {
         try {
             em.clear(); //supprime le cache des requêtes
-            q = em.createQuery("SELECT F FROM Formation F");
+            q = em.createQuery("SELECT F FROM Formation F ORDER BY F.intitule ASC");
             return (List<Formation>) q.getResultList();
         } catch (NoResultException e) {
             return null;
