@@ -134,9 +134,9 @@ public class GestULRPeuplement {
         Adresse ad3 = new AdresseDAO().getAdresseByCodePostal("33000");
         
         // Création des étudiants
-        Etudiant e1 = new Etudiant("Giguère", "Valentin", "17 rue de la Marne", "Masculin", ad3);
-        Etudiant e2 = new Etudiant("Jean", "Pierre", "1337 rue de leet", "Masculin", ad2);
-        Etudiant e3 = new Etudiant("Sparrow", "Annie", "42 avenue de Verdun", "Femminin", ad1);
+        Etudiant e1 = new Etudiant("Giguère", "Valentin", "17 rue de la Marne", "Masculin", ad3,"ine1");
+        Etudiant e2 = new Etudiant("Jean", "Pierre", "1337 rue de leet", "Masculin", ad2,"ine2");
+        Etudiant e3 = new Etudiant("Sparrow", "Annie", "42 avenue de Verdun", "Femminin", ad1,"ine3");
         
         new EtudiantDAO().save(e1);
         new EtudiantDAO().save(e2);
@@ -148,7 +148,7 @@ public class GestULRPeuplement {
         Etudiant etu3 = new EtudiantDAO().getEtudiantByNomPrenom("Sparrow", "Annie");
         
         //Création des étudiants étrangés
-        EtudiantEtranger ee1 = new EtudiantEtranger("bon", "favorable", "Cameron", "David", "1532 rue du temple", "Masculin", ad1);
+        EtudiantEtranger ee1 = new EtudiantEtranger("bon", "favorable", "Cameron", "David", "1532 rue du temple", "Masculin", ad1,"ine4");
         
         new EtudiantEtrangerDAO().save(ee1);
         
