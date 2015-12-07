@@ -5,9 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import modele.entite.Formation;
@@ -38,62 +41,6 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 public class DocReaderLettreRefus
 {
 
-        public static String creerDateActu(Date date){
-            String[] dateSplit = date.toString().split(" ");
-            String laDate = dateSplit[2] + " ";
-            switch (dateSplit[1]){
-                case "Jan":{
-                    laDate+="Janvier ";
-                    break;
-                }
-                case "Feb":{
-                    laDate+="Fevrier ";
-                    break;
-                }
-                case "Mar":{
-                    laDate+="Mars ";
-                    break;
-                }
-                case "Apr":{
-                    laDate+="Avril ";
-                    break;
-                }
-                case "May":{
-                    laDate+="Mai ";
-                    break;
-                }
-                case "Jun":{
-                    laDate+="Juin ";
-                    break;
-                }
-                case "Jul":{
-                    laDate+="Juillet ";
-                    break;
-                }
-                case "Aug":{
-                    laDate+="Août ";
-                    break;
-                }
-                case "Sep":{
-                    laDate+="Septembre ";
-                    break;
-                }
-                case "Oct":{
-                    laDate+="Octobre ";
-                    break;
-                }
-                case "Nov":{
-                    laDate+="Novembre ";
-                    break;
-                }
-                case "Dec":{
-                    laDate+="Décembre ";
-                    break;
-                }
-            }
-            laDate+=dateSplit[5]+ " ";
-            return laDate;
-        }
         
         public static String replaceLettreRefus(String filename, String idDossier)throws InvalidFormatException, IOException
         {
@@ -103,21 +50,23 @@ public class DocReaderLettreRefus
             List<Historique> hist = dossier.getHistorique();
             
             
-            String date=creerDateActu(new Date());
+            Date dateActuelle=new Date();
+            DateFormat dateForm = new SimpleDateFormat("dd MMMM yyyy",Locale.FRANCE);
+            String date = dateForm.format(dateActuelle);
             String nom=etu.getNom();
             String prenom=etu.getPrenom();
             String adresse=etu.getAdressePostale();
             String codePostal=etu.getAdresse().getCodePostal();
             String ville=etu.getAdresse().getVille();
             String civilite ="";
-            if(etu.getSexe() == "Masculin")
+            if(etu.getSexe().equals("Masculin"))
                 civilite="Monsieur";
-            if(etu.getSexe() == "Feminin")
+            if(etu.getSexe().equals("Feminin"))
                 civilite="Madame";
             String dateCommission="";
             for(Historique h : hist){
-                if(h.getAction() == "Réunion commité")
-                    dateCommission = creerDateActu(h.getDate());
+                if(h.getAction().equals("Réunion commité"))
+                    dateCommission = dateForm.format(h.getDate());
             }
            
             String formation=Dossierformation.getIntitule();
@@ -338,16 +287,16 @@ public class DocReaderLettreRefus
                         sb.append(r.getText(pos));
                     }
                 }
-                if(sb.length() > 0 && sb.toString().contains("$dateCommission"))
+                if(sb.length() > 0 && sb.toString().contains("$Commission"))
                 {
                     for(int i = numberOfRuns - 1; i > 0; i--)
                     {
                           p.removeRun(i);
                     }
-                    String text = sb.toString().replace("$dateCommission", dateCommission);
+                    String text = sb.toString().replace("$Commission", dateCommission);
                     XWPFRun run = p.getRuns().get(0);
                     run.setText(text, 0);
-                    System.out.println("Changement du type de la formation effectue");
+                    System.out.println("Changement de la date de commission effectue");
                 }
             }
             doc.write(new FileOutputStream("./lettres/target/temp.docx"));
