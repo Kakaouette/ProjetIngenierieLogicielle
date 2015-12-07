@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import modele.dao.FormationDAO;
-import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import service.exception.AjoutJustificatifInvalideException;
@@ -48,7 +47,7 @@ public class FormationService {
         }else if(formationToAdd.getIntitule().isEmpty()){
             throw new AjoutFormationInvalideException("Intitulé non rempli.", new Throwable(AjoutFormationInvalideException.cause.Intitule_Vide.toString()));
         }
-        if(formationDAO.getFormationByIntitule(formationToAdd.getIntitule()) != null){
+        if(formationDAO.getById(formationToAdd.getId()) != null || formationDAO.getFormationByIntitule(formationToAdd.getIntitule()) != null){
             throw new AjoutFormationInvalideException("Formation déjà existante.", new Throwable(AjoutFormationInvalideException.cause.Formation_Existante.toString()));
         }
         if(formationToAdd.getDebut() != null && formationToAdd.getFin() != null){ //eviter les null pointer

@@ -5,11 +5,10 @@
  */
 package service;
 
+import java.io.IOException;
 import service.exception.AjoutFormationInvalideException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import org.junit.After;
@@ -18,6 +17,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import service.exception.AjoutJustificatifInvalideException;
 
 /**
  *
@@ -53,7 +53,7 @@ public class FormationService_ajouterFormationTest {
         try {
             new FormationService().ajouterFormation(formation);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -68,7 +68,7 @@ public class FormationService_ajouterFormationTest {
         try {
             new FormationService().ajouterFormation(formation);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -83,7 +83,7 @@ public class FormationService_ajouterFormationTest {
         try {
             new FormationService().ajouterFormation(formation);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -98,7 +98,7 @@ public class FormationService_ajouterFormationTest {
         try {
             new FormationService().ajouterFormation(formation);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -109,11 +109,11 @@ public class FormationService_ajouterFormationTest {
     public void testAjouterFormationParametresNull(){
         System.out.println("===testAjouterFormationParametresNull===");
         //formation parametre null
-        Formation formation = new Formation(null, 0, null, null, "test", null);
+        Formation formation = new Formation(null, 0, null, null, "testParametreNull", null);
         try {
             new FormationService().ajouterFormation(formation);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -126,7 +126,7 @@ public class FormationService_ajouterFormationTest {
         try {
             new FormationService().ajouterFormation(formation2);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -134,11 +134,11 @@ public class FormationService_ajouterFormationTest {
         System.out.println("Test validé: " + (done == false));
         
         //intitulé déjà dans la BDD
-        formation = new Formation("", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
+        formation = new Formation("", 0, new Date(), new Date(), "testParametreNull", new ArrayList<Justificatif>());
         try {
             new FormationService().ajouterFormation(formation);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -153,7 +153,7 @@ public class FormationService_ajouterFormationTest {
         try {
             new FormationService().ajouterFormation(formation);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
@@ -168,7 +168,7 @@ public class FormationService_ajouterFormationTest {
         try {
             new FormationService().ajouterFormation(formation);
             done = true;
-        } catch (AjoutFormationInvalideException ex) {
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
