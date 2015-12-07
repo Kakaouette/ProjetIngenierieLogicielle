@@ -45,7 +45,7 @@ public class DossierDAO extends Dao {
         SimpleDateFormat formater = new SimpleDateFormat("ddMMyyyy");
         try {
             em.clear(); //supprime le cache des requêtes
-            q = em.createQuery("SELECT D FROM Dossier D WHERE D.id LIKE :ID ORDER BY D.id DESC");
+            q = em.createQuery("SELECT D FROM Dossier D WHERE D.id LIKE :ID ORDER BY LENGTH(D.id) DESC, D.id DESC");
             q.setParameter("ID", "pst" + formater.format(date) + "%");
             List<Dossier> dossiers = (List<Dossier>) q.getResultList();
             if(dossiers.isEmpty()){return "";}
