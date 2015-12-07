@@ -33,57 +33,63 @@
             document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
         };
     <%}%>
-    $(function() {
-        $('div#dialogJustificatifAAjouter').hide();
-    });
 
     function createDialog(location) {
+        $("div#dialogJustificatifAAjouter").remove();
         //creation et ajout du dialog
-        $('body').append('\
-            <div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">\n\
-                <div class="row">\n\
-                    <label for="titre" class="col-sm-2 control-label">Titre</label>\n\
-                    <div class="col-sm-10">\n\
-                        <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" autocomplete="off" required autofocus>\n\
-                    </div>\n\
-                </div>\n\
-            </div>');
+        $('body').append(
+            '<div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">' + 
+                '<div class="row">' + 
+                    '<label for="titre" class="col-sm-2 control-label">Titre</label>' + 
+                    '<div class="col-sm-10">' + 
+                        '<input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" autocomplete="off" required autofocus>' + 
+                    '</div>' + 
+                '</div>' + 
+            '</div>');
+        
         
         $('div#dialogJustificatifAAjouter').dialog({
             modal: true,
             buttons: {
                 "Ajouter":{
                     text : 'Ajouter' ,class : 'btn btn-success', click : function() {
+                        $('div#dialogJustificatifAAjouter br').remove();
+                        $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove();
+        
                         $path = location + ' ul#justificatifsAdded';
-                        if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0 && ){
+                        if($("div#dialogJustificatifAAjouter input#titre").val() === ""){
+                            $('div#dialogJustificatifAAjouter').append($('<br>'))
+                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Entrez le titre de justificatif.</em>'))
+                            //<em></em>
+                        }else if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0){
                             $name = "justificatifs";
-                            if(location.indexOf("inscription") !== -1){
+                            if(location.contains("inscription")){
                                 $name += "Inscription";
-                            }else if(location.indexOf("admission") !== -1){
-                                $name += "Admission";
+                            }else if(location.contains("admission")){
+                                $name += "Admission"
                             }
-                            if(location.indexOf("Francais") !== -1){
-                                $name += "Francais";
-                            }else if(location.indexOf("Etranger") !== -1){
-                                $name += "Etranger";
+                            if(location.contains("Francais")){
+                                $name += "Francais"
+                            }else if(location.contains("Etranger")){
+                                $name += "Etranger"
                             }
 
                             $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("div#dialogJustificatifAAjouter input#titre").val() + '</label>'));
                             $($path + ' li:last').append($('<input>').attr('type', "hidden").attr('name', $name).attr('value', $("div#dialogJustificatifAAjouter input#titre").val()));            
                             $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + $("div#dialogJustificatifAAjouter input#titre").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
-                            $('div#dialogJustificatifAAjouter').remove(); //suppression du dialog
-                            $(this).dialog("close");
+                            $("div#dialogJustificatifAAjouter").remove();                
+                            //$(this).dialog("close");
                         }else{
-                            $('div#dialogJustificatifAAjouter').append($('<br>'));
-                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie</em>'));
+                            $('div#dialogJustificatifAAjouter').append($('<br>'))
+                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie</em>'))
                             //<em></em>
                         }
                     }
                 },
                 "Annuler": {
                     text : 'Annuler' ,class : 'btn btn-default', click : function() {
-                        $('div#dialogJustificatifAAjouter').remove(); //suppression du dialog
-                        $(this).dialog("close");
+                        $("div#dialogJustificatifAAjouter").remove();
+                        //$(this).dialog("close");
                     }
                 }
             }
@@ -152,7 +158,7 @@
                     <th>Inscription
                         <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#inscription")'><i class="fa fa-plus-circle"></i> Ajouter</a>
                     </th>
-                    <th>Admlissibilité
+                    <th>Admissibilité
                         <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#admission")'><i class="fa fa-plus-circle"></i> Ajouter</a>
                     </th>
                 </thead>
@@ -201,7 +207,7 @@
                     <th>Inscription
                         <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#inscription")'><i class="fa fa-plus-circle"></i> Ajouter</a>
                     </th>
-                    <th>Admlissibilité
+                    <th>Admissibilité
                         <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#admission")'><i class="fa fa-plus-circle"></i> Ajouter</a>
                     </th>
                 </thead>
@@ -268,5 +274,5 @@
         <strong><%if(msgSplited.length == 2){out.print(msgSplited[0] + ":");}%></strong><em><%out.print(msgSplited[idxMsg]);%></em>
     </div>
 <%}%>
-            
+
 <%@include file="Modele/pied.jsp" %>

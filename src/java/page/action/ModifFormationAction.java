@@ -127,6 +127,8 @@ public class ModifFormationAction implements Action{
                     request.setAttribute("focus", "intitule");
                 }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Date_Incohérentes.toString())){
                     request.setAttribute("focus", "dateDebut");
+                }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Inscriptions_En_Cours.toString())){
+                    request.setAttribute("typeMessage", "warning");
                 }
             }else if(e instanceof IOException){ //exception bdd
                 request.setAttribute("message", "La formation n'a pas été ajouté.");

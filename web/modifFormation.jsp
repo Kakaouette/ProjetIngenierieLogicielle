@@ -147,7 +147,7 @@
                     <th>Inscription
                         <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#inscription")'><i class="fa fa-plus-circle"></i> Ajouter</a>
                     </th>
-                    <th>Admlissibilité
+                    <th>Admissibilité
                         <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#admission")'><i class="fa fa-plus-circle"></i> Ajouter</a>
                     </th>
                 </thead>
@@ -196,7 +196,7 @@
                     <th>Inscription
                         <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#inscription")'><i class="fa fa-plus-circle"></i> Ajouter</a>
                     </th>
-                    <th>Admlissibilité
+                    <th>Admissibilité
                         <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#admission")'><i class="fa fa-plus-circle"></i> Ajouter</a>
                     </th>
                 </thead>
