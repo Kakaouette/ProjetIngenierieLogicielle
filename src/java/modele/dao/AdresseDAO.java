@@ -55,10 +55,10 @@ public class AdresseDAO extends Dao {
         tx.commit();
     }
     
-    public void delete(Adresse unAdresse) {
+    public void delete(int idAdresse) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.remove(unAdresse);
+        em.remove(getById(idAdresse));
         tx.commit();
     }
 

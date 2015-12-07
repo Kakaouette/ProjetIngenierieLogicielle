@@ -75,19 +75,28 @@ public class DossierServiceTest {
         //String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation
         Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
         String result1 = instance.getNewID();
-        dossierDAO.save(new Dossier(result1, new Date(), "testEtat", null, true, etudiant, null));
+        Dossier d1 = new Dossier(result1, new Date(), "testEtat", null, true, etudiant, null);
+        dossierDAO.save(d1);
         String result2 = instance.getNewID();
-        dossierDAO.save(new Dossier(result2, new Date(), "testEtat", null, true, etudiant, null));
+        Dossier d2 = new Dossier(result2, new Date(), "testEtat", null, true, etudiant, null);
+        dossierDAO.save(d2);
         String result3 = instance.getNewID();
-        dossierDAO.save(new Dossier(result3, new Date(), "testEtat", null, true, etudiant, null));
+        Dossier d3 = new Dossier(result3, new Date(), "testEtat", null, true, etudiant, null);
+        dossierDAO.save(d3);
         String result4 = instance.getNewID();
-        dossierDAO.save(new Dossier(result4, new Date(), "testEtat", null, true, etudiant, null));
+        Dossier d4 = new Dossier(result4, new Date(), "testEtat", null, true, etudiant, null);
+        dossierDAO.save(d4);
 
         ////        / DATE DU DOSSIER        / /    ID DOSSIER                      ////
-        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+0), result1);
-        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+1), result2);
-        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+2), result3);
-        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+3), result4);
+        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+1), result1);
+        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+2), result2);
+        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+3), result3);
+        assertEquals(dernierID.substring(0,11)+(Integer.parseInt(dernierID.substring(11))+4), result4);
+        
+        new DossierDAO().delete(d1.getId());
+        new DossierDAO().delete(d2.getId());
+        new DossierDAO().delete(d3.getId());
+        new DossierDAO().delete(d4.getId());
     }
 
     /**
@@ -118,16 +127,21 @@ public class DossierServiceTest {
         Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
         Etudiant unEtudiant = new Etudiant("test_Nom", "test_Prenom", "test_adressePostale", "test_Homme", uneAdresse);
         dossier = new Dossier(new Date(), "UnEtat", "UneLettre", false, unEtudiant, formation, sesHistoriques);
-        dossier.setId("pst151119750");
+        
+        String idDossier = instance.getNewID();
+        dossier.setId(idDossier);
+        dossier.setEtat("UnEtat");
+        /// On l'insère
         instance.ajouterDossier(dossier);
         
-        /// on vérifi son existance.
-        Dossier cpt = new DossierDAO().getById("pst151119750");
-        assertEquals(dossier, cpt);
+        /// on vérifie son existance.
+        Dossier cpt = new DossierDAO().getById(idDossier);
+        assertEquals(dossier.equals(cpt), true);
         
-        new AdresseDAO().delete(uneAdresse);
-        new EtudiantDAO().delete(unEtudiant);
-        new DossierDAO().delete(dossier);
+        new DossierDAO().delete(dossier.getId());
+        new EtudiantDAO().delete(unEtudiant.getId());
+        new AdresseDAO().delete(uneAdresse.getId());
+        new HistoriqueDAO().delete(historique.getId());
         
         //new AdresseDAO().delete(uneAdresse);
         //new EtudiantDAO().delete(unEtudiant);
@@ -142,10 +156,10 @@ public class DossierServiceTest {
         System.out.println("regexIdDossierValide");
         try {
             assertEquals(true, instance.regexIdDossierValide("pst151120110"));
-            assertEquals(false, instance.regexIdDossierValide("pst251220151"));
+            assertEquals(true, instance.regexIdDossierValide("pst251220151"));
             assertEquals(true, instance.regexIdDossierValide("pst171119922"));
             assertEquals(true, instance.regexIdDossierValide("pst151120113"));
-            assertEquals(true, instance.regexIdDossierValide("pst150020111"));
+            assertEquals(true, instance.regexIdDossierValide("pst150120111"));
             assertEquals(false, instance.regexIdDossierValide("pst"));
             assertEquals(false, instance.regexIdDossierValide(""));
             assertEquals(false, instance.regexIdDossierValide("pst451120110"));

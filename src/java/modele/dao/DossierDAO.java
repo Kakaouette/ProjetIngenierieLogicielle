@@ -74,10 +74,10 @@ public class DossierDAO extends Dao {
         tx.commit();
     }
     
-    public void delete(Dossier unDossier) {
+    public void delete(String idDossier) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.remove(unDossier);
+        em.remove(getById(idDossier));
         tx.commit();
     }
 

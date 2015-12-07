@@ -7,6 +7,7 @@ package modele.entite;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
@@ -128,4 +129,51 @@ public class Compte implements Serializable {
     public void setFormationAssocie(List<Formation> formationAssocie) {
         this.formationAssocie = formationAssocie;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.login);
+        hash = 29 * hash + Objects.hashCode(this.mdp);
+        hash = 29 * hash + Objects.hashCode(this.nom);
+        hash = 29 * hash + Objects.hashCode(this.prenom);
+        hash = 29 * hash + Objects.hashCode(this.mail);
+        hash = 29 * hash + Objects.hashCode(this.type);
+        hash = 29 * hash + Objects.hashCode(this.formationAssocie);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Compte other = (Compte) obj;
+        if (!Objects.equals(this.login, other.login)) {
+            return false;
+        }
+        if (!Objects.equals(this.mdp, other.mdp)) {
+            return false;
+        }
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
+        if (!Objects.equals(this.prenom, other.prenom)) {
+            return false;
+        }
+        if (!Objects.equals(this.mail, other.mail)) {
+            return false;
+        }
+        if (this.type != other.type) {
+            return false;
+        }
+        if (!Objects.equals(this.formationAssocie, other.formationAssocie)) {
+            return false;
+        }
+        return true;
+    }
+    
 }

@@ -60,4 +60,11 @@ public class HistoriqueDAO extends Dao {
         em.merge(unHistorique);
         tx.commit();
     }
+    
+    public void delete(int idHistorique) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(getById(idHistorique));
+        tx.commit();
+    }
 }

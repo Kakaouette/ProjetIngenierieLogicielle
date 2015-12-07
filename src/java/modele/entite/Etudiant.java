@@ -6,6 +6,7 @@
 package modele.entite;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
@@ -94,4 +95,44 @@ public class Etudiant implements Serializable{
     public Adresse getAdresse() {
         return adresse;
     }    
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.nom);
+        hash = 37 * hash + Objects.hashCode(this.prenom);
+        hash = 37 * hash + Objects.hashCode(this.adressePostale);
+        hash = 37 * hash + Objects.hashCode(this.sexe);
+        hash = 37 * hash + Objects.hashCode(this.adresse);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Etudiant other = (Etudiant) obj;
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
+        if (!Objects.equals(this.prenom, other.prenom)) {
+            return false;
+        }
+        if (!Objects.equals(this.adressePostale, other.adressePostale)) {
+            return false;
+        }
+        if (!Objects.equals(this.sexe, other.sexe)) {
+            return false;
+        }
+        if (!Objects.equals(this.adresse, other.adresse)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

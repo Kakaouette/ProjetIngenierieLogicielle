@@ -71,7 +71,7 @@ public class DossierService {
         if(dossierDAO.getById(dossier.getId()) != null){ //verif id non utilisé
             throw new AjoutDossierInvalideException("L'identifiant du dossier est déjà utilisé", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
         }
-        if(dossier.getEtudiant() == null || dossier.getDemandeFormation() == null || dossier.getEtat() != null){ //verif champs requis remplis
+        if(dossier.getEtudiant() == null || dossier.getDemandeFormation() == null || dossier.getEtat() == null){ //verif champs requis remplis
             throw new AjoutDossierInvalideException("Dossier incomplet", new Throwable(AjoutDossierInvalideException.cause.Dossier_Incomplet.toString()));
         }
         if(new FormationDAO().getById(dossier.getDemandeFormation().getId()) == null){
