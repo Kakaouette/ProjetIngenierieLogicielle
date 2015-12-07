@@ -30,7 +30,7 @@ public class ModifierDossierAction implements Action{
         
         //recuperation du dossier original
         String idDossier = request.getParameter("id");
-        Dossier dossierorigin=new DossierDAO().getById(idDossier);
+        Dossier dossierorigin=  new DossierService().recupererDossier(idDossier);
         
         //recuperation des infos et modif de l'objet Dossier
         boolean admDossier = new Boolean(request.getParameter("admissibilite"));
@@ -44,7 +44,6 @@ public class ModifierDossierAction implements Action{
         //historique
         String messageHisto=request.getParameter("msg_histo");
         String dateHisto=request.getParameter("date_histo");
-        
         
         try{
             new DossierService().modifierDossier(dossierorigin, admDossier, etatDossier, dateDossier, lettreDossier, messageHisto, dateHisto);

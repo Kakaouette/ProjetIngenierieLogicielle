@@ -52,6 +52,12 @@ public class DossierService {
         }
         return regex;
     }
+    
+    public Dossier recupererDossier(String idDossier)
+    {
+        return this.dossierDAO.getById(idDossier);
+    }
+    
     /**
      * 
      * @param dossierorigin 
