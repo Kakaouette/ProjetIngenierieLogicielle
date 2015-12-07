@@ -79,7 +79,7 @@
                                     </ul>
                                 </li>
                             <%}%>
-                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secretaire_formation) {%>
+                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secrétaire_formation) {%>
                                 <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         Gestion formations <span class="caret"></span>
@@ -91,7 +91,7 @@
                                     </ul>
                                 </li>
                             <%}%>
-                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secretaire_formation) {%>
+                            <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secrétaire_formation) {%>
                                 <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         Gestion dossiers <span class="caret"></span>

@@ -50,16 +50,21 @@ public class GestULRPeuplement {
         
         // Création des comptes
         Compte c1 = new Compte("admin", cryptageMDP("azerty"), "admin", "admin", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.admin, null);
-        Compte c2 = new Compte("secretaire_general", cryptageMDP("azerty"), "secretaire", "générale", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.secretaire_general, null);
-        Compte c3 = new Compte("directeur_pole", cryptageMDP("azerty"), "directeur", "pole", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.directeur_pole, null);
-        Compte c4 = new Compte("secretaire_formation", cryptageMDP("azerty"), "secretaire", "formation", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.secretaire_formation, null);
-        Compte c5 = new Compte("reponsable_formation", cryptageMDP("azerty"), "reponsable_formation", "reponsable_formation", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.reponsable_formation, null);
+        Compte c2 = new Compte("directeur_pole", cryptageMDP("azerty"), "directeur_pole", "directeur_pole", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.directeur_pole, null);
+        Compte c3 = new Compte("responsable_administrative", cryptageMDP("azerty"), "responsable_administrative", "responsable_administrative", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.responsable_administrative, null);
+        Compte c4 = new Compte("responsable_formation", cryptageMDP("azerty"), "responsable_formation", "responsable_formation", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.responsable_formation, null);
+        Compte c5 = new Compte("responsable_commission", cryptageMDP("azerty"), "responsable_commission", "responsable_commission", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.responsable_commission, null);
+        Compte c6 = new Compte("secrétaire", cryptageMDP("azerty"), "secrétaire", "secrétaire", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.secrétaire_inscription, null);
+        Compte c7 = new Compte("responsable_commission", cryptageMDP("azerty"), "secrétaire_formation", "secrétaire_formation", "nicolas.roulon@etudiant.univ-lr.fr", TypeCompte.secrétaire_formation, null);
         
+                
         new CompteDAO().save(c1);
         new CompteDAO().save(c2);
         new CompteDAO().save(c3);
         new CompteDAO().save(c4);
         new CompteDAO().save(c5);
+        new CompteDAO().save(c6);
+        new CompteDAO().save(c7);
         
         //Utilisation des comptes
         Compte compte1 = new CompteDAO().getComptebyIdentifiant("admin");
@@ -186,8 +191,6 @@ public class GestULRPeuplement {
         
         typecompte = new ArrayList();
         typecompte.add(TypeCompte.admin);
-        typecompte.add(TypeCompte.secretaire_formation);
-        typecompte.add(TypeCompte.secretaire_general);
         a = new Action("afficherInformationsDossiers", typecompte);
         actionDAO.save(a);
     }
