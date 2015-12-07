@@ -20,7 +20,7 @@ public class main {
 		ConvertDocxToPDF.convert("Test.docx");*/
                 String fileName;
                 //fileName=DocReaderAccuseReception.replaceAccuseReception("Accuse_Reception.docx", "pst181120151");
-                fileName=DocReaderLettreAudition.replaceLettreAudition("Ltrre AUDITIONS Master 2 _PSTSPE_OK.docx", "pst181120151");
+                fileName=DocReaderLettreRefus.replaceLettreRefus("Ltrre refus_PST_test.docx", "pst181120151");
 	}
 
 }

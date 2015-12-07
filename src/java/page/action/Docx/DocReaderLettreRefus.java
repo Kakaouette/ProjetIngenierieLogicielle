@@ -6,10 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import modele.entite.Formation;
+import modele.entite.Etudiant;
+import modele.entite.Historique;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -34,50 +37,98 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
  */
 public class DocReaderLettreRefus
 {
-	public static String[] readDocxFile(String fileName)
-        {
-		try {
-			File file = new File("/lettres/target/"+fileName);
-			FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-			XWPFDocument doc = new XWPFDocument(fis);
-			List<XWPFParagraph> paragraphs = doc.getParagraphs();
-			List<String> paragraphsList = new ArrayList<String>();
-			System.out.println("Nb total de paragraphes : "+paragraphs.size());
-			for (XWPFParagraph paragraph : paragraphs) {
-				paragraphsList.add(paragraph.getText());
-				System.out.println(paragraph.getText());
-			}
-			fis.close();
-			String[] paragraphStringArray = new String[paragraphsList.size()];
-			paragraphStringArray = paragraphsList.toArray(paragraphStringArray);
-			return paragraphStringArray;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+
+        public static String creerDateActu(Date date){
+            String[] dateSplit = date.toString().split(" ");
+            String laDate = dateSplit[2] + " ";
+            switch (dateSplit[1]){
+                case "Jan":{
+                    laDate+="Janvier ";
+                    break;
+                }
+                case "Feb":{
+                    laDate+="Fevrier ";
+                    break;
+                }
+                case "Mar":{
+                    laDate+="Mars ";
+                    break;
+                }
+                case "Apr":{
+                    laDate+="Avril ";
+                    break;
+                }
+                case "May":{
+                    laDate+="Mai ";
+                    break;
+                }
+                case "Jun":{
+                    laDate+="Juin ";
+                    break;
+                }
+                case "Jul":{
+                    laDate+="Juillet ";
+                    break;
+                }
+                case "Aug":{
+                    laDate+="Août ";
+                    break;
+                }
+                case "Sep":{
+                    laDate+="Septembre ";
+                    break;
+                }
+                case "Oct":{
+                    laDate+="Octobre ";
+                    break;
+                }
+                case "Nov":{
+                    laDate+="Novembre ";
+                    break;
+                }
+                case "Dec":{
+                    laDate+="Décembre ";
+                    break;
+                }
+            }
+            laDate+=dateSplit[5]+ " ";
+            return laDate;
+        }
+        
         public static String replaceLettreRefus(String filename, String idDossier)throws InvalidFormatException, IOException
         {
-           /* Dossier dossier = new DossierDAO().getById(idDossier);
+            Dossier dossier = new DossierDAO().getById(idDossier);
+            Etudiant etu = dossier.getEtudiant();
+            Formation Dossierformation = dossier.getDemandeFormation();
+            List<Historique> hist = dossier.getHistorique();
             
-            Formation formation = dossier.getDemandeFormation();*/
             
-            
-            String date="6 decembre 2015";
-            String nom="Gaunt";
-            String prenom="Damian";
-            String adresse="9 rue leconte";
-            String codePostal="84450";
-            String ville="BOUHET";
-            String civilite="Monsieur";
-            String dateCommission="25/06/2015";
-            String formation="Master 1 Informatique ICONE en formation initial";
+            String date=creerDateActu(new Date());
+            String nom=etu.getNom();
+            String prenom=etu.getPrenom();
+            String adresse=etu.getAdressePostale();
+            String codePostal=etu.getAdresse().getCodePostal();
+            String ville=etu.getAdresse().getVille();
+            String civilite ="";
+            if(etu.getSexe() == "Masculin")
+                civilite="Monsieur";
+            if(etu.getSexe() == "Feminin")
+                civilite="Madame";
+            String dateCommission="";
+            for(Historique h : hist){
+                if(h.getAction() == "Réunion commité")
+                    dateCommission = creerDateActu(h.getDate());
+            }
+           
+            String formation=Dossierformation.getIntitule();
             
             System.out.println(filename);
             
             String newFileName=idDossier+" Lettre refus.docx";
             
-            XWPFDocument doc = new XWPFDocument(OPCPackage.open("./lettres/models/"+filename));
+            File file = new File("./lettres/models/"+filename);
+            FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+            XWPFDocument doc = new XWPFDocument(fis);
             doc.write(new FileOutputStream("./lettres/target/"+newFileName));
             doc.close();
             
@@ -303,26 +354,7 @@ public class DocReaderLettreRefus
             new File("./lettres/target/temp.docx").delete();
             doc.close();
             //copyTempToFile(filename);
-            System.out.println("replaceAccuseReception DONE");
+            System.out.println("replaceLettreRefus DONE");
             return newFileName;
         }
-	
-	public static void copyTempToFile (String filename) throws InvalidFormatException, IOException
-	{
-		XWPFDocument doc = new XWPFDocument(OPCPackage.open("./lettres/target/Temp.docx"));
-		doc.write(new FileOutputStream("./lettres/target/"+filename));
-		doc.close();
-		new File("./lettres/target/Temp.docx").delete();
-	}
-	
-	public static void createDoc(String filename) throws FileNotFoundException, IOException
-	{
-		XWPFDocument document = new XWPFDocument();
-		XWPFParagraph tmpParagraph = document.createParagraph();
-		XWPFRun tmpRun = tmpParagraph.createRun();
-		tmpRun.setText("This is a test file");
-		tmpRun.setFontSize(12);
-		document.write(new FileOutputStream(new File("./lettres/target/"+filename)));
-		System.out.println("Document cree : "+filename);
-	}
 }

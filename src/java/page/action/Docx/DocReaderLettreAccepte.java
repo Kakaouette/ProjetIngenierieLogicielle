@@ -61,7 +61,7 @@ public class DocReaderLettreAccepte
            /* Dossier dossier = new DossierDAO().getById(idDossier);
             
             Formation formation = dossier.getDemandeFormation();*/
-            
+            System.out.println(filename);
             
             String date="6 decembre 2015";
             String nom="Gaunt";
@@ -79,7 +79,9 @@ public class DocReaderLettreAccepte
             
             String newFileName=idDossier+" Lettre refus.docx";
             
-            XWPFDocument doc = new XWPFDocument(OPCPackage.open("./lettres/models/"+filename));
+            File file = new File("./lettres/target/"+filename);
+            FileInputStream fis = new FileInputStream(file.getAbsolutePath());
+            XWPFDocument doc = new XWPFDocument(fis);
             doc.write(new FileOutputStream("./lettres/target/"+newFileName));
             doc.close();
             
@@ -353,7 +355,7 @@ public class DocReaderLettreAccepte
             new File("./lettres/target/temp.docx").delete();
             doc.close();
             //copyTempToFile(filename);
-            System.out.println("replaceAccuseReception DONE");
+            System.out.println("replaceAccuseAccepte DONE");
             return newFileName;
         }
 	
