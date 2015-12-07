@@ -14,7 +14,7 @@ import modele.entite.Compte;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import modele.entite.TypeCompte;
-import modele.entite.TypeJustificatif;
+import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
 
 /**
@@ -75,9 +75,9 @@ public class VoirValidationJustificatifsDossierAction implements Action{
             for(Justificatif jtemp:justificatifs){
                 boolean condition = false;
                 if(type.equals("inscription")){
-                    condition = (jtemp.getTypeAdmissible() == TypeJustificatif.admissible);
+                    condition = (jtemp.getTypeAdmissible() == TypeDossier.inscription);
                 }else if(type.equals("admission")){
-                    condition = (jtemp.getTypeAdmissible() == TypeJustificatif.admissibilite);
+                    condition = (jtemp.getTypeAdmissible() == TypeDossier.admissibilite);
                 }
                 if(nationalite.equals("etranger")){
                     condition = condition || (jtemp.getTypeNationalite() == TypeJustificatifEtranger.etranger);

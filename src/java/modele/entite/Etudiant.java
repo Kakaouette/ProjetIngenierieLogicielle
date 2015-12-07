@@ -27,6 +27,9 @@ public class Etudiant implements Serializable{
     @Column(nullable = false)
     String prenom;
      
+    @Column(unique = true, nullable = false)
+    String ine;
+
     @Column(nullable = false)
     String adressePostale;
     
@@ -39,7 +42,8 @@ public class Etudiant implements Serializable{
     public Etudiant() {
     }
 
-    public Etudiant(String nom, String prenom, String adressePostale, String sexe, Adresse adresse) {
+    public Etudiant(String ine, String nom, String prenom, String adressePostale, String sexe, Adresse adresse) {
+        this.ine = ine;
         this.nom = nom;
         this.prenom = prenom;
         this.adressePostale = adressePostale;
@@ -59,6 +63,10 @@ public class Etudiant implements Serializable{
         this.prenom = prenom;
     }
 
+    public void setIne(String ine) {
+        this.ine = ine;
+    }
+    
     public void setAdressePostale(String adressePostale) {
         this.adressePostale = adressePostale;
     }
@@ -82,6 +90,10 @@ public class Etudiant implements Serializable{
 
     public String getPrenom() {
         return prenom;
+    }
+
+    public String getIne() {
+        return ine;
     }
 
     public String getAdressePostale() {

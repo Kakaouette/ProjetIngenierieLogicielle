@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>PageAdmin</servlet-name>
-        <servlet-class>page.action.PageAdmin</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PageAdmin</servlet-name>
-        <url-pattern>/PageAdmin</url-pattern>
-    </servlet-mapping>
+    <filter>
+        <filter-name>setCharacterFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ignore</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <description>Filtrage des requêtes uniquement vers du contenu autorisé (Navigation ou ressource comme le dossier "images")</description>
+        <filter-name>NavigationFilter</filter-name>
+        <filter-class>page.web.NavigationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>setCharacterFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>NavigationFilter</filter-name>
+        <url-pattern>*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
     <session-config>
         <session-timeout>
             30

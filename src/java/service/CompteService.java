@@ -34,8 +34,9 @@ public class CompteService {
      * @return
      */
     public String cryptageMDP(String mdp) {
-        if(mdp == null)
+        if (mdp == null) {
             return null;
+        }
         try {
             byte[] bytesOfMessage = mdp.getBytes("UTF-8");
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -80,7 +81,7 @@ public class CompteService {
         }
         return null;
     }
-    
+
     /**
      * Effectue la modification d'un utilisateur
      *
@@ -99,32 +100,60 @@ public class CompteService {
         // si le compte est trouvé dans la BDD, on lui affecte ses nouvelles valeurs
         if (compte != null) {
             // Type du compte
-            if(!"".equals(type)){
+            if (!"".equals(type)) {
                 compte.setType(TypeCompte.valueOf(type));
             }
             // Login du compte
-            if(!"".equals(login)){
+            if (!"".equals(login)) {
                 compte.setLogin(login);
             }
             // Nom du compte
-            if(!"".equals(nom)){
+            if (!"".equals(nom)) {
                 compte.setNom(nom);
             }
             // Prenom du compte
-            if(!"".equals(prenom)){
+            if (!"".equals(prenom)) {
                 compte.setPrenom(prenom);
             }
             // Mail du compte
-            if(!"".equals(mail)){
+            if (!"".equals(mail)) {
                 compte.setMail(mail);
             }
             // Mot de passe du compte
-            if(!"".equals(mdp)){
+            if (!"".equals(mdp)) {
                 String mdpCrypt = cryptageMDP(mdp); // Cryptage du nouveau mot de passe
                 compte.setMdp(mdpCrypt);
             }
-            
+
             compteDAO.update(compte);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
+     * Ajoute un utilisateur dans la Base de données
+     *
+     * @param nouveauCompte
+     * @return rien
+     */
+    public void ajouterUtilisateur(Compte nouveauCompte) {
+        //récupération du mot de passe
+        String mdp = nouveauCompte.getMdp();
+
+        //Cryptage du mot de passe
+        String mdpCryptee = cryptageMDP(mdp);
+
+        //ajout dans la base de données avec le mot de passe cryptee
+        nouveauCompte.setMdp(mdpCryptee);
+        compteDAO.save(nouveauCompte);
+    }
+    
+    public boolean supprimerUtilisateur(int id){
+        Compte compte = compteDAO.getById(id);
+        if (compte != null){
+            compteDAO.delete(compte.getId());
             return true;
         }else{
             return false;

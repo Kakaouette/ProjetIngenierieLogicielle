@@ -21,6 +21,8 @@ import modele.entite.Etudiant;
 import modele.entite.EtudiantEtranger;
 import modele.entite.Formation;
 import modele.entite.Historique;
+import modele.entite.TypeDossier;
+import modele.entite.TypeEtatDossier;
 import service.exception.AjoutDossierInvalideException;
 import service.DossierService;
 import service.exception.AjoutAdresseInvalideException;
@@ -39,6 +41,7 @@ public class AjoutDossierAction implements Action{
         
         //recuperation du formulaire
         String idDossier = request.getParameter("idDossier");
+        String ine = request.getParameter("ine");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String sexe = request.getParameter("sexe");
@@ -56,8 +59,8 @@ public class AjoutDossierAction implements Action{
         }
         
         //verification de la validité du formulaire
-        String[] required = {idDossier, nom, prenom, sexe, adresse, codePostal, ville, formationIntitule, type};
-        String[] requiredName = {"id du dossier", "nom", "prénom", "sexe", "adresse", "code postal", "ville", "intitulé de la formation", "type"};
+        String[] required = {idDossier, ine, nom, prenom, sexe, adresse, codePostal, ville, formationIntitule, type};
+        String[] requiredName = {"id du dossier", "INE", "nom", "prénom", "sexe", "adresse", "code postal", "ville", "intitulé de la formation", "type"};
         try {
             validerFormulaire(required, requiredName);
         } catch (Exception ex) {
@@ -66,7 +69,12 @@ public class AjoutDossierAction implements Action{
             return stayHere(request, response);
         }
         //mise en forme des données
-        boolean typeAdmission = type.equals("admission");
+        TypeDossier typeAdmission = null;
+        if(type.equals("inscrition")){
+            typeAdmission = TypeDossier.inscription;
+        }else if(type.equals("admission")){
+            typeAdmission = TypeDossier.admissibilite;
+        }
         Adresse adressePostale = new AdresseDAO().getAdresseByCodePostal(codePostal);
         if(adressePostale == null){
             adressePostale = new Adresse(codePostal, ville);
@@ -76,7 +84,7 @@ public class AjoutDossierAction implements Action{
         Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom(nom, prenom); //add: gestion etudiant etranger
         if(etudiant == null){
             if(nationalite.equals("francais")){
-                etudiant = new Etudiant(nom, prenom, adresse, sexe, adressePostale);
+                etudiant = new Etudiant(ine, nom, prenom, adresse, sexe, adressePostale);
             }else if(nationalite.equals("etranger")){
                 String avis = request.getParameter("avis");
                 String niveau = request.getParameter("niveau");
@@ -89,7 +97,7 @@ public class AjoutDossierAction implements Action{
                     request.setAttribute("message", ex.getMessage());
                     return stayHere(request, response);
                 }
-                etudiant = new EtudiantEtranger(avis, niveau, nom, prenom, codePostal, sexe, adressePostale);
+                etudiant = new EtudiantEtranger(avis, niveau, ine, nom, prenom, codePostal, sexe, adressePostale);
             }
         }else{
             if((nationalite.equals("francais") && etudiant instanceof EtudiantEtranger) || (nationalite.equals("etranger") && etudiant instanceof Etudiant)){
@@ -119,7 +127,7 @@ public class AjoutDossierAction implements Action{
         nouveauDossier.setHistorique(new ArrayList<Historique>());
         nouveauDossier.getHistorique().add(new Historique(dateNow, "", "Création du dossier", compteActif));
         nouveauDossier.getHistorique().add(new Historique(dateNow, notes, "Commentaire à la création du dossier", compteActif));
-        nouveauDossier.setEtat("Créé");
+        nouveauDossier.setEtat(TypeEtatDossier.creer);
         
         //demande de creation du dossier
         try{
@@ -160,6 +168,7 @@ public class AjoutDossierAction implements Action{
     private String stayHere(HttpServletRequest request, HttpServletResponse response){
         //keep formulaire
         request.setAttribute("idDossier", request.getParameter("idDossier"));
+        request.setAttribute("ine", request.getParameter("ine"));
         request.setAttribute("nom", request.getParameter("nom"));
         request.setAttribute("prenom", request.getParameter("prenom"));
         request.setAttribute("sexe", request.getParameter("sexe"));

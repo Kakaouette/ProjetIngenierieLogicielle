@@ -71,15 +71,27 @@ public class Navigation extends HttpServlet {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
         }/***Gestion comptes****/
-        else if (action.equals("voirGestionComptes")) {
-            menuSelect = 1;
-            classeAction = new VoirGestionComptesAction();
+        else if (action.equals("voirModifierComptes")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new VoirModifierComptesAction();
+        }else if (action.equals("voirGestionComptes")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new VoirGestionUtilisateurAction();
+        }else if (action.equals("modifierUtilisateur")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new ModifierUtilisateurAction();
         }else if (action.equals("voirAjoutCompte")) {
             menuSelect = 1;
-            classeAction = new VoirAjoutCompteAction();
-        }else if (action.equals("voirModifierCompte")) {
-            menuSelect = 1;
-            classeAction = new VoirModifierCompteAction();
+            classeAction = new voirAjouterCompteAction();
+        }else if (action.equals("creerUtilisateur")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new AjouterCompteAction();
+        }else if (action.equals("supprimerUtilisateur")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new SupprimerUtilisateurAction();
+        }else if (action.equals("afficherInformationsDossiers")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new AfficherInformationsDossiersAction();
         }else if (action.equals("modifierCompte")) {
             menuSelect = 1;
             classeAction = new ModifierCompteAction();

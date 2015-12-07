@@ -25,6 +25,8 @@ import modele.entite.Dossier;
 import modele.entite.Etudiant;
 import modele.entite.Formation;
 import modele.entite.Historique;
+import modele.entite.TypeDossier;
+import modele.entite.TypeEtatDossier;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -75,16 +77,16 @@ public class DossierServiceTest {
         //String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation
         Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
         String result1 = instance.getNewID();
-        Dossier d1 = new Dossier(result1, new Date(), "testEtat", null, true, etudiant, null);
+        Dossier d1 = new Dossier(result1, new Date(), TypeEtatDossier.creer, null, TypeDossier.inscription, etudiant, null);
         dossierDAO.save(d1);
         String result2 = instance.getNewID();
-        Dossier d2 = new Dossier(result2, new Date(), "testEtat", null, true, etudiant, null);
+        Dossier d2 = new Dossier(result2, new Date(), TypeEtatDossier.creer, null, TypeDossier.inscription, etudiant, null);
         dossierDAO.save(d2);
         String result3 = instance.getNewID();
-        Dossier d3 = new Dossier(result3, new Date(), "testEtat", null, true, etudiant, null);
+        Dossier d3 = new Dossier(result3, new Date(), TypeEtatDossier.creer, null, TypeDossier.inscription, etudiant, null);
         dossierDAO.save(d3);
         String result4 = instance.getNewID();
-        Dossier d4 = new Dossier(result4, new Date(), "testEtat", null, true, etudiant, null);
+        Dossier d4 = new Dossier(result4, new Date(), TypeEtatDossier.creer, null, TypeDossier.inscription, etudiant, null);
         dossierDAO.save(d4);
 
         ////        / DATE DU DOSSIER        / /    ID DOSSIER                      ////
@@ -112,10 +114,9 @@ public class DossierServiceTest {
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        Dossier dossier = new Dossier(new Date(), "UnEtat", "UneLettre", false, etudiant, formation, sesHistoriques);
+        Dossier dossier = new Dossier("NeDoitPasPasser", new Date(), TypeEtatDossier.creer, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
         
         /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        dossier.setId("NeDoitPasPasser");
         try {
             instance.ajouterDossier(dossier);
             fail("Ne doit pas passer ici.");
@@ -125,12 +126,10 @@ public class DossierServiceTest {
         }
         /// //////////////////////////// TEST AVEC UN ID CORRECTE ////////////////////////////
         Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
-        Etudiant unEtudiant = new Etudiant("test_Nom", "test_Prenom", "test_adressePostale", "test_Homme", uneAdresse);
-        dossier = new Dossier(new Date(), "UnEtat", "UneLettre", false, unEtudiant, formation, sesHistoriques);
-        
+        Etudiant unEtudiant = new Etudiant("ineLambda", "test_Nom", "test_Prenom", "test_adressePostale", "test_Homme", uneAdresse);
         String idDossier = instance.getNewID();
-        dossier.setId(idDossier);
-        dossier.setEtat("UnEtat");
+        dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.creer, "UneLettre", TypeDossier.inscription, unEtudiant, formation, sesHistoriques);
+        
         /// On l'insère
         instance.ajouterDossier(dossier);
         

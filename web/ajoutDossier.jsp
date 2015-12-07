@@ -63,7 +63,14 @@
             </label>
         </div>
     </div>
-            
+             
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="nom">N° INE :</label>  
+        <div class="col-md-4">
+            <input id="nom" name="ine" type="text" placeholder="N° INE" class="form-control input-md" value="<%if(request.getAttribute("ine") != null){out.print(request.getAttribute("ine"));}%>" autocomplete="off" required>
+        </div>
+    </div>
+        
     <div class="form-group">
         <label class="col-md-2 control-label" for="nom">Nom :</label>  
         <div class="col-md-4">

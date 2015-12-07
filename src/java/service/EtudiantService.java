@@ -28,7 +28,7 @@ public class EtudiantService {
         if(etudiantDAO.getById(etudiant.getId()) != null){ //verif id non utilisé
             throw new AjoutEtudiantInvalideException("L'identifiant de l'étudiant est déjà utilisé.", new Throwable(AjoutEtudiantInvalideException.cause.Etudiant_Existant.toString()));
         }
-        if(etudiant.getNom() == null || etudiant.getPrenom() == null || etudiant.getSexe()== null || etudiant.getAdresse() == null || etudiant.getAdressePostale() == null){ //verif champs requis remplis
+        if(etudiant.getIne() == null | etudiant.getNom() == null || etudiant.getPrenom() == null || etudiant.getSexe()== null || etudiant.getAdresse() == null || etudiant.getAdressePostale() == null){ //verif champs requis remplis
             throw new AjoutEtudiantInvalideException("Informations sur l'étudiant incomplétes.", new Throwable(AjoutEtudiantInvalideException.cause.Etudiant_Incomplet.toString()));
         }
         

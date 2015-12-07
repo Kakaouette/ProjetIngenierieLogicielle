@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import modele.entite.Dossier;
 import modele.entite.Etudiant;
 import modele.entite.Formation;
+import modele.entite.Historique;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Dossier</b>
@@ -86,5 +87,31 @@ public class DossierDAO extends Dao {
         tx.begin();
         em.merge(unDossier);
         tx.commit();
+    }
+    
+    /**
+     * Selection de tous les dossiers dans la BD
+     * 
+     * @return List de dossier
+     */
+    public List<Dossier> SelectAll() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT D FROM Dossier D");
+            return (List<Dossier>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    public Dossier getByHistorique(Historique h) {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT D FROM Dossier D WHERE :HIS MEMBER OF D.historique");
+            q.setParameter("HIS", h);
+            return (Dossier) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }
