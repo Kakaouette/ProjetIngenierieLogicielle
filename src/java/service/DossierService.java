@@ -10,15 +10,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import modele.dao.AdresseDAO;
 import modele.dao.DossierDAO;
 import modele.dao.EtudiantDAO;
 import modele.dao.FormationDAO;
-import modele.dao.HistoriqueDAO;
 import modele.entite.Dossier;
 import modele.entite.Historique;
 import service.exception.AjoutAdresseInvalideException;
@@ -74,7 +71,7 @@ public class DossierService {
         if(dossierDAO.getById(dossier.getId()) != null){ //verif id non utilisé
             throw new AjoutDossierInvalideException("L'identifiant du dossier est déjà utilisé", new Throwable(AjoutDossierInvalideException.cause.ID_Invalide.toString()));
         }
-        if(dossier.getEtudiant() == null || dossier.getDemandeFormation() == null){ //verif champs requis remplis
+        if(dossier.getEtudiant() == null || dossier.getDemandeFormation() == null || dossier.getEtat() != null){ //verif champs requis remplis
             throw new AjoutDossierInvalideException("Dossier incomplet", new Throwable(AjoutDossierInvalideException.cause.Dossier_Incomplet.toString()));
         }
         if(new FormationDAO().getById(dossier.getDemandeFormation().getId()) == null){
