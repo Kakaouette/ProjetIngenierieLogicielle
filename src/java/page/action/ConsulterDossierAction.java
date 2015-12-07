@@ -6,13 +6,22 @@ package page.action;
  * and open the template in the editor.
  */
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.Dao;
 import modele.dao.DossierDAO;
+import modele.entite.Adresse;
+import modele.entite.Compte;
 import modele.entite.Dossier;
+import modele.entite.Etudiant;
+import modele.entite.Formation;
+import modele.entite.Historique;
+import modele.entite.TypeCompte;
+import service.DossierService;
 
 /**
  * Gestion des dossiers - Consultation en detail un dossier
@@ -29,24 +38,11 @@ public class ConsulterDossierAction implements Action{
         String idDossier = request.getParameter("idDossier");
         
         //recuperation du dossier
-        Dossier dossier = new DossierDAO().getById(idDossier);
-        
+        Dossier dossier = new DossierService().recupererDossier(idDossier);
+     
         //si dossier n'existe pas => retour vers la liste des dossiers 
         if(dossier != null){
-            /*request.setAttribute("titre","Gestion du dossier "+dossier.getId());
-            request.setAttribute("id",dossier.getId());
-            request.setAttribute("etat",dossier.getEtat());
-            request.setAttribute("admissibilite",dossier.isAdmissible());
-            request.setAttribute("etudiant_nom",dossier.getEtudiant().getNom());
-            request.setAttribute("etudiant_prenom",dossier.getEtudiant().getPrenom());
-            request.setAttribute("etudiant_adresse",dossier.getEtudiant().getAdressePostale());
-            request.setAttribute("etudiant_codepostal",dossier.getEtudiant().getAdresse().getCodePostal());
-            request.setAttribute("etudiant_ville",dossier.getEtudiant().getAdresse().getVille());
-            request.setAttribute("date",dossier.getDate());
-            request.setAttribute("formation_id",dossier.getDemandeFormation().getId());
-            request.setAttribute("formation_intitule",dossier.getDemandeFormation().getIntitule());
-            request.setAttribute("historique",dossier.getHistorique());
-            request.setAttribute("lettre",dossier.getLettre());*/
+
             request.setAttribute("dossier", dossier);
             return "consulteDossier.jsp";
         }else{
