@@ -6,12 +6,15 @@
 package service;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.dao.Dao;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
+import modele.entite.Historique;
 
 /**
  *
@@ -52,8 +55,25 @@ public class DossierService {
     /**
      * 
      * @param dossierorigin 
+     * @param admDossier 
+     * @param etatDossier 
+     * @param dateDossier 
+     * @param dateHisto 
+     * @param messageHisto 
+     * @param lettreDossier 
      */
-    public void modifierDossier(Dossier dossierorigin){
+    public void modifierDossier(Dossier dossierorigin, boolean admDossier, String etatDossier, String dateDossier, String lettreDossier, String messageHisto, String dateHisto){
+        dossierorigin.setAdmissible(admDossier);
+        dossierorigin.setEtat(etatDossier);
+        dossierorigin.setDate(new Date(dateDossier));
+        dossierorigin.setLettre(lettreDossier);
+        Historique histo=new Historique();
+        histo.setMessage(messageHisto);
+        histo.setDate(new Date(dateHisto));
+        //ajout du nouvel historique dans le dossier
+        List<Historique> histodossier=dossierorigin.getHistorique();
+        histodossier.add(histo);
+        dossierorigin.setHistorique(histodossier);
         dossierDAO.update(dossierorigin);
     }
 }
