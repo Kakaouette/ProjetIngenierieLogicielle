@@ -18,11 +18,11 @@ import service.DossierService;
 
 /**
  *
- * Statuer un dossier (avis favorable prononcé par le directeur du Pôle)
+ * Redemander l'étude du dossier à la commission (demande du Directeur du Pôle)
  * 
  * @author totodunet
  */
-public class StatuerDossierAction implements Action{
+public class RetourCommissionDossierAction implements Action{
   
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response){
@@ -30,10 +30,10 @@ public class StatuerDossierAction implements Action{
             request.setAttribute("titre","Gestion des dossiers");
             DossierService service=new DossierService();
             Dossier dossier_statuer=service.recupererDossier(request.getParameter("id_dossier"));
-            dossier_statuer.setEtat(TypeEtatDossier.retour_vers_secretariat);
+            dossier_statuer.setEtat(TypeEtatDossier.navette);
             Historique histo=new Historique();
             histo.setDate(new Date());
-            histo.setAction("Dossier statué");
+            histo.setAction("Dossier retourné en commission");
             histo.setMessage(request.getParameter("avis_dossier"));
             List<Historique> list_histos=dossier_statuer.getHistorique();
             list_histos.add(histo);
