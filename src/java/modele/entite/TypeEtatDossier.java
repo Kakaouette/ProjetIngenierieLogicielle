@@ -22,26 +22,26 @@ import java.io.Serializable;
  * @author Nicolas Roulon
  */
 public enum TypeEtatDossier implements Serializable {
-    creer, transfert_vers_secretariat, traitement_secretariat_formation, en_attente_commission, en_transfert_vers_directeur, retour_ver_secretariat, finalisation, terminée;
+    creer, transfert_vers_secretariat, traitement_secretariat_formation, en_attente_commission, en_transfert_vers_directeur, retour_vers_secretariat, navette, terminee;
 
     @Override
     public String toString() {
         switch(this){
             case creer:
-                return "Creer";
+                return "Cree";
             case transfert_vers_secretariat:
                 return "Transfert vers le secrétariat";
             case traitement_secretariat_formation:
                 return "Traitement par le secréatariat";
             case en_attente_commission:
-                return "Attente de la comission";
+                return "Attente de la commission";
             case en_transfert_vers_directeur:
                 return "Transfert vers le directeur";
-            case retour_ver_secretariat:
+            case retour_vers_secretariat:
                 return "Retour vers le secrétariat";
-            case finalisation:
-                return "Finalisation";
-            case terminée :
+            case navette:
+                return "Navette";
+            case terminee :
                 return "Terminée";
             default:
                 return this.name();
