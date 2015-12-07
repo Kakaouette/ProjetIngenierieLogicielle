@@ -5,6 +5,7 @@
  */
 package page.action;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,8 +21,11 @@ import modele.entite.Etudiant;
 import modele.entite.EtudiantEtranger;
 import modele.entite.Formation;
 import modele.entite.Historique;
-import service.AjoutDossierInvalideException;
+import service.exception.AjoutDossierInvalideException;
 import service.DossierService;
+import service.exception.AjoutAdresseInvalideException;
+import service.exception.AjoutEtudiantInvalideException;
+import service.exception.AjoutHistoriqueInvalideException;
 
 /**
  *
@@ -44,7 +48,7 @@ public class AjoutDossierAction implements Action{
         String notes = request.getParameter("notes");
         String formationIntitule = request.getParameter("formationIntitule");
         String type = request.getParameter("type");
-        String nationalite = request.getParameter("nationalite");
+        String nationalite;
         if(request.getParameter("nationalite") != null){
             nationalite = request.getParameter("nationalite");
         }else{
@@ -127,19 +131,25 @@ public class AjoutDossierAction implements Action{
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
                 actionPageSuivante = new VoirAjoutDossierAction();
             }
-        }catch(AjoutDossierInvalideException e){
+        }catch(AjoutDossierInvalideException | AjoutAdresseInvalideException | AjoutEtudiantInvalideException | AjoutHistoriqueInvalideException | IOException e){
+            //set msg d'erreur
             request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Le dossier n'a pas été créé: " + e.getMessage());
-                    
-            if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.ID_Invalide.toString())){
-                request.setAttribute("focus", "idDossier");
-            }else if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.Dossier_Existant.toString())){
-                request.setAttribute("focus", "formationIntitule");
+            //modif requete celon le type d'erreur
+            if(e instanceof AjoutDossierInvalideException){
+                if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.ID_Invalide.toString())){
+                    request.setAttribute("focus", "idDossier");
+                }else if(e.getCause().getMessage().equals(AjoutDossierInvalideException.cause.Dossier_Existant.toString())){
+                    request.setAttribute("focus", "formationIntitule");
+                }
+            }else if(e instanceof AjoutAdresseInvalideException){
+                request.setAttribute("focus", "adresse");
+            }else if(e instanceof AjoutEtudiantInvalideException){
+                request.setAttribute("focus", "nom");
+            }else if(e instanceof IOException){
+                request.setAttribute("message", "Le dossier n'a pas été créé.");
             }
-            return stayHere(request, response); //redirection
-        }catch(Exception e){ //exception bdd
-            request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "Le dossier n'a pas été créé.");
+            //reload la page
             return stayHere(request, response); //redirection
         }
         
@@ -159,11 +169,13 @@ public class AjoutDossierAction implements Action{
         request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
         request.setAttribute("type", request.getParameter("type"));
         request.setAttribute("nationalite", request.getParameter("nationalite"));
-        if(request.getParameter("nationalite") == null){
+        if(request.getParameter("nationalite") != null){
             if(request.getParameter("nationalite").equals("etranger")){
                 request.setAttribute("avis", request.getParameter("avis"));
                 request.setAttribute("niveau", request.getParameter("niveau"));
             }
+        }else{
+            request.setAttribute("nationalite", "francais");
         }
         return new VoirAjoutDossierAction().execute(request, response); //modif: voir récupérer page precedente
     }
@@ -173,7 +185,7 @@ public class AjoutDossierAction implements Action{
         //verification de la validité du formulaire
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){
-            if(required[i].equals("null")){
+            if(required[i] == null){
                 empty.add(requiredName[i]);
             }
         }

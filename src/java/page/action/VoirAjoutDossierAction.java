@@ -50,8 +50,8 @@ public class VoirAjoutDossierAction implements Action{
         }
         
         request.setAttribute("formationIntitule", formationIntitule);
-        request.setAttribute("type", request.getParameter("type"));
-        request.setAttribute("nationalite", request.getParameter("nationalite"));
+        request.setAttribute("type", type);
+        request.setAttribute("nationalite", nationalite);
         return "ajoutDossier.jsp";
     }
     
@@ -68,7 +68,7 @@ public class VoirAjoutDossierAction implements Action{
         //verification de la validité du formulaire
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){
-            if(required[i].isEmpty()){
+            if(required[i] == null){
                 empty.add(requiredName[i]);
             }
         }
