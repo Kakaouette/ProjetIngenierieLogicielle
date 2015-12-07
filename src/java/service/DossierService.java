@@ -49,4 +49,11 @@ public class DossierService {
         }
         return regex;
     }
+    /**
+     * 
+     * @param dossierorigin 
+     */
+    public void modifierDossier(Dossier dossierorigin){
+        dossierDAO.update(dossierorigin);
+    }
 }

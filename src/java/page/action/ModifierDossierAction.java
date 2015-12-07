@@ -15,6 +15,7 @@ import modele.dao.Dao;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import modele.entite.Historique;
+import service.DossierService;
 
 /**
  * Gestion des dossiers - Modification d'un dossier
@@ -52,7 +53,7 @@ public class ModifierDossierAction implements Action{
         dossierorigin.setHistorique(histodossier);
         
         try{
-            new DossierDAO().update(dossierorigin);
+            new DossierService().modifierDossier(dossierorigin);
             request.setAttribute("error", "false");
             request.setAttribute("message", "Le dossier a été modifié avec succès !");
         }catch(Exception e){
