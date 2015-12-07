@@ -5,10 +5,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
+import modele.entite.Etudiant;
 import modele.entite.Formation;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -58,15 +63,80 @@ public class DocReaderLettreAudition
 	}
         public static String replaceLettreAudition(String filename, String idDossier)throws InvalidFormatException, IOException
         {
-            /*Dossier dossier = new DossierDAO().getById(idDossier);
+            Dossier dossier = new DossierDAO().getById(idDossier);
             
             Formation formation = dossier.getDemandeFormation();
+            Date dateActuelle = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd MMMMM yyyy",Locale.FRANCE);
+            String date = dateFormat.format(dateActuelle);
+            //System.out.println(date);
             
+            String annee;
+            if(formation.getIntitule().contains("1"))
+            {
+                annee="1ère";
+            }
+            else if(formation.getIntitule().contains("2"))
+            {
+                annee="2ème";
+            }
+            else if(formation.getIntitule().contains("3"))
+            {
+                annee="3ème";
+            }
+            else
+            {
+                annee="1ère";
+                System.out.println("Erreur pour l'année, fonction replaceAccuseReception");
+            }
             
-            */
-            String date="6 decembre 2015";String nom="Gaunt";String prenom="Damian";String adresse="9 rue leconte";String codePostal="84450";
-            String ville="BOUHET";String civilite="Monsieur";String typeDossier;/*?????*/String dateCommission="25/06/2015";String annee="1ère";
-            String type="master";String mention="Informatique";String parcours="ICONE";String typeFormation="formation initiale";
+            String type;
+            if(formation.getDescription().contains("Licence"))
+            {
+                type="licence";
+            }
+            else if(formation.getDescription().contains("Master"))
+            {
+                type="master";
+            }
+            else
+            {
+                type="master";
+                System.out.println("Erreur pour le type, fonction replaceAccuseReception");
+            }
+            
+            String mention=formation.getDescription();
+            
+            String parcours=formation.getIntitule();
+            
+            String typeFormation="formation initiale";
+            
+            Etudiant etudiant = dossier.getEtudiant();
+            String nom=etudiant.getNom();
+            String prenom=etudiant.getPrenom();
+            String adresse=etudiant.getAdressePostale();
+            String codePostal = etudiant.getAdresse().getCodePostal();
+            String ville = etudiant.getAdresse().getVille();
+            String civilite;
+            if(etudiant.getSexe().contains("Masculin"))
+            {
+                civilite="Monsieur ";
+            }
+            else if(etudiant.getSexe().contains("Feminin"))
+            {
+                civilite="Madame ";
+            }
+            else
+            {
+                civilite="Monsieur ";
+                System.out.println("Erreur civilite, DocReaderLettreAudition");
+            }
+            
+            String dateCommission="25/06/2015";
+            
+            /*String date="6 decembre 2015";String nom="Gaunt";String prenom="Damian";String adresse="9 rue leconte";String codePostal="84450";
+            String ville="BOUHET";String civilite="Monsieur";String dateCommission="25/06/2015";String annee="1ère";
+            String type="master";String mention="Informatique";String parcours="ICONE";String typeFormation="formation initiale";*/
             
             System.out.println(filename);
             
@@ -395,7 +465,7 @@ public class DocReaderLettreAudition
             new File("./lettres/target/temp.docx").delete();
             doc.close();
             //copyTempToFile(filename);
-            System.out.println("replaceAccuseReception DONE");
+            System.out.println("replaceLettreAudition DONE");
             return newFileName;
         }
 	

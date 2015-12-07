@@ -58,7 +58,7 @@ public class DocReaderAccuseReception
 	}
         public static String replaceAccuseReception(String filename, String idDossier)throws InvalidFormatException, IOException
         {
-            /*Dossier dossier = new DossierDAO().getById(idDossier);
+            Dossier dossier = new DossierDAO().getById(idDossier);
             
             Formation formation = dossier.getDemandeFormation();
             
@@ -97,13 +97,12 @@ public class DocReaderAccuseReception
             }
             
             String mention=formation.getDescription();
-            //A completer lorsque la BDD sera revue
             
             String parcours=formation.getIntitule();
             
-            String typeFormation="formation initiale"; //A completer lorsque la BDD sera update avec le nouveau champs
-            */
-            String annee="1ère";String type="master";String mention="Informatique";String parcours="ICONE";String typeFormation="formation initiale";
+            String typeFormation="formation initiale"; 
+            
+            //String annee="1ère";String type="master";String mention="Informatique";String parcours="ICONE";String typeFormation="formation initiale";
             System.out.println(filename);
             
             String newFileName=idDossier+" Accuse De Reception.docx";
