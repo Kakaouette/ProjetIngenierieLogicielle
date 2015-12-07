@@ -42,7 +42,7 @@ public class ModifierDossierAction implements Action{
         String lettreDossier=request.getParameter("lettre");
         
         //historique
-        String messageHisto=request.getParameter("msg_histo");
+        String messageHisto=request.getParameter("msg_histo") + " - "+ etatDossier;
         String dateHisto=request.getParameter("date_histo");
         
         try{
