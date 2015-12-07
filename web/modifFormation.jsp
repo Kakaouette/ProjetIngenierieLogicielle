@@ -33,20 +33,31 @@
             document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
         };
     <%}%>
-    $(function() {
-        $('div#dialogJustificatifAAjouter').hide();
-    });
 
     function createDialog(location) {
-        $('div#dialogJustificatifAAjouter input#titre').val('')
-        $('div#dialogJustificatifAAjouter br').remove();
-        $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove();
+        //creation et ajout du dialog
+        $('body').append(
+            '<div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">' + 
+                '<div class="row">' + 
+                    '<label for="titre" class="col-sm-2 control-label">Titre</label>' + 
+                    '<div class="col-sm-10">' + 
+                        '<input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" autocomplete="off" required autofocus>' + 
+                    '</div>' + 
+                '</div>' + 
+            '</div>');
+        
         
         $('div#dialogJustificatifAAjouter').dialog({
             modal: true,
+            close:function( event, ui ){
+                    $("div#dialogJustificatifAAjouter").remove();
+                },
             buttons: {
                 "Ajouter":{
                     text : 'Ajouter' ,class : 'btn btn-success', click : function() {
+                        $('div#dialogJustificatifAAjouter br').remove();
+                        $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove();
+
                         $path = location + ' ul#justificatifsAdded';
                         if($("div#dialogJustificatifAAjouter input#titre").val() === ""){
                             $('div#dialogJustificatifAAjouter').append($('<br>'))
@@ -83,7 +94,6 @@
                 }
             }
         });
-        $('#dialog').show();
     };
     
     function deleteJ(location, val){
@@ -262,12 +272,3 @@
 <%}%>
             
 <%@include file="Modele/pied.jsp" %>
-
-<div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">
-    <div class="row">
-        <label for="titre" class="col-sm-2 control-label">Titre</label>
-        <div class="col-sm-10">
-            <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" autocomplete="off" required autofocus>
-        </div>
-    </div>
-</div>

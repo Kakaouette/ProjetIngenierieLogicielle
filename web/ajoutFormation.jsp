@@ -35,7 +35,6 @@
     <%}%>
 
     function createDialog(location) {
-        $("div#dialogJustificatifAAjouter").remove();
         //creation et ajout du dialog
         $('body').append(
             '<div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">' + 
@@ -50,12 +49,15 @@
         
         $('div#dialogJustificatifAAjouter').dialog({
             modal: true,
+            close:function( event, ui ){
+                    $("div#dialogJustificatifAAjouter").remove();
+                },
             buttons: {
                 "Ajouter":{
                     text : 'Ajouter' ,class : 'btn btn-success', click : function() {
                         $('div#dialogJustificatifAAjouter br').remove();
                         $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove();
-        
+
                         $path = location + ' ul#justificatifsAdded';
                         if($("div#dialogJustificatifAAjouter input#titre").val() === ""){
                             $('div#dialogJustificatifAAjouter').append($('<br>'))
@@ -77,8 +79,7 @@
                             $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("div#dialogJustificatifAAjouter input#titre").val() + '</label>'));
                             $($path + ' li:last').append($('<input>').attr('type', "hidden").attr('name', $name).attr('value', $("div#dialogJustificatifAAjouter input#titre").val()));            
                             $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + $("div#dialogJustificatifAAjouter input#titre").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
-                            $("div#dialogJustificatifAAjouter").remove();                
-                            //$(this).dialog("close");
+                            $(this).dialog("close");
                         }else{
                             $('div#dialogJustificatifAAjouter').append($('<br>'))
                             $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie</em>'))
@@ -88,13 +89,11 @@
                 },
                 "Annuler": {
                     text : 'Annuler' ,class : 'btn btn-default', click : function() {
-                        $("div#dialogJustificatifAAjouter").remove();
-                        //$(this).dialog("close");
+                        $(this).dialog("close");
                     }
                 }
             }
         });
-        $('#dialog').show();
     };
     
     function deleteJ(location, val){
