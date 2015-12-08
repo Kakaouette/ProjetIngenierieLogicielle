@@ -92,7 +92,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Annuler</a>
+            <a class="btn btn-primary" href="Navigation?action=voirGestionComptes">Annuler</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <!--[if IE]>

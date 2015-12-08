@@ -6,58 +6,53 @@
 
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="Modele/entete_avec_menu.jsp"%>
-
-<table class="table">
+<%@include file="Modele/entete_avec_menu.jsp" %>
+<script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
+<link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
+<script type="text/javascript">
+    $(function() {
+        $('#dialog').hide();
+    });
+    function createDialog(id) {
+        $('#dialog').dialog({
+            modal: true,
+            buttons: {
+                "Oui": {
+                    text : 'Oui' ,class : 'btn btn-success', click : function() {
+                    window.location.replace('Navigation?action=supprimerUtilisateur&id=' + id);
+                }
+                },
+                "Non": {text : 'Non' ,class : 'btn btn-danger', click : function() {
+                    $(this).dialog("close");}
+                }
+            }
+        });
+        $('#dialog').show();
+    };
+</script>
+<%@include file="Modele/dataTablesScript.jsp" %>
+<table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive" width="100%">
     <thead>
         <tr>
-            <th>Id</th>
+            <th>Login</th>
             <th>Nom</th>
-            <th>Prénom</th>
+            <th>Prénom</th> 
             <th>Type</th>
             <th>Email</th>
-            <th><a class="btn btn-success btn-block" href="Navigation?action=voirAjoutCompte"><i class="fa fa-plus"></i> Ajouter</a></th>
+            <th>Modifier</th>
+            <th>Supprimer</th>
         </tr>
     </thead>
-    <tbody>
-        <% List<Compte> comptes=(List<Compte>) request.getAttribute("comptes");
-           for (Compte compte : comptes){
-        %>
-        
-            <tr>
-                <td><%out.print(compte.getId());%></td>
-                <td><%out.print(compte.getNom());%></td>
-                <td><%out.print(compte.getPrenom());%></td>
-                <td><%out.print(compte.getType());%></td>
-                <td><%out.print(compte.getMail());%></td>
-                <td align='center'>
-                    <!--<form action="Navigation?action=voirModifierUtilisateur" method="POST" class="form-inline">
-                        
-                        <input type="text" name="login" id="login" value="<%out.print(compte.getLogin());%>" hidden>
-                        <input type="text" name="nom" id="nom" value="<%out.print(compte.getNom());%>" hidden>
-                        <input type="text" name="prenom" id="prenom" value="<%out.print(compte.getPrenom());%>" hidden>
-                        <input type="text" name="type" id="type" value="<%out.print(compte.getType());%>" hidden>
-                        <input type="text" name="email" id="email" value="<%out.print(compte.getMail());%>" hidden>
-                        <button class="btn btn-success" type="submit" name="action" value="voirModifierUtilisateur">Modifier</button>
-                    </form>-->
-                    <a class="btn btn-info" href="Navigation?action=voirModifierCompte&id=<% out.print(compte.getId()); %>">
-                        <i class="fa fa-edit"></i> Modifier
-                    </a><!--btn-group; btn-primary-->
-                    
-                    <a class="btn btn-danger" href="Navigation?action=voirGestionComptes">
-                        <i class="fa fa-remove"></i> Supprimer
-                    </a>
-                </td>
-            </tr>
-        
-        <%}%>
-    </tbody>
 </table>
 
-<% if(request.getAttribute("message") != null){ %>
-    <div class="alert alert-success">
+<%  String message = (String) request.getAttribute("message");
+    if(message != null){ %>
+    <div class="alert <% if(message.toLowerCase().contains("erreur")){%>alert-danger<%}else{%>alert-success<%}%>">
         <%out.print(request.getAttribute("message"));%>
     </div>
 <%}%>
         
 <%@include file="Modele/pied.jsp" %>
+<div id="dialog" title="Confirmer la suppression">
+    <p>Voulez vous vraiment ce compte ?</p>
+</div>
