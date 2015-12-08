@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.entite.Compte;
+import modele.entite.TypeCompte;
 import page.action.*;
 
 /**
@@ -54,10 +56,11 @@ public class Navigation extends HttpServlet {
             throws ServletException, IOException {
         //récupération de la variable action
         String action = request.getParameter("action");
-
         if (action == null) {
             action = "index";
         }
+        
+        Compte compteActif = (Compte) request.getSession().getAttribute("compte");
         
         //init de l'interface
         Action classeAction = null;
@@ -67,7 +70,8 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
-        }else if (action.equals("voirModifierUtilisateur")) {
+        }/***Gestion comptes****/
+        else if (action.equals("voirModifierComptes")) {
             menuSelect = 1; //à modifier plus tard
             classeAction = new VoirModifierComptesAction();
         }else if (action.equals("voirGestionComptes")) {
@@ -88,6 +92,29 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("afficherInformationsDossiers")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new AfficherInformationsDossiersAction();
+        }else if (action.equals("modifierCompte")) {
+            menuSelect = 1;
+            classeAction = new ModifierCompteAction();
+        }/***Gestion formations****/
+        else if (action.equals("voirGestionFormation")) {
+            menuSelect = 2;
+            classeAction = new VoirGestionFormationsAction();
+        }else if (action.equals("voirAjoutFormation")) {
+            menuSelect = 2;
+            classeAction = new VoirAjoutFormationAction();
+        }else if (action.equals("voirDatesInscription")) {
+            menuSelect = 2;
+            classeAction = new VoirDatesInscriptionAction();
+        }/***Gestion dossiers****/
+        else if (action.equals("voirValidationJustificatifsDossier")) {
+            menuSelect = 3;
+            classeAction = new VoirValidationJustificatifsDossierAction();
+        }else if (action.equals("voirAjoutDossier")) {
+            menuSelect = 3;
+            classeAction = new VoirAjoutDossierAction();   
+        }else if (action.equals("ajouterDossier")) {
+            menuSelect = 3;
+            classeAction = new AjoutDossierAction();
         }else{
             action = "index";
             menuSelect = 0;

@@ -5,7 +5,6 @@
  */
 package modele.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
@@ -83,6 +82,13 @@ public class HistoriqueDAO extends Dao {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         em.remove(unHistorique);
+        tx.commit();
+    }
+    
+    public void delete(int idHistorique) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(getById(idHistorique));
         tx.commit();
     }
 }

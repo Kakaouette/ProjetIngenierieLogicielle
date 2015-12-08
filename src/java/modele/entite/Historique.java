@@ -93,20 +93,16 @@ public class Historique implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + this.id;
-        hash = 23 * hash + Objects.hashCode(this.date);
-        hash = 23 * hash + Objects.hashCode(this.message);
-        hash = 23 * hash + Objects.hashCode(this.action);
-        hash = 23 * hash + Objects.hashCode(this.compte);
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.date);
+        hash = 47 * hash + Objects.hashCode(this.message);
+        hash = 47 * hash + Objects.hashCode(this.action);
+        hash = 47 * hash + Objects.hashCode(this.compte);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
         if (obj == null) {
             return false;
         }
@@ -114,9 +110,20 @@ public class Historique implements Serializable{
             return false;
         }
         final Historique other = (Historique) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        if (!Objects.equals(this.message, other.message)) {
+            return false;
+        }
+        if (!Objects.equals(this.action, other.action)) {
+            return false;
+        }
+        if (!Objects.equals(this.compte, other.compte)) {
             return false;
         }
         return true;
     }
+    
+    
 }

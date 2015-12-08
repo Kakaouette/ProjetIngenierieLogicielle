@@ -34,6 +34,7 @@ public class GererAuthentificationAction implements Action {
 
         compte = new CompteService().verifierAuthentification(identifiant, mdp);
         if (compte == null) {
+            request.setAttribute("typeMessage", "danger");
             request.setAttribute("message", "Vos identifiants sont incorrectes");
             return "index.jsp";
         } else {
