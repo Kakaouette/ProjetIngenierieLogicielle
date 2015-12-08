@@ -9,7 +9,7 @@
 <%@page import="modele.entite.TypeDossier"%>
 <%@page import="service.DossierService"%>
 <%@page import="modele.dao.FormationDAO"%>
-<%@page import="page.action.VoirValidationJustificatifsDossierAction"%>
+<%@page import="page.action.VoirAjoutDossierAction"%>
 <%@page import="modele.entite.Formation"%>
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -25,8 +25,9 @@
         };
     <%}%>
     $(function(){verifAllChecked();});
+    
     function loadJustificatifs(){
-       $("form#formation").prop("action", "Navigation?action=voirValidationJustificatifsDossier");
+       $("form#formation").prop("action", "Navigation?action=voirAjoutDossier");
        $("form#formation").submit();
     };
     function verifAllChecked(){
@@ -35,10 +36,16 @@
             $("button#save").prop("disabled", false );
             $("button#savenew").prop("disabled", false );
             $("button#askDocMissed").prop("disabled", true );
+            
+            $("input#idDossier").prop("required", false );
+            $("input#niveau").prop("required", false );
         }else{
             $("button#save").prop("disabled", true );
             $("button#savenew").prop("disabled", true );
             $("button#askDocMissed").prop("disabled", false );
+            
+            $("input#idDossier").prop("required", true );
+            $("input#niveau").prop("required", true );
         }
     };
 </script>
