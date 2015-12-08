@@ -4,41 +4,54 @@
     Author     : totodunet
 --%>
 
+<%@page import="modele.dao.FormationDAO"%>
+<%@page import="modele.entite.Formation"%>
+<%@page import="modele.entite.Formation"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
-<form class="form-signin" action="Navigation" method="POST">
-    <label for="identifiant" class="sr-only">Identifiant</label>
-    <div class="input-group">
-        <span class="input-group-addon" id="addId"><i class="fa fa-user"></i></span>
-        <input type="text" name="login" id="identifiant" class="form-control" placeholder="Identifiant" aria-describedby="addId" required autofocus>
+<form class="form-register" action="Navigation" method="POST">
+    
+    <div id="info_user">
+       
+    <p><label for="identifiant">Identifiant</label>
+        <input type="text" name="login" id="identifiant" required autofocus></p>
+        
+    <p><label for="name">Nom</label>
+        <input type="text" name="nom" id="name" required></p>
+    
+    <p><label for="firstname">Prénom</label>
+        <input type="text" name="prenom" id="firstname" required></p>
+    
+    <p><label for="mail">E-Mail</label>
+        <input type="mail" name="email" id="firstname" required></p>
+    
+    <p><label for="mdp">Mot de passe</label>
+        <input type="password" name="mdp" id="mdp" required></p>
     </div>
-    <label for="type" class="sr-only">Type</label>
-    <div class="input-group">
-        <span class="input-group-addon" id="addId"><i class="fa fa-users"></i></span>
-        <select name="type" id="type" class="form-control" aria-describedby="addType" required>
-            <option value="<%out.print(TypeCompte.directeur_pole.name()); %>"><%out.print(TypeCompte.directeur_pole.toString());%></option>
-            <option value="<%out.print(TypeCompte.admin.name()); %>"><%out.print(TypeCompte.admin.toString());%></option>
-        </select>
-    </div>
-    <label for="name" class="sr-only">Nom</label>
-    <div class="input-group">
-        <span class="input-group-addon" id="addName"><i class="fa fa-user"></i></span>
-        <input type="text" name="nom" id="name" class="form-control" placeholder="Nom" aria-describedby="addName" required>
-    </div>
-    <label for="firstname" class="sr-only">Prénom</label>
-    <div class="input-group">
-        <span class="input-group-addon" id="addFirstname"><i class="fa fa-user"></i></span>
-        <input type="text" name="prenom" id="firstname" class="form-control" placeholder="Prénom" aria-describedby="addFirstname" required>
-    </div>
-    <label for="mail" class="sr-only">E-Mail</label>
-    <div class="input-group">
-        <span class="input-group-addon" id="addMail"><i class="fa fa-envelope"></i></span>
-        <input type="mail" name="email" id="firstname" class="form-control" placeholder="Mail" aria-describedby="addFirstname" required>
-    </div>
-    <label for="mdp" class="sr-only">Mot de passe</label>
-    <div class="input-group" id="divMargin">
-        <span class="input-group-addon" id="addMdp"><i class="fa fa-lock"></i></span>
-        <input type="password" name="mdp" id="mdp" class="form-control" placeholder="Mot de passe" aria-describedby="addMdp" required>
+    
+    <div id="type_account">
+    <p><label for="type">Type</label>
+    <select name="type" id="type" required>
+        <option value="<%out.print(TypeCompte.directeur_pole.name()); %>"><%out.print(TypeCompte.directeur_pole.toString());%></option>
+        <option value="<%out.print(TypeCompte.admin.name()); %>"><%out.print(TypeCompte.admin.toString());%></option>
+    </select></p>
+        
+    <div id="formation">
+        <p><label for="recherche">Rechercher</label>
+            <input type="text" id="recherche"/></p>
+            <p><label for="display">Afficher par</label>
+        <input type="number" id="display" value="4"/>
+        </p>
+        <p><label for="formations">Formation(s)</label>
+    <select name="formations" size="4" multiple>
+        <option id="nope_formation" selected="selected">Aucune formation</option>
+        <%
+            List<Formation> formations=new FormationDAO().SelectAll();
+            for(Formation f:formations){
+                %><option value="<%out.print(f.getId());%>"><%out.print(f.getIntitule());%></option><%
+            }
+        %>
+    </select></p></div>
     </div>
     <!--[if IE]>
     <input type="hidden" name="action" value="creerUtilisateur" />
