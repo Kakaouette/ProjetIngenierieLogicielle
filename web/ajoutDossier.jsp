@@ -5,43 +5,106 @@
 --%>
 
 
+<%@page import="modele.entite.TypeJustificatifEtranger"%>
+<%@page import="modele.entite.TypeDossier"%>
 <%@page import="service.DossierService"%>
+<%@page import="modele.dao.FormationDAO"%>
+<%@page import="page.action.VoirValidationJustificatifsDossierAction"%>
 <%@page import="modele.entite.Formation"%>
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 <!DOCTYPE html>
 
-<%if(request.getAttribute("focus") != null){%>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript">
-    window.onload=function(){
-        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+    <%if(request.getAttribute("focus") != null){%>
+        window.onload=function(){
+            document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+        };
+    <%}%>
+    $(function(){verifAllChecked();});
+    function loadJustificatifs(){
+       $("form#formation").prop("action", "Navigation?action=voirValidationJustificatifsDossier");
+       $("form#formation").submit();
+    };
+    function verifAllChecked(){
+        var allChecked = $('input[type="checkbox"]:checked').length === $('input[type="checkbox"]').length || $('input[type="checkbox"]').length === 0;
+        if(allChecked){
+            $("button#save").prop("disabled", false );
+            $("button#savenew").prop("disabled", false );
+            $("button#askDocMissed").prop("disabled", true );
+        }else{
+            $("button#save").prop("disabled", true );
+            $("button#savenew").prop("disabled", true );
+            $("button#askDocMissed").prop("disabled", false );
+        }
     };
 </script>
-<%}%>
 
-<form action="Navigation?action=ajouterDossier" method="POST" class="form-horizontal">
+<form action="Navigation?action=ajouterDossier" method="POST" class="form-horizontal" id="formation">
     <div class="form-group">
         <label class="col-md-2 control-label" for="type">Type:</label>
         <div class="col-md-4">
-            <input type="hidden" name="type" value="<%out.print(request.getAttribute("type"));%>">
             <label class="radio-inline" for="type-0">
-                <input type="radio" name="type" id="type-0" value="inscription" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals("inscription")){%>checked<%}%> disabled> Inscription
+                <input type="radio" name="type" id="type-0" value="<%out.print(TypeDossier.inscription);%>" onchange="loadJustificatifs()" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals(TypeDossier.inscription.toString())){%>checked<%}%>> Inscription
             </label>
             <label class="radio-inline" for="type-1">
-                <input type="radio" name="type" id="type-1" value="admission" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals("admission")){%>checked<%}}%> disabled> Admission
+                <input type="radio" name="type" id="type-1" value="<%out.print(TypeDossier.admissibilite);%>" onchange="loadJustificatifs()" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals(TypeDossier.admissibilite.toString())){%>checked<%}}%>> Admission
             </label>
         </div>
     </div>
             
     <div class="form-group">
-        <label class="col-md-2 control-label" for="formationIntitule">Formation :</label>
-        <div class="col-md-4">
-            <input id="formationIntitule" name="formationIntitule" type="text" class="form-control input-md" value="<%out.print(request.getAttribute("formationIntitule"));%>" readonly>
+        <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
+        <div class="col-sm-3">
+            <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="loadJustificatifs()">
+                <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
+                for (Formation formation : formations){
+                %>
+                <option value="<%out.print(formation.getIntitule());%>"<%if(request.getAttribute("formationIntitule") != null){
+                                if(request.getAttribute("formationIntitule").equals(formation.getIntitule())){%>selected<%}
+                            }%>><%out.print(formation.getIntitule());%></option>
+                <%}%>
+            </select>
+            
         </div>
     </div>
-            
-    <!-- Text input-->
+         
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="nationalite">Nationalité: </label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="nationalite-0">
+                <input type="radio" name="nationalite" id="nationalite-0" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.francais.toString())){%>checked<%}%>> Français
+            </label>
+            <label class="radio-inline" for="nationalite-1">
+                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
+            </label>
+        </div>
+    </div>
+        
+    <div class="form-group">
+        <label for="justificatifs" class="col-sm-2 control-label">Justificatifs: </label>
+        <div class="col-sm-3" id="justificatifsDiv">
+            <% List<Justificatif> justificatifs = (List<Justificatif>) request.getAttribute("justificatifs");
+            if(justificatifs != null){
+                for (Justificatif justificatif : justificatifs){
+                %>
+                    <label class="checkbox-inline" for="justificatifs-<%out.print(justificatif.getTitre());%>">
+                        <input type="checkbox" name="justificatifs" id="justificatifs-<%out.print(justificatif.getTitre());%>" 
+                            value="<%out.print(justificatif.getTitre());%>" 
+                            <%if(request.getAttribute("justificatifsChecked") != null){
+                                List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
+                                if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
+                            }%> onchange="verifAllChecked()"> <%out.print(justificatif.getTitre());%>
+                    </label>
+                    <br>
+                <%}
+            }%>
+        </div>
+    </div>
+               
     <div class="form-group">
         <label class="col-md-2 control-label" for="idDossier">Numéro du dossier :</label>  
         <div class="col-md-4">
@@ -54,16 +117,7 @@
                 title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required autofocus>
         </div>
     </div>
-
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="nationalite">Nationalité: </label>
-        <div class="col-md-4">
-            <label class="radio-inline" for="nationalite">
-                <input type="checkbox" name="nationalite" value="etranger" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals("etranger")){%>checked<%}%> disabled> Etranger
-            </label>
-        </div>
-    </div>
-             
+            
     <div class="form-group">
         <label class="col-md-2 control-label" for="nom">N° INE :</label>  
         <div class="col-md-4">
@@ -86,6 +140,15 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label for="pays" class="col-sm-2 control-label">Pays: </label>
+        <div class="col-md-4">
+        <input id="idDossier" name="pays" type="text" placeholder="pays" class="form-control input-md" 
+            value="<%if(request.getAttribute("pays") != null){
+                out.print(request.getAttribute("pays"));
+            }%>" autocomplete="on" required>
+        </div>
+    </div>
     <!-- Text input-->
     <div class="form-group">
         <label class="col-md-2 control-label" for="adresse">Adresse :</label>  
@@ -126,7 +189,7 @@
     </div>
     
     <%if(request.getAttribute("nationalite") != null){
-    if(request.getAttribute("nationalite").equals("etranger")){%>
+    if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>
         <div class="form-group">
             <label class="col-md-2 control-label" for="niveau">Niveau :</label>  
             <div class="col-md-4">
@@ -148,11 +211,17 @@
         </div>
     </div>
 
-    <!-- Button (Double) -->
-    <div class="row col-md-offset-2">
-        <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
-        <button id="savenew" name="bouton" type="submit" class="btn btn-primary" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
-        <a class="btn btn-default" href="Navigation?action=voirValidationJustificatifsDossier&formationIntitule=<%out.print(request.getAttribute("formationIntitule"));%>">Annuler</a>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-2">
+            <a class="btn btn-default" href="Navigation?action=voirGestionDossiers">Annuler</a>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-default" id="askDocMissed" name="action" value="voirLettreDocManquant"><i class="fa fa-envelope"></i> Demander les documents manquants</button>
+        </div>
+        <div class="col-md-2 col-md-offset-2">
+            <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
+            <button id="savenew" name="bouton" type="submit" class="btn btn-primary" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
+        </div>
     </div>
 </form>
 

@@ -23,6 +23,7 @@ import modele.entite.Formation;
 import modele.entite.Historique;
 import modele.entite.TypeDossier;
 import modele.entite.TypeEtatDossier;
+import modele.entite.TypeJustificatifEtranger;
 import service.exception.AjoutDossierInvalideException;
 import service.DossierService;
 import service.exception.AjoutAdresseInvalideException;
@@ -40,27 +41,23 @@ public class AjoutDossierAction implements Action{
         Action actionPageSuivante = null;
         
         //recuperation du formulaire
+        String formationIntitule = request.getParameter("formationIntitule");
+        String type = request.getParameter("type");
+        String nationalite = request.getParameter("nationalite");
         String idDossier = request.getParameter("idDossier");
         String ine = request.getParameter("ine");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String sexe = request.getParameter("sexe");
+        String pays = request.getParameter("pays");
         String adresse = request.getParameter("adresse");
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
         String notes = request.getParameter("notes");
-        String formationIntitule = request.getParameter("formationIntitule");
-        String type = request.getParameter("type");
-        String nationalite;
-        if(request.getParameter("nationalite") != null){
-            nationalite = request.getParameter("nationalite");
-        }else{
-            nationalite = "francais";
-        }
         
         //verification de la validité du formulaire
-        String[] required = {idDossier, ine, nom, prenom, sexe, adresse, codePostal, ville, formationIntitule, type};
-        String[] requiredName = {"id du dossier", "INE", "nom", "prénom", "sexe", "adresse", "code postal", "ville", "intitulé de la formation", "type"};
+        String[] required = {formationIntitule, type, nationalite, idDossier, ine, nom, prenom, sexe, pays, adresse, codePostal, ville};
+        String[] requiredName = {"intitulé de la formation", "type", "nationalité", "id du dossier", "INE", "nom", "prénom", "sexe", "pays", "adresse", "code postal", "ville"};
         try {
             validerFormulaire(required, requiredName);
         } catch (Exception ex) {
@@ -69,11 +66,11 @@ public class AjoutDossierAction implements Action{
             return stayHere(request, response);
         }
         //mise en forme des données
-        TypeDossier typeAdmission = null;
-        if(type.equals("inscrition")){
-            typeAdmission = TypeDossier.inscription;
-        }else if(type.equals("admission")){
-            typeAdmission = TypeDossier.admissibilite;
+        TypeDossier typeDossier = null;
+        if(type.equals(TypeDossier.inscription.toString())){
+            typeDossier = TypeDossier.inscription;
+        }else if(type.equals(TypeDossier.admissibilite.toString())){
+            typeDossier = TypeDossier.admissibilite;
         }
         Adresse adressePostale = new AdresseDAO().getAdresseByCodePostal(codePostal);
         if(adressePostale == null){
@@ -81,11 +78,11 @@ public class AjoutDossierAction implements Action{
         }else if(!adressePostale.getVille().equals(ville)){
             adressePostale = new Adresse(codePostal, ville);
         }
-        Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom(nom, prenom); //add: gestion etudiant etranger
+        Etudiant etudiant = new EtudiantDAO().getEtudiantByINE(ine); //add: gestion etudiant etranger
         if(etudiant == null){
-            if(nationalite.equals("francais")){
+            if(nationalite.equals(TypeJustificatifEtranger.francais.toString())){
                 etudiant = new Etudiant(ine, nom, prenom, adresse, sexe, adressePostale);
-            }else if(nationalite.equals("etranger")){
+            }else if(nationalite.equals(TypeJustificatifEtranger.etranger.toString())){
                 String avis = request.getParameter("avis");
                 String niveau = request.getParameter("niveau");
                 try {
@@ -100,7 +97,7 @@ public class AjoutDossierAction implements Action{
                 etudiant = new EtudiantEtranger(avis, niveau, ine, nom, prenom, codePostal, sexe, adressePostale);
             }
         }else{
-            if((nationalite.equals("francais") && etudiant instanceof EtudiantEtranger) || (nationalite.equals("etranger") && etudiant instanceof Etudiant)){
+            if((nationalite.equals(TypeJustificatifEtranger.francais.toString()) && etudiant instanceof EtudiantEtranger) || (nationalite.equals(TypeJustificatifEtranger.etranger.toString()) && etudiant instanceof Etudiant)){
                     request.setAttribute("typeMessage", "danger");
                     request.setAttribute("message", "La nationalité de l'étudiant n'est pas valide");
                     return stayHere(request, response);
@@ -123,7 +120,7 @@ public class AjoutDossierAction implements Action{
         nouveauDossier.setDate(dateNow);
         nouveauDossier.setEtudiant(etudiant);
         nouveauDossier.setDemandeFormation(formation);
-        nouveauDossier.setAdmissible(typeAdmission);
+        nouveauDossier.setAdmissible(typeDossier);
         nouveauDossier.setHistorique(new ArrayList<Historique>());
         nouveauDossier.getHistorique().add(new Historique(dateNow, "", "Création du dossier", compteActif));
         nouveauDossier.getHistorique().add(new Historique(dateNow, notes, "Commentaire à la création du dossier", compteActif));
@@ -167,25 +164,26 @@ public class AjoutDossierAction implements Action{
     
     private String stayHere(HttpServletRequest request, HttpServletResponse response){
         //keep formulaire
+        request.setAttribute("type", request.getParameter("type"));
+        request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
+        request.setAttribute("nationalite", request.getParameter("nationalite"));
         request.setAttribute("idDossier", request.getParameter("idDossier"));
         request.setAttribute("ine", request.getParameter("ine"));
         request.setAttribute("nom", request.getParameter("nom"));
         request.setAttribute("prenom", request.getParameter("prenom"));
         request.setAttribute("sexe", request.getParameter("sexe"));
+        request.setAttribute("pays", request.getParameter("pays"));
         request.setAttribute("adresse", request.getParameter("adresse"));
         request.setAttribute("codePostal", request.getParameter("codePostal"));
         request.setAttribute("ville", request.getParameter("ville"));
         request.setAttribute("notes", request.getParameter("notes"));
-        request.setAttribute("formationIntitule", request.getParameter("formationIntitule"));
-        request.setAttribute("type", request.getParameter("type"));
-        request.setAttribute("nationalite", request.getParameter("nationalite"));
         if(request.getParameter("nationalite") != null){
-            if(request.getParameter("nationalite").equals("etranger")){
+            if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){
                 request.setAttribute("avis", request.getParameter("avis"));
                 request.setAttribute("niveau", request.getParameter("niveau"));
             }
         }else{
-            request.setAttribute("nationalite", "francais");
+            request.setAttribute("nationalite", TypeJustificatifEtranger.francais.toString());
         }
         return new VoirAjoutDossierAction().execute(request, response); //modif: voir récupérer page precedente
     }
