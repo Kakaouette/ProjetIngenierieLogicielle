@@ -176,3 +176,11 @@ div.dataTables_wrapper {clear: both;}
 .table-hover > tbody > tr.gris:hover > th {
   background-color: #B2B2B2;
 }
+
+#navbar{
+    padding: 0px;
+}
+
+#ulnav{
+    width: 100%;
+}

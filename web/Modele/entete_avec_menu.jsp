@@ -76,7 +76,7 @@
                             <%if (c.getType() == TypeCompte.admin) {%>
                                 <li <%if (current.equals(1)) {%>class="active"<%}%> class="dropdown" >
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Gestion comptes <span class="caret"></span>
+                                        <span class="fa fa-users"></span> Comptes <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="Navigation?action=voirAjoutCompte"><i class="fa fa-plus"></i> Ajouter</a></li>
@@ -87,7 +87,7 @@
                             <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secrétaire_formation) {%>
                                 <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Gestion formations <span class="caret"></span>
+                                        <span class="fa fa-university"></span> Formations <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a></li>
@@ -99,7 +99,7 @@
                             <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secrétaire_formation) {%>
                                 <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Gestion dossiers <span class="caret"></span>
+                                        <span class="fa fa-folder-open"></span> Dossiers <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="Navigation?action=voirValidationJustificatifsDossier"><i class="fa fa-plus"></i> Ajouter</a></li>
