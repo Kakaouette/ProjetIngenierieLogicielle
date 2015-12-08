@@ -27,6 +27,9 @@ public class Justificatif implements Serializable{
     @Column(nullable = false)
     String titre;
     
+    @Column(nullable = false)
+    String description;
+    
     @Enumerated(EnumType.STRING)
     TypeDossier typeAdmissible;
     
@@ -36,10 +39,19 @@ public class Justificatif implements Serializable{
     public Justificatif() {
     }
 
-    public Justificatif(String titre, TypeDossier typeAdmissible, TypeJustificatifEtranger typeNationalite) {
+    public Justificatif(String titre, String description, TypeDossier typeAdmissible, TypeJustificatifEtranger typeNationalite) {
         this.titre = titre;
+        this.description = description;
         this.typeAdmissible = typeAdmissible;
         this.typeNationalite = typeNationalite;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
     
     
