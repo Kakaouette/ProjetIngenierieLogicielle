@@ -11,13 +11,19 @@
 <script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
 <link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
 <script type="text/javascript">
-    $(function() {
-        $('#dialog').hide();
-    });
-
     function createDialog(id) {
-        $('#dialog').dialog({
+        //creation et ajout du dialog
+        $('body').append(
+            '<div id="dialogValiderSuppr" title="Confirmer la suppression">' + 
+                '<p>Voulez vous vraiment supprimer cet élément?</p>' + 
+            '</div>');
+    
+    
+        $('div#dialogValiderSuppr').dialog({
             modal: true,
+            close:function( event, ui ){
+                    $("div#dialogValiderSuppr").remove();
+                },
             buttons: {
                 "Oui":{
                     text : 'Oui' ,class : 'btn btn-success', click : function() {
@@ -31,7 +37,6 @@
                 }
             }
         });
-        $('#dialog').show();
     };
 </script>
 
@@ -80,6 +85,3 @@
 <%}%>
 
 <%@include file="Modele/pied.jsp" %>
-<div id="dialog" title="Confirmer la suppression">
-    <p>Voulez vous vraiment supprimer cet élément?</p>
-</div>
