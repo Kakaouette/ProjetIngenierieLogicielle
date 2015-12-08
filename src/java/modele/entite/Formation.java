@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -115,5 +116,50 @@ public class Formation implements Serializable{
 
     public void setLesJustificatifs(List<Justificatif> lesJustificatifs) {
         this.lesJustificatifs = lesJustificatifs;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.description);
+        hash = 79 * hash + this.nombrePlace;
+        hash = 79 * hash + Objects.hashCode(this.debut);
+        hash = 79 * hash + Objects.hashCode(this.fin);
+        hash = 79 * hash + Objects.hashCode(this.intitule);
+        hash = 79 * hash + Objects.hashCode(this.lesJustificatifs);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Formation other = (Formation) obj;
+        if (this.nombrePlace != other.nombrePlace) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.intitule, other.intitule)) {
+            return false;
+        }
+        if (!Objects.equals(this.debut, other.debut)) {
+            return false;
+        }
+        if (!Objects.equals(this.fin, other.fin)) {
+            return false;
+        }
+        if (!Objects.equals(this.lesJustificatifs, other.lesJustificatifs)) {
+            return false;
+        }
+        return true;
     }
 }

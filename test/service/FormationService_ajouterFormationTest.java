@@ -9,6 +9,7 @@ import java.io.IOException;
 import service.exception.AjoutFormationInvalideException;
 import java.util.ArrayList;
 import java.util.Date;
+import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import org.junit.After;
@@ -117,7 +118,7 @@ public class FormationService_ajouterFormationTest {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        assertTrue(done);
+        assertTrue(done && formation == new FormationDAO().getById(formation.getId()));
         System.out.println("Test validé: " + (done == true));
         
         //id déjà dans la BDD
@@ -172,7 +173,7 @@ public class FormationService_ajouterFormationTest {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        assertTrue(done);
+        assertTrue(done && formation == new FormationDAO().getById(formation.getId()));
         System.out.println("Test validé: " + (done == true));
     }
 }
