@@ -66,35 +66,8 @@ public class Navigation extends HttpServlet {
         Action classeAction = null;
         String vue = "";
         int menuSelect = 0;
-
-        if (action.equals("gererAuthentification")) {
-            menuSelect = 0;
-            classeAction = new GererAuthentificationAction();
-        }/***Gestion comptes****/
-        else if (action.equals("voirGestionComptes")) {
-            menuSelect = 1;
-            classeAction = new VoirGestionComptesAction();
-        }else if (action.equals("voirAjoutCompte")) {
-            menuSelect = 1;
-            classeAction = new VoirAjoutCompteAction();
-        }else if (action.equals("voirModifierCompte")) {
-            menuSelect = 1;
-            classeAction = new VoirModifierCompteAction();
-        }else if (action.equals("modifierCompte")) {
-            menuSelect = 1;
-            classeAction = new ModifierCompteAction();
-        }/***Gestion formations****/
-        else if (action.equals("voirGestionFormation")) {
-            menuSelect = 2;
-            classeAction = new VoirGestionFormationsAction();
-        }else if (action.equals("voirAjoutFormation")) {
-            menuSelect = 2;
-            classeAction = new VoirAjoutFormationAction();
-        }else if (action.equals("voirDatesInscription")) {
-            menuSelect = 2;
-            classeAction = new VoirDatesInscriptionAction();
-        }/***Gestion dossiers****/
-        else if (action.equals("voirValidationJustificatifsDossier")) {
+/***Gestion dossiers****/
+        if (action.equals("voirValidationJustificatifsDossier")) {
             menuSelect = 3;
             classeAction = new VoirValidationJustificatifsDossierAction();
         }else if (action.equals("voirAjoutDossier")) {
@@ -106,7 +79,6 @@ public class Navigation extends HttpServlet {
         }else{
             action = "index";
             menuSelect = 0;
-            classeAction = new VoirIndexAction();
         }
 
         if (classeAction != null) {
