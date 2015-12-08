@@ -167,7 +167,7 @@ public class GestULRPeuplement {
         Dossier d1 = new Dossier("pst181120151", new Date(), TypeEtatDossier.creer, "Blalalalalalalalala", TypeDossier.admissibilite, etu1, form2, histList1);
         Dossier d2 = new Dossier("pst181120152", new Date(), TypeEtatDossier.en_attente_commission, "yeah", TypeDossier.admissibilite, etu1, form1);
         Dossier d3 = new Dossier("pst181120153", new Date(), TypeEtatDossier.en_transfert_vers_directeur, "sad", TypeDossier.inscription, etu2, form3);
-        Dossier d4 = new Dossier("pst181120154", new Date(), TypeEtatDossier.finalisation, "sad", TypeDossier.inscription, etu2, form3);
+        Dossier d4 = new Dossier("pst181120154", new Date(), TypeEtatDossier.navette, "sad", TypeDossier.inscription, etu2, form3);
         Dossier d5 = new Dossier("pst181120155", new Date(), TypeEtatDossier.retour_ver_secretariat, "sad", TypeDossier.inscription, etu2, form3);
         Dossier d6 = new Dossier("pst181120156", new Date(), TypeEtatDossier.terminé, "sad", TypeDossier.inscription, etu2, form3);
         Dossier d7 = new Dossier("pst181120157", new Date(), TypeEtatDossier.traitement_secretariat_formation, "sad", TypeDossier.inscription, etu2, form3);

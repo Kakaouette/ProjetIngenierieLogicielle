@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
-import modele.entite.TypeDossier;
 
 /**
  *
@@ -42,14 +41,22 @@ public class AfficherInformationsDossiersAction implements Action {
         }
         request.setAttribute("addScript", ""+
                 "\"createdRow\": function ( row, data, index ) {\n" +
-"                   if ( data[0] == 'Creer' ) {\n" +
-"                       $('td', row).eq(0).addClass('info');\n" +
-"            }else if ( data[0] == 'Terminée' ) {\n" +
+"                   if ( data[0] == 'Créé' ) {\n" +
+"                       $('td', row).eq(0).addClass('pink');\n" +
+"            }else if ( data[0] == 'Transfert vers le secrétariat' ) {\n" +
+"                       $('td', row).eq(0).addClass('orange');\n" +
+"            }else if ( data[0] == 'Traitement par le secrétariat' ) {\n" +
+"                       $('td', row).eq(0).addClass('jaune');\n" +
+"            }else if ( data[0] == 'Attente de la commission' ) {\n" +
 "                       $('td', row).eq(0).addClass('purple');\n" +
+"            }else if ( data[0] == 'Transfert vers le directeur' ) {\n" +
+"                       $('td', row).eq(0).addClass('bleu');\n" +
 "            }else if ( data[0] == 'Retour vers le secrétariat' ) {\n" +
-"                       $('td', row).eq(0).addClass('warning');\n" +
-"            }else if ( data[0] == 'Traitement par le secréatariat' ) {\n" +
-"                       $('td', row).eq(0).addClass('danger');\n" +
+"                       $('td', row).eq(0).addClass('cyan');\n" +
+"            }else if ( data[0] == 'Terminé' ) {\n" +
+"                       $('td', row).eq(0).addClass('vert');\n" +
+"            }else if ( data[0] == 'Navette' ) {\n" +
+"                       $('td', row).eq(0).addClass('gris');\n" +
 "            }" +
 "        },\n");
         request.setAttribute("leTableau", Tab);

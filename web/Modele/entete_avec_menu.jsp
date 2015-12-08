@@ -58,11 +58,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand collapsed" href="Navigation?action=index">ULR</a>
                 </div>
                 <div class="container" id="menu">
-                    <div id="navbar" class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" style="height: 895px;">
-                        <ul class="nav navbar-nav">
+                    <div id="navbar" class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
+                        <ul id="ulnav" class="nav navbar-nav">
                             <li <%if (current.equals(0)) {%>class="active"<%}%>>
                                 <a href="Navigation?action=index">
                                     <span class="fa fa-home"></span> Accueil
@@ -102,7 +101,7 @@
                                     </ul>
                                 </li>
                             <%}%>
-                            <li>
+                            <li class="pull-right">
                                 <a href=Navigation?action=gererAuthentification&session=deco>
                                     <i class="fa fa-power-off"></i> Déconnexion
                                 </a>
