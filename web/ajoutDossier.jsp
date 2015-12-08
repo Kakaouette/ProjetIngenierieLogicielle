@@ -62,7 +62,7 @@
             </label>
         </div>
     </div>
-            
+
     <div class="form-group">
         <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
         <div class="col-sm-3">
@@ -86,7 +86,7 @@
                 <input type="radio" name="nationalite" id="nationalite-0" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.francais.toString())){%>checked<%}%>> Français
             </label>
             <label class="radio-inline" for="nationalite-1">
-                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
+                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.etranger.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
             </label>
         </div>
     </div>
@@ -150,13 +150,10 @@
     <div class="form-group">
         <label for="pays" class="col-sm-2 control-label">Pays: </label>
         <div class="col-md-4">
-        <input id="idDossier" name="pays" type="text" placeholder="pays" class="form-control input-md" 
-            value="<%if(request.getAttribute("pays") != null){
-                out.print(request.getAttribute("pays"));
-            }%>" autocomplete="on" required>
+            <input id="idDossier" name="pays" type="text" placeholder="pays" class="form-control input-md" value="<%if(request.getAttribute("pays") != null){out.print(request.getAttribute("pays"));}%>" autocomplete="on" required>
         </div>
     </div>
-    <!-- Text input-->
+        
     <div class="form-group">
         <label class="col-md-2 control-label" for="adresse">Adresse :</label>  
         <div class="col-md-4">
@@ -164,7 +161,6 @@
         </div>
     </div>
 
-    <!-- Text input-->
     <div class="form-group">
         <label class="col-md-2 control-label" for="ville">Ville :</label>  
         <div class="col-md-4">
@@ -172,7 +168,6 @@
         </div>
     </div>
 
-    <!-- Text input-->
     <div class="form-group">
         <label class="col-md-2 control-label" for="codePostal">Code Postal :</label>  
         <div class="col-md-2">
@@ -180,16 +175,15 @@
         </div>
     </div>
 
-    <!-- Multiple Radios (inline) -->
     <div class="form-group">
         <label class="col-md-2 control-label" for="sexe">Sexe :</label>
         <div class="col-md-4"> 
             <label class="radio-inline" for="sexe-0">
-                <input type="radio" name="sexe" id="sexe-0" value="M" checked="checked">
+                <input type="radio" name="sexe" id="sexe-0" value="M" <%if(request.getAttribute("sexe") != null){if(request.getAttribute("sexe").equals("M")){%>checked<%}}else{%>checked<%}%>>
                 M
             </label> 
             <label class="radio-inline" for="sexe-1">
-                <input type="radio" name="sexe" id="sexe-1" value="F">
+                <input type="radio" name="sexe" id="sexe-1" value="F" <%if(request.getAttribute("sexe") != null){if(request.getAttribute("sexe").equals("F")){%>checked<%}}%>>
                 F
             </label>
         </div>

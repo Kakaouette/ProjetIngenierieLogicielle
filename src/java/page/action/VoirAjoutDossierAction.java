@@ -86,6 +86,27 @@ public class VoirAjoutDossierAction implements Action{
             }
             request.setAttribute("justificatifs", goodJustificatifs);
         }
+        
+        
+        //keep formulaire
+        request.setAttribute("idDossier", request.getParameter("idDossier"));
+        request.setAttribute("ine", request.getParameter("ine"));
+        request.setAttribute("nom", request.getParameter("nom"));
+        request.setAttribute("prenom", request.getParameter("prenom"));
+        request.setAttribute("sexe", request.getParameter("sexe"));
+        request.setAttribute("pays", request.getParameter("pays"));
+        request.setAttribute("adresse", request.getParameter("adresse"));
+        request.setAttribute("codePostal", request.getParameter("codePostal"));
+        request.setAttribute("ville", request.getParameter("ville"));
+        request.setAttribute("notes", request.getParameter("notes"));
+        if(request.getParameter("nationalite") != null){
+            if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){
+                request.setAttribute("avis", request.getParameter("avis"));
+                request.setAttribute("niveau", request.getParameter("niveau"));
+            }
+        }
+        
+        
         return "ajoutDossier.jsp";
     }
     

@@ -97,7 +97,7 @@
                                         Gestion dossiers <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="Navigation?action=voirValidationJustificatifsDossier"><i class="fa fa-plus"></i> Ajouter</a></li>
+                                        <li><a href="Navigation?action=voirAjoutDossier"><i class="fa fa-plus"></i> Ajouter</a></li>
                                         <li><a href="Navigation?action=voirGestionDossier"><i class="fa fa-edit"></i> Modifier</a></li>
                                     </ul>
                                 </li>
