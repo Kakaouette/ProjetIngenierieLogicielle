@@ -8,7 +8,6 @@ package page.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
-import modele.entite.TypeCompte;
 import service.CompteService;
 
 /**

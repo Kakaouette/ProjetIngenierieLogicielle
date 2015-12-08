@@ -28,7 +28,13 @@
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/font-awesome/css/font-awesome.css" rel="stylesheet">
         <link href="bootstrap/css/ULR.css" rel="stylesheet">
+        <% if(titre.equals("Créer un compte")){%>
+            <link href="bootstrap/css/register.css" rel="stylesheet">
+        <%}%>
         <script src="jQuery/jquery-1.11.2.js"></script>
+        <% if(titre.equals("Créer un compte")){%>
+            <script src="jQuery/register.js"></script>
+        <%}%>
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
