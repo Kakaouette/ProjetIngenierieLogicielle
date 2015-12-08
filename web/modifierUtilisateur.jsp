@@ -77,30 +77,27 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 col-md-offset-2">
+        <div class="col-md-2">
             <!--[if IE]>
             <input type="hidden" name="action" value="enregistrerModifs" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
+            <a class="btn btn-primary pull-right" href="Navigation?action=voirGestionComptes">Annuler</a>
+            <![endif]-->
+            <!--[if !IE]><!-->
+            <a class="btn btn-default pull-right" href="Navigation?action=voirGestionComptes">Annuler</a>
+            <!--<![endif]-->
+        </div>
+        <div class="col-md-3">
+            <!--[if IE]>
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
             <![endif]-->
             <!--[if !IE]><!-->
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
-            <!--<![endif]-->
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="annulerModifs" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=voirGestionComptes">Annuler</a>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
             <!--[if IE]>
             <input type="hidden" name="action" value="supprUtilisateur" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
+            <button class="btn btn-primary btn-danger pull-right" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-primary btn-danger" onclick='createDialog(<% out.print(request.getAttribute("id")); %>)'>Supprimer</a>
+            <a class="btn btn-primary btn-danger pull-right" onclick='createDialog(<% out.print(request.getAttribute("id")); %>)'>Supprimer</a>
         </div>
     </div>
 </form><br/>
