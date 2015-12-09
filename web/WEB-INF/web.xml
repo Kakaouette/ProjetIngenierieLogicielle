@@ -35,9 +35,9 @@
             <param-value>https://www.example.com/cas/login</param-value>
         </init-param>
         <init-param>
-            <param-name>service</param-name>
+            <param-name>serverName</param-name>
             <!-- Ne pas oublier le "/" en fin d'url -->
-            <param-value>https://localhostpc/gestULR/Navigation/</param-value>
+            <param-value>https://localhost:8443</param-value>
         </init-param>
     </filter>
     
