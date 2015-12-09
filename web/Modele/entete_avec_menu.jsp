@@ -91,8 +91,8 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a></li>
-                                        <li><a href="Navigation?action=voirGestionFormation"><i class="fa fa-edit"></i> Modifier</a></li>
-                                        <li><a href="Navigation?action=voirDatesInscription"><i class="fa fa-calendar"></i> Dates d'inscription</a></li>
+                                        <li><a href="Navigation?action=voirGestionFormations"><i class="fa fa-edit"></i> Modifier</a></li>
+                                        <li><a href="Navigation?action=voirGestionDatesInscription"><i class="fa fa-calendar"></i> Dates d'inscription</a></li>
                                     </ul>
                                 </li>
                             <%}%>

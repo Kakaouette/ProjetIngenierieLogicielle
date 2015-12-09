@@ -170,7 +170,7 @@ public class CompteServiceTest {
         List<Formation> uneListeDeFormationVide = new ArrayList<Formation>();
 
         //String login, String mdp, String nom, String prenom, String mail, TypeCompte type,
-        String identifiantTest = "test";
+        String identifiantTest = "testSupprimerUtilisateurAvecHistorique";
         String mdpTest = "pass";
         Compte unCompte = new Compte(identifiantTest, mdpTest, "NomTest", "PrenomTest", "a@e.com", TypeCompte.admin, uneListeDeFormationVide);
 

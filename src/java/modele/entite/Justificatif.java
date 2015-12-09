@@ -47,6 +47,10 @@ public class Justificatif implements Serializable{
         this.typeNationalite = typeNationalite;
     }
 
+    public Justificatif(String titre, TypeDossier typeDossier, TypeJustificatifEtranger typeJustificatifEtranger) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getDescription() {
         return description;
     }
@@ -86,18 +90,12 @@ public class Justificatif implements Serializable{
     public void setTypeNationalite(TypeJustificatifEtranger typeNationalite) {
         this.typeNationalite = typeNationalite;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 11 * hash + Objects.hashCode(this.titre);
-        hash = 11 * hash + Objects.hashCode(this.typeAdmissible);
-        hash = 11 * hash + Objects.hashCode(this.typeNationalite);
-        return hash;
-    }
-
+    
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -116,6 +114,13 @@ public class Justificatif implements Serializable{
         }
         return true;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(this.titre);
+        hash = 73 * hash + Objects.hashCode(this.typeAdmissible);
+        hash = 73 * hash + Objects.hashCode(this.typeNationalite);
+        return hash;
+    }
 }

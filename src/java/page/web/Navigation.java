@@ -124,6 +124,31 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("ajouterDossier")) {
             menuSelect = 3;
             classeAction = new AjoutDossierAction();
+        }/***Gestion formations***/
+        else if (action.equals("voirAjoutFormation")) {
+            menuSelect = 2;
+            classeAction = new VoirAjoutFormationAction();
+        }else if (action.equals("ajouterFormation")) {
+            menuSelect = 2;
+            classeAction = new AjoutFormationAction();
+        }else if (action.equals("supprimerFormation")) {
+            menuSelect = 2;
+            classeAction = new SupprFormationAction();
+        }else if (action.equals("voirModifFormation")) {
+            menuSelect = 2;
+            classeAction = new VoirModifFormationAction();
+        }else if (action.equals("modifierFormation")) {
+            menuSelect = 2;
+            classeAction = new ModifFormationAction();
+        }else if (action.equals("voirGestionFormations")) {
+            menuSelect = 2;
+            classeAction = new VoirGestionFormationsAction();
+        }else if (action.equals("voirGestionDatesInscription")) {
+            menuSelect = 2;
+            classeAction = new VoirGestionDatesInscriptionAction();
+        }else if (action.equals("modiferDatesInscription")) {
+            menuSelect = 2;
+            classeAction = new ModifDatesInscriptionAction();
         }else{
             action = "index";
             menuSelect = 0;

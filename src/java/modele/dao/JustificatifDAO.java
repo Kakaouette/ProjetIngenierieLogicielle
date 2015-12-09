@@ -8,6 +8,7 @@ package modele.dao;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import modele.entite.Formation;
 import modele.entite.Justificatif;
 
 /**
@@ -59,5 +60,27 @@ public class JustificatifDAO extends Dao {
         tx.begin();
         em.merge(unJustificatif);
         tx.commit();
+    }
+    
+    public void delete(int idJustificatif) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(getById(idJustificatif));
+        tx.commit();
+    }
+    
+    /**
+     * Selection de tous les justificatifs dans la BDD
+     * 
+     * @return List de formation
+     */
+    public List<Justificatif> SelectAll() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT J FROM Justificatif J");
+            return (List<Justificatif>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

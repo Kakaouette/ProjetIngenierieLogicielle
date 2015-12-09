@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Formation;
+import modele.entite.Justificatif;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Formation</b>
