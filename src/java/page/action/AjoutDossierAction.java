@@ -127,7 +127,7 @@ public class AjoutDossierAction implements Action{
         nouveauDossier.setHistorique(new ArrayList<Historique>());
         nouveauDossier.getHistorique().add(new Historique(dateNow, "", "Création du dossier", compteActif));
         nouveauDossier.getHistorique().add(new Historique(dateNow, notes, "Commentaire à la création du dossier", compteActif));
-        nouveauDossier.setEtat(TypeEtatDossier.creer);
+        nouveauDossier.setEtat(TypeEtatDossier.transfert_vers_secretariat);
         
         //demande de creation du dossier
         try{

@@ -76,16 +76,16 @@ public class DossierServiceTest {
         //String id, Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation
         Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
         String result1 = instance.getNewID();
-        Dossier d1 = new Dossier(result1, new Date(), TypeEtatDossier.creer, null, TypeDossier.inscription, etudiant, null);
+        Dossier d1 = new Dossier(result1, new Date(), TypeEtatDossier.transfert_vers_secretariat, null, TypeDossier.inscription, etudiant, null);
         dossierDAO.save(d1);
         String result2 = instance.getNewID();
-        Dossier d2 = new Dossier(result2, new Date(), TypeEtatDossier.creer, null, TypeDossier.inscription, etudiant, null);
+        Dossier d2 = new Dossier(result2, new Date(), TypeEtatDossier.transfert_vers_secretariat, null, TypeDossier.inscription, etudiant, null);
         dossierDAO.save(d2);
         String result3 = instance.getNewID();
-        Dossier d3 = new Dossier(result3, new Date(), TypeEtatDossier.creer, null, TypeDossier.inscription, etudiant, null);
+        Dossier d3 = new Dossier(result3, new Date(), TypeEtatDossier.transfert_vers_secretariat, null, TypeDossier.inscription, etudiant, null);
         dossierDAO.save(d3);
         String result4 = instance.getNewID();
-        Dossier d4 = new Dossier(result4, new Date(), TypeEtatDossier.creer, null, TypeDossier.inscription, etudiant, null);
+        Dossier d4 = new Dossier(result4, new Date(), TypeEtatDossier.transfert_vers_secretariat, null, TypeDossier.inscription, etudiant, null);
         dossierDAO.save(d4);
 
         ////        / DATE DU DOSSIER        / /    ID DOSSIER                      ////
@@ -113,7 +113,7 @@ public class DossierServiceTest {
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        Dossier dossier = new Dossier("NeDoitPasPasser", new Date(), TypeEtatDossier.creer, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
+        Dossier dossier = new Dossier("NeDoitPasPasser", new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
         
         /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
         try {
@@ -127,7 +127,7 @@ public class DossierServiceTest {
         Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
         Etudiant unEtudiant = new Etudiant("ineLambda", "test_Nom", "test_Prenom", "test_adressePostale", "test_Homme", uneAdresse);
         String idDossier = instance.getNewID();
-        dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.creer, "UneLettre", TypeDossier.inscription, unEtudiant, formation, sesHistoriques);
+        dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, unEtudiant, formation, sesHistoriques);
         
         /// On l'insère
         instance.ajouterDossier(dossier);

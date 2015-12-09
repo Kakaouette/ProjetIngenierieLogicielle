@@ -184,7 +184,7 @@ public class CompteServiceTest {
         unCompte.setFormationAssocie(new ArrayList<>());
         unCompte.getFormationAssocie().add(f);
         
-        Dossier d = new Dossier("pstTEST", new Date(), TypeEtatDossier.creer, null, TypeDossier.admissibilite, e, null, new ArrayList<>());
+        Dossier d = new Dossier("pstTEST", new Date(), TypeEtatDossier.transfert_vers_secretariat, null, TypeDossier.admissibilite, e, null, new ArrayList<>());
         d.getHistorique().add(historique);
 
         compteDAO.save(unCompte);
