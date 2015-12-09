@@ -67,6 +67,28 @@ public class Navigation extends HttpServlet {
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
+        }else if (action.equals("voirModifierUtilisateur")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new VoirModifierComptesAction();
+        }else if (action.equals("voirGestionComptes")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new VoirGestionUtilisateurAction();
+        }else if (action.equals("modifierUtilisateur")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new ModifierUtilisateurAction();
+        }else if (action.equals("voirAjoutCompte")) {
+            menuSelect = 1;
+            classeAction = new voirAjouterCompteAction();
+        }else if (action.equals("creerUtilisateur")) {
+            menuSelect = 1; //à modifier plus tard
+            classeAction = new AjouterCompteAction();
+        }else if (action.equals("supprimerUtilisateur")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new SupprimerUtilisateurAction();
+        }else if (action.equals("afficherInformationsDossiers")) {
+            menuSelect = 0; //à modifier plus tard
+            classeAction = new AfficherInformationsDossiersAction();
+        }else{
         }
         else if (action.equals("consulterDossier")) {
             menuSelect = 0;

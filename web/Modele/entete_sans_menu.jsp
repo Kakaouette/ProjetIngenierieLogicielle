@@ -13,7 +13,7 @@
 %>
 <html lang="fr">
     <head>
-        <title><% out.print(titre); %></title>
+        <title>GIST - <% out.print(titre); %></title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,6 @@
         <!-- Bootstrap core CSS -->
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/font-awesome/css/font-awesome.css" rel="stylesheet">
-        <link href="bootstrap/css/brvecenter.css" rel="stylesheet">
         <link href="bootstrap/css/signin.css" rel="stylesheet">
         <script src="jQuery/jquery-1.11.2.js"></script>
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
