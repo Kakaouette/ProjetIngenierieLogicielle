@@ -37,8 +37,18 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
  *  - Transformer tout cela en action avec comme appel des fonction les éléments de la BD
  * 
  */
+
+/*
+    DocReaderLettreAudition permet de lire un fichier .docx et remplacer les variables qui s'y trouvent suivant le numero de dossier indiqué.
+*/
 public class DocReaderLettreAudition
 {
+        /*
+            Lis un fichier .docx dont le nom est donné en paramètre et renvoie un tableau contenant les paragraphes du fichier.
+            
+            @param  filename    Nom du fichier à lire
+            @return             Tableau contenant les paragraphes du fichier
+        */
 	public static String[] readDocxFile(String fileName)
         {
 		try {
@@ -61,6 +71,12 @@ public class DocReaderLettreAudition
 			return null;
 		}
 	}
+        /*
+            Lis un fichier .docx dont le nom est donné en paramètre et renvoie un tableau contenant les paragraphes du fichier.
+            
+            @param  filename    Nom du fichier à lire
+            @return             Tableau contenant les paragraphes du fichier
+        */
         public static String replaceLettreAudition(String filename, String idDossier)throws InvalidFormatException, IOException
         {
             Dossier dossier = new DossierDAO().getById(idDossier);
@@ -143,6 +159,7 @@ public class DocReaderLettreAudition
             String newFileName=idDossier+" Lettre audition.docx";
             
             XWPFDocument doc = new XWPFDocument(OPCPackage.open("./lettres/models/"+filename));
+            
             doc.write(new FileOutputStream("./lettres/target/"+newFileName));
             doc.close();
             

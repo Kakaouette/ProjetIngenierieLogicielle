@@ -70,6 +70,10 @@ public class ModifierUtilisateurAction implements Action {
             if (update == false) {
                 System.out.println("test");
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
+                request.setAttribute("login", login);
+                request.setAttribute("nom", nom);
+                request.setAttribute("prenom", prenom);
+                request.setAttribute("email", mail);
                 return "modifierUtilisateur.jsp";
             } else {
                 request.setAttribute("message", "Modification effectuée");
