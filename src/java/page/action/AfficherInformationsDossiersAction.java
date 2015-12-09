@@ -64,7 +64,7 @@ public class AfficherInformationsDossiersAction implements Action {
             o[5] = c.getDemandeFormation().getIntitule();
             o[6] = c.getEtudiant().getNom();
             o[7] = c.getEtudiant().getPrenom();
-            o[8] = "<a class=\\\"btn btn-info btn-block\\\" href=#><span class='fa fa-edit fa-2x'></span></a>";
+            o[8] = "<a class=\\\"btn btn-info btn-block\\\" href='/Navigation'><span class='fa fa-edit fa-2x'></span></a>";
             Tab.add(o);
         }
         request.setAttribute("addScript", ""

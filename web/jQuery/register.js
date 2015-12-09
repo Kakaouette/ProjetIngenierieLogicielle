@@ -18,7 +18,7 @@ $(document).ready(function(){
     });
     
     $("#type").change(function(){
-       if($(this).val()==="admin"||$(this).val()==="secrétaire_formation"||$(this).val()==="responsable_commission"||$(this).val()==="responsable_formation"){
+       if($(this).val()==="secrétaire_formation"||$(this).val()==="responsable_commission"||$(this).val()==="responsable_formation"){
             $("#formation").show();
        } 
        else{
