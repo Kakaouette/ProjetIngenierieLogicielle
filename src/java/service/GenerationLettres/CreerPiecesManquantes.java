@@ -1,8 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package service.GenerationLettres;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -12,73 +16,62 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import modele.dao.DossierDAO;
+import modele.entite.Adresse;
 import modele.entite.Dossier;
-import modele.entite.Formation;
 import modele.entite.Etudiant;
+import modele.entite.Formation;
 import modele.entite.Historique;
-
+import modele.entite.Justificatif;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-
-
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /**
- * 
+ *
  * @author Drapeau, Chasseloup, Giguère
- * @version 3
  */
-public class CreerLettreRefusService
-{
-    /**
+public class CreerPiecesManquantes {
+     /**
      * 
-     * @param filename - Nom du fichier modèle de la lettre de refus
-     * @param idDossier - Identifiant du dossier pour lequel la lettre de refus est créée
+     * @param filename - Nom du fichier modèle de demande des pièces manquantes.
+     * @param idDossier - Identifiant du dossier pour lequel l est créé
      * @throws InvalidFormatException
      * @throws IOException 
      */
-    public static void replaceLettreRefus(String filename, String idDossier)throws InvalidFormatException, IOException
+    public static void replacePiecesManquantes(String filename, Formation formation, String sexe, String nom, String prenom, String adresse, Adresse adresseEntite, List<Justificatif> justificatifsOk)throws InvalidFormatException, IOException
     {
-        Dossier dossier = new DossierDAO().getById(idDossier);
-        Etudiant etu = dossier.getEtudiant();
-        Formation Dossierformation = dossier.getDemandeFormation();
-        List<Historique> hist = dossier.getHistorique();
-
+        List<Justificatif> lesJustificatifs = formation.getLesJustificatifs();
 
         Date dateActuelle=new Date();
         DateFormat dateForm = new SimpleDateFormat("dd MMMM yyyy",Locale.FRANCE);
         String date = dateForm.format(dateActuelle);
-        String nom=etu.getNom();
-        String prenom=etu.getPrenom();
-        String adresse=etu.getAdressePostale();
-        String codePostal=etu.getAdresse().getCodePostal();
-        String ville=etu.getAdresse().getVille();
+        String codePostal=adresseEntite.getCodePostal();
+        String ville=adresseEntite.getVille();
         String civilite ="";
-        if(etu.getSexe().equals("Masculin"))
+        if(sexe.equals("Masculin"))
             civilite="Monsieur";
-        if(etu.getSexe().equals("Feminin"))
+        if(sexe.equals("Feminin"))
             civilite="Madame";
-        String dateCommission="";
-        for(Historique h : hist){
-            if(h.getAction().equals("Réunion commité"))
-                dateCommission = dateForm.format(h.getDate());
+
+        String intitule = formation.getIntitule();
+        
+        for(Justificatif just : justificatifsOk){
+            lesJustificatifs.remove(just);
         }
 
-        String formation=Dossierformation.getIntitule();
-
-        System.out.println(filename);
-
-        String newFileName=idDossier+" Lettre refus.docx";
+        String newFileName=nom+prenom+" Lettre piecesManquantes.docx";
 
         File file = new File("./lettres/models/"+filename);
-       // System.out.println(file.getAbsolutePath());
         FileInputStream fis = new FileInputStream(file.getAbsolutePath());
         XWPFDocument doc = new XWPFDocument(fis);
         doc.write(new FileOutputStream("./lettres/target/"+newFileName));
         doc.close();
-        
+
         doc = new XWPFDocument(OPCPackage.open("./lettres/target/"+newFileName));
 
         for (XWPFParagraph p : doc.getParagraphs())
@@ -99,7 +92,7 @@ public class CreerLettreRefusService
                 {
                       p.removeRun(i);
                 }
-                String text = sb.toString().replace("$formation", formation);
+                String text = sb.toString().replace("$formation", intitule);
                 XWPFRun run = p.getRuns().get(0);
                 run.setText(text, 0);
                 System.out.println("Changement de la formation effectue");
@@ -273,34 +266,22 @@ public class CreerLettreRefusService
                 System.out.println("Changement de la ville effectue");
             }
         }
-        for (XWPFParagraph p : doc.getParagraphs())
-        {
-            int numberOfRuns = p.getRuns().size();
-            StringBuilder sb = new StringBuilder();
-            for (XWPFRun r : p.getRuns())
-            {
-                int pos = r.getTextPosition();
-                if(r.getText(pos) != null)
-                {
-                    sb.append(r.getText(pos));
-                }
+        
+        XWPFTable table = doc.createTable(lesJustificatifs.size(),2);
+        table.setCellMargins(200, 250, 0, 250);
+        int i = 0;
+            for(XWPFTableRow r : table.getRows()){
+                XWPFTableCell cell = r.getCell(0);
+                cell.setText(lesJustificatifs.get(i).getTitre());
+                cell = r.getCell(1);
+                cell.setText(lesJustificatifs.get(i).getDescription());
+                i++;
             }
-            if(sb.length() > 0 && sb.toString().contains("$Commission"))
-            {
-                for(int i = numberOfRuns - 1; i > 0; i--)
-                {
-                      p.removeRun(i);
-                }
-                String text = sb.toString().replace("$Commission", dateCommission);
-                XWPFRun run = p.getRuns().get(0);
-                run.setText(text, 0);
-                System.out.println("Changement de la date de commission effectue");
-            }
-        }
+        
         doc.write(new FileOutputStream("./lettres/target/temp.docx"));
         new File("./lettres/target/temp.docx").delete();
         doc.close();
         //copyTempToFile(filename);
-        System.out.println("replaceLettreRefus DONE");
+        System.out.println("replaceLettrePiecesManquantes DONE");
     }
 }

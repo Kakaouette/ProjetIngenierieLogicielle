@@ -6,6 +6,7 @@
 package modele.entite;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -53,8 +54,6 @@ public class Justificatif implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
 
     public int getId() {
         return id;
@@ -87,4 +86,31 @@ public class Justificatif implements Serializable{
     public void setTypeNationalite(TypeJustificatifEtranger typeNationalite) {
         this.typeNationalite = typeNationalite;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.titre);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Justificatif other = (Justificatif) obj;
+        if (!Objects.equals(this.titre, other.titre)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
