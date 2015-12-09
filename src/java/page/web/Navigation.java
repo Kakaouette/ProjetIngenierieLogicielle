@@ -69,39 +69,12 @@ public class Navigation extends HttpServlet {
 
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
-            classeAction = new GererAuthentificationAction();
-        }/***Gestion comptes****/
-        else if (action.equals("voirModifierComptes")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new VoirModifierComptesAction();
-        }else if (action.equals("voirGestionComptes")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new VoirGestionUtilisateurAction();
-        }else if (action.equals("modifierUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new ModifierUtilisateurAction();
-        }else if (action.equals("voirAjoutCompte")) {
-            menuSelect = 1;
-            classeAction = new voirAjouterCompteAction();
-        }else if (action.equals("creerUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new AjouterCompteAction();
-        }else if (action.equals("supprimerUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new SupprimerUtilisateurAction();
-        }else if (action.equals("afficherInformationsDossiers")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new AfficherInformationsDossiersAction();
-        }else if (action.equals("modifierCompte")) {
-            menuSelect = 1;
-            classeAction = new ModifierCompteAction();
-        }/***Gestion formations****/
+            classeAction = null;
+        }
+        /***Gestion formations****/
         else if (action.equals("voirGestionFormation")) {
             menuSelect = 2;
             classeAction = new VoirGestionFormationsAction();
-        }else if (action.equals("voirAjoutFormation")) {
-            menuSelect = 2;
-            classeAction = new VoirAjoutFormationAction();
         }else if (action.equals("voirDatesInscription")) {
             menuSelect = 2;
             classeAction = new VoirDatesInscriptionAction();
@@ -112,10 +85,6 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("ajouterDossier")) {
             menuSelect = 3;
             classeAction = new AjoutDossierAction();
-        }else{
-            action = "index";
-            menuSelect = 0;
-            classeAction = new VoirIndexAction();
         }
 
         if (classeAction != null) {
