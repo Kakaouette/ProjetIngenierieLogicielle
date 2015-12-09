@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
-import modele.entite.TypeCompte;
 import page.action.*;
 
 /**
@@ -66,7 +65,6 @@ public class Navigation extends HttpServlet {
         Action classeAction = null;
         String vue = "";
         int menuSelect = 0;
-
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
@@ -92,21 +90,10 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("afficherInformationsDossiers")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new AfficherInformationsDossiersAction();
-        }else if (action.equals("modifierCompte")) {
-            menuSelect = 1;
-            classeAction = new ModifierCompteAction();
-        }/***Gestion formations****/
-        else if (action.equals("voirGestionFormation")) {
+        }else if (action.equals("voirGestionFormation")) {
             menuSelect = 2;
             classeAction = new VoirGestionFormationsAction();
-        }else if (action.equals("voirAjoutFormation")) {
-            menuSelect = 2;
-            classeAction = new VoirAjoutFormationAction();
-        }else if (action.equals("voirDatesInscription")) {
-            menuSelect = 2;
-            classeAction = new VoirDatesInscriptionAction();
-        }/***Gestion dossiers****/
-        else if (action.equals("voirValidationJustificatifsDossier")) {
+        }else if (action.equals("voirValidationJustificatifsDossier")) {
             menuSelect = 3;
             classeAction = new VoirValidationJustificatifsDossierAction();
         }else if (action.equals("voirAjoutDossier")) {

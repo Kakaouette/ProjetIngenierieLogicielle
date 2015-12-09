@@ -22,3 +22,209 @@ div.dataTables_wrapper {clear: both;}
 .table-hover > tbody > tr.purple:hover > th {
   background-color: #D083f1;
 }
+
+.table > thead > tr > td.pink,
+.table > tbody > tr > td.pink,
+.table > tfoot > tr > td.pink,
+.table > thead > tr > th.pink,
+.table > tbody > tr > th.pink,
+.table > tfoot > tr > th.pink,
+.table > thead > tr.pink > td,
+.table > tbody > tr.pink > td,
+.table > tfoot > tr.pink > td,
+.table > thead > tr.pink > th,
+.table > tbody > tr.pink > th,
+.table > tfoot > tr.pink > th {
+  background-color: #FA9090;
+}
+.table-hover > tbody > tr > td.pink:hover,
+.table-hover > tbody > tr > th.pink:hover,
+.table-hover > tbody > tr.pink:hover > td,
+.table-hover > tbody > tr:hover > .pink,
+.table-hover > tbody > tr.pink:hover > th {
+  background-color: #F87878;
+}
+
+.table > thead > tr > td.orange,
+.table > tbody > tr > td.orange,
+.table > tfoot > tr > td.orange,
+.table > thead > tr > th.orange,
+.table > tbody > tr > th.orange,
+.table > tfoot > tr > th.orange,
+.table > thead > tr.orange > td,
+.table > tbody > tr.orange > td,
+.table > tfoot > tr.orange > td,
+.table > thead > tr.orange > th,
+.table > tbody > tr.orange > th,
+.table > tfoot > tr.orange > th {
+  background-color: #FA8840;
+}
+.table-hover > tbody > tr > td.orange:hover,
+.table-hover > tbody > tr > th.orange:hover,
+.table-hover > tbody > tr.orange:hover > td,
+.table-hover > tbody > tr:hover > .orange,
+.table-hover > tbody > tr.orange:hover > th {
+  background-color: #FA7827;
+}
+
+.table > thead > tr > td.jaune,
+.table > tbody > tr > td.jaune,
+.table > tfoot > tr > td.jaune,
+.table > thead > tr > th.jaune,
+.table > tbody > tr > th.jaune,
+.table > tfoot > tr > th.jaune,
+.table > thead > tr.jaune > td,
+.table > tbody > tr.jaune > td,
+.table > tfoot > tr.jaune > td,
+.table > thead > tr.jaune > th,
+.table > tbody > tr.jaune > th,
+.table > tfoot > tr.jaune > th {
+  background-color: #FAC754;
+}
+.table-hover > tbody > tr > td.jaune:hover,
+.table-hover > tbody > tr > th.jaune:hover,
+.table-hover > tbody > tr.jaune:hover > td,
+.table-hover > tbody > tr:hover > .jaune,
+.table-hover > tbody > tr.jaune:hover > th {
+  background-color: #F8BF3B;
+}
+
+.table > thead > tr > td.bleu,
+.table > tbody > tr > td.bleu,
+.table > tfoot > tr > td.bleu,
+.table > thead > tr > th.bleu,
+.table > tbody > tr > th.bleu,
+.table > tfoot > tr > th.bleu,
+.table > thead > tr.bleu > td,
+.table > tbody > tr.bleu > td,
+.table > tfoot > tr.bleu > td,
+.table > thead > tr.bleu > th,
+.table > tbody > tr.bleu > th,
+.table > tfoot > tr.bleu > th {
+  background-color: #80ACE4;
+}
+.table-hover > tbody > tr > td.bleu:hover,
+.table-hover > tbody > tr > th.bleu:hover,
+.table-hover > tbody > tr.bleu:hover > td,
+.table-hover > tbody > tr:hover > .bleu,
+.table-hover > tbody > tr.bleu:hover > th {
+  background-color: #5691DB;
+}
+
+.table > thead > tr > td.cyan,
+.table > tbody > tr > td.cyan,
+.table > tfoot > tr > td.cyan,
+.table > thead > tr > th.cyan,
+.table > tbody > tr > th.cyan,
+.table > tfoot > tr > th.cyan,
+.table > thead > tr.cyan > td,
+.table > tbody > tr.cyan > td,
+.table > tfoot > tr.cyan > td,
+.table > thead > tr.cyan > th,
+.table > tbody > tr.cyan > th,
+.table > tfoot > tr.cyan > th {
+  background-color: #65CEFE;
+}
+.table-hover > tbody > tr > td.cyan:hover,
+.table-hover > tbody > tr > th.cyan:hover,
+.table-hover > tbody > tr.cyan:hover > td,
+.table-hover > tbody > tr:hover > .cyan,
+.table-hover > tbody > tr.cyan:hover > th {
+  background-color: #4CC5FE;
+}
+
+.table > thead > tr > td.vert,
+.table > tbody > tr > td.vert,
+.table > tfoot > tr > td.vert,
+.table > thead > tr > th.vert,
+.table > tbody > tr > th.vert,
+.table > tfoot > tr > th.vert,
+.table > thead > tr.vert > td,
+.table > tbody > tr.vert > td,
+.table > tfoot > tr.vert > td,
+.table > thead > tr.vert > th,
+.table > tbody > tr.vert > th,
+.table > tfoot > tr.vert > th {
+  background-color: #30D072;
+}
+.table-hover > tbody > tr > td.vert:hover,
+.table-hover > tbody > tr > th.vert:hover,
+.table-hover > tbody > tr.vert:hover > td,
+.table-hover > tbody > tr:hover > .vert,
+.table-hover > tbody > tr.vert:hover > th {
+  background-color: #2BBB66;
+}
+
+.table > thead > tr > td.gris,
+.table > tbody > tr > td.gris,
+.table > tfoot > tr > td.gris,
+.table > thead > tr > th.gris,
+.table > tbody > tr > th.gris,
+.table > tfoot > tr > th.gris,
+.table > thead > tr.gris > td,
+.table > tbody > tr.gris > td,
+.table > tfoot > tr.gris > td,
+.table > thead > tr.gris > th,
+.table > tbody > tr.gris > th,
+.table > tfoot > tr.gris > th {
+  background-color: #CCCCCC;
+}
+.table-hover > tbody > tr > td.gris:hover,
+.table-hover > tbody > tr > th.gris:hover,
+.table-hover > tbody > tr.gris:hover > td,
+.table-hover > tbody > tr:hover > .gris,
+.table-hover > tbody > tr.gris:hover > th {
+  background-color: #B2B2B2;
+}
+
+.table > thead > tr > td.rouge,
+.table > tbody > tr > td.rouge,
+.table > tfoot > tr > td.rouge,
+.table > thead > tr > th.rouge,
+.table > tbody > tr > th.rouge,
+.table > tfoot > tr > th.rouge,
+.table > thead > tr.rouge > td,
+.table > tbody > tr.rouge > td,
+.table > tfoot > tr.rouge > td,
+.table > thead > tr.rouge > th,
+.table > tbody > tr.rouge > th,
+.table > tfoot > tr.rouge > th {
+  background-color: #F6695C;
+}
+.table-hover > tbody > tr > td.rouge:hover,
+.table-hover > tbody > tr > th.rouge:hover,
+.table-hover > tbody > tr.rouge:hover > td,
+.table-hover > tbody > tr:hover > .rouge,
+.table-hover > tbody > tr.rouge:hover > th {
+  background-color: #F22613;
+}
+
+.table > thead > tr > td.jauneFonce,
+.table > tbody > tr > td.jauneFonce,
+.table > tfoot > tr > td.jauneFonce,
+.table > thead > tr > th.jauneFonce,
+.table > tbody > tr > th.jauneFonce,
+.table > tfoot > tr > th.jauneFonce,
+.table > thead > tr.jauneFonce > td,
+.table > tbody > tr.jauneFonce > td,
+.table > tfoot > tr.jauneFonce > td,
+.table > thead > tr.jauneFonce > th,
+.table > tbody > tr.jauneFonce > th,
+.table > tfoot > tr.jauneFonce > th {
+  background-color: #F5b043;
+}
+.table-hover > tbody > tr > td.jauneFonce:hover,
+.table-hover > tbody > tr > th.jauneFonce:hover,
+.table-hover > tbody > tr.jauneFonce:hover > td,
+.table-hover > tbody > tr:hover > .jauneFonce,
+.table-hover > tbody > tr.jauneFonce:hover > th {
+  background-color: #F39c12;
+}
+
+#navbar{
+    padding: 0px;
+}
+
+#ulnav{
+    width: 100%;
+}

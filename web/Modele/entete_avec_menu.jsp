@@ -64,11 +64,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand collapsed" href="Navigation?action=index">ULR</a>
                 </div>
                 <div class="container" id="menu">
-                    <div id="navbar" class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" style="height: 895px;">
-                        <ul class="nav navbar-nav">
+                    <div id="navbar" class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
+                        <ul id="ulnav" class="nav navbar-nav">
                             <li <%if (current.equals(0)) {%>class="active"<%}%>>
                                 <a href="Navigation?action=index">
                                     <span class="fa fa-home"></span> Accueil
@@ -77,7 +76,7 @@
                             <%if (c.getType() == TypeCompte.admin) {%>
                                 <li <%if (current.equals(1)) {%>class="active"<%}%> class="dropdown" >
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Gestion comptes <span class="caret"></span>
+                                        <span class="fa fa-users"></span> Comptes <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="Navigation?action=voirAjoutCompte"><i class="fa fa-plus"></i> Ajouter</a></li>
@@ -88,7 +87,7 @@
                             <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secrétaire_formation) {%>
                                 <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Gestion formations <span class="caret"></span>
+                                        <span class="fa fa-university"></span> Formations <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="Navigation?action=voirAjoutFormation"><i class="fa fa-plus"></i> Ajouter</a></li>
@@ -100,15 +99,15 @@
                             <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secrétaire_formation) {%>
                                 <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        Gestion dossiers <span class="caret"></span>
+                                        <span class="fa fa-folder-open"></span> Dossiers <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="Navigation?action=voirValidationJustificatifsDossier"><i class="fa fa-plus"></i> Ajouter</a></li>
-                                        <li><a href="Navigation?action=voirGestionDossier"><i class="fa fa-edit"></i> Modifier</a></li>
+                                        <li><a href="Navigation?action=afficherInformationsDossiers"><i class="fa fa-edit"></i> Modifier</a></li>
                                     </ul>
                                 </li>
                             <%}%>
-                            <li>
+                            <li class="pull-right">
                                 <a href=Navigation?action=gererAuthentification&session=deco>
                                     <i class="fa fa-power-off"></i> Déconnexion
                                 </a>

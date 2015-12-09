@@ -8,6 +8,19 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
+<% if((boolean) request.getAttribute("DossierUrgent") == true || (boolean) request.getAttribute("DossierPerdu") == true){ %>
+    <div class="alert alert-danger">
+        <% if((boolean) request.getAttribute("DossierUrgent") == true){ %>
+        Vous avez des dossiers en cours qui dépasseront la limite de temps dans moins de 7 jours !
+        <%}
+        if((boolean) request.getAttribute("DossierUrgent") == true || (boolean) request.getAttribute("DossierPerdu") == true){
+        out.print("<br/>");
+        }
+        if((boolean) request.getAttribute("DossierUrgent") == true){ %>
+        Vous avez des dossiers perdu !
+        <% } %>
+    </div>
+<%}%>
 
 <%@include file="Modele/dataTablesScript.jsp" %>
 <table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive text-center" width="100%">
@@ -16,7 +29,8 @@
             <th>Etat</th>
             <th>Numéro</th>
             <th>Type</th>
-            <th>Date</th>
+            <th>Créé le</th>
+            <th>Jours restant</th>
             <th>Formation demandé</th>
             <th>Nom de l'etudiant</th>
             <th>Prenom de l'etudiant</th>

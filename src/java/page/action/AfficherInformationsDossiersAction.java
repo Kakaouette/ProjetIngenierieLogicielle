@@ -8,12 +8,16 @@ package page.action;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
-import modele.entite.TypeDossier;
+import modele.entite.TypeEtatDossier;
+import service.DossierService;
 
 /**
  *
@@ -27,35 +31,71 @@ public class AfficherInformationsDossiersAction implements Action {
         List<Dossier> dossiers = new DossierDAO().SelectAll(); //recuperation des comptes pour la page suivante        
         List<Object[]> Tab = new ArrayList<Object[]>();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        
+        boolean DossierUrgent = false;
+        boolean DossierPerdu = false;
+        DossierService service = new DossierService();
+
         for (Dossier c : dossiers) {
-            Object[] o = new Object[8];
-            o[0] = c.getEtat();
+            Object[] o = new Object[9];
+            
+            String verifEtat = service.verifDossierPerdu(c);
+            
+            if(verifEtat.equals("Perdu")){
+                DossierPerdu = true;
+            }
+            
+            o[0] = service.verifDossierPerdu(c);
             o[1] = c.getId();
             o[2] = c.getAdmissible();
             o[3] = format.format(c.getDate());
-            o[4] = c.getDemandeFormation().getIntitule();
-            o[5] = c.getEtudiant().getNom();
-            o[6] = c.getEtudiant().getPrenom();
-            o[7] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=#\\\">Modifier</a>";
+            int tpsRestant = service.calculDeadlineDossier(c);
+
+            if (tpsRestant <= 7 && tpsRestant >= 0){
+                DossierUrgent = true;
+                o[0] = o[0] + " - Urgent";
+            }
+            
+            if (tpsRestant >= 0) { 
+                o[4] = tpsRestant;
+            }else{
+                o[4] = "";
+            }
+
+            o[5] = c.getDemandeFormation().getIntitule();
+            o[6] = c.getEtudiant().getNom();
+            o[7] = c.getEtudiant().getPrenom();
+            o[8] = "<a class=\\\"btn btn-info btn-block\\\" href=#><span class='fa fa-edit fa-2x'></span></a>";
             Tab.add(o);
         }
-        request.setAttribute("addScript", ""+
-                "\"createdRow\": function ( row, data, index ) {\n" +
-"                   if ( data[0] == 'Creer' ) {\n" +
-"                       $('td', row).eq(0).addClass('info');\n" +
-"            }else if ( data[0] == 'Terminée' ) {\n" +
-"                       $('td', row).eq(0).addClass('purple');\n" +
-"            }else if ( data[0] == 'Retour vers le secrétariat' ) {\n" +
-"                       $('td', row).eq(0).addClass('warning');\n" +
-"            }else if ( data[0] == 'Traitement par le secréatariat' ) {\n" +
-"                       $('td', row).eq(0).addClass('danger');\n" +
-"            }" +
-"        },\n");
+        request.setAttribute("addScript", ""
+                + "\"createdRow\": function ( row, data, index ) {\n"
+                + "            if (data[4] <= 7 && data[0] != 'Terminé') {\n"
+                + "                       $(row).addClass('rouge');\n"
+                + "            }else if ( data[0] == 'Perdu' ) {\n"
+                + "                       $(row).addClass('jauneFonce');\n"
+                + "            }else if ( data[0] == 'Créé' ) {\n"
+                + "                       $('td', row).eq(0).addClass('pink');\n"
+                + "            }else if ( data[0] == 'Transfert vers le secrétariat' ) {\n"
+                + "                       $('td', row).eq(0).addClass('orange');\n"
+                + "            }else if ( data[0] == 'Traitement par le secrétariat' ) {\n"
+                + "                       $('td', row).eq(0).addClass('jaune');\n"
+                + "            }else if ( data[0] == 'Attente de la commission' ) {\n"
+                + "                       $('td', row).eq(0).addClass('purple');\n"
+                + "            }else if ( data[0] == 'Transfert vers le directeur' ) {\n"
+                + "                       $('td', row).eq(0).addClass('bleu');\n"
+                + "            }else if ( data[0] == 'Retour vers le secrétariat' ) {\n"
+                + "                       $('td', row).eq(0).addClass('cyan');\n"
+                + "            }else if ( data[0] == 'Terminé' ) {\n"
+                + "                       $('td', row).eq(0).addClass('vert');\n"
+                + "            }else if ( data[0] == 'Navette' ) {\n"
+                + "                       $('td', row).eq(0).addClass('gris');\n"
+                + "            }"
+                + "        },\n");
         request.setAttribute("leTableau", Tab);
         request.setAttribute("sortL", 0);
         request.setAttribute("sortC", "asc");
+        request.setAttribute("DossierUrgent", DossierUrgent);
+        request.setAttribute("DossierPerdu", DossierPerdu);
         return "listeDossiers.jsp";
     }
-
 }
