@@ -34,13 +34,18 @@
     <select name="type" id="type" required>
         <option value="<%out.print(TypeCompte.directeur_pole.name()); %>"><%out.print(TypeCompte.directeur_pole.toString());%></option>
         <option value="<%out.print(TypeCompte.admin.name()); %>"><%out.print(TypeCompte.admin.toString());%></option>
+        <option value="<%out.print(TypeCompte.responsable_administrative.name()); %>"><%out.print(TypeCompte.responsable_administrative.toString());%></option>
+        <option value="<%out.print(TypeCompte.responsable_commission.name()); %>"><%out.print(TypeCompte.responsable_commission.toString());%></option>
+        <option value="<%out.print(TypeCompte.responsable_formation.name()); %>"><%out.print(TypeCompte.responsable_formation.toString());%></option>
+        <option value="<%out.print(TypeCompte.secrétaire_formation.name()); %>"><%out.print(TypeCompte.secrétaire_formation.toString());%></option>
+        <option value="<%out.print(TypeCompte.secrétaire_inscription.name()); %>"><%out.print(TypeCompte.secrétaire_inscription.toString());%></option>
     </select></p>
         
     <div id="formation">
         <p><label for="recherche">Rechercher</label>
             <input type="text" id="recherche"/></p>
             <p><label for="display">Afficher par</label>
-        <input type="number" id="display" value="4"/>
+        <input type="number" min="0" id="display" value="4"/>
         </p>
         <p><label for="formations">Formation(s)</label>
     <select name="formations" size="4" multiple>
