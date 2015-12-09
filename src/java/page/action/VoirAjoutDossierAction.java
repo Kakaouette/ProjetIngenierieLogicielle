@@ -30,9 +30,9 @@ public class VoirAjoutDossierAction implements Action{
         
         List<Formation> formations = null; 
         //recuperation des formations pour la page suivante celon le type de compte
-        if(compte.getType() == TypeCompte.admin || compte.getType() == TypeCompte.secretaire_general){
+        if(compte.getType() == TypeCompte.admin || compte.getType() == TypeCompte.responsable_administrative || compte.getType() == TypeCompte.directeur_pole){
             formations = new FormationDAO().SelectAll();
-        }else if(compte.getType() == TypeCompte.secretaire_formation){
+        }else if(compte.getType() == TypeCompte.secrétaire_formation){
             formations = compte.getFormationAssocie();
         }
         if(formations == null){
