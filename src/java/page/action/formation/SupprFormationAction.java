@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action;
+package page.action.formation;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
+import page.action.Action;
 import service.FormationService;
 import service.exception.SuppressionFormationInvalideException;
 import service.exception.SuppressionJustificatifInvalideException;

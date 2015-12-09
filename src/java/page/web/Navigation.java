@@ -12,9 +12,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.entite.Compte;
-import modele.entite.TypeCompte;
-import page.action.*;
+import page.action.Action;
+import page.action.accueil.*;
+import page.action.compte.*;
+import page.action.dossier.*;
+import page.action.formation.*;
 
 /**
  *
@@ -59,8 +61,6 @@ public class Navigation extends HttpServlet {
         if (action == null) {
             action = "index";
         }
-        
-        Compte compteActif = (Compte) request.getSession().getAttribute("compte");
         
         //init de l'interface
         Action classeAction = null;

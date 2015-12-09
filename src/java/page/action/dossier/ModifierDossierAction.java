@@ -1,4 +1,4 @@
-package page.action;
+package page.action.dossier;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,6 +20,7 @@ import modele.entite.Dossier;
 import modele.entite.Historique;
 import modele.entite.TypeDossier;
 import modele.entite.TypeEtatDossier;
+import page.action.Action;
 import service.DossierService;
 
 /**

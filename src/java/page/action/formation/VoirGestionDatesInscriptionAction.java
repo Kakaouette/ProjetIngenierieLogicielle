@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action;
+package page.action.formation;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ import modele.dao.FormationDAO;
 import modele.entite.Compte;
 import modele.entite.Formation;
 import modele.entite.TypeCompte;
+import page.action.Action;
 
 /**
  *

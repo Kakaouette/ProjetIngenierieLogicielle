@@ -3,21 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action;
+package page.action.formation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import page.action.Action;
 
 /**
  *
  * @author Arthur
  */
-public class VoirDatesInscriptionAction implements Action{
+public class VoirAjoutFormationAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Gestion des dates d'inscription");
-        return "datesInscription.jsp";
+        request.setAttribute("titre", "Ajouter une formation");
+        
+        return "ajoutFormation.jsp";
     }
     
 }

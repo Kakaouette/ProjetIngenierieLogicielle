@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action;
+package page.action.formation;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -13,25 +13,28 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.FormationDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
-import service.exception.AjoutFormationInvalideException;
+import page.action.Action;
 import service.FormationService;
-import service.exception.AjoutJustificatifInvalideException;
+import service.exception.ModificationFormationInvalideException;
+import service.exception.SuppressionJustificatifInvalideException;
 
 /**
  *
  * @author Arthur
  */
-public class AjoutFormationAction implements Action{
+public class ModifFormationAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Action actionPageSuivante = null;
         
         //recuperation du formulaire
+        String idForm = request.getParameter("id");
         String intitule = request.getParameter("intitule");
         String description = request.getParameter("description");
         String nbPlaceForm = request.getParameter("nbPlace");
@@ -43,8 +46,8 @@ public class AjoutFormationAction implements Action{
         String[] justificatifsAdmissionEtrangerForm = request.getParameterValues("justificatifsAdmissionEtranger");
         
         //verification de la validité du formulaire
-        String[] required = {intitule, nbPlaceForm};
-        String[] requiredName = {"intitulé", "nombre de place"};
+        String[] required = {idForm, intitule, nbPlaceForm};
+        String[] requiredName = {"id de la formation", "intitulé", "nombre de place"};
         try {
             validerFormulaire(required, requiredName);
         } catch (Exception ex) {
@@ -90,33 +93,43 @@ public class AjoutFormationAction implements Action{
             }
         }
         
+        //recuperation de la formation
+        int id = Integer.parseInt(idForm);
+        Formation formationModifiee = new FormationDAO().getById(id);
+        //verif id correct
+        if(formationModifiee == null){
+            request.setAttribute("typeMessage", "danger");
+            request.setAttribute("message", "Formation " + id + " inexistante.");
+        }else if(formationModifiee.getId() != id){
+            request.setAttribute("typeMessage", "info");
+            request.setAttribute("message", "Bien tenté");
+        }
         //formation de la formation
-        Formation nouvelleFormation = new Formation(description, nbPlace, dateDebut, dateFin, intitule, justificatifs);
+        formationModifiee.setIntitule(intitule);
+        formationModifiee.setDescription(description);
+        formationModifiee.setNombrePlace(nbPlace);
+        formationModifiee.setDebut(dateDebut);
+        formationModifiee.setFin(dateFin);
+        formationModifiee.setLesJustificatifs(justificatifs);
         
-        //demande de creation de la formation
+        //demande de modification de la formation
         try{
-            new FormationService().ajouterFormation(nouvelleFormation);
+            new FormationService().modifierFormation(formationModifiee);
             request.setAttribute("typeMessage", "success");
-            request.setAttribute("message", "Formation ajouté.");
-            
-            //redirection
-            if(request.getParameter("bouton").equals("enregistrer")){
-                actionPageSuivante = new VoirGestionFormationsAction(); //(String) request.getAttribute("pageRetour");
-            }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-                actionPageSuivante = new VoirAjoutFormationAction();
-            }
-        }catch(AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException e){
+            request.setAttribute("message", "Formation modifié.");
+            actionPageSuivante = new VoirGestionFormationsAction(); //redirection
+        }catch(ModificationFormationInvalideException | SuppressionJustificatifInvalideException | IOException e){
             //set msg d'erreur
             request.setAttribute("typeMessage", "danger");
-            request.setAttribute("message", "La formation n'a pas été ajouté: " + e.getMessage());
+            request.setAttribute("message", "La formation n'a pas été modifié: " + e.getMessage());
             //modif requete celon le type d'erreur
-            if(e instanceof AjoutFormationInvalideException){
-                if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Formation_Existante.toString())){
+            if(e instanceof ModificationFormationInvalideException){
+                if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Intitule_Vide.toString())){
                     request.setAttribute("focus", "intitule");
-                }else if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Intitule_Vide.toString())){
-                    request.setAttribute("focus", "intitule");
-                }else if(e.getCause().getMessage().equals(AjoutFormationInvalideException.cause.Date_Incohérentes.toString())){
+                }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Date_Incohérentes.toString())){
                     request.setAttribute("focus", "dateDebut");
+                }else if(e.getCause().getMessage().equals(ModificationFormationInvalideException.cause.Inscriptions_En_Cours.toString())){
+                    request.setAttribute("typeMessage", "warning");
                 }
             }else if(e instanceof IOException){ //exception bdd
                 request.setAttribute("message", "La formation n'a pas été ajouté.");
@@ -136,6 +149,7 @@ public class AjoutFormationAction implements Action{
      */
     private String stayHere(HttpServletRequest request, HttpServletResponse response){
         //keep formulaire
+        request.setAttribute("id", request.getParameter("id"));
         request.setAttribute("intitule", request.getParameter("intitule"));
         request.setAttribute("description", request.getParameter("description"));
         request.setAttribute("nbPlace", request.getParameter("nbPlace"));
@@ -145,7 +159,7 @@ public class AjoutFormationAction implements Action{
         request.setAttribute("justificatifsAdmissionFrancais", request.getParameterValues("justificatifsAdmissionFrancais"));
         request.setAttribute("justificatifsInscriptionEtranger", request.getParameterValues("justificatifsInscriptionEtranger"));
         request.setAttribute("justificatifsAdmissionEtranger", request.getParameterValues("justificatifsAdmissionEtranger"));
-        return new VoirAjoutFormationAction().execute(request, response); //modif: voir récupérer page precedente
+        return new VoirModifFormationAction().execute(request, response); //modif: voir récupérer page precedente
     }
     
     private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
@@ -153,7 +167,7 @@ public class AjoutFormationAction implements Action{
         //verification de la validité du formulaire
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){
-            if(required[i].isEmpty()){
+            if(required[i].equals("null")){
                 empty.add(requiredName[i]);
             }
         }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action;
+package page.action.compte;
 
 import java.util.List;
 import javax.mail.internet.AddressException;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.CompteDAO;
 import modele.entite.Compte;
+import page.action.Action;
 import service.CompteService;
 
 /**

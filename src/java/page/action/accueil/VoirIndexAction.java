@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action;
+package page.action.accueil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
 import modele.entite.TypeCompte;
+import page.action.Action;
+import page.action.dossier.AfficherInformationsDossiersAction;
 
 /**
  *

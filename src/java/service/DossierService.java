@@ -23,7 +23,7 @@ import modele.dao.FormationDAO;
 import modele.entite.Dossier;
 import modele.entite.Historique;
 import modele.entite.TypeEtatDossier;
-import page.action.AfficherInformationsDossiersAction;
+import page.action.dossier.AfficherInformationsDossiersAction;
 import service.exception.AjoutAdresseInvalideException;
 import service.exception.AjoutEtudiantInvalideException;
 import service.exception.AjoutHistoriqueInvalideException;

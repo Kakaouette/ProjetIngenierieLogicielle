@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action;
+package page.action.dossier;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +24,8 @@ import modele.entite.Historique;
 import modele.entite.TypeDossier;
 import modele.entite.TypeEtatDossier;
 import modele.entite.TypeJustificatifEtranger;
+import page.action.Action;
+import page.action.formation.VoirGestionFormationsAction;
 import service.exception.AjoutDossierInvalideException;
 import service.DossierService;
 import service.exception.AjoutAdresseInvalideException;
