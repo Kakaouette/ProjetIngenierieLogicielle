@@ -1,4 +1,4 @@
-package page.action.Docx;
+package service.GenerationLettres;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,38 +13,39 @@ import java.util.List;
 import java.util.Locale;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
-import modele.entite.Formation;
 import modele.entite.Etudiant;
+import modele.entite.Formation;
 import modele.entite.Historique;
+import modele.entite.Justificatif;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 
 
 /**
  * 
- * A LIRE :
- * Ce que j'ai fait ici est le résultat de mon programme de test que j'ai pu faire.
- * Ce qu'il reste a faire:
- *  - Changer les champs a remplacer dans les lettres par des "$NomDeLaVariable"
- *  - Créer une fonction correspondant au "scénario" de remplacement d'un document
- *      (et non créer une fonction par variable comme je l'ai fait) pour ne lire qu'une seule fois
- *      le document et tout remplacer dès qu'il rencontre tel ou tel variable (s'inspirer d'une de mes
- *      fonctions en mettant plusieurs if correspondant a chacunes des variables)
- *  - Transformer tout cela en action avec comme appel des fonction les éléments de la BD
- * 
+ * @author Drapeau, Chasseloup, Giguère
+ * @version 3
  */
-public class DocReaderLettreRefus
+public class CreerLettreAccepteService
 {
-
-        
-        public static String replaceLettreRefus(String filename, String idDossier)throws InvalidFormatException, IOException
+        /**
+         * 
+         * @param filename - Nom du fichier modèle de la lettre d'acceptation.
+         * @param idDossier - Identifiant du dossier pour lequel la lettre d'acceptation est créé
+         * @throws InvalidFormatException
+         * @throws IOException 
+         */
+        public static void replaceLettreAccepte(String filename, String idDossier)throws InvalidFormatException, IOException
         {
-            Dossier dossier = new DossierDAO().getById(idDossier);
+           Dossier dossier = new DossierDAO().getById(idDossier);
             Etudiant etu = dossier.getEtudiant();
             Formation Dossierformation = dossier.getDemandeFormation();
             List<Historique> hist = dossier.getHistorique();
@@ -70,10 +71,13 @@ public class DocReaderLettreRefus
             }
            
             String formation=Dossierformation.getIntitule();
+            String debutInscriptions = dateForm.format(Dossierformation.getDebut());
+            String finInscriptions = dateForm.format(Dossierformation.getFin());
+            List<Justificatif> lesJust = Dossierformation.getLesJustificatifs();
             
             System.out.println(filename);
             
-            String newFileName=idDossier+" Lettre refus.docx";
+            String newFileName=idDossier+" Lettre accepte.docx";
             
             File file = new File("./lettres/models/"+filename);
             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
@@ -296,14 +300,71 @@ public class DocReaderLettreRefus
                     String text = sb.toString().replace("$Commission", dateCommission);
                     XWPFRun run = p.getRuns().get(0);
                     run.setText(text, 0);
-                    System.out.println("Changement de la date de commission effectue");
+                    System.out.println("Changement du type de la formation effectue");
                 }
             }
-            doc.write(new FileOutputStream("./lettres/target/temp.docx"));
-            new File("./lettres/target/temp.docx").delete();
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$finInscriptions"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$finInscriptions", finInscriptions);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement de la fin des inscriptions effectue");
+                }
+            }
+            for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("debutInscriptions"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$debutInscriptions", debutInscriptions);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement de la date de début d'inscription effectué");
+                }
+            }
+            XWPFTable table = doc.createTable(lesJust.size(),2);
+            table.setCellMargins(200, 250, 0, 250);
+            int i = 0;
+            for(XWPFTableRow r : table.getRows()){
+                XWPFTableCell cell = r.getCell(0);
+                cell.setText(lesJust.get(i).getTitre());
+                cell = r.getCell(1);
+                cell.setText(lesJust.get(i).getDescription());
+                i++;
+            }
+            
+            doc.write(new FileOutputStream(new File(newFileName)));
             doc.close();
-            //copyTempToFile(filename);
-            System.out.println("replaceLettreRefus DONE");
-            return newFileName;
+
+            System.out.println("replaceAccuseAccepte DONE");
         }
 }
