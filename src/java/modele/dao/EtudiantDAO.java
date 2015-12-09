@@ -37,6 +37,16 @@ public class EtudiantDAO extends Dao {
         return unEtudiant;
     }
     
+    public Etudiant getEtudiantByINE(String ine){
+        try {
+            q = em.createQuery("SELECT E FROM Etudiant E WHERE E.ine = :INE");
+            q.setParameter("INE", ine);
+            return (Etudiant) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
     public Etudiant getEtudiantByNomPrenom(String nom, String prenom){
         try {
             q = em.createQuery("SELECT E FROM Etudiant E WHERE E.nom = :NOM AND E.prenom = :PRENOM");

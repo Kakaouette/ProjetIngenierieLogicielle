@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
+import modele.entite.TypeCompte;
 import page.action.*;
 
 /**
@@ -65,6 +66,7 @@ public class Navigation extends HttpServlet {
         Action classeAction = null;
         String vue = "";
         int menuSelect = 0;
+        
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
             classeAction = new GererAuthentificationAction();
@@ -108,6 +110,20 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modifierDossier")) {
             menuSelect = 0;
             classeAction = new ModifierDossierAction();
+        }/***Gestion formations****/
+        else if (action.equals("voirGestionFormation")) {
+            menuSelect = 2;
+            classeAction = new VoirGestionFormationsAction();
+        }else if (action.equals("voirDatesInscription")) {
+            menuSelect = 2;
+            classeAction = new VoirDatesInscriptionAction();
+        }/***Gestion dossiers****/
+        else if (action.equals("voirAjoutDossier")) {
+            menuSelect = 3;
+            classeAction = new VoirAjoutDossierAction();   
+        }else if (action.equals("ajouterDossier")) {
+            menuSelect = 3;
+            classeAction = new AjoutDossierAction();
         }else{
             action = "index";
             menuSelect = 0;

@@ -31,6 +31,9 @@ public class EtudiantService {
         if(etudiant.getIne() == null | etudiant.getNom() == null || etudiant.getPrenom() == null || etudiant.getSexe()== null || etudiant.getAdresse() == null || etudiant.getAdressePostale() == null){ //verif champs requis remplis
             throw new AjoutEtudiantInvalideException("Informations sur l'étudiant incomplétes.", new Throwable(AjoutEtudiantInvalideException.cause.Etudiant_Incomplet.toString()));
         }
+        if(etudiantDAO.getEtudiantByINE(etudiant.getIne()) != null){ //verif id non utilisé
+            throw new AjoutEtudiantInvalideException("L'étudiant existe déja.", new Throwable(AjoutEtudiantInvalideException.cause.Etudiant_Existant.toString()));
+        }
         
         etudiantDAO.save(etudiant);
     }    
