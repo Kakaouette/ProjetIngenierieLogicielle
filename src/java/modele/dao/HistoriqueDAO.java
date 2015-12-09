@@ -80,7 +80,7 @@ public class HistoriqueDAO extends Dao {
         Dossier d = dossierDAO.getByHistorique(unHistorique);
         if (d != null) {
             if (d.getHistorique() != null) {
-                if (d.getHistorique().contains(d)) {
+                if (d.getHistorique().contains(unHistorique)) {
                     d.getHistorique().remove(unHistorique);
                     dossierDAO.update(d);
                 }

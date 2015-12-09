@@ -70,6 +70,18 @@ public class DossierService {
         }
         return newID;
     }
+    
+    public Dossier recupererDossier(String idDossier)
+    {
+        return this.dossierDAO.getById(idDossier);
+    }
+    
+    /** 
+     * @param dossierorigin dossier modifier à enregistrer dans la base
+     */
+    public void modifierDossier(Dossier dossierorigin){
+        dossierDAO.update(dossierorigin);
+    }
 
     /**
      * @param dossier à ajouter
