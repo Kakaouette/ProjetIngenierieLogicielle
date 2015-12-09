@@ -5,22 +5,11 @@ package page.action;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.dao.Dao;
 import modele.dao.DossierDAO;
-import modele.entite.Adresse;
-import modele.entite.Compte;
 import modele.entite.Dossier;
-import modele.entite.Etudiant;
-import modele.entite.Formation;
-import modele.entite.Historique;
-import modele.entite.TypeCompte;
 import service.DossierService;
 
 /**

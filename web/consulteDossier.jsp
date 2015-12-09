@@ -10,25 +10,11 @@
 <%@page import="modele.entite.TypeDossier"%>
 <%@page import="modele.entite.Dossier"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="Modele/entete_sans_menu.jsp" %>
+<%@include file="Modele/entete_avec_menu.jsp" %>
 <%
             Dossier d = (Dossier) request.getAttribute("dossier");
         %>
-<form action="<%out.print("Navigation?action=modifierDossier&idDossier="+d.getId());%>" method="POST" class="form-horizontal">
-    <!--<div class="form-group">
-        <label for="type" class="col-sm-2 control-label">Type</label>
-        <div class="col-sm-3">-->
-            <!-- A faire : positionner le type actuel en selection par défaut -->
-            <!--<select name="type" id="type" class="form-control">
-                <option>admin</option>
-                <option>directeur_pole</option>
-                <option>secretaire_general</option>
-                <option>secretaire_formation</option>
-                <option>commission</option>
-            </select>
-        </div>
-    </div>-->
-        
+<form action="<%out.print("Navigation?action=modifierDossier&idDossier="+d.getId());%>" method="POST" class="form-horizontal">        
         
     <fieldset>
         <legend>Informations postulant</legend>

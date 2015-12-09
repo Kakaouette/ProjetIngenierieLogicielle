@@ -8,15 +8,11 @@ package page.action;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
-import modele.entite.TypeEtatDossier;
 import service.DossierService;
 
 /**
@@ -64,7 +60,7 @@ public class AfficherInformationsDossiersAction implements Action {
             o[5] = c.getDemandeFormation().getIntitule();
             o[6] = c.getEtudiant().getNom();
             o[7] = c.getEtudiant().getPrenom();
-            o[8] = "<a class=\\\"btn btn-info btn-block\\\" href='/Navigation'><span class='fa fa-edit fa-2x'></span></a>";
+            o[8] = "<a class=\\\"btn btn-info btn-block\\\" href='Navigation?action=consulterDossier&idDossier=" + c.getId() + "'><span class='fa fa-edit fa-2x'></span></a>";
             Tab.add(o);
         }
         request.setAttribute("addScript", ""
