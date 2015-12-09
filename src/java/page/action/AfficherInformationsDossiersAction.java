@@ -37,7 +37,7 @@ public class AfficherInformationsDossiersAction implements Action {
             o[4] = c.getDemandeFormation().getIntitule();
             o[5] = c.getEtudiant().getNom();
             o[6] = c.getEtudiant().getPrenom();
-            o[7] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=#\\\">Modifier</a>";
+            o[7] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=consulterDossier&idDossier=" + c.getId() + "\\\">Modifier</a>";
             Tab.add(o);
         }
         request.setAttribute("addScript", ""+

@@ -15,6 +15,8 @@ import modele.dao.Dao;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import modele.entite.Historique;
+import modele.entite.TypeDossier;
+import modele.entite.TypeEtatDossier;
 
 /**
  *
@@ -58,28 +60,10 @@ public class DossierService {
         return this.dossierDAO.getById(idDossier);
     }
     
-    /**
-     * 
-     * @param dossierorigin 
-     * @param admDossier 
-     * @param etatDossier 
-     * @param dateDossier 
-     * @param dateHisto 
-     * @param messageHisto 
-     * @param lettreDossier 
+    /** 
+     * @param dossierorigin dossier modifier à enregistrer dans la base
      */
-    public void modifierDossier(Dossier dossierorigin, boolean admDossier, String etatDossier, String dateDossier, String lettreDossier, String messageHisto, String dateHisto){
-        dossierorigin.setAdmissible(admDossier);
-        dossierorigin.setEtat(etatDossier);
-        dossierorigin.setDate(new Date(dateDossier));
-        dossierorigin.setLettre(lettreDossier);
-        Historique histo=new Historique();
-        histo.setMessage(messageHisto);
-        histo.setDate(new Date(dateHisto));
-        //ajout du nouvel historique dans le dossier
-        List<Historique> histodossier=dossierorigin.getHistorique();
-        histodossier.add(histo);
-        dossierorigin.setHistorique(histodossier);
+    public void modifierDossier(Dossier dossierorigin){
         dossierDAO.update(dossierorigin);
     }
 }

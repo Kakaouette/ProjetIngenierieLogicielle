@@ -7,6 +7,7 @@ package modele.entite;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
@@ -128,4 +129,24 @@ public class Compte implements Serializable {
     public void setFormationAssocie(List<Formation> formationAssocie) {
         this.formationAssocie = formationAssocie;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Compte other = (Compte) obj;
+        if (!Objects.equals(this.mail, other.mail)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
+    
 }

@@ -4,6 +4,10 @@
     Author     : phanjoseph
 --%>
 
+<%@page import="modele.entite.TypeEtatDossier"%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="modele.entite.TypeDossier"%>
 <%@page import="modele.entite.Dossier"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_sans_menu.jsp" %>
@@ -87,19 +91,22 @@
     <fieldset>
         <legend>Informations dossier</legend>
     <div class="form-group">
-        <label for="login" class="col-sm-2 control-label">Crée le </label>
+        <label for="login" class="col-sm-2 control-label">Créé le </label>
         <div class="col-sm-3">
-            <input type="text" name="date" id="login" class="form-control" value="<%out.print(d.getDate().getDay()+"/"+d.getDate().getMonth()+"/"+d.getDate().getYear());%>" required readonly>
+            <input type="text" name="date" id="login" class="form-control" value="<%SimpleDateFormat formater = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE); out.print(formater.format(d.getDate()));%>" required readonly>
         </div>
     </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">État du dossier </label>
         <div class="col-sm-3"> 
-            <select id="disabledSelect" class="form-control">
-                <option>Disabled select</option>
-                <option>Disabled select</option>
-                <option>Disabled select</option>
+            <select name="etat" class="form-control">
+                <%for(TypeEtatDossier etat : TypeEtatDossier.values())
+                {%>
+                <option value="<% out.print(etat.name());%>" <% if(d.getEtat() == etat){%> selected="true" <%}%>><%out.print(etat.toString());%></option>
+                <%}%>
+            
+                
             </select>
         </div>
     </div>
@@ -107,15 +114,15 @@
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Type </label>
         <div class="col-sm-3">
-            <label><input type="radio" name="admissibilite" value="true" <%if(d.isAdmissible()){%>checked<%};%>> Inscription</label>
-            <label><input type="radio" name="admissibilite" value="false" <%if(!d.isAdmissible()){%>checked<%};%>> Admission</label>
+            <label><input type="radio" name="admissibilite" value="<% TypeDossier.inscription.name(); %>" <%if(d.getAdmissible() == TypeDossier.inscription){%>checked<%};%> disabled> Inscription</label>
+            <label><input type="radio" name="admissibilite" value="<% TypeDossier.admissibilite.name(); %>" <%if(d.getAdmissible() == TypeDossier.admissibilite){%>checked<%};%> disabled> Admission</label>
         </div>
     </div>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Notes </label>
         <div class="col-sm-3">
-            <textarea rows="4" cols="50" name="msg_histo"></textarea>
+            <textarea rows="4" cols="50" name="msg_histo" maxlength="255"></textarea>
         </div>
     </div>
         
@@ -128,6 +135,7 @@
                       <td>Nom</td>
                       <td>Date</td> 
                       <td>Modification</td>
+                      <td>Action</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -145,9 +153,10 @@
                 {
                     int size = d.getHistorique().size();
                     String nom = d.getHistorique().get(size-i).getCompte().getNom();
-                    String date = String.valueOf(d.getHistorique().get(size-i).getDate());
+                    String date = formater.format(d.getHistorique().get(size-i).getDate());
                     String modification = d.getHistorique().get(size-i).getMessage();
-                    out.print("<tr><td>" + nom + "</td><td>"+ date +"</td><td>"+ modification+"</td></tr>");
+                    String action = d.getHistorique().get(size-i).getAction();
+                    out.print("<tr><td>" + nom + "</td><td>"+ date +"</td><td>"+ modification+"</td><td>"+action+"</td></tr>");
                 }
             }
             else
@@ -181,7 +190,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-danger" href="Navigation?action=afficherInformationsUtilisateur">Supprimer</a>
+            <a class="btn btn-danger" href="Navigation?action=#">Supprimer</a>
         </div>
         <div class="col-md-2 col-md-offset-1">
             <!--[if IE]>
@@ -189,13 +198,20 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-default" href="Navigation?action=afficherInformationsUtilisateur">Annuler</a>
+            <a class="btn btn-default" href="Navigation?action=afficherInformationsDossiers">Annuler</a>
         </div>
     </div>
 </form>
 
-<% if(request.getAttribute("message") != null){ %>
+<% if(request.getAttribute("messageError") != null){ %>
+<br>
     <div class="alert alert-danger">
+        <%out.print(request.getAttribute("messageError"));%>
+    </div>
+<%}%>
+<% if(request.getAttribute("message") != null){ %>
+<br>
+    <div class="alert alert-success">
         <%out.print(request.getAttribute("message"));%>
     </div>
 <%}%>

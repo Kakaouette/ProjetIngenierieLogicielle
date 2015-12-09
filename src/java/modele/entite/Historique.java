@@ -104,9 +104,6 @@ public class Historique implements Serializable{
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
         if (obj == null) {
             return false;
         }
@@ -114,9 +111,25 @@ public class Historique implements Serializable{
             return false;
         }
         final Historique other = (Historique) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        if (!Objects.equals(this.message, other.message)) {
+            return false;
+        }
+        if (!Objects.equals(this.action, other.action)) {
+            return false;
+        }
+        if (!Objects.equals(this.compte, other.compte)) {
             return false;
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Historique{" + "id=" + id + ", date=" + date + ", message=" + message + ", action=" + action + ", compte=" + compte + '}';
+    }
+    
+    
 }

@@ -9,6 +9,8 @@ import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Dossier;
+import modele.entite.Etudiant;
+import modele.entite.Formation;
 import modele.entite.Historique;
 
 /**
