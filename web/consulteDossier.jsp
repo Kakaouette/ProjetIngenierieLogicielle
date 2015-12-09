@@ -110,7 +110,9 @@
             </select>
         </div>
     </div>
+    </fieldset>
        
+    
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Type </label>
         <div class="col-sm-3">
@@ -118,6 +120,36 @@
             <label><input type="radio" name="admissibilite" value="<% TypeDossier.admissibilite.name(); %>" <%if(d.getAdmissible() == TypeDossier.admissibilite){%>checked<%};%> disabled> Admission</label>
         </div>
     </div>
+        
+    <fieldset>
+        <legend>Avis sur dossier</legend>
+        <div class="form-group">
+            <label class="radio-inline">
+                <input type="radio" name="optradio" value="favorable">Favorable
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" value="defavorable">Défavorable
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" value="enAttente">En attente
+            </label>
+        </div>
+    </fieldset>
+        
+    <fieldset>
+        <legend>Statuer sur dossier</legend>
+        <div class="form-group">
+            <label class="radio-inline">
+                <input type="radio" name="optradio" value="accepter">Accepter
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" value="refuser">Refuser
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" value="enAttente">En attente
+            </label>
+        </div>
+    </fieldset>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Notes </label>
@@ -168,7 +200,7 @@
             </table>
         </div>
     </div>
-    </fieldset>
+    
             
             
             
