@@ -85,18 +85,18 @@ public class GestULRPeuplement {
         Historique hist3 = new HistoriqueDAO().getHistoriqueByMessage("Autre");
         
         // Création des justificatifs
-        Justificatif j1 = new Justificatif("Photocopie de la carte d'identitée", TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
-        Justificatif j2 = new Justificatif("Photocopie de la carte de séjour", TypeDossier.admissibilite, TypeJustificatifEtranger.etranger);
-        Justificatif j3 = new Justificatif("Entretien oral", TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
+        Justificatif j1 = new Justificatif("Carte d'identité","Photocopie de la carte d'identitée", TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
+        Justificatif j2 = new Justificatif("Sécurité sociale","Copie de la carte d'immatriculation à la sécurité sociale de l'étudiant + RIB de l'étudiant", TypeDossier.admissibilite, TypeJustificatifEtranger.etranger);
+        Justificatif j3 = new Justificatif("Provenant d'une autre université","Attestation de demande de transfert (à demander auprès du service de la scolarité de votre précédente université)", TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
         
         new JustificatifDAO().save(j1);
         new JustificatifDAO().save(j2);
         new JustificatifDAO().save(j3);
         
         //Utilisation des justificatifs
-        Justificatif just1 = new JustificatifDAO().getJustificatifbyTitre("Photocopie de la carte d'identitée");
-        Justificatif just2 = new JustificatifDAO().getJustificatifbyTitre("Photocopie de la carte de séjour");
-        Justificatif just3 = new JustificatifDAO().getJustificatifbyTitre("Entretien oral");
+        Justificatif just1 = new JustificatifDAO().getJustificatifbyTitre("Carte d'identité");
+        Justificatif just2 = new JustificatifDAO().getJustificatifbyTitre("Sécurité sociale");
+        Justificatif just3 = new JustificatifDAO().getJustificatifbyTitre("Provenant d'une autre université");
 
         
         List<Justificatif> justListe1 = new ArrayList<Justificatif>();
