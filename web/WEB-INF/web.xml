@@ -32,12 +32,12 @@
         <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
         <init-param>
             <param-name>casServerLoginUrl</param-name>
-            <param-value>https://localhost/cas/login</param-value>
+            <param-value>https://www.example.com/cas/login</param-value>
         </init-param>
         <init-param>
             <param-name>service</param-name>
             <!-- Ne pas oublier le "/" en fin d'url -->
-            <param-value>https://localhost:8443/gestULR/Navigation</param-value>
+            <param-value>https://localhostpc/gestULR/Navigation/</param-value>
         </init-param>
     </filter>
     
@@ -46,11 +46,11 @@
         <filter-class>org.jasig.cas.client.validation.Cas10TicketValidationFilter</filter-class>
         <init-param>
             <param-name>casServerUrlPrefix</param-name>
-            <param-value>https://localhost/cas</param-value>
+            <param-value>https://www.example.com/cas</param-value>
         </init-param>
         <init-param>
             <param-name>serverName</param-name>
-            <param-value>https://localhost</param-value>
+            <param-value>https://www.example.com</param-value>
         </init-param>
     </filter>
     
