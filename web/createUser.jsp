@@ -56,7 +56,8 @@
                 %><option value="<%out.print(f.getId());%>"><%out.print(f.getIntitule());%></option><%
             }
         %>
-    </select></p></div>
+    </select></p>
+    <p><strong>Important</strong> : Pour sélectionner plusieurs formations, maintenir appuyé la touche <b>Ctrl</b> et cliquer sur les formations.</p></div>
     </div>
     <!--[if IE]>
     <input type="hidden" name="action" value="creerUtilisateur" />

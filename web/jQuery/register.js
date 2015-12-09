@@ -8,6 +8,10 @@ $(document).ready(function(){
     
     $("#formation").hide();
     $("#display").attr("max",$("#formation option").length);
+    $("#formation select>option:first-child").attr("selected",true);
+    $("#formation select>option:nth-child(n+2)").each(function(){
+       $(this).attr("selected",false); 
+    });
     
     $("#display").change(function(){
         $("#formation select").attr("size",$(this).val());
