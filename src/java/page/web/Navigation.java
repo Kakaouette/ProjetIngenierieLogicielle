@@ -69,30 +69,7 @@ public class Navigation extends HttpServlet {
 
         if (action.equals("gererAuthentification")) {
             menuSelect = 0;
-            classeAction = new GererAuthentificationAction();
-        }/***Gestion comptes***/
-        else if (action.equals("voirModifierComptes")) {
-            menuSelect = 1;
-            classeAction = new VoirModifierComptesAction();
-        }else if (action.equals("voirGestionComptes")) {
-            menuSelect = 1;
-            classeAction = new VoirGestionComptesAction();
-        }else if (action.equals("modifierCompte")) {
-            menuSelect = 1;
-            classeAction = new ModifierUtilisateurAction();
-        }else if (action.equals("voirAjoutCompte")) {
-            menuSelect = 1;
-            classeAction = new voirAjouterCompteAction();
-        }else if (action.equals("creerUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new AjouterCompteAction();
-        }else if (action.equals("supprimerUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new SupprimerUtilisateurAction();
-        }/***Gestion dossier***/
-        else if (action.equals("afficherInformationsDossiers")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new AfficherInformationsDossiersAction();
+
         }/***Gestion formations***/
         else if (action.equals("voirAjoutFormation")) {
             menuSelect = 2;
@@ -118,10 +95,6 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modiferDatesInscription")) {
             menuSelect = 2;
             classeAction = new ModifDatesInscriptionAction();
-        }else{
-            action = "index";
-            menuSelect = 0;
-            classeAction = new VoirIndexAction();
         }
 
         if (classeAction != null) {
