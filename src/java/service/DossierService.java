@@ -199,7 +199,6 @@ public class DossierService {
             calendar.setTime(deadLine);
             calendar.add((GregorianCalendar.DAY_OF_YEAR), NB_JOURS_RESTANT);
             long tpsRestant = calendar.getTimeInMillis() - auj.getTime();
-
             return (int) (tpsRestant / (24 * 60 * 60 * 1000));
         } else {
             return -1;
@@ -218,13 +217,19 @@ public class DossierService {
             Historique h = d.getHistorique().get(d.getHistorique().size() - 1);
             //si pas de nouvelle historique depuis une semaine
             if ((new Date().getTime() - h.getDate().getTime()) > 604800000) {
-                return "Perdu";
+                if(d.getEtat().toString().toLowerCase().contains("transfert")){
+                    return "Perdu";
+                }
+                else return "En retard";
             } else {
                 return d.getEtat().toString();
             }
         //si Dossier créé depuis plus d'une semaine
         } else if ((new Date().getTime() - d.getDate().getTime()) > 604800000) {
-            return "Perdu";
+            if(d.getEtat().toString().toLowerCase().contains("transfert")){
+                    return "Perdu";
+                }
+                else return "En retard";
         } else {
             return d.getEtat().toString();
         }
