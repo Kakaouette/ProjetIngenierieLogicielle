@@ -18,7 +18,9 @@
         }
         if((boolean) request.getAttribute("DossierUrgent") == true){ %>
         Vous avez des dossiers perdu !
-        <% } %>
+        <% } if((boolean) request.getAttribute("msgSuppression")==true){
+            out.print(request.getAttribute("message"));
+        }%>
     </div>
 <%}%>
 

@@ -229,4 +229,20 @@ public class DossierService {
             return d.getEtat().toString();
         }
     }
+    
+    /**
+     * Supprime un dossier dans la base
+     * 
+     * @param id du dossier
+     * @return true ou false
+     */
+    public boolean supprimerDossier(String id){
+        Dossier dossier=dossierDAO.getById(id);
+        if (dossier != null){
+            dossierDAO.delete(dossier.getId());
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
