@@ -241,6 +241,39 @@ public class DossierServiceTest {
     }
     
     /**
+     * Test de suppression d'un dossier
+     */
+    @Test
+    public void testSupprimeDossier() throws Exception{
+        System.out.println("testSupprimeDossier");
+        /// //////////////////////////// TEST AVEC UN ID CORRECTE ////////////////////////////
+        Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
+        Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
+        String idDossier = instance.getNewID();
+        Formation formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
+        Compte c = new CompteDAO().getById(1);
+        Historique historique = new Historique(new Date(), "Message", "Action", c);
+        List<Historique> sesHistoriques = new ArrayList<>();
+        sesHistoriques.add(historique);
+        dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
+        
+        /// On l'insère
+        instance.ajouterDossier(dossier);
+        
+        /// on vérifie son existance.
+        Dossier cpt = new DossierDAO().getById(idDossier);
+        assertEquals(dossier.equals(cpt), true);
+        
+        //on le supprime
+        assertTrue(instance.supprimerDossier(idDossier));
+        cpt = new DossierDAO().getById(idDossier);
+        assertNull(cpt);
+        
+        //on supprime un dossier inexistant
+        assertFalse(instance.supprimerDossier(idDossier));
+    }
+    
+    /**
      * Méthode permettant de comparer deux dossiers
      * @param updatedDossier Le dossier modifier dans la base
      * @param dossierorigin Le dossier qui correspond au résultat attendu

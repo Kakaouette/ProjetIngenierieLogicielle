@@ -134,9 +134,9 @@ public class GestULRPeuplement {
         new AdresseDAO().save(a3);
         
        // Utilisation des adresses
-        Adresse ad1 = new AdresseDAO().getAdresseByCodePostal("17000");
-        Adresse ad2 = new AdresseDAO().getAdresseByCodePostal("86000");
-        Adresse ad3 = new AdresseDAO().getAdresseByCodePostal("33000");
+        Adresse ad1 = new AdresseDAO().getAdresseByCodePostalAndVille("17000", "La Rochelle");
+        Adresse ad2 = new AdresseDAO().getAdresseByCodePostalAndVille("86000", "Poitiers");
+        Adresse ad3 = new AdresseDAO().getAdresseByCodePostalAndVille("33000", "Bordeaux");
         
         // Création des étudiants
         Etudiant e1 = new Etudiant("ine1", "Giguère", "Valentin", "17 rue de la Marne", "Masculin", ad3);

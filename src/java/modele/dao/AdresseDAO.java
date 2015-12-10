@@ -5,11 +5,9 @@
  */
 package modele.dao;
 
-import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Adresse;
-import modele.entite.Compte;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Adresse</b>
@@ -38,10 +36,11 @@ public class AdresseDAO extends Dao {
         return unAdresse;
     }
 
-    public Adresse getAdresseByCodePostal(String codePostal){
+    public Adresse getAdresseByCodePostalAndVille(String codePostal, String ville){
         try {
-            q = em.createQuery("SELECT A FROM Adresse A WHERE A.codePostal = :CP");
+            q = em.createQuery("SELECT A FROM Adresse A WHERE A.codePostal = :CP AND A.ville = :VILLE");
             q.setParameter("CP", codePostal);
+            q.setParameter("VILLE", codePostal);
             return (Adresse) q.getSingleResult();
         } catch (NoResultException e) {
             return null;

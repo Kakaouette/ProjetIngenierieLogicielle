@@ -172,11 +172,11 @@
         </div>
         <div class="col-md-1">
             <!--[if IE]>
-            <input type="hidden" name="action" value="supprUtilisateur" />
+            <input type="hidden" name="action" value="supprDossier" />
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-danger" href="Navigation?action=#">Supprimer</a>
+            <a class="btn btn-danger" href="<%out.print("Navigation?action=supprimerDossier&idDossier="+d.getId());%>">Supprimer</a>
         </div>
         <div class="col-md-2 col-md-offset-1">
             <!--[if IE]>

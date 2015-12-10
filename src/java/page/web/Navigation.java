@@ -110,6 +110,9 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modifierDossier")) {
             menuSelect = 0;
             classeAction = new ModifierDossierAction();
+        }else if (action.equals("supprimerDossier")) {
+            menuSelect = 0;
+            classeAction = new SupprimerDossierAction();
         }/***Gestion formations****/
         else if (action.equals("voirGestionFormation")) {
             menuSelect = 2;

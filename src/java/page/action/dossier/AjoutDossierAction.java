@@ -74,7 +74,7 @@ public class AjoutDossierAction implements Action{
         }else if(type.equals(TypeDossier.admissibilite.toString())){
             typeDossier = TypeDossier.admissibilite;
         }
-        Adresse adressePostale = new AdresseDAO().getAdresseByCodePostal(codePostal);
+        Adresse adressePostale = new AdresseDAO().getAdresseByCodePostalAndVille(codePostal, ville);
         if(adressePostale == null){
             adressePostale = new Adresse(codePostal, ville);
         }else if(!adressePostale.getVille().equals(ville)){
@@ -161,6 +161,26 @@ public class AjoutDossierAction implements Action{
             return stayHere(request, response); //redirection
         }
         
+        //free formulaire
+        request.setAttribute("type", null);
+        request.setAttribute("formationIntitule", null);
+        request.setAttribute("nationalite", null);
+        request.setAttribute("idDossier", null);
+        request.setAttribute("ine", null);
+        request.setAttribute("nom", null);
+        request.setAttribute("prenom", null);
+        request.setAttribute("sexe", null);
+        request.setAttribute("pays", null);
+        request.setAttribute("adresse", null);
+        request.setAttribute("codePostal", null);
+        request.setAttribute("ville", null);
+        request.setAttribute("notes", null);
+        if(request.getParameter("nationalite") != null){
+            if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){
+                request.setAttribute("avis", null);
+                request.setAttribute("niveau", null);
+            }
+        }
         return actionPageSuivante.execute(request, response);
     }
     
