@@ -43,7 +43,7 @@ public class CreerPiecesManquantes {
      * @throws InvalidFormatException
      * @throws IOException 
      */
-    public static void replacePiecesManquantes(String filename, Formation formation, String sexe, String nom, String prenom, String adresse, Adresse adresseEntite, List<Justificatif> justificatifsOk)throws InvalidFormatException, IOException
+    public void replacePiecesManquantes(String filename, Formation formation, String sexe, String nom, String prenom, String adresse, Adresse adresseEntite, List<Justificatif> justificatifsOk)throws InvalidFormatException, IOException
     {
         List<Justificatif> lesJustificatifs = formation.getLesJustificatifs();
 

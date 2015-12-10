@@ -43,7 +43,7 @@ public class CreerLettreAccepteService
          * @throws InvalidFormatException
          * @throws IOException 
          */
-        public static void replaceLettreAccepte(String filename, String idDossier)throws InvalidFormatException, IOException
+        public void replaceLettreAccepte(String filename, String idDossier)throws InvalidFormatException, IOException
         {
            Dossier dossier = new DossierDAO().getById(idDossier);
             Etudiant etu = dossier.getEtudiant();

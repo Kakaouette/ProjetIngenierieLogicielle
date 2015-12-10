@@ -34,7 +34,7 @@ public class CreerLettreAuditionService
      * @throws InvalidFormatException
      * @throws IOException 
      */
-    public static void replaceLettreAudition(String filename, String idDossier)throws InvalidFormatException, IOException
+    public void replaceLettreAudition(String filename, String idDossier)throws InvalidFormatException, IOException
     {
         Dossier dossier = new DossierDAO().getById(idDossier);
 

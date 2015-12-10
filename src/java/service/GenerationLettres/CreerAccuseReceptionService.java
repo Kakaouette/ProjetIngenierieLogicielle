@@ -3,6 +3,9 @@ package service.GenerationLettres;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import modele.entite.Formation;
@@ -12,6 +15,7 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import page.action.dossier.AfficherInformationsDossiersAction;
 
 
 
@@ -22,6 +26,35 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
  */
 public class CreerAccuseReceptionService
 {
+    static private int getConfigurationPropertiesPathModels() {
+        /* Récupération de du nb de jour avant fermeture de dossier (fichier properties) */
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            return Integer.parseInt(properties.getProperty("pathModels"));
+        } catch (IOException ex) {
+            Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    static private int getConfigurationPropertiesPathTarget() {
+        /* Récupération de du nb de jour avant fermeture de dossier (fichier properties) */
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            return Integer.parseInt(properties.getProperty("pathTarget"));
+        } catch (IOException ex) {
+            Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    static final int PATH_MODELS = getConfigurationPropertiesPathModels();
+    static final int PATH_TARGET = getConfigurationPropertiesPathTarget();
+    
     /**
      * 
      * @param filename - Nom du fichier modèle de l'accusé de récéption.
@@ -29,7 +62,7 @@ public class CreerAccuseReceptionService
      * @throws InvalidFormatException
      * @throws IOException 
      */
-    public static void replaceAccuseReception(String filename, String idDossier)throws InvalidFormatException, IOException
+    public void replaceAccuseReception(String filename, String idDossier)throws InvalidFormatException, IOException
     {
         Dossier dossier = new DossierDAO().getById(idDossier);
 
@@ -79,9 +112,11 @@ public class CreerAccuseReceptionService
         System.out.println(filename);
 
         String newFileName=idDossier+" Accuse De Reception.docx";
-
-        XWPFDocument doc = new XWPFDocument(OPCPackage.open("./lettres/models/"+filename));
-        doc.write(new FileOutputStream("./lettres/target/"+newFileName));
+        
+        File temp = new File("./lettres/models/"+filename);
+        System.out.println(temp.getAbsolutePath());
+        XWPFDocument doc = new XWPFDocument(OPCPackage.open(PATH_MODELS+""+filename));
+        doc.write(new FileOutputStream(PATH_TARGET+""+newFileName));
         doc.close();
 
         doc = new XWPFDocument(OPCPackage.open("./lettres/target/"+newFileName));
