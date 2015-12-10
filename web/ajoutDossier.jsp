@@ -26,6 +26,9 @@
     $(function(){verifAllChecked();});
     
     function loadJustificatifs(){
+       if($('input#nationalite-0').attr('checked') === true){
+           $('input#pays').val('FRANCE');
+       }
        $("form#formation").prop("action", "Navigation?action=voirAjoutDossier");
        $("form#formation").submit();
     };
@@ -50,80 +53,6 @@
 </script>
 
 <form action="Navigation?action=ajouterDossier" method="POST" class="form-horizontal" id="formation">
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="type">Type:</label>
-        <div class="col-md-4">
-            <label class="radio-inline" for="type-0">
-                <input type="radio" name="type" id="type-0" value="<%out.print(TypeDossier.inscription);%>" onchange="loadJustificatifs()" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals(TypeDossier.inscription.toString())){%>checked<%}%>> Inscription
-            </label>
-            <label class="radio-inline" for="type-1">
-                <input type="radio" name="type" id="type-1" value="<%out.print(TypeDossier.admissibilite);%>" onchange="loadJustificatifs()" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals(TypeDossier.admissibilite.toString())){%>checked<%}}%>> Admission
-            </label>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
-        <div class="col-sm-3">
-            <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="loadJustificatifs()">
-                <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
-                for (Formation formation : formations){
-                %>
-                <option value="<%out.print(formation.getIntitule());%>"<%if(request.getAttribute("formationIntitule") != null){
-                                if(request.getAttribute("formationIntitule").equals(formation.getIntitule())){%>selected<%}
-                            }%>><%out.print(formation.getIntitule());%></option>
-                <%}%>
-            </select>
-            
-        </div>
-    </div>
-         
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="nationalite">Nationalité: </label>
-        <div class="col-md-4">
-            <label class="radio-inline" for="nationalite-0">
-                <input type="radio" name="nationalite" id="nationalite-0" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.francais.toString())){%>checked<%}%>> Français
-            </label>
-            <label class="radio-inline" for="nationalite-1">
-                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.etranger.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
-            </label>
-        </div>
-    </div>
-        
-    <div class="form-group">
-        <label for="justificatifs" class="col-sm-2 control-label">Justificatifs: </label>
-        <div class="col-sm-3" id="justificatifsDiv">
-            <% List<Justificatif> justificatifs = (List<Justificatif>) request.getAttribute("justificatifs");
-            if(justificatifs != null){
-                for (Justificatif justificatif : justificatifs){
-                %>
-                    <label class="checkbox-inline" for="justificatifs-<%out.print(justificatif.getTitre());%>">
-                        <input type="checkbox" name="justificatifs" id="justificatifs-<%out.print(justificatif.getTitre());%>" 
-                            value="<%out.print(justificatif.getTitre());%>" 
-                            <%if(request.getAttribute("justificatifsChecked") != null){
-                                List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
-                                if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
-                            }%> onchange="verifAllChecked()"> <%out.print(justificatif.getTitre());%>
-                    </label>
-                    <br>
-                <%}
-            }%>
-        </div>
-    </div>
-               
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="idDossier">Numéro du dossier :</label>  
-        <div class="col-md-4">
-            <input id="idDossier" name="idDossier" type="text" placeholder="n° dossier" class="form-control input-md" 
-                value="<%if(request.getAttribute("idDossier") != null){
-                    out.print(request.getAttribute("idDossier"));
-                }else{
-                    out.print(new DossierService().getNewID());
-                }%>" pattern="<%out.print(new DossierService().getRegexIdDossier());%>" 
-                title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required autofocus>
-        </div>
-    </div>
-            
     <div class="form-group">
         <label class="col-md-2 control-label" for="nom">N° INE :</label>  
         <div class="col-md-4">
@@ -211,6 +140,80 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="type">Type:</label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="type-0">
+                <input type="radio" name="type" id="type-0" value="<%out.print(TypeDossier.inscription);%>" onchange="loadJustificatifs()" <%if(request.getAttribute("type") == null){%>checked<%}else if(request.getAttribute("type").equals(TypeDossier.inscription.toString())){%>checked<%}%>> Inscription
+            </label>
+            <label class="radio-inline" for="type-1">
+                <input type="radio" name="type" id="type-1" value="<%out.print(TypeDossier.admissibilite);%>" onchange="loadJustificatifs()" <%if(request.getAttribute("type") != null){if(request.getAttribute("type").equals(TypeDossier.admissibilite.toString())){%>checked<%}}%>> Admission
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="formationIntitule" class="col-sm-2 control-label">Formation: </label>
+        <div class="col-sm-3">
+            <select name="formationIntitule" id="formationIntitule" class="form-control" onchange="loadJustificatifs()">
+                <% List<Formation> formations=(List<Formation>) request.getAttribute("formations");
+                for (Formation formation : formations){
+                %>
+                <option value="<%out.print(formation.getIntitule());%>"<%if(request.getAttribute("formationIntitule") != null){
+                                if(request.getAttribute("formationIntitule").equals(formation.getIntitule())){%>selected<%}
+                            }%>><%out.print(formation.getIntitule());%></option>
+                <%}%>
+            </select>
+            
+        </div>
+    </div>
+         
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="nationalite">Nationalité: </label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="nationalite-0">
+                <input type="radio" name="nationalite" id="nationalite-0" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.francais.toString())){%>checked<%}%>> Français
+            </label>
+            <label class="radio-inline" for="nationalite-1">
+                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.etranger.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
+            </label>
+        </div>
+    </div>
+        
+    <div class="form-group">
+        <label for="justificatifs" class="col-sm-2 control-label">Justificatifs: </label>
+        <div class="col-sm-3" id="justificatifsDiv">
+            <% List<Justificatif> justificatifs = (List<Justificatif>) request.getAttribute("justificatifs");
+            if(justificatifs != null){
+                for (Justificatif justificatif : justificatifs){
+                %>
+                    <label class="checkbox-inline" for="justificatifs-<%out.print(justificatif.getTitre());%>">
+                        <input type="checkbox" name="justificatifs" id="justificatifs-<%out.print(justificatif.getTitre());%>" 
+                            value="<%out.print(justificatif.getTitre());%>" 
+                            <%if(request.getAttribute("justificatifsChecked") != null){
+                                List<Justificatif> justificatifsChecked=(List<Justificatif>) request.getAttribute("justificatifsChecked");
+                                if(justificatifsChecked.contains(justificatif.getTitre())){%>checked<%}
+                            }%> onchange="verifAllChecked()"> <%out.print(justificatif.getTitre());%>
+                    </label>
+                    <br>
+                <%}
+            }%>
+        </div>
+    </div>
+               
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="idDossier">Numéro du dossier :</label>  
+        <div class="col-md-4">
+            <input id="idDossier" name="idDossier" type="text" placeholder="n° dossier" class="form-control input-md" 
+                value="<%if(request.getAttribute("idDossier") != null){
+                    out.print(request.getAttribute("idDossier"));
+                }else{
+                    out.print(new DossierService().getNewID());
+                }%>" pattern="<%out.print(new DossierService().getRegexIdDossier());%>" 
+                title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required autofocus>
+        </div>
+    </div>
+    
     <div class="row">
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionDossiers">Annuler</a>
