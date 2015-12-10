@@ -158,7 +158,7 @@ public class CompteServiceTest {
         boolean done = instance.supprimerUtilisateur(compteDAO.getComptebyIdentifiant(identifiantTest).getId());
         assertTrue(done);
     }
-
+ 
     @Test
     public void testSupprimerUtilisateurAvecHistorique() {
         System.out.println("SupprimerUtilisateur avec historique");

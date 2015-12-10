@@ -9,7 +9,6 @@
 <%@page import="modele.entite.TypeDossier"%>
 <%@page import="service.DossierService"%>
 <%@page import="modele.dao.FormationDAO"%>
-<%@page import="page.action.VoirAjoutDossierAction"%>
 <%@page import="modele.entite.Formation"%>
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
