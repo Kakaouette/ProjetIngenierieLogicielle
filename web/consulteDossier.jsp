@@ -4,13 +4,14 @@
     Author     : phanjoseph
 --%>
 
+<%@page import="modele.entite.TypeAvisDossier"%>
 <%@page import="modele.entite.TypeEtatDossier"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="modele.entite.TypeDossier"%>
 <%@page import="modele.entite.Dossier"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="Modele/entete_sans_menu.jsp" %>
+<%@include file="Modele/entete_avec_menu.jsp" %>
 <%
             Dossier d = (Dossier) request.getAttribute("dossier");
         %>
@@ -123,32 +124,54 @@
         
     <fieldset>
         <legend>Avis sur dossier</legend>
-        <div class="form-group">
+        <div class="form-group" <% if(c.getType() != TypeCompte.responsable_commission || c.getType() != TypeCompte.admin){%>hidden<%}%>>
             <label class="radio-inline col-md-offset-2">
-                <input type="radio" name="avis" value="favorable">Favorable
+                <input type="radio" name="avis" value="favorable" <%if(d.getAvisCommission() == TypeAvisDossier.favorable){%>checked<%}%>>Favorable
             </label>
             <label class="radio-inline">
-                <input type="radio" name="avis" value="defavorable">Défavorable
+                <input type="radio" name="avis" value="defavorable" <%if(d.getAvisCommission() == TypeAvisDossier.défavorable){%>checked<%}%>>Défavorable
             </label>
             <label class="radio-inline">
-                <input type="radio" name="avis" value="enAttente">En attente
+                <input type="radio" name="avis" value="enAttente" <%if(d.getAvisCommission() == TypeAvisDossier.en_attente){%>checked<%}%>>En attente
             </label>
+        </div>
+            <div class="form-group" <% if(c.getType() == TypeCompte.responsable_commission  || c.getType() != TypeCompte.admin){%>hidden<%}%>>
+            <%if(d.getAvisCommission() == TypeAvisDossier.favorable){%>
+            <span class="label label-success col-md-offset-2"><%out.print(TypeAvisDossier.favorable);%></span>
+            <%};%>
+             <%if(d.getAvisCommission() == TypeAvisDossier.défavorable){%>
+            <span class="label label-danger col-md-offset-2"><%out.print(TypeAvisDossier.défavorable);%></span>
+            <%};%>
+             <%if(d.getAvisCommission() == TypeAvisDossier.en_attente){%>
+            <span class="label label-default col-md-offset-2"><%out.print(TypeAvisDossier.en_attente);%></span>
+            <%};%>
         </div>
     </fieldset>
         
     <fieldset>
         <legend>Statuer sur dossier</legend>
-        <div class="form-group">
+        <div class="form-group" <% if(c.getType() != TypeCompte.directeur_pole  || c.getType() != TypeCompte.admin){%>hidden<%}%>>
             <label class="radio-inline col-md-offset-2">
-                <input type="radio" name="statuer" value="accepter">Accepter
+                <input type="radio" name="statuer" value="accepter" <%if(d.getAvisDirecteur() == TypeAvisDossier.favorable){%>checked<%}%>>Accepter
             </label>
             <label class="radio-inline">
-                <input type="radio" name="statuer" value="refuser">Refuser
+                <input type="radio" name="statuer" value="refuser" <%if(d.getAvisDirecteur() == TypeAvisDossier.défavorable){%>checked<%}%>>Refuser
             </label>
             <label class="radio-inline">
-                <input type="radio" name="statuer" value="enAttente">En attente
+                <input type="radio" name="statuer" value="enAttente" <%if(d.getAvisDirecteur() == TypeAvisDossier.en_attente){%>checked<%}%>>En attente
             </label>
         </div>
+        <div class="form-group" <% if(c.getType() == TypeCompte.directeur_pole  || c.getType() != TypeCompte.admin){%>hidden<%}%>>
+            <%if(d.getAvisDirecteur() == TypeAvisDossier.favorable){%>
+            <span class="label label-success col-md-offset-2"><%out.print(TypeAvisDossier.favorable);%></span>
+            <%};%>
+             <%if(d.getAvisDirecteur() == TypeAvisDossier.défavorable){%>
+            <span class="label label-danger col-md-offset-2"><%out.print(TypeAvisDossier.défavorable);%></span>
+            <%};%>
+             <%if(d.getAvisDirecteur() == TypeAvisDossier.en_attente){%>
+            <span class="label label-default col-md-offset-2"><%out.print(TypeAvisDossier.en_attente);%></span>
+            <%};%>
+        </div>    
     </fieldset>
         
     <div class="form-group">
