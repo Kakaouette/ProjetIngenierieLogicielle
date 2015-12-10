@@ -27,6 +27,7 @@ import service.exception.SuppressionJustificatifInvalideException;
  * @author Arthur
  */
 public class FormationService_supprimerFormationTest {
+    Formation formation;
     
     public FormationService_supprimerFormationTest() {
     }
@@ -45,6 +46,9 @@ public class FormationService_supprimerFormationTest {
     
     @After
     public void tearDown() {
+        try {
+            new FormationDAO().delete(formation.getId());
+        } catch (Exception e) {}
     }
 
     boolean done;
@@ -52,7 +56,7 @@ public class FormationService_supprimerFormationTest {
     public void testSupprimerFormationNull(){
         System.out.println("===testSupprimerFormationNull===");
         //formation == null
-        Formation formation = null;
+        formation = null;
         try {
             new FormationService().supprimerFormation(formation);
             done = true;
@@ -60,14 +64,14 @@ public class FormationService_supprimerFormationTest {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        assertFalse(done);
         System.out.println("Test validé: " + (done == false));
+        assertFalse(done);
     }
     @Test
     public void testSupprimerFormationVide(){
         System.out.println("===testSupprimerFormationVide===");
         //formation vide
-        Formation formation = new Formation();
+        formation = new Formation();
         try {
             new FormationService().supprimerFormation(formation);
             done = true;
@@ -75,15 +79,14 @@ public class FormationService_supprimerFormationTest {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        ;
-        assertFalse(done);
         System.out.println("Test validé: " + (done == false));
+        assertFalse(done);
     }
     @Test
     public void testSupprimerFormationIdNull(){
         System.out.println("===testSupprimerFormationIdNull===");
         //formation id null (champ requis)
-        Formation formation = new Formation();
+        formation = new Formation();
         formation.setDebut(new Date());
         formation.setFin(new Date());
         formation.setDescription("");
@@ -97,8 +100,8 @@ public class FormationService_supprimerFormationTest {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        assertFalse(done);
         System.out.println("Test validé: " + (done == false));
+        assertFalse(done);
     }
     @Test
     public void testSupprimerFormationIdInexistante(){
@@ -108,7 +111,7 @@ public class FormationService_supprimerFormationTest {
         while(new FormationDAO().getById(idInutilisee) != null){
             idInutilisee++;
         }
-        Formation formation = new Formation("", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
+        formation = new Formation("d", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
         formation.setId(idInutilisee);
         try {
             new FormationService().supprimerFormation(formation);
@@ -117,18 +120,17 @@ public class FormationService_supprimerFormationTest {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        assertFalse(done);
         System.out.println("Test validé: " + (done == false));
+        assertFalse(done);
     }
     @Test
     public void testSupprimerFormationValide(){
         System.out.println("===testSupprimerFormationValide===");
         //formation valide
-        Formation formation = new Formation("", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
+        formation = new Formation("d", 0, new Date(), new Date(), "test", new ArrayList<Justificatif>());
         try {
             new FormationService().ajouterFormation(formation);
-        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {
-        }
+        } catch (AjoutFormationInvalideException | AjoutJustificatifInvalideException | IOException ex) {}
         
         try {
             new FormationService().supprimerFormation(formation);
@@ -137,6 +139,6 @@ public class FormationService_supprimerFormationTest {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        assertTrue("Test validé: " + (done == true), done);
+        assertTrue("Test validé: " + (done == true && new FormationDAO().getById(formation.getId()) == null), done && new FormationDAO().getById(formation.getId()) == null);
     }
 }
