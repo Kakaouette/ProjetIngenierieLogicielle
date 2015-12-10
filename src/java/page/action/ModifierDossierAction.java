@@ -38,10 +38,11 @@ public class ModifierDossierAction implements Action{
         //recuperation du dossier original
         String idDossier = request.getParameter("idDossier");
         Dossier dossierorigin=  new DossierService().recupererDossier(idDossier);
-        
+
         //recuperation des infos et modif de l'objet Dossier
         Compte compte = (Compte)request.getSession().getAttribute("compte");
         String etatDossier = request.getParameter("etat");
+
         if (!etatDossier.equals(dossierorigin.getEtat().name())){
             etatChange = true;
         }

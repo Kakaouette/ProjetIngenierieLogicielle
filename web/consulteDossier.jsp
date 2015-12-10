@@ -124,14 +124,14 @@
     <fieldset>
         <legend>Avis sur dossier</legend>
         <div class="form-group">
-            <label class="radio-inline">
-                <input type="radio" name="optradio" value="favorable">Favorable
+            <label class="radio-inline col-md-offset-2">
+                <input type="radio" name="avis" value="favorable">Favorable
             </label>
             <label class="radio-inline">
-                <input type="radio" name="optradio" value="defavorable">Défavorable
+                <input type="radio" name="avis" value="defavorable">Défavorable
             </label>
             <label class="radio-inline">
-                <input type="radio" name="optradio" value="enAttente">En attente
+                <input type="radio" name="avis" value="enAttente">En attente
             </label>
         </div>
     </fieldset>
@@ -139,14 +139,14 @@
     <fieldset>
         <legend>Statuer sur dossier</legend>
         <div class="form-group">
-            <label class="radio-inline">
-                <input type="radio" name="optradio" value="accepter">Accepter
+            <label class="radio-inline col-md-offset-2">
+                <input type="radio" name="statuer" value="accepter">Accepter
             </label>
             <label class="radio-inline">
-                <input type="radio" name="optradio" value="refuser">Refuser
+                <input type="radio" name="statuer" value="refuser">Refuser
             </label>
             <label class="radio-inline">
-                <input type="radio" name="optradio" value="enAttente">En attente
+                <input type="radio" name="statuer" value="enAttente">En attente
             </label>
         </div>
     </fieldset>
