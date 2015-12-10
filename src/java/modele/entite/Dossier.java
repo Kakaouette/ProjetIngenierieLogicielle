@@ -104,6 +104,15 @@ public class Dossier implements Serializable {
         this.historique = historique;
     }
 
+    public void setAvisDirecteur(TypeAvisDossier avisDirecteur) {
+        this.avisDirecteur = avisDirecteur;
+    }
+
+    public void setAvisCommission(TypeAvisDossier avisCommission) {
+        this.avisCommission = avisCommission;
+    }
+    
+
     public Dossier() {
     }
 
@@ -139,6 +148,14 @@ public class Dossier implements Serializable {
         return historique;
     }
 
+    public TypeAvisDossier getAvisDirecteur() {
+        return avisDirecteur;
+    }
+
+    public TypeAvisDossier getAvisCommission() {
+        return avisCommission;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
