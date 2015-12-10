@@ -37,7 +37,7 @@ public class AfficherInformationsDossiersAction implements Action {
             
             String verifEtat = service.verifDossierPerdu(c);
             
-            if(verifEtat.equals("Perdu")){
+            if(verifEtat.equals("Perdu") || verifEtat.equals("En retard")){
                 DossierPerdu = true;
             }
             

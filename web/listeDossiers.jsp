@@ -11,13 +11,13 @@
 <% if((boolean) request.getAttribute("DossierUrgent") == true || (boolean) request.getAttribute("DossierPerdu") == true){ %>
     <div class="alert alert-danger">
         <% if((boolean) request.getAttribute("DossierUrgent") == true){ %>
-        Vous avez des dossiers en cours qui dépasseront la limite de temps dans moins de 7 jours !
+        Vous avez des dossiers en cours qui dépasseront la limite de temps dans moins de 15 jours !
         <%}
         if((boolean) request.getAttribute("DossierUrgent") == true || (boolean) request.getAttribute("DossierPerdu") == true){
         out.print("<br/>");
         }
         if((boolean) request.getAttribute("DossierUrgent") == true){ %>
-        Vous avez des dossiers perdu !
+        Vous avez des dossiers perdu ou en retard!
         <% } if((boolean) request.getAttribute("msgSuppression")==true){
             out.print(request.getAttribute("message"));
         }%>
