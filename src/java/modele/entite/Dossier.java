@@ -31,6 +31,12 @@ public class Dossier implements Serializable {
     @Lob
     @Column
     String lettre;
+    
+    @Enumerated(EnumType.STRING)
+    TypeAvisDossier avisDirecteur = TypeAvisDossier.en_attente;
+    
+    @Enumerated(EnumType.STRING)
+    TypeAvisDossier avisCommission = TypeAvisDossier.en_attente;
 
     @Enumerated(EnumType.STRING)
     TypeDossier type;
