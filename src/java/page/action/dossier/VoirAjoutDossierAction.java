@@ -57,9 +57,22 @@ public class VoirAjoutDossierAction implements Action{
         }
         request.setAttribute("type", type);
         String nationalite = request.getParameter("nationalite");
+        String pays = request.getParameter("pays");
         if(request.getParameter("nationalite") == null){
-            nationalite = "francais";
+            nationalite = TypeJustificatifEtranger.francais.toString();
+            if(pays == null){
+                pays = "FRANCE";
+            }else if(request.getParameter("pays").equals("")){
+                pays = "FRANCE";
+            }
+        }else if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.francais.toString())){
+            if(pays == null){
+                pays = "FRANCE";
+            }else if(request.getParameter("pays").equals("")){
+                pays = "FRANCE";
+            }
         }
+        request.setAttribute("pays", pays);
         request.setAttribute("nationalite", nationalite);
         
         Formation formation = new FormationDAO().getFormationByIntitule(intitule);
@@ -95,7 +108,6 @@ public class VoirAjoutDossierAction implements Action{
         request.setAttribute("nom", request.getParameter("nom"));
         request.setAttribute("prenom", request.getParameter("prenom"));
         request.setAttribute("sexe", request.getParameter("sexe"));
-        request.setAttribute("pays", request.getParameter("pays"));
         request.setAttribute("adresse", request.getParameter("adresse"));
         request.setAttribute("codePostal", request.getParameter("codePostal"));
         request.setAttribute("ville", request.getParameter("ville"));
@@ -106,7 +118,6 @@ public class VoirAjoutDossierAction implements Action{
                 request.setAttribute("niveau", request.getParameter("niveau"));
             }
         }
-        
         
         return "ajoutDossier.jsp";
     }

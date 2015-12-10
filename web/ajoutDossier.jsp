@@ -56,7 +56,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label" for="nom">N° INE :</label>  
         <div class="col-md-4">
-            <input id="nom" name="ine" type="text" placeholder="N° INE" class="form-control input-md" value="<%if(request.getAttribute("ine") != null){out.print(request.getAttribute("ine"));}%>" autocomplete="off" required>
+            <input id="nom" name="ine" type="text" placeholder="N° INE" class="form-control input-md" value="<%if(request.getAttribute("ine") != null){out.print(request.getAttribute("ine"));}%>" autocomplete="off" required autofocus>
         </div>
     </div>
         
@@ -78,7 +78,7 @@
     <div class="form-group">
         <label for="pays" class="col-sm-2 control-label">Pays: </label>
         <div class="col-md-4">
-            <input id="idDossier" name="pays" type="text" placeholder="pays" class="form-control input-md" value="<%if(request.getAttribute("pays") != null){out.print(request.getAttribute("pays"));}%>" autocomplete="on" required>
+            <input id="pays" name="pays" type="text" placeholder="pays" class="form-control input-md" value="<%if(request.getAttribute("pays") != null){out.print(request.getAttribute("pays"));}%>" autocomplete="on" required>
         </div>
     </div>
         
@@ -210,7 +210,7 @@
                 }else{
                     out.print(new DossierService().getNewID());
                 }%>" pattern="<%out.print(new DossierService().getRegexIdDossier());%>" 
-                title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required autofocus>
+                title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required>
         </div>
     </div>
     

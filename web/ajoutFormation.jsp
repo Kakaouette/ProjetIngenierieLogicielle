@@ -35,9 +35,9 @@
     <%}%>
     function importerListeJustificatif(from, to) {
         var name;
-        if(to.indexOf("inscription")!=-1){
+        if(to.indexOf("inscription")!==-1){
             name = "Inscription";
-        }else if(to.indexOf("admission")!=-1){
+        }else if(to.indexOf("admission")!==-1){
             name = "Admission";
         }
         
