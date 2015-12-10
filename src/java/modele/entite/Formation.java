@@ -44,7 +44,7 @@ public class Formation implements Serializable{
     @Temporal(TemporalType.DATE)
     Date fin;
     
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     String intitule;
     
     @OneToMany(targetEntity = Justificatif.class, cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
@@ -159,6 +159,4 @@ public class Formation implements Serializable{
         }
         return true;
     }
-    
-    
 }
