@@ -124,7 +124,7 @@
         
     <fieldset>
         <legend>Avis sur dossier</legend>
-        <div class="form-group" <% if(c.getType() != TypeCompte.responsable_commission || c.getType() != TypeCompte.admin){%>hidden<%}%>>
+        <div class="form-group" <% if(c.getType() != TypeCompte.responsable_commission && c.getType() != TypeCompte.admin){%>hidden<%}%>>
             <label class="radio-inline col-md-offset-2">
                 <input type="radio" name="avis" value="favorable" <%if(d.getAvisCommission() == TypeAvisDossier.favorable){%>checked<%}%>>Favorable
             </label>
@@ -135,7 +135,7 @@
                 <input type="radio" name="avis" value="enAttente" <%if(d.getAvisCommission() == TypeAvisDossier.en_attente){%>checked<%}%>>En attente
             </label>
         </div>
-            <div class="form-group" <% if(c.getType() == TypeCompte.responsable_commission  || c.getType() != TypeCompte.admin){%>hidden<%}%>>
+            <div class="form-group" <% if(c.getType() == TypeCompte.responsable_commission  || c.getType() == TypeCompte.admin){%>hidden<%}%>>
             <%if(d.getAvisCommission() == TypeAvisDossier.favorable){%>
             <span class="label label-success col-md-offset-2"><%out.print(TypeAvisDossier.favorable);%></span>
             <%};%>
@@ -150,7 +150,7 @@
         
     <fieldset>
         <legend>Statuer sur dossier</legend>
-        <div class="form-group" <% if(c.getType() != TypeCompte.directeur_pole  || c.getType() != TypeCompte.admin){%>hidden<%}%>>
+        <div class="form-group" <% if(c.getType() != TypeCompte.directeur_pole  && c.getType() != TypeCompte.admin){%>hidden<%}%>>
             <label class="radio-inline col-md-offset-2">
                 <input type="radio" name="statuer" value="accepter" <%if(d.getAvisDirecteur() == TypeAvisDossier.favorable){%>checked<%}%>>Accepter
             </label>
@@ -161,7 +161,7 @@
                 <input type="radio" name="statuer" value="enAttente" <%if(d.getAvisDirecteur() == TypeAvisDossier.en_attente){%>checked<%}%>>En attente
             </label>
         </div>
-        <div class="form-group" <% if(c.getType() == TypeCompte.directeur_pole  || c.getType() != TypeCompte.admin){%>hidden<%}%>>
+        <div class="form-group" <% if(c.getType() == TypeCompte.directeur_pole  || c.getType() == TypeCompte.admin){%>hidden<%}%>>
             <%if(d.getAvisDirecteur() == TypeAvisDossier.favorable){%>
             <span class="label label-success col-md-offset-2"><%out.print(TypeAvisDossier.favorable);%></span>
             <%};%>
@@ -224,11 +224,6 @@
         </div>
     </div>
     
-            
-            
-            
-    
-        
     <div class="row">
         <div class="col-md-1 col-md-offset-2">
             <!--[if IE]>
