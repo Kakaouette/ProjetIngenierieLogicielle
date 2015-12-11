@@ -33,7 +33,7 @@ public class ConsulterDossierAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
+        request.setAttribute("titre", "Modifier un dossier");
         //recuperation de l'id du formulaire
         String idDossier = request.getParameter("idDossier");
         
