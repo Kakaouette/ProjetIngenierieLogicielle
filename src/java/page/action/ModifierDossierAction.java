@@ -72,7 +72,7 @@ public class ModifierDossierAction implements Action{
                 etatChange=true;
                 dossierorigin.setAvisCommission(TypeAvisDossier.favorable);
                 break;
-                case "defavorable":dossierorigin.setEtat(TypeEtatDossier.terminé);
+                case "defavorable":dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);
                 etatChange=true;
                 dossierorigin.setAvisCommission(TypeAvisDossier.défavorable);
                 break;
