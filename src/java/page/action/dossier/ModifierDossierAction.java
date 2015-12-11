@@ -5,20 +5,13 @@ package page.action.dossier;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.dao.Dao;
-import modele.dao.DossierDAO;
 import modele.entite.Compte;
 import modele.entite.Dossier;
 import modele.entite.Historique;
-import modele.entite.TypeDossier;
 import modele.entite.TypeEtatDossier;
 import page.action.Action;
 import service.DossierService;

@@ -63,7 +63,7 @@ public class FormationService_modifierFormationTest {
         }
         formation2 = new FormationDAO().getFormationByIntitule(formation2.getIntitule());
         
-        justificatif = new Justificatif("t", TypeDossier.inscription, TypeJustificatifEtranger.francais);
+        justificatif = new Justificatif("t", "d", TypeDossier.inscription, TypeJustificatifEtranger.francais);
         List<Justificatif> justificatifs = new ArrayList<Justificatif>();
         justificatifs.add(justificatif);
         formationAvecJustificatif = new Formation("d", 0, new Date(), new Date(), "formationAvecJustificatif", justificatifs);

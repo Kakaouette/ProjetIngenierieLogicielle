@@ -9,9 +9,7 @@ import service.exception.AjoutDossierInvalideException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,8 +69,8 @@ public class DossierServiceTest {
         instance = new DossierService();
         
         adresse = new Adresse("1", "v");
-        etudiant = new Etudiant("1", "n", "p", "a", "M", adresse);
-        etudiant2 = new Etudiant("2", "nn", "pp", "a", "M", adresse);
+        etudiant = new Etudiant("1", "n", "p", "pays", "a", "M", adresse);
+        etudiant2 = new Etudiant("2", "nn", "pp", "pays", "a", "M", adresse);
         formation = new Formation("d", 0, null, null, "i", null);
         c = new Compte("l", "m", "n", "p", "m", TypeCompte.admin, null);
         historique = new Historique(new Date(), "Message", "Action", c);
@@ -136,7 +134,7 @@ public class DossierServiceTest {
     public void testGetNewID() {
         System.out.println("getNewID");
         
-        DossierDAO dossierDAO = new DossierDAO();
+        dossierDAO = new DossierDAO();
         
         Date dateNow = new Date(); //recuperation de la date actuelle
         String dernierID = dossierDAO.getLastId(dateNow);
@@ -150,7 +148,7 @@ public class DossierServiceTest {
         dossierDAO.save(d1);
         
         
-        etudiant2 = new Etudiant("2", "nn", "pp", "a", "M", adresse);
+        etudiant2 = new Etudiant("2", "nn", "pp", "pays", "a", "M", adresse);
         new EtudiantDAO().save(etudiant2);
         
         String result2 = instance.getNewID();
@@ -200,14 +198,14 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossier() throws Exception {
         System.out.println("ajouterDossier");
-        Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
-        Formation formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
-        Compte c = new CompteDAO().getById(1);
-        Historique historique = new Historique(new Date(), "Message", "Action", c);
+        etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
+        formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
+        c = new CompteDAO().getById(1);
+        historique = new Historique(new Date(), "Message", "Action", c);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        Dossier dossier = new Dossier("NeDoitPasPasser", new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
+        dossier = new Dossier("NeDoitPasPasser", new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
         
         /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
         try {
@@ -219,7 +217,7 @@ public class DossierServiceTest {
         }
         /// //////////////////////////// TEST AVEC UN ID CORRECTE ////////////////////////////
         Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
-        Etudiant unEtudiant = new Etudiant("ineLambda", "test_Nom", "test_Prenom", "test_adressePostale", "test_Homme", uneAdresse);
+        Etudiant unEtudiant = new Etudiant("ineLambda", "test_Nom", "test_Prenom", "pays", "test_adressePostale", "test_Homme", uneAdresse);
         String idDossier = instance.getNewID();
         dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, unEtudiant, formation, sesHistoriques);
         
@@ -247,12 +245,11 @@ public class DossierServiceTest {
     public void testSupprimeDossier() throws Exception{
         System.out.println("testSupprimeDossier");
         /// //////////////////////////// TEST AVEC UN ID CORRECTE ////////////////////////////
-        Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
-        Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
+        etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
         String idDossier = instance.getNewID();
-        Formation formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
-        Compte c = new CompteDAO().getById(1);
-        Historique historique = new Historique(new Date(), "Message", "Action", c);
+        formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
+        c = new CompteDAO().getById(1);
+        historique = new Historique(new Date(), "Message", "Action", c);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
@@ -607,7 +604,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantINENull() throws Exception {
         System.out.println("testAjouterDossierEtudiantINENull");
-        etudiant = new Etudiant(null, "n", "p", "a", "M", adresse);
+        etudiant = new Etudiant(null, "n", "p", "pays", "a", "M", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -628,7 +625,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantINEVide() throws Exception {
         System.out.println("testAjouterDossierEtudiantINEVide");
-        etudiant = new Etudiant("", "n", "p", "a", "M", adresse);
+        etudiant = new Etudiant("", "n", "p", "pays", "a", "M", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -649,7 +646,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantNomNull() throws Exception {
         System.out.println("testAjouterDossierEtudiantNomNull");
-        etudiant = new Etudiant("1", null, "p", "a", "M", adresse);
+        etudiant = new Etudiant("1", null, "p", "pays", "a", "M", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -670,7 +667,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantNomVide() throws Exception {
         System.out.println("testAjouterDossierEtudiantNomVide");
-        etudiant = new Etudiant("1", "", "p", "a", "M", adresse);
+        etudiant = new Etudiant("1", "", "p", "pays", "a", "M", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -691,7 +688,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantPrenomNull() throws Exception {
         System.out.println("testAjouterDossierEtudiantPrenomNull");
-        etudiant = new Etudiant("1", "n", null, "a", "M", adresse);
+        etudiant = new Etudiant("1", "n", null, "pays", "a", "M", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -712,7 +709,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantPrenomVide() throws Exception {
         System.out.println("testAjouterDossierEtudiantPrenomVide");
-        etudiant = new Etudiant("1", "n", "", "a", "M", adresse);
+        etudiant = new Etudiant("1", "n", "", "pays", "a", "M", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -733,7 +730,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantAdresseNull() throws Exception {
         System.out.println("testAjouterDossierEtudiantAdresseNull");
-        etudiant = new Etudiant("1", "n", "p", null, "M", adresse);
+        etudiant = new Etudiant("1", "n", "p", "pays", null, "M", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -754,7 +751,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantAdresseVide() throws Exception {
         System.out.println("testAjouterDossierEtudiantAdresseVide");
-        etudiant = new Etudiant("1", "n", "p", "", "M", adresse);
+        etudiant = new Etudiant("1", "n", "p", "pays", "", "M", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -775,7 +772,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantSexeNull() throws Exception {
         System.out.println("testAjouterDossierEtudiantSexeNull");
-        etudiant = new Etudiant("1", "n", "p", "a", null, adresse);
+        etudiant = new Etudiant("1", "n", "p", "pays", "a", null, adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -796,7 +793,7 @@ public class DossierServiceTest {
     @Test
     public void testAjouterDossierEtudiantSexeVide() throws Exception {
         System.out.println("testAjouterDossierEtudiantSexeVide");
-        etudiant = new Etudiant("1", "n", "p", "a", "", adresse);
+        etudiant = new Etudiant("1", "n", "p", "pays", "a", "", adresse);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
         
@@ -903,7 +900,7 @@ public class DossierServiceTest {
     @Test
     public void testCalculDeadLineDossierCreeJourMeme(){
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Dossier dos = new Dossier("huehue", new Date(), TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
         
         int nbJourAttendu = 60;
@@ -919,7 +916,7 @@ public class DossierServiceTest {
 
         Date d = new Date(test);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
         
         int nbJourAttendu =0;
@@ -934,7 +931,7 @@ public class DossierServiceTest {
 
         Date d = new Date(test);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
         
         int nbJourAttendu =32;
@@ -958,7 +955,7 @@ public class DossierServiceTest {
 
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
         
         String expected = "Perdu";
@@ -978,7 +975,7 @@ public class DossierServiceTest {
 
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
         Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
         List<Historique> lesHist = new ArrayList<>();
@@ -1002,7 +999,7 @@ public class DossierServiceTest {
 
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
         Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
         List<Historique> lesHist = new ArrayList<>();
@@ -1023,7 +1020,7 @@ public class DossierServiceTest {
 
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_attente_commission, "Petite lettre", TypeDossier.admissibilite, etu, form);
         
         String expected = "En retard";
@@ -1044,7 +1041,7 @@ public class DossierServiceTest {
 
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "pays", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
         Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
         List<Historique> lesHist = new ArrayList<>();
@@ -1068,7 +1065,7 @@ public class DossierServiceTest {
 
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
-        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "pays", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
         Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
         List<Historique> lesHist = new ArrayList<>();

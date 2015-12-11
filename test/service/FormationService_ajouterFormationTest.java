@@ -46,7 +46,7 @@ public class FormationService_ajouterFormationTest {
     
     @Before
     public void setUp() {
-        justificatif = new Justificatif("t", TypeDossier.inscription, TypeJustificatifEtranger.francais);
+        justificatif = new Justificatif("t", "d", TypeDossier.inscription, TypeJustificatifEtranger.francais);
     }
     
     @After

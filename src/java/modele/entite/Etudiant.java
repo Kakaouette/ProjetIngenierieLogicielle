@@ -29,7 +29,10 @@ public class Etudiant implements Serializable{
     
     @Column(unique = true, nullable = false)
     String ine;
-     
+    
+    @Column(nullable = false)
+    String pays;
+
     @Column(nullable = false)
     String adressePostale;
     
@@ -42,9 +45,10 @@ public class Etudiant implements Serializable{
     public Etudiant() {
     }
 
-    public Etudiant(String ine, String nom, String prenom, String adressePostale, String sexe, Adresse adresse) {
+    public Etudiant(String ine, String nom, String prenom, String pays, String adressePostale, String sexe, Adresse adresse) {
         this.nom = nom;
         this.prenom = prenom;
+        this.pays = pays;
         this.adressePostale = adressePostale;
         this.sexe = sexe;
         this.adresse = adresse;
@@ -65,6 +69,10 @@ public class Etudiant implements Serializable{
 
     public void setIne(String ine) {
         this.ine = ine;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
     }
     
     public void setAdressePostale(String adressePostale) {
@@ -96,6 +104,10 @@ public class Etudiant implements Serializable{
         return ine;
     }
 
+    public String getPays() {
+        return pays;
+    }
+    
     public String getAdressePostale() {
         return adressePostale;
     }

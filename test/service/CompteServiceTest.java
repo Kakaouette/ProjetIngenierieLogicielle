@@ -178,7 +178,7 @@ public class CompteServiceTest {
         Historique historique = new Historique(new Date(), "Simple test unitaire de suppression de compte", "simple test unitaire de suppression de compte", unCompte);
 
         Adresse a = new Adresse("0000", "ville");
-        Etudiant e = new Etudiant("ineTestCompteService", "test", "test", "adrtest", "F", a);
+        Etudiant e = new Etudiant("ineTestCompteService", "test", "test", "pays", "adrtest", "F", a);
         Formation f = new Formation("tests de suppression de compte", 0, new Date(), new Date(), "formation test", null);
         new FormationDAO().save(f);
         unCompte.setFormationAssocie(new ArrayList<>());
