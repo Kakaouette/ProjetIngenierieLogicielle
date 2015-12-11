@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import modele.entite.Etudiant;
@@ -26,6 +29,9 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import page.action.dossier.AfficherInformationsDossiersAction;
+import static service.GenerationLettres.CreerAccuseReceptionService.PATH_MODELS;
+import static service.GenerationLettres.CreerAccuseReceptionService.PATH_TARGET;
 
 
 
@@ -36,6 +42,33 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
  */
 public class CreerLettreAccepteService
 {
+    static private String getConfigurationPropertiesPathModels() {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            return properties.getProperty("path.models");
+        } catch (IOException ex) {
+            Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
+    static private String getConfigurationPropertiesPathTarget() {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            return properties.getProperty("path.target");
+        } catch (IOException ex) {
+            Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
+    static final String PATH_MODELS = getConfigurationPropertiesPathModels();
+    static final String PATH_TARGET = getConfigurationPropertiesPathTarget();
+    
         /**
          * 
          * @param filename - Nom du fichier modèle de la lettre d'acceptation.
@@ -79,13 +112,13 @@ public class CreerLettreAccepteService
             
             String newFileName=idDossier+" Lettre accepte.docx";
             
-            File file = new File("./lettres/models/"+filename);
+            File file = new File(PATH_MODELS+"/"+filename);
             FileInputStream fis = new FileInputStream(file.getAbsolutePath());
             XWPFDocument doc = new XWPFDocument(fis);
-            doc.write(new FileOutputStream("./lettres/target/"+newFileName));
+            doc.write(new FileOutputStream(PATH_TARGET+"/"+newFileName));
             doc.close();
             
-            doc = new XWPFDocument(OPCPackage.open("./lettres/target/"+newFileName));
+            doc = new XWPFDocument(OPCPackage.open(PATH_TARGET+"/"+newFileName));
 
             for (XWPFParagraph p : doc.getParagraphs())
             {

@@ -26,34 +26,32 @@ import page.action.dossier.AfficherInformationsDossiersAction;
  */
 public class CreerAccuseReceptionService
 {
-    static private int getConfigurationPropertiesPathModels() {
-        /* Récupération de du nb de jour avant fermeture de dossier (fichier properties) */
+    static private String getConfigurationPropertiesPathModels() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Properties properties = new Properties();
         try {
             properties.load(classLoader.getResourceAsStream("serveur.properties"));
-            return Integer.parseInt(properties.getProperty("pathModels"));
+            return properties.getProperty("path.models");
         } catch (IOException ex) {
             Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        return "";
     }
     
-    static private int getConfigurationPropertiesPathTarget() {
-        /* Récupération de du nb de jour avant fermeture de dossier (fichier properties) */
+    static private String getConfigurationPropertiesPathTarget() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Properties properties = new Properties();
         try {
             properties.load(classLoader.getResourceAsStream("serveur.properties"));
-            return Integer.parseInt(properties.getProperty("pathTarget"));
+            return properties.getProperty("path.target");
         } catch (IOException ex) {
             Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        return "";
     }
     
-    static final int PATH_MODELS = getConfigurationPropertiesPathModels();
-    static final int PATH_TARGET = getConfigurationPropertiesPathTarget();
+    static final String PATH_MODELS = getConfigurationPropertiesPathModels();
+    static final String PATH_TARGET = getConfigurationPropertiesPathTarget();
     
     /**
      * 
@@ -113,13 +111,13 @@ public class CreerAccuseReceptionService
 
         String newFileName=idDossier+" Accuse De Reception.docx";
         
-        File temp = new File("./lettres/models/"+filename);
-        System.out.println(temp.getAbsolutePath());
-        XWPFDocument doc = new XWPFDocument(OPCPackage.open(PATH_MODELS+""+filename));
-        doc.write(new FileOutputStream(PATH_TARGET+""+newFileName));
+        /*File temp = new File(PATH_MODELS+"/"+filename);
+        System.out.println(temp.getAbsolutePath());*/
+        XWPFDocument doc = new XWPFDocument(OPCPackage.open(PATH_MODELS+"/"+filename));
+        doc.write(new FileOutputStream(PATH_TARGET+"/"+newFileName));
         doc.close();
 
-        doc = new XWPFDocument(OPCPackage.open("./lettres/target/"+newFileName));
+        doc = new XWPFDocument(OPCPackage.open(PATH_TARGET+"/"+newFileName));
         for (XWPFParagraph p : doc.getParagraphs())
         {
             int numberOfRuns = p.getRuns().size();
@@ -242,8 +240,8 @@ public class CreerAccuseReceptionService
                 System.out.println("Changement du type de la formation effectue");
             }
         }
-        doc.write(new FileOutputStream("./lettres/target/temp.docx"));
-        new File("./lettres/target/temp.docx").delete();
+        doc.write(new FileOutputStream(PATH_TARGET+"/temp.docx"));
+        new File(PATH_TARGET+"/temp.docx").delete();
         doc.close();
         //copyTempToFile(filename);
         System.out.println("replaceAccuseReception DONE");
