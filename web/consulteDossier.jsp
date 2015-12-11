@@ -11,9 +11,33 @@
 <%@page import="modele.entite.Dossier"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
+<script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
+<link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
 <%
             Dossier d = (Dossier) request.getAttribute("dossier");
         %>
+<script type="text/javascript">
+    $(function() {
+        $('#dialog').hide();
+    });
+
+    function createDialog(id) {
+        $('#dialog').dialog({
+            modal: true,
+            buttons: {
+                "Oui": {
+                    text : 'Oui' ,class : 'btn btn-success', click : function() {
+                    window.location.replace('Navigation?action=supprimerDossier&idDossier=' + id);
+                }
+                },
+                "Non": {text : 'Non' ,class : 'btn btn-danger', click : function() {
+                    $(this).dialog("close");}
+                }
+            }
+        });
+        $('#dialog').show();
+    };
+</script>
 <form action="<%out.print("Navigation?action=modifierDossier&idDossier="+d.getId());%>" method="POST" class="form-horizontal">        
         
     <fieldset>
@@ -156,10 +180,6 @@
     </div>
     </fieldset>
             
-            
-            
-    
-        
     <div class="row">
         <div class="col-md-1 col-md-offset-2">
             <!--[if IE]>
@@ -176,7 +196,7 @@
             <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
             <![endif]-->
             <!--[if !IE]><!-->
-            <a class="btn btn-danger" href="<%out.print("Navigation?action=supprimerDossier&idDossier="+d.getId());%>">Supprimer</a>
+            <a class="btn btn-danger" onclick="createDialog('<% out.print(d.getId()); %>')">Supprimer</a>
         </div>
         <div class="col-md-2 col-md-offset-1">
             <!--[if IE]>
@@ -237,3 +257,6 @@
     </div>
 <%}%>
 <%@include file="Modele/pied.jsp" %>
+<div id="dialog" title="Confirmer la suppression">
+    <p>Voulez vous vraiment supprimer ce dossier ?</p>
+</div>
