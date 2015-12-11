@@ -128,9 +128,10 @@ public class CompteService {
             }
             
             //Formations du compte
-            if(lesFormations != null){
-                compte.setFormationAssocie(lesFormations);
+            if(!compte.getType().equals(TypeCompte.responsable_commission)&&!compte.getType().equals(TypeCompte.secrétaire_formation)&&!compte.getType().equals(TypeCompte.responsable_formation)){
+                lesFormations.clear();
             }
+            compte.setFormationAssocie(lesFormations);
 
             compteDAO.update(compte);
             return true;
