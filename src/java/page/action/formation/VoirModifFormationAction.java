@@ -5,7 +5,7 @@
  */
 package page.action.formation;
 
-import page.action.formation.VoirGestionFormationsAction;
+import page.action.Action;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ import modele.entite.Formation;
 import modele.entite.Justificatif;
 import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
-import page.action.Action;
 
 /**
  *
@@ -57,7 +56,7 @@ public class VoirModifFormationAction implements Action{
         }
         if(formation.getDebut() != null && formation.getFin()!= null){
             if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){ //verif formation editable
-                request.setAttribute("typeMessage", "danger");
+                request.setAttribute("typeMessage", "warning");
                 request.setAttribute("message", "La formation ne peut être modifier pendant la période d'inscription");
                 return new VoirGestionFormationsAction().execute(request, response); //redirection
             }

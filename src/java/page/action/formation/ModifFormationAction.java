@@ -5,6 +5,7 @@
  */
 package page.action.formation;
 
+import page.action.Action;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,6 @@ import modele.entite.Formation;
 import modele.entite.Justificatif;
 import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
-import page.action.Action;
 import service.FormationService;
 import service.exception.ModificationFormationInvalideException;
 import service.exception.SuppressionJustificatifInvalideException;

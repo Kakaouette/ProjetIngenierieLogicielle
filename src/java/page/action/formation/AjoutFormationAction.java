@@ -5,6 +5,7 @@
  */
 package page.action.formation;
 
+import page.action.Action;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +18,6 @@ import modele.entite.Formation;
 import modele.entite.Justificatif;
 import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
-import page.action.Action;
 import service.exception.AjoutFormationInvalideException;
 import service.FormationService;
 import service.exception.AjoutJustificatifInvalideException;
@@ -126,6 +126,16 @@ public class AjoutFormationAction implements Action{
             return stayHere(request, response); //redirection
         }
         
+        //free parameter
+        request.setAttribute("intitule", null);
+        request.setAttribute("description", null);
+        request.setAttribute("nbPlace", null);
+        request.setAttribute("dateDebut", null);
+        request.setAttribute("dateFin", null);
+        request.setAttribute("justificatifsInscriptionFrancais", null);
+        request.setAttribute("justificatifsAdmissionFrancais", null);
+        request.setAttribute("justificatifsInscriptionEtranger", null);
+        request.setAttribute("justificatifsAdmissionEtranger", null);
         return actionPageSuivante.execute(request, response);
     }
     
@@ -148,7 +158,7 @@ public class AjoutFormationAction implements Action{
         request.setAttribute("justificatifsAdmissionEtranger", request.getParameterValues("justificatifsAdmissionEtranger"));
         return new VoirAjoutFormationAction().execute(request, response); //modif: voir récupérer page precedente
     }
-    
+        
     private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
         
         //verification de la validité du formulaire

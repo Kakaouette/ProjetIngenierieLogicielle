@@ -90,15 +90,13 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("supprimerUtilisateur")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new SupprimerUtilisateurAction();
-        }else if (action.equals("afficherInformationsDossiers")) {
+        }/***Gestion dossiers****/
+        else if (action.equals("afficherInformationsDossiers")) {
             menuSelect = 0; //à modifier plus tard
             classeAction = new AfficherInformationsDossiersAction();
         }else if (action.equals("voirGestionFormation")) {
             menuSelect = 2;
             classeAction = new VoirGestionFormationsAction();
-        }else if (action.equals("voirValidationJustificatifsDossier")) {
-            menuSelect = 3;
-            classeAction = new VoirValidationJustificatifsDossierAction();
         }else if (action.equals("voirAjoutDossier")) {
             menuSelect = 3;
             classeAction = new VoirAjoutDossierAction();   
@@ -114,20 +112,6 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("supprimerDossier")) {
             menuSelect = 0;
             classeAction = new SupprimerDossierAction();
-        }/***Gestion formations****/
-        else if (action.equals("voirGestionFormation")) {
-            menuSelect = 2;
-            classeAction = new VoirGestionFormationsAction();
-        }else if (action.equals("voirDatesInscription")) {
-            menuSelect = 2;
-            classeAction = new VoirDatesInscriptionAction();
-        }/***Gestion dossiers****/
-        else if (action.equals("voirAjoutDossier")) {
-            menuSelect = 3;
-            classeAction = new VoirAjoutDossierAction();   
-        }else if (action.equals("ajouterDossier")) {
-            menuSelect = 3;
-            classeAction = new AjoutDossierAction();
         }/***Gestion formations***/
         else if (action.equals("voirAjoutFormation")) {
             menuSelect = 2;

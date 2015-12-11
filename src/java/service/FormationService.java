@@ -81,8 +81,8 @@ public class FormationService {
         if(formationDAO.getById(formationToSuppr.getId()) == null){
             throw new SuppressionFormationInvalideException("Formation " + formationToSuppr.getId() + " inexistante.", new Throwable(SuppressionFormationInvalideException.cause.Formation_Inexistante.toString()));
         }
-        if(formationToSuppr.getDebut() != null && formationToSuppr.getFin() != null){ //eviter les null pointer
-            if(formationToSuppr.getDebut().before(new Date()) && formationToSuppr.getFin().after(new Date())){ //verif formation editable
+        if(formationDAO.getById(formationToSuppr.getId()).getDebut() != null && formationDAO.getById(formationToSuppr.getId()).getFin() != null){ //eviter les null pointer
+            if(formationDAO.getById(formationToSuppr.getId()).getDebut().before(new Date()) && formationDAO.getById(formationToSuppr.getId()).getFin().after(new Date())){ //verif formation editable
                 throw new SuppressionFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(SuppressionFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
             }
         }
@@ -115,8 +115,8 @@ public class FormationService {
         if(formationDAO.getById(formationToModif.getId()) == null){
             throw new ModificationFormationInvalideException("Formation " + formationToModif.getId() + " inexistante.", new Throwable(ModificationFormationInvalideException.cause.Formation_Inexistante.toString()));
         }
-        if(formationToModif.getDebut() != null && formationToModif.getFin()!= null){ //eviter les null pointer
-            if(formationToModif.getDebut().before(new Date()) && formationToModif.getFin().after(new Date())){ //verif formation editable
+        if(formationDAO.getById(formationToModif.getId()).getDebut() != null && formationDAO.getById(formationToModif.getId()).getFin()!= null){ //eviter les null pointer
+            if(formationDAO.getById(formationToModif.getId()).getDebut().before(new Date()) && formationDAO.getById(formationToModif.getId()).getFin().after(new Date())){ //verif formation editable
                 throw new ModificationFormationInvalideException("La formation ne peut être modifier pendant la période d'inscription", new Throwable(ModificationFormationInvalideException.cause.Inscriptions_En_Cours.toString()));
             }
         }
@@ -134,7 +134,7 @@ public class FormationService {
             }
         }
         List<Justificatif> oldJustificatifs = formationDAO.getById(formationToModif.getId()).getLesJustificatifs();
-        
+                
         //mise à jour de la formation dans la BDD
         formationDAO.update(formationToModif);
         //supression des justificatifs inutiles

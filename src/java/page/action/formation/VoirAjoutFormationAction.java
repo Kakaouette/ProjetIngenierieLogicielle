@@ -5,9 +5,9 @@
  */
 package page.action.formation;
 
+import page.action.Action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import page.action.Action;
 
 /**
  *

@@ -245,3 +245,4 @@ public class FormationService_ajouterFormationTest {
         assertTrue(done && formation.equals(new FormationDAO().getById(formation.getId())));
     }
 }
+ 
