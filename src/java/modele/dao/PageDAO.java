@@ -8,10 +8,10 @@ package modele.dao;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import modele.entite.Action;
+import modele.entite.Page;
 
 /**
- * <b>Classe faisant le lien avec la BD pour la table Action</b>
+ * <b>Classe faisant le lien avec la BD pour la table Page</b>
  * <p>
  * Elle hérite de DAO, gérer par JPA et permet de faire des opérations simple sur les tables :
  * <ul>
@@ -23,31 +23,31 @@ import modele.entite.Action;
  * </p>
  * 
  * @see Dao
- * @see Action
+ * @see Page
  * @author roulonn
  */
 public class PageDAO extends Dao {
 
     public PageDAO(){}
 
-    public Action getById(String idAction) {
-        Action unAction = null;
-        unAction = em.find(Action.class, idAction);
+    public Page getById(String idPage) {
+        Page unPage = null;
+        unPage = em.find(Page.class, idPage);
 
-        return unAction;
+        return unPage;
     }
     
-    public void save(Action unAction) {
+    public void save(Page unPage) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.persist(unAction);
+        em.persist(unPage);
         tx.commit();
     }
 
-    public void update(Action unAction) {
+    public void update(Page unPage) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.merge(unAction);
+        em.merge(unPage);
         tx.commit();
     }
 }
