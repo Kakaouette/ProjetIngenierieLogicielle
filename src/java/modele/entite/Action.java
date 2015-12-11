@@ -24,6 +24,7 @@ public class Action implements Serializable{
     @Column(nullable = false)
     String classAction;
     
+    @JoinColumn(nullable = false)
     @OneToOne
     Page page;
 

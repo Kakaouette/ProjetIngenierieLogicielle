@@ -22,6 +22,7 @@ public class Menu {
     @Column(nullable = true)
     Menu menuSuperieur;
     
+    @JoinColumn(nullable = false)
     @OneToOne
     Action action;
 }
