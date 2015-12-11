@@ -41,6 +41,13 @@
     </div>
         
     <div class="form-group">
+        <label for="login" class="col-sm-2 control-label">INE</label>
+        <div class="col-sm-3">
+            <input type="text" name="id" id="login" class="form-control" value="<%out.print(d.getEtudiant().getIne());%>" required readonly>
+        </div>
+    </div>
+        
+    <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Nom du postulant</label>
         <div class="col-sm-3">
             <input type="text" name="login" id="login" class="form-control" value="<%out.print(d.getEtudiant().getNom());%>" required readonly>
