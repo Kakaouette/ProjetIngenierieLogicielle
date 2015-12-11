@@ -49,34 +49,28 @@ public class ModifierDossierAction implements Action{
         }
         
         //on change l'etat dossier si statuer
-        //le compte pouvant statuer est soit le directeur du pôle, soit l'admin
-        if(compte.getType().getValue()  >= TypeCompte.directeur_pole.getValue()){
-            switch(request.getParameter("statuer")){
-                case "accepter":dossierorigin.setEtat(TypeEtatDossier.retour_vers_secretariat);
-                etatChange=true;
-                dossierorigin.setAvisDirecteur(TypeAvisDossier.favorable);
-                break;
-                case "refuser":dossierorigin.setEtat(TypeEtatDossier.navette);
-                etatChange=true;
-                dossierorigin.setAvisDirecteur(TypeAvisDossier.défavorable);
-                break;
-                default:break;
+        //le compte pouvant statuer et soit le directeur du pôle, soit l'admin
+        //le dossier doit être en état transfert vers le directeur
+        if(dossierorigin.getEtat()==TypeEtatDossier.en_transfert_vers_directeur){
+            if(compte.getType()==TypeCompte.directeur_pole || compte.getType()==TypeCompte.admin){
+                switch(request.getParameter("statuer")){
+                    case "accepter":dossierorigin.setEtat(TypeEtatDossier.retour_vers_secretariat);dossierorigin.setAvisDirecteur(TypeAvisDossier.favorable);etatChange=true;break;
+                    case "refuser":dossierorigin.setEtat(TypeEtatDossier.navette);dossierorigin.setAvisDirecteur(TypeAvisDossier.défavorable);etatChange=true;break;
+                    default:dossierorigin.setAvisDirecteur(TypeAvisDossier.en_attente);break;
+                }
             }
         }
         
-        //on change l'etat dossier si avis
-        //le compte pouvant donner un avis est soit le .responsable commission, soit l'admin
-        if(compte.getType()==TypeCompte.responsable_commission || compte.getType()==TypeCompte.admin){
-            switch(request.getParameter("avis")){
-                case "favorable":dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);
-                etatChange=true;
-                dossierorigin.setAvisCommission(TypeAvisDossier.favorable);
-                break;
-                case "defavorable":dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);
-                etatChange=true;
-                dossierorigin.setAvisCommission(TypeAvisDossier.défavorable);
-                break;
-                default:break;
+        //on change l'etat dossier après passage en commission
+        //le compte pouvant répondre et soit le responsable de commission, soit l'admin
+        //le dossier doit être en état navette ou attente commission
+        if(dossierorigin.getEtat()==TypeEtatDossier.en_attente_commission||dossierorigin.getEtat()==TypeEtatDossier.navette){
+            if(compte.getType()==TypeCompte.responsable_commission || compte.getType()==TypeCompte.admin){
+                switch(request.getParameter("avis")){
+                    case "favorable":dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);dossierorigin.setAvisCommission(TypeAvisDossier.favorable);etatChange=true;break;
+                    case "defavorable":dossierorigin.setEtat(TypeEtatDossier.terminé);dossierorigin.setAvisCommission(TypeAvisDossier.défavorable);etatChange=true;break;
+                    default:dossierorigin.setAvisCommission(TypeAvisDossier.en_attente);break;
+                }
             }
         }
     
