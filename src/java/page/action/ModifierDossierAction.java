@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import modele.entite.Compte;
 import modele.entite.Dossier;
 import modele.entite.Historique;
+import modele.entite.TypeAvisDossier;
 import modele.entite.TypeCompte;
 import modele.entite.TypeEtatDossier;
 import service.DossierService;
@@ -48,21 +49,33 @@ public class ModifierDossierAction implements Action{
         }
         
         //on change l'etat dossier si statuer
-        //le compte pouvant statuer et soit le directeur du pôle, soit l'admin
+        //le compte pouvant statuer est soit le directeur du pôle, soit l'admin
         if(compte.getType()==TypeCompte.directeur_pole || compte.getType()==TypeCompte.admin){
             switch(request.getParameter("statuer")){
-                case "accepter":dossierorigin.setEtat(TypeEtatDossier.retour_vers_secretariat);etatChange=true;break;
-                case "refuser":dossierorigin.setEtat(TypeEtatDossier.navette);etatChange=true;break;
+                case "accepter":dossierorigin.setEtat(TypeEtatDossier.retour_vers_secretariat);
+                etatChange=true;
+                dossierorigin.setAvisDirecteur(TypeAvisDossier.favorable);
+                break;
+                case "refuser":dossierorigin.setEtat(TypeEtatDossier.navette);
+                etatChange=true;
+                dossierorigin.setAvisDirecteur(TypeAvisDossier.défavorable);
+                break;
                 default:break;
             }
         }
         
-        //on change l'etat dossier si statuer
-        //le compte pouvant statuer et soit le directeur du pôle, soit l'admin
+        //on change l'etat dossier si avis
+        //le compte pouvant donner un avis est soit le .responsable commission, soit l'admin
         if(compte.getType()==TypeCompte.responsable_commission || compte.getType()==TypeCompte.admin){
             switch(request.getParameter("avis")){
-                case "favorable":dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);etatChange=true;break;
-                case "defavorable":dossierorigin.setEtat(TypeEtatDossier.terminé);etatChange=true;break;
+                case "favorable":dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);
+                etatChange=true;
+                dossierorigin.setAvisCommission(TypeAvisDossier.favorable);
+                break;
+                case "defavorable":dossierorigin.setEtat(TypeEtatDossier.terminé);
+                etatChange=true;
+                dossierorigin.setAvisCommission(TypeAvisDossier.défavorable);
+                break;
                 default:break;
             }
         }
