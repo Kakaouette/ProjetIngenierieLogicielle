@@ -50,7 +50,7 @@ public class ModifierDossierAction implements Action{
         
         //on change l'etat dossier si statuer
         //le compte pouvant statuer est soit le directeur du pôle, soit l'admin
-        if(compte.getType()==TypeCompte.directeur_pole || compte.getType()==TypeCompte.admin){
+        if(compte.getType().getValue()  >= TypeCompte.directeur_pole.getValue()){
             switch(request.getParameter("statuer")){
                 case "accepter":dossierorigin.setEtat(TypeEtatDossier.retour_vers_secretariat);
                 etatChange=true;

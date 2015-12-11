@@ -124,7 +124,7 @@
         
     <fieldset>
         <legend>Avis sur dossier</legend>
-        <div class="form-group" <% if(c.getType().getValue() < TypeCompte.responsable_commission.getValue() || !(d.getEtat() == TypeEtatDossier.en_attente_commission || d.getEtat() == TypeEtatDossier.navette)){%>hidden<%}%>>
+        <div class="form-group" <% if(c.getType() != TypeCompte.admin){if(c.getType() != TypeCompte.responsable_commission || !(d.getEtat() == TypeEtatDossier.en_attente_commission || d.getEtat() == TypeEtatDossier.navette)){%>hidden<%}}%>>
             <label class="radio-inline col-md-offset-2">
                 <input type="radio" name="avis" value="favorable" <%if(d.getAvisCommission() == TypeAvisDossier.favorable){%>checked<%}%>>Favorable
             </label>
@@ -135,7 +135,7 @@
                 <input type="radio" name="avis" value="enAttente" <%if(d.getAvisCommission() == TypeAvisDossier.en_attente){%>checked<%}%>>En attente
             </label>
         </div>
-            <div class="form-group" <% if(c.getType().getValue() >= TypeCompte.responsable_commission.getValue() && (d.getEtat() == TypeEtatDossier.en_attente_commission || d.getEtat() == TypeEtatDossier.navette)){%>hidden<%}%>>
+            <div class="form-group" <% if(c.getType() == TypeCompte.admin || (c.getType() == TypeCompte.responsable_commission && (d.getEtat() == TypeEtatDossier.en_attente_commission || d.getEtat() == TypeEtatDossier.navette))){%>hidden<%}%>>
             <%if(d.getAvisCommission() == TypeAvisDossier.favorable){%>
             <span class="label label-success col-md-offset-2"><%out.print(TypeAvisDossier.favorable);%></span>
             <%};%>
@@ -150,7 +150,7 @@
         
     <fieldset>
         <legend>Statuer sur dossier</legend>
-        <div class="form-group" <% if(c.getType().getValue() < TypeCompte.directeur_pole.getValue() || !(d.getEtat() == TypeEtatDossier.en_transfert_vers_directeur)){%>hidden<%}%>>
+        <div class="form-group" <% if(c.getType() != TypeCompte.admin){if(c.getType() ==  TypeCompte.responsable_commission || !(d.getEtat() == TypeEtatDossier.en_transfert_vers_directeur)){%>hidden<%}}%>>
             <label class="radio-inline col-md-offset-2">
                 <input type="radio" name="statuer" value="accepter" <%if(d.getAvisDirecteur() == TypeAvisDossier.favorable){%>checked<%}%>>Accepter
             </label>
@@ -161,7 +161,7 @@
                 <input type="radio" name="statuer" value="enAttente" <%if(d.getAvisDirecteur() == TypeAvisDossier.en_attente){%>checked<%}%>>En attente
             </label>
         </div>
-        <div class="form-group" <% if(c.getType().getValue() >= TypeCompte.directeur_pole.getValue() && (d.getEtat() == TypeEtatDossier.en_transfert_vers_directeur)){%>hidden<%}%>>
+        <div class="form-group" <% if(c.getType() == TypeCompte.admin || (c.getType() == TypeCompte.directeur_pole && (d.getEtat() == TypeEtatDossier.en_transfert_vers_directeur))){%>hidden<%}%>>
             <%if(d.getAvisDirecteur() == TypeAvisDossier.favorable){%>
             <span class="label label-success col-md-offset-2"><%out.print(TypeAvisDossier.favorable);%></span>
             <%};%>
