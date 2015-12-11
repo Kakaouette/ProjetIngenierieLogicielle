@@ -74,15 +74,15 @@
             '<div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">' + 
                 '<form id=ajouterJustificatif>' + 
                     '<div class="form-group">' + 
-                        '<label for="titre" class="col-sm-2 control-label">Titre</label>' + 
+                        '<label for="titre" class="col-md-2 control-label">Titre</label>' + 
                         '<div class="col-sm-10">' + 
                             '<input type="text" name="titre" id="titre" class="form-control" placeholder="titre" autocomplete="off" required autofocus>' + 
                         '</div>' + 
                     '</div>' + 
                     '<div class="form-group">' + 
-                        '<label for="description" class="col-sm-2 control-label">Description</label>' + 
-                        '<div class="col-sm-10">' + 
-                            '<input type="text" name="description" id="description" class="form-control" placeholder="description" autocomplete="off" required>' + 
+                        '<label for="description" class="col-md-12 control-label">Description</label>' + 
+                        '<div class="col-md-12">' + 
+                            '<textarea class="form-control" name="description" id="description" placeholder="description" autocomplete="off" required/>' + 
                         '</div>' + 
                     '</div>' + 
                 '</form>' + 
@@ -91,7 +91,7 @@
         $('div#dialogJustificatifAAjouter form#ajouterJustificatif').submit(function(){
             $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove(); //remove old msg du dialog
             
-            if(addJ(location, $("div#dialogJustificatifAAjouter input#titre").val(), $("div#dialogJustificatifAAjouter input#description").val())){ //try to add justificatif
+            if(addJ(location, $("div#dialogJustificatifAAjouter input#titre").val(), $("div#dialogJustificatifAAjouter textarea#description").val())){ //try to add justificatif
                 $("div#dialogJustificatifAAjouter").dialog("close");
             }
             return false; //annuler changement de page dû au submit

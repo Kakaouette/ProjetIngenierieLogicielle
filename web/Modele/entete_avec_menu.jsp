@@ -91,7 +91,7 @@
                                 </li>
                             <%}%>
                             <%if (c.getType() == TypeCompte.admin || c.getType() == TypeCompte.secrétaire_formation) {%>
-                                <li <%if (current.equals(2)) {%>class="active"<%}%> class="dropdown">
+                                <li <%if (current.equals(3)) {%>class="active"<%}%> class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         <span class="fa fa-folder-open"></span> Dossiers <span class="caret"></span>
                                     </a>
