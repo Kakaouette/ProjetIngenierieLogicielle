@@ -5,20 +5,15 @@ package page.action;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.io.IOException;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.dao.Dao;
-import modele.dao.DossierDAO;
 import modele.entite.Compte;
 import modele.entite.Dossier;
 import modele.entite.Historique;
-import modele.entite.TypeDossier;
+import modele.entite.TypeCompte;
 import modele.entite.TypeEtatDossier;
 import service.DossierService;
 
@@ -41,12 +36,37 @@ public class ModifierDossierAction implements Action{
 
         //recuperation des infos et modif de l'objet Dossier
         Compte compte = (Compte)request.getSession().getAttribute("compte");
-        String etatDossier = request.getParameter("etat");
+        
+        //changement d'état d'un dossier => seulement si le compte est admin
+        if(compte.getType()==TypeCompte.admin){
+            String etatDossier = request.getParameter("etat");
 
-        if (!etatDossier.equals(dossierorigin.getEtat().name())){
-            etatChange = true;
+            if (!etatDossier.equals(dossierorigin.getEtat().name())){
+                etatChange = true;
+            }
+            dossierorigin.setEtat(TypeEtatDossier.valueOf(etatDossier));
         }
-        dossierorigin.setEtat(TypeEtatDossier.valueOf(etatDossier));
+        
+        //on change l'etat dossier si statuer
+        //le compte pouvant statuer et soit le directeur du pôle, soit l'admin
+        if(compte.getType()==TypeCompte.directeur_pole || compte.getType()==TypeCompte.admin){
+            switch(request.getParameter("statuer")){
+                case "accepter":dossierorigin.setEtat(TypeEtatDossier.retour_vers_secretariat);etatChange=true;break;
+                case "refuser":dossierorigin.setEtat(TypeEtatDossier.navette);etatChange=true;break;
+                default:break;
+            }
+        }
+        
+        //on change l'etat dossier si statuer
+        //le compte pouvant statuer et soit le directeur du pôle, soit l'admin
+        if(compte.getType()==TypeCompte.responsable_commission || compte.getType()==TypeCompte.admin){
+            switch(request.getParameter("avis")){
+                case "favorable":dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);etatChange=true;break;
+                case "defavorable":dossierorigin.setEtat(TypeEtatDossier.terminé);etatChange=true;break;
+                default:break;
+            }
+        }
+    
         String lettreDossier=request.getParameter("lettre");
         dossierorigin.setLettre(lettreDossier);
         //Historique
