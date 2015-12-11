@@ -63,6 +63,8 @@ public class Navigation extends HttpServlet {
             action = "index";
         }
         
+        Class c;
+        
         //init de l'interface
         Action classeAction = null;
         String vue = "";
