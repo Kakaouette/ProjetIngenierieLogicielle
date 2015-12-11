@@ -4,6 +4,8 @@
     Author     : Pierre
 --%>
 
+<%@page import="modele.dao.CompteDAO"%>
+<%@page import="service.CompteService"%>
 <%@page import="modele.entite.Formation"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
@@ -95,11 +97,18 @@
                 <label for="formations" class="col-md-2 control-label">Formation(s)</label>
                 <div class="col-md-3">
                     <select name="formations" size="4" multiple>
-                        <option id="nope_formation" selected="selected">Aucune formation</option>
+                        <option id="nope_formation">Aucune formation</option>
                         <%
                             List<Formation> formations = (List<Formation>) request.getAttribute("lesFormations");
+                            Compte compte = (Compte) request.getAttribute("compte");
                             for (Formation f : formations) {
-                        %><option value="<%out.print(f.getId());%>"><%out.print(f.getIntitule());%></option><%
+                                if(compte.getFormationAssocie().contains(f))
+                                {
+                                    %><option value="<%out.print(f.getId());%>" selected><%out.print(f.getIntitule());%></option><%
+                                }
+                                else {
+                                    %><option value="<%out.print(f.getId());%>"><%out.print(f.getIntitule());%></option><%
+                                }   
                             }
                         %>
                     </select>

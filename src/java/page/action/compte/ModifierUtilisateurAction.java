@@ -5,13 +5,16 @@
  */
 package page.action.compte;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.CompteDAO;
+import modele.dao.FormationDAO;
 import modele.entite.Compte;
+import modele.entite.Formation;
 import page.action.Action;
 import service.CompteService;
 
@@ -37,9 +40,24 @@ public class ModifierUtilisateurAction implements Action {
             String mail = request.getParameter("email");
             String mdp = request.getParameter("motDePasse");
             int idCompte = Integer.parseInt(request.getParameter("id"));
+            String[] form = request.getParameterValues("formations");
+            
+            List<Formation> lesFormations = new ArrayList<>();
+            FormationDAO formationDAO = new FormationDAO();
+            for(String idS : form){
+                if(idS.equals("Aucune formation")){
+                    lesFormations.clear();
+                    break;
+                }else{
+                    try{
+                        int id = Integer.parseInt(idS);
+                        lesFormations.add(formationDAO.getById(id));
+                    }catch(Exception e){}
+                }
+            }
 
             Compte compte = new CompteDAO().getById(idCompte);
-            
+            compte.setFormationAssocie(lesFormations);
             if(compte == null)
                 return new VoirGestionUtilisateurAction().execute(request, response);
 
@@ -67,7 +85,7 @@ public class ModifierUtilisateurAction implements Action {
                 return new VoirModifierComptesAction().execute(request, response);
             }
 
-            Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp);
+            Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,lesFormations);
             if (update == false) {
                 System.out.println("test");
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
@@ -75,6 +93,7 @@ public class ModifierUtilisateurAction implements Action {
                 request.setAttribute("nom", nom);
                 request.setAttribute("prenom", prenom);
                 request.setAttribute("email", mail);
+                request.setAttribute("formation",lesFormations);
                 return "modifierUtilisateur.jsp";
             } else {
                 request.setAttribute("message", "Modification effectuée");
