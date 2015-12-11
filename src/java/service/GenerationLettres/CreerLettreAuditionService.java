@@ -7,6 +7,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
 import modele.entite.Etudiant;
@@ -17,6 +20,9 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import page.action.dossier.AfficherInformationsDossiersAction;
+import static service.GenerationLettres.CreerAccuseReceptionService.PATH_MODELS;
+import static service.GenerationLettres.CreerAccuseReceptionService.PATH_TARGET;
 
 
 
@@ -27,6 +33,33 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
  */
 public class CreerLettreAuditionService
 {
+    static private String getConfigurationPropertiesPathModels() {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            return properties.getProperty("path.models");
+        } catch (IOException ex) {
+            Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
+    static private String getConfigurationPropertiesPathTarget() {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            return properties.getProperty("path.target");
+        } catch (IOException ex) {
+            Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
+    static final String PATH_MODELS = getConfigurationPropertiesPathModels();
+    static final String PATH_TARGET = getConfigurationPropertiesPathTarget();
+    
     /**
      * 
      * @param filename - Nom du fichier modèle de la lettre d'audition.
@@ -34,7 +67,7 @@ public class CreerLettreAuditionService
      * @throws InvalidFormatException
      * @throws IOException 
      */
-    public static void replaceLettreAudition(String filename, String idDossier)throws InvalidFormatException, IOException
+    public void replaceLettreAudition(String filename, String idDossier)throws InvalidFormatException, IOException
     {
         Dossier dossier = new DossierDAO().getById(idDossier);
 
@@ -115,11 +148,11 @@ public class CreerLettreAuditionService
 
         String newFileName=idDossier+" Lettre audition.docx";
 
-        XWPFDocument doc = new XWPFDocument(OPCPackage.open("./lettres/models/"+filename));
-        doc.write(new FileOutputStream("./lettres/target/"+newFileName));
+        XWPFDocument doc = new XWPFDocument(OPCPackage.open(PATH_MODELS+"/"+filename));
+        doc.write(new FileOutputStream(PATH_TARGET+"/"+newFileName));
         doc.close();
 
-        doc = new XWPFDocument(OPCPackage.open("./lettres/target/"+newFileName));
+        doc = new XWPFDocument(OPCPackage.open(PATH_TARGET+"/"+newFileName));
         for (XWPFParagraph p : doc.getParagraphs())
         {
             int numberOfRuns = p.getRuns().size();
@@ -434,8 +467,8 @@ public class CreerLettreAuditionService
                 System.out.println("Changement du type de la formation effectue");
             }
         }
-        doc.write(new FileOutputStream("./lettres/target/temp.docx"));
-        new File("./lettres/target/temp.docx").delete();
+        doc.write(new FileOutputStream(PATH_TARGET+"/temp.docx"));
+        new File(PATH_TARGET+"/temp.docx").delete();
         doc.close();
         //copyTempToFile(filename);
         System.out.println("replaceLettreAudition DONE");

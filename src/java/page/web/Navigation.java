@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import page.action.Action;
+import page.action.GenerationLettres.GenerationLettresAction;
 import page.action.accueil.*;
 import page.action.compte.*;
 import page.action.dossier.*;
@@ -152,6 +153,10 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modiferDatesInscription")) {
             menuSelect = 2;
             classeAction = new ModifDatesInscriptionAction();
+        }
+        else if (action.equals("genererLettre")) {
+            menuSelect = 0;
+            classeAction = new GenerationLettresAction();
         }else{
             action = "index";
             menuSelect = 0;

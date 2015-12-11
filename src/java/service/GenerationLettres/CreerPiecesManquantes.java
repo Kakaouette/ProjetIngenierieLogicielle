@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modele.dao.DossierDAO;
 import modele.entite.Adresse;
 import modele.entite.Dossier;
@@ -30,12 +33,43 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import page.action.dossier.AfficherInformationsDossiersAction;
+import static service.GenerationLettres.CreerAccuseReceptionService.PATH_TARGET;
+import static service.GenerationLettres.CreerLettreRefusService.PATH_MODELS;
 
 /**
  *
  * @author Drapeau, Chasseloup, Giguère
  */
-public class CreerPiecesManquantes {
+public class CreerPiecesManquantes
+{
+    static private String getConfigurationPropertiesPathModels() {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            return properties.getProperty("path.models");
+        } catch (IOException ex) {
+            Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
+    static private String getConfigurationPropertiesPathTarget() {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Properties properties = new Properties();
+        try {
+            properties.load(classLoader.getResourceAsStream("serveur.properties"));
+            return properties.getProperty("path.target");
+        } catch (IOException ex) {
+            Logger.getLogger(AfficherInformationsDossiersAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+    
+    static final String PATH_MODELS = getConfigurationPropertiesPathModels();
+    static final String PATH_TARGET = getConfigurationPropertiesPathTarget();
+    
      /**
      * 
      * @param filename - Nom du fichier modèle de demande des pièces manquantes.
@@ -43,7 +77,7 @@ public class CreerPiecesManquantes {
      * @throws InvalidFormatException
      * @throws IOException 
      */
-    public static void replacePiecesManquantes(String filename, Formation formation, String sexe, String nom, String prenom, String adresse, Adresse adresseEntite, List<Justificatif> justificatifsOk)throws InvalidFormatException, IOException
+    public void replacePiecesManquantes(String filename, Formation formation, String sexe, String nom, String prenom, String adresse, Adresse adresseEntite, List<Justificatif> justificatifsOk)throws InvalidFormatException, IOException
     {
         List<Justificatif> lesJustificatifs = formation.getLesJustificatifs();
 
@@ -66,13 +100,13 @@ public class CreerPiecesManquantes {
 
         String newFileName=nom+prenom+" Lettre piecesManquantes.docx";
 
-        File file = new File("./lettres/models/"+filename);
+        File file = new File(PATH_MODELS+"/"+filename);
         FileInputStream fis = new FileInputStream(file.getAbsolutePath());
         XWPFDocument doc = new XWPFDocument(fis);
-        doc.write(new FileOutputStream("./lettres/target/"+newFileName));
+        doc.write(new FileOutputStream(PATH_TARGET+"/"+newFileName));
         doc.close();
-
-        doc = new XWPFDocument(OPCPackage.open("./lettres/target/"+newFileName));
+            
+        doc = new XWPFDocument(OPCPackage.open(PATH_TARGET+"/"+newFileName));
 
         for (XWPFParagraph p : doc.getParagraphs())
         {
@@ -278,8 +312,8 @@ public class CreerPiecesManquantes {
                 i++;
             }
         
-        doc.write(new FileOutputStream("./lettres/target/temp.docx"));
-        new File("./lettres/target/temp.docx").delete();
+        doc.write(new FileOutputStream(PATH_TARGET+"/temp.docx"));
+        new File(PATH_TARGET+"/temp.docx").delete();
         doc.close();
         //copyTempToFile(filename);
         System.out.println("replaceLettrePiecesManquantes DONE");

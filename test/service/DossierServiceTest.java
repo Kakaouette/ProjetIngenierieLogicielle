@@ -947,17 +947,135 @@ public class DossierServiceTest {
     // En retard : Dans un état pendant plus de 7 jours sauf "En attente de commission".
     // Perdu : dans un état "transfert" depuis plus de 7 jours.
     // Urgent : Moins de 15 jours restant.
+    
+    /**
+     * Dossier sans historique en transfert créé depuis plus de 7 jours -> perdu
+     */
     @Test
     public void testVerifDossierPerduSansHist(){
-        long test1 = new Date().getTime();
-        long test = test1 - (long)((1000*60*60*24)*7)*4;
+        long test = new Date().getTime();
+        long date = test - (long)((1000*60*60*24)*7)*4;
 
-        Date d = new Date(test);
+        Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
         Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
         Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
         
         String expected = "Perdu";
+        assertEquals(expected,instance.verifDossierPerdu(dos));
+    }
+    
+    /**
+     * Dossier créé depuis plus de 7 jours avec un historique de moins de 7 jours -> pas de changement
+     */
+    @Test
+    public void testVerifDossierCreationAvecHist(){
+        long test = new Date().getTime();
+        long date = test - (long)((1000*60*60*24)*7)*4;
+        
+        test = new Date().getTime();
+        long dateHist = test - (long)(1000*60*60*24)*5;
+
+        Date d = new Date(date);
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
+        Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
+        List<Historique> lesHist = new ArrayList<>();
+        lesHist.add(hist);
+        Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form,lesHist);
+        
+        String expected = TypeEtatDossier.en_transfert_vers_directeur.toString();
+        assertEquals(expected,instance.verifDossierPerdu(dos));
+    }
+    
+     /**
+     * Dossier en transfert créé depuis plus de 7 jours avec un historique de plus de 7 jours -> perdu
+     */
+    @Test
+    public void testVerifDossierCreationAvecHistPerdu(){
+        long test = new Date().getTime();
+        long date = test - (long)((1000*60*60*24)*7)*4;
+        
+        test = new Date().getTime();
+        long dateHist = test - (long)(1000*60*60*24)*9;
+
+        Date d = new Date(date);
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
+        Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
+        List<Historique> lesHist = new ArrayList<>();
+        lesHist.add(hist);
+        Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form,lesHist);
+        
+        String expected = "Perdu";
+        assertEquals(expected,instance.verifDossierPerdu(dos));
+    }
+    
+    /**
+     * Dossier sans historique créé depuis plus de 7 jours -> En retard
+     */
+    @Test
+    public void testVerifDossierEnRetardSansHist(){
+        long test = new Date().getTime();
+        long date = test - (long)((1000*60*60*24)*7)*4;
+
+        Date d = new Date(date);
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_attente_commission, "Petite lettre", TypeDossier.admissibilite, etu, form);
+        
+        String expected = "En retard";
+        assertEquals(expected,instance.verifDossierPerdu(dos));
+    }
+    
+    
+    /**
+     * Dossier créé depuis plus de 7 jours avec un historique de moins de 7 jours -> pas de changement
+     */
+    @Test
+    public void testVerifDossierCreationAvecHistNonPerdu(){
+        long test = new Date().getTime();
+        long date = test - (long)((1000*60*60*24)*7)*4;
+        
+        test = new Date().getTime();
+        long dateHist = test - (long)(1000*60*60*24)*5;
+
+        Date d = new Date(date);
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
+        Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
+        List<Historique> lesHist = new ArrayList<>();
+        lesHist.add(hist);
+        Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_attente_commission, "Petite lettre", TypeDossier.admissibilite, etu, form,lesHist);
+        
+        String expected = TypeEtatDossier.en_attente_commission.toString();
+        assertEquals(expected,instance.verifDossierPerdu(dos));
+    }
+    
+    /**
+     * Dossier créé depuis plus de 7 jours avec un historique de plus de 7 jours -> En retard
+     */
+    @Test
+    public void testVerifDossierCreationAvecHistEnRetard(){
+        long test = new Date().getTime();
+        long date = test - (long)((1000*60*60*24)*7)*4;
+        
+        test = new Date().getTime();
+        long dateHist = test - (long)(1000*60*60*24)*9;
+
+        Date d = new Date(date);
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
+        Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
+        List<Historique> lesHist = new ArrayList<>();
+        lesHist.add(hist);
+        Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_attente_commission, "Petite lettre", TypeDossier.admissibilite, etu, form,lesHist);
+        
+        String expected = "En retard";
         assertEquals(expected,instance.verifDossierPerdu(dos));
     }
 }
