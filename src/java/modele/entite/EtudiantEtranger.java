@@ -25,8 +25,8 @@ public class EtudiantEtranger extends Etudiant implements Serializable{
     public EtudiantEtranger() {
     }
 
-    public EtudiantEtranger(String niveau, String avis, String nom, String prenom, String adressePostale, String sexe, Adresse adresse, String ine) {
-        super(ine, nom, prenom, adressePostale, sexe, adresse);
+    public EtudiantEtranger(String niveau, String avis, String nom, String prenom, String pays, String adressePostale, String sexe, Adresse adresse, String ine) {
+        super(ine, nom, prenom, pays, adressePostale, sexe, adresse);
         this.niveau = niveau;
         this.avis = avis;
     }

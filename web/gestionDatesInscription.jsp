@@ -75,13 +75,13 @@
         <div class="col-sm-3">    
             <div class="input-daterange input-group" id="datepicker">
                 <input type="text" class="input-sm form-control" name="dateDebut" placeholder="Date de début" autocomplete="off"
-                   value="<%if (request.getAttribute("dateFin") != null) {
-                           out.print(request.getAttribute("dateFin"));
+                   value="<%if (request.getAttribute("dateDebut") != null) {
+                           out.print(request.getAttribute("dateDebut"));
                        }%>"/>
                 <span class="input-group-addon">au</span>
                 <input type="text" class="input-sm form-control" name="dateFin" placeholder="Date de fin" autocomplete="off"
-                   value="<%if(request.getAttribute("dateDebut") != null) {
-                           out.print(request.getAttribute("dateDebut"));
+                   value="<%if(request.getAttribute("dateFin") != null) {
+                           out.print(request.getAttribute("dateFin"));
                        }%>"/>
             </div>
         </div>

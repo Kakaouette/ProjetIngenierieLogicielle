@@ -5,6 +5,7 @@
  */
 package page.action.formation;
 
+import page.action.Action;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +16,6 @@ import modele.dao.FormationDAO;
 import modele.entite.Compte;
 import modele.entite.Formation;
 import modele.entite.TypeCompte;
-import page.action.Action;
 
 /**
  *
@@ -30,8 +30,7 @@ public class VoirGestionDatesInscriptionAction implements Action{
         Compte compte = (Compte) request.getSession().getAttribute("compte");
         List<Formation> formations = null; 
         //recuperation des formations pour la page suivante celon le type de compte
-        if(compte.getType() == TypeCompte.admin || compte.getType() == TypeCompte.directeur_pole || compte.getType() == TypeCompte.responsable_administrative 
-                || compte.getType() == TypeCompte.responsable_commission){
+        if(compte.getType() == TypeCompte.admin || compte.getType() == TypeCompte.secrétaire_inscription){
             formations = new FormationDAO().SelectAll();
         }else if(compte.getType() == TypeCompte.secrétaire_formation){
             formations = compte.getFormationAssocie();
@@ -63,6 +62,12 @@ public class VoirGestionDatesInscriptionAction implements Action{
         Date fin = new Date();
         if(formationModifiee.getFin() != null){
             fin = formationModifiee.getFin();
+        }
+        if(formationModifiee.getDebut() != null && formationModifiee.getFin()!= null){
+            if(formationModifiee.getDebut().before(new Date()) && formationModifiee.getFin().after(new Date())){ //verif formation editable
+                request.setAttribute("typeMessage", "warning");
+                request.setAttribute("message", "La formation ne peut être modifier pendant la période d'inscription");
+            }
         }
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         request.setAttribute("dateDebut", df.format(debut));

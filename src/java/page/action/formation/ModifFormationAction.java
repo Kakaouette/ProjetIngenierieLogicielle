@@ -5,6 +5,7 @@
  */
 package page.action.formation;
 
+import page.action.Action;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,6 @@ import modele.entite.Formation;
 import modele.entite.Justificatif;
 import modele.entite.TypeDossier;
 import modele.entite.TypeJustificatifEtranger;
-import page.action.Action;
 import service.FormationService;
 import service.exception.ModificationFormationInvalideException;
 import service.exception.SuppressionJustificatifInvalideException;
@@ -70,26 +70,54 @@ public class ModifFormationAction implements Action{
         List<Justificatif> justificatifs = new ArrayList<Justificatif>();
         if(justificatifsInscriptionFrancaisForm != null){
             for(String titre : justificatifsInscriptionFrancaisForm){
-                Justificatif jTemp = new Justificatif(titre, TypeDossier.inscription, TypeJustificatifEtranger.francais);
-                justificatifs.add(jTemp);
+                String descriptionJustificatif = request.getParameter(titre + "InscriptionFrancaisDescription");
+                if(descriptionJustificatif != null){
+                    Justificatif jTemp = new Justificatif(titre, descriptionJustificatif, TypeDossier.inscription, TypeJustificatifEtranger.francais);
+                    justificatifs.add(jTemp);
+                }else{
+                    request.setAttribute("typeMessage", "danger");
+                    request.setAttribute("message", titre + " n'a pas de description.");
+                    return stayHere(request, response); //redirection
+                }
             }
         }
         if(justificatifsAdmissionFrancaisForm != null){
             for(String titre : justificatifsAdmissionFrancaisForm){
-                Justificatif jTemp = new Justificatif(titre, TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
-                justificatifs.add(jTemp);
+                String descriptionJustificatif = request.getParameter(titre + "AdmissionFrancaisDescription");
+                if(descriptionJustificatif != null){
+                    Justificatif jTemp = new Justificatif(titre, descriptionJustificatif, TypeDossier.admissibilite, TypeJustificatifEtranger.francais);
+                    justificatifs.add(jTemp);
+                }else{
+                    request.setAttribute("typeMessage", "danger");
+                    request.setAttribute("message", titre + " n'a pas de description.");
+                    return stayHere(request, response); //redirection
+                }
             }
         }
         if(justificatifsInscriptionEtrangerForm != null){
             for(String titre : justificatifsInscriptionEtrangerForm){
-                Justificatif jTemp = new Justificatif(titre, TypeDossier.inscription, TypeJustificatifEtranger.etranger);
-                justificatifs.add(jTemp);
+                String descriptionJustificatif = request.getParameter(titre + "InscriptionEtrangerDescription");
+                if(descriptionJustificatif != null){
+                    Justificatif jTemp = new Justificatif(titre, descriptionJustificatif, TypeDossier.inscription, TypeJustificatifEtranger.etranger);
+                    justificatifs.add(jTemp);
+                }else{
+                    request.setAttribute("typeMessage", "danger");
+                    request.setAttribute("message", titre + " n'a pas de description.");
+                    return stayHere(request, response); //redirection
+                }
             }
         }
         if(justificatifsAdmissionEtrangerForm != null){
             for(String titre : justificatifsAdmissionEtrangerForm){
-                Justificatif jTemp = new Justificatif(titre, TypeDossier.admissibilite, TypeJustificatifEtranger.etranger);
-                justificatifs.add(jTemp);
+                String descriptionJustificatif = request.getParameter(titre + "AdmissionEtrangerDescription");
+                if(descriptionJustificatif != null){
+                    Justificatif jTemp = new Justificatif(titre, descriptionJustificatif, TypeDossier.admissibilite, TypeJustificatifEtranger.etranger);
+                    justificatifs.add(jTemp);
+                }else{
+                    request.setAttribute("typeMessage", "danger");
+                    request.setAttribute("message", titre + " n'a pas de description.");
+                    return stayHere(request, response); //redirection
+                }
             }
         }
         

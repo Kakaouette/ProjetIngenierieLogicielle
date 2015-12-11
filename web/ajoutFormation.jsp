@@ -33,50 +33,71 @@
             document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
         };
     <%}%>
+
     function importerListeJustificatif(from, to) {
         var name;
-        if(to.indexOf("inscription")!==-1){
+        if(to.indexOf("inscription") !== -1){
             name = "Inscription";
-        }else if(to.indexOf("admission")!==-1){
+        }else if(to.indexOf("admission") !== -1){
             name = "Admission";
         }
         
-        var a = $(from + " li").clone();
-        a.each(function() {
-            $(this).find('label').attr("name", "justificatifs"+name+"Etranger");
-            $(this).find('input').attr("name", "justificatifs"+name+"Etranger");
-            var title = $(this).find('label').text().replace("'","\\'");
-            $(this).find('a').attr("onclick","deleteJ('" + to + "','"+title+"')");
-        });
-        a.each(function() {
-            var b = $(to + " li");
-            var labelFrancais = $(this).find("label").text();
+        var copieJustificatifs = $(from + " li").clone();
+        copieJustificatifs.each(function() {
+            //gestion de l'ajout
+            var justificatifsPresent = $(to + " li");
+            var labelFrancais = $(this).children("label").text();
             var inserer = true;
-            b.each(function() {
-                var labelEtranger = $(this).find("label").text();
+            justificatifsPresent.each(function() {
+                var labelEtranger = $(this).children("label").text();
                 if(labelFrancais===labelEtranger) {
                     inserer = false;
                 }
-            })
-            if(inserer)
-            {
+            });
+            if(inserer){
+                //adapter parametre du new justificatif
+                $(this).children('label#justificatifs').attr("name", "justificatifs"+name+"Etranger");
+                $(this).children('input#justificatifs').attr("name", "justificatifs"+name+"Etranger");
+                var title = $(this).find('label').text().replace("'","\\'");
+                $(this).children('a').attr("onclick","deleteJ('" + to + "','"+title+"')");
+                
+                $(this).children('input#description').attr("name", title+name+"EtrangerDescription");
+                //ajouter le new justificatif
                 $(to + " ul#justificatifsAdded").append($(this));
             }
         });
     }
+
     function createDialog(location) {
         //creation et ajout du dialog
         $('body').append(
             '<div id="dialogJustificatifAAjouter" title="Ajouter un justificatif">' + 
-                '<div class="row">' + 
-                    '<label for="titre" class="col-sm-2 control-label">Titre</label>' + 
-                    '<div class="col-sm-10">' + 
-                        '<input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" autocomplete="off" required autofocus>' + 
+                '<form id=ajouterJustificatif>' + 
+                    '<div class="form-group">' + 
+                        '<label for="titre" class="col-md-2 control-label">Titre</label>' + 
+                        '<div class="col-sm-10">' + 
+                            '<input type="text" name="titre" id="titre" class="form-control" placeholder="titre" autocomplete="off" required autofocus>' + 
+                        '</div>' + 
                     '</div>' + 
-                '</div>' + 
+                    '<div class="form-group">' + 
+                        '<label for="description" class="col-md-12 control-label">Description</label>' + 
+                        '<div class="col-md-12">' + 
+                            '<textarea class="form-control" name="description" id="description" placeholder="description" autocomplete="off" required/>' + 
+                        '</div>' + 
+                    '</div>' + 
+                '</form>' + 
             '</div>');
-        
-        
+        //definition du comportement lors du submit
+        $('div#dialogJustificatifAAjouter form#ajouterJustificatif').submit(function(){
+            $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove(); //remove old msg du dialog
+            
+            if(addJ(location, $("div#dialogJustificatifAAjouter input#titre").val(), $("div#dialogJustificatifAAjouter textarea#description").val())){ //try to add justificatif
+                $("div#dialogJustificatifAAjouter").dialog("close");
+            }
+            return false; //annuler changement de page dû au submit
+        });
+
+        //definition du dialog
         $('div#dialogJustificatifAAjouter').dialog({
             modal: true,
             close:function( event, ui ){
@@ -85,34 +106,7 @@
             buttons: {
                 "Ajouter":{
                     text : 'Ajouter' ,class : 'btn btn-success', click : function() {
-                        $('div#dialogJustificatifAAjouter br').remove();
-                        $('div#dialogJustificatifAAjouter div[class = "alert alert-danger"]').remove();
-                        $path = location + ' ul#justificatifsAdded';
-                        if($("div#dialogJustificatifAAjouter input#titre").val() === ""){
-                            $('div#dialogJustificatifAAjouter').append($('<br>'))
-                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Entrez le titre de justificatif.</em>'))
-                            //<em></em>
-                        }else if($($path + ' li:contains('+$("div#dialogJustificatifAAjouter input#titre").val()+')').length === 0){
-                            $name = "justificatifs";
-                            if(location.contains("inscription")){
-                                $name += "Inscription";
-                            }else if(location.contains("admission")){
-                                $name += "Admission"
-                            }
-                            if(location.contains("Francais")){
-                                $name += "Francais"
-                            }else if(location.contains("Etranger")){
-                                $name += "Etranger"
-                            }
-                            $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + $("div#dialogJustificatifAAjouter input#titre").val() + '</label>'));
-                            $($path + ' li:last').append($('<input>').attr('type', "hidden").attr('name', $name).attr('value', $("div#dialogJustificatifAAjouter input#titre").val()));            
-                            $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + $("div#dialogJustificatifAAjouter input#titre").val() + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
-                            $(this).dialog("close");
-                        }else{
-                            $('div#dialogJustificatifAAjouter').append($('<br>'))
-                            $('div#dialogJustificatifAAjouter').append($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie</em>'))
-                            //<em></em>
-                        }
+                        $("div#dialogJustificatifAAjouter form#ajouterJustificatif").submit();
                     }
                 },
                 "Annuler": {
@@ -124,9 +118,48 @@
         });
     };
     
+    //ajouter un justificatif//return true: justificatif ajouté; false: justificatif non ajouté 
+    function addJ(location, val, description) {
+        $path = location + ' ul#justificatifsAdded';
+        if(val === ""){
+            $('div#dialogJustificatifAAjouter form#ajouterJustificatif').prepend($('<div>').attr('class', 'alert alert-danger').append('<em>Entrez le titre de justificatif.</em>'));
+            return false;
+        }else if($($path + ' li:contains('+val+')').filter(function(index){return $(this).children('label#justificatifs').text() === val;}).length === 0){
+            $name = "justificatifs";
+            $nameDescription = val;
+            if(location.indexOf("inscription") !== -1){
+                $name += "Inscription";
+                $nameDescription += "Inscription";
+            }else if(location.indexOf("admission") !== -1){
+                $name += "Admission";
+                $nameDescription += "Admission";
+            }
+            if(location.indexOf("Francais") !== -1){
+                $name += "Francais";
+                $nameDescription += "Francais";
+            }else if(location.indexOf("Etranger") !== -1){
+                $name += "Etranger";
+                $nameDescription += "Etranger";
+            }
+            $nameDescription += "Description";
+
+            $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + val + '</label>'));
+            $($path + ' li:last').append($('<input>').attr('id', "justificatifs").attr('type', "hidden").attr('name', $name).attr('value', val));            
+            $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + val + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
+            
+            $($path + ' li:last').append('<br><em>'+description+'</em>');
+            $($path + ' li:last').append($('<input>').attr('id', "description").attr('type', "hidden").attr('name', $nameDescription).attr('value', description));   
+            return true;
+        }else{
+            $('div#dialogJustificatifAAjouter form#ajouterJustificatif').prepend($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie.</em>'));
+            return false;
+        }
+    };
+    //supprimer un justificatif
     function deleteJ(location, val){
-        $path = location + ' li:contains('+val+')';
-        $($path).remove();
+        $(location + ' li:contains('+val+')').filter(function(index){
+            return $(this).children('label#justificatifs').text() === val;
+        }).remove();
     };
 </script>
 
@@ -199,8 +232,10 @@
                                 %>
                                         <li>
                                             <label id="justificatifs" name="justificatifsInscriptionFrancais" class="control-label"><%out.print(justificatif);%></label>
-                                            <input type="hidden" name="justificatifsInscriptionFrancais" value="<%out.print(justificatif);%>"/>
+                                            <input type="hidden" id="justificatifs" name="justificatifsInscriptionFrancais" value="<%out.print(justificatif);%>"/>
                                             <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#inscription', '<%out.print( justificatif );%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                            <br><em><%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%></em>
+                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionFrancaisDescription" value="<%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%>"/>
                                         </li>
                                     <%}
                                 }%>
@@ -214,8 +249,10 @@
                                 %>
                                         <li>
                                             <label id="justificatifsInscriptionEtranger" name="justificatifsAdmissionFrancais" class="control-label"><%out.print(justificatif);%></label>
-                                            <input type="hidden" name="justificatifsAdmissionFrancais" value="<%out.print(justificatif);%>"/>
+                                            <input type="hidden" id="justificatifs" name="justificatifsAdmissionFrancais" value="<%out.print(justificatif);%>"/>
                                             <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#admission', '<%out.print( justificatif );%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                            <br><em><%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%></em>
+                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionFrancaisDescription" value="<%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%>"/>
                                         </li>
                                     <%}
                                 }%>
@@ -250,8 +287,10 @@
                                 %>
                                         <li>
                                             <label id="justificatifsInscriptionEtranger" name="justificatifsInscriptionEtranger" class="control-label"><%out.print(justificatif);%></label>
-                                            <input type="hidden" name="justificatifsInscriptionEtranger" value="<%out.print(justificatif);%>"/>
+                                            <input type="hidden" id="justificatifs" name="justificatifsInscriptionEtranger" value="<%out.print(justificatif);%>"/>
                                             <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#inscription', '<%out.print( justificatif );%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                            <br><em><%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%></em>
+                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionEtrangerDescription" value="<%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%>"/>
                                         </li>
                                     <%}
                                 }%>
@@ -265,8 +304,10 @@
                                 %>
                                         <li>
                                             <label id="justificatifsInscriptionEtranger" name="justificatifsAdmissionEtranger" class="control-label"><%out.print(justificatif);%></label>
-                                            <input type="hidden" name="justificatifsAdmissionEtranger" value="<%out.print(justificatif);%>"/>
+                                            <input type="hidden" id="justificatifs" name="justificatifsAdmissionEtranger" value="<%out.print(justificatif);%>"/>
                                             <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#admission', '<%out.print( justificatif );%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                            <br><em><%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%></em>
+                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionEtrangerDescription" value="<%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%>"/>
                                         </li>
                                     <%}
                                 }%>

@@ -8,10 +8,12 @@ package service;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.dao.CompteDAO;
 import modele.entite.Compte;
+import modele.entite.Formation;
 import modele.entite.TypeCompte;
 
 /**
@@ -94,7 +96,7 @@ public class CompteService {
      * @param mdp
      * @return boolean indiquant si l'update c'est effectué correctement
      */
-    public Boolean effectuerModification(int idCompte, String type, String login, String nom, String prenom, String mail, String mdp) {
+    public Boolean effectuerModification(int idCompte, String type, String login, String nom, String prenom, String mail, String mdp, List<Formation> lesFormations) {
         // récupération du compte à modifier
         Compte compte = compteDAO.getById(idCompte);
         // si le compte est trouvé dans la BDD, on lui affecte ses nouvelles valeurs
@@ -124,6 +126,12 @@ public class CompteService {
                 String mdpCrypt = cryptageMDP(mdp); // Cryptage du nouveau mot de passe
                 compte.setMdp(mdpCrypt);
             }
+            
+            //Formations du compte
+            if(!compte.getType().equals(TypeCompte.responsable_commission)&&!compte.getType().equals(TypeCompte.secrétaire_formation)&&!compte.getType().equals(TypeCompte.responsable_formation)){
+                lesFormations.clear();
+            }
+            compte.setFormationAssocie(lesFormations);
 
             compteDAO.update(compte);
             return true;

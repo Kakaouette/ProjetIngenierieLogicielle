@@ -6,12 +6,18 @@
 
 $(document).ready(function(){
     
-    $("#formation").hide();
+    if($("#type").val()==="secrétaire_formation"||$("#type").val()==="responsable_commission"||$("#type").val()==="responsable_formation"){
+            $("#formation").show();
+       } 
+       else{
+           $("#formation").hide();
+       }
+    //$("option[value='16']").attr('selected', 'selected');
     $("#display").attr("max",$("#formation option").length);
-    $("#formation select>option:first-child").attr("selected",true);
+    /*$("#formation select>option:first-child").attr("selected",true);
     $("#formation select>option:nth-child(n+2)").each(function(){
        $(this).attr("selected",false); 
-    });
+    });*/
     
     $("#display").change(function(){
         $("#formation select").attr("size",$(this).val());

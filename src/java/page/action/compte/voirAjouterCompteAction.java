@@ -7,6 +7,7 @@ package page.action.compte;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.FormationDAO;
 import modele.entite.Compte;
 import page.action.Action;
 
@@ -22,6 +23,7 @@ public class voirAjouterCompteAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Créer un compte");
         Compte compte = (Compte) request.getSession().getAttribute("compte");
+        request.setAttribute("lesFormations", new FormationDAO().SelectAll());
         
         return "createUser.jsp";
     }

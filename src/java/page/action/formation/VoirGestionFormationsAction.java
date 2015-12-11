@@ -5,6 +5,7 @@
  */
 package page.action.formation;
 
+import page.action.Action;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.FormationDAO;
 import modele.entite.Formation;
-import page.action.Action;
 
 /**
  *

@@ -5,11 +5,15 @@
  */
 package page.action.compte;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.FormationDAO;
 import modele.entite.Compte;
+import modele.entite.Formation;
 import modele.entite.TypeCompte;
 import page.action.Action;
 import service.CompteService;
@@ -32,13 +36,29 @@ public class AjouterCompteAction implements Action {
         String prenom = request.getParameter("prenom");
         String email = request.getParameter("email");
         String mdp = request.getParameter("mdp");
+        String[] form = request.getParameterValues("formations");
 
         if (type.isEmpty() || login.isEmpty() || nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty()) {
             request.setAttribute("error", "true");
             request.setAttribute("message", "Tous les champs doivent être remplis !");
 
-            return "createUser.jsp";
+            return new voirAjouterCompteAction().execute(request, response);
         }
+        
+        List<Formation> lesFormations = new ArrayList<>();
+        FormationDAO formationDAO = new FormationDAO();
+        for(String idS : form){
+            if(idS.equals("Aucune formation")){
+                lesFormations.clear();
+                break;
+            }else{
+                try{
+                    int id = Integer.parseInt(idS);
+                    lesFormations.add(formationDAO.getById(id));
+                }catch(Exception e){}
+            }
+        }
+        
 
         Compte nouveauCompte = new Compte();
         nouveauCompte.setLogin(login);
@@ -46,6 +66,7 @@ public class AjouterCompteAction implements Action {
         nouveauCompte.setPrenom(prenom);
         nouveauCompte.setMail(email);
         nouveauCompte.setMdp(mdp);
+        nouveauCompte.setFormationAssocie(lesFormations);
         
         try {
             InternetAddress emailAddr = new InternetAddress(email);
@@ -54,7 +75,7 @@ public class AjouterCompteAction implements Action {
             request.setAttribute("error", "true");
             request.setAttribute("message", "L'adresse email n'est pas valide");
 
-            return "createUser.jsp";
+            return new voirAjouterCompteAction().execute(request, response);
         }
         nouveauCompte.setType(TypeCompte.valueOf(type));
 
@@ -79,6 +100,6 @@ public class AjouterCompteAction implements Action {
             }
         }
 
-        return "createUser.jsp";
+        return new voirAjouterCompteAction().execute(request, response);
     }
 }

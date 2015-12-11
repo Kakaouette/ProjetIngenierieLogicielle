@@ -52,13 +52,13 @@ public class AjoutDossierAction implements Action{
         String prenom = request.getParameter("prenom");
         String sexe = request.getParameter("sexe");
         String pays = request.getParameter("pays");
-        String adresse = request.getParameter("adresse");
+        String adressePostale = request.getParameter("adresse");
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
         String notes = request.getParameter("notes");
         
         //verification de la validité du formulaire
-        String[] required = {formationIntitule, type, nationalite, idDossier, ine, nom, prenom, sexe, pays, adresse, codePostal, ville};
+        String[] required = {formationIntitule, type, nationalite, idDossier, ine, nom, prenom, sexe, pays, adressePostale, codePostal, ville};
         String[] requiredName = {"intitulé de la formation", "type", "nationalité", "id du dossier", "INE", "nom", "prénom", "sexe", "pays", "adresse", "code postal", "ville"};
         try {
             validerFormulaire(required, requiredName);
@@ -74,16 +74,16 @@ public class AjoutDossierAction implements Action{
         }else if(type.equals(TypeDossier.admissibilite.toString())){
             typeDossier = TypeDossier.admissibilite;
         }
-        Adresse adressePostale = new AdresseDAO().getAdresseByCodePostalAndVille(codePostal, ville);
-        if(adressePostale == null){
-            adressePostale = new Adresse(codePostal, ville);
-        }else if(!adressePostale.getVille().equals(ville)){
-            adressePostale = new Adresse(codePostal, ville);
+        Adresse adresse = new AdresseDAO().getAdresseByCodePostalAndVille(codePostal, ville);
+        if(adresse == null){
+            adresse = new Adresse(codePostal, ville);
+        }else if(!adresse.getVille().equals(ville)){
+            adresse = new Adresse(codePostal, ville);
         }
         Etudiant etudiant = new EtudiantDAO().getEtudiantByINE(ine); //add: gestion etudiant etranger
         if(etudiant == null){
             if(nationalite.equals(TypeJustificatifEtranger.francais.toString())){
-                etudiant = new Etudiant(ine, nom, prenom, adresse, sexe, adressePostale);
+                etudiant = new Etudiant(ine, nom, prenom, pays, adressePostale, sexe, adresse);
             }else if(nationalite.equals(TypeJustificatifEtranger.etranger.toString())){
                 String avis = request.getParameter("avis");
                 String niveau = request.getParameter("niveau");
@@ -96,7 +96,7 @@ public class AjoutDossierAction implements Action{
                     request.setAttribute("message", ex.getMessage());
                     return stayHere(request, response);
                 }
-                etudiant = new EtudiantEtranger(avis, niveau, nom, prenom, codePostal, sexe, adressePostale, ine);
+                etudiant = new EtudiantEtranger(avis, niveau, nom, prenom, pays, adressePostale, sexe, adresse, ine);
             }
         }else{
             if((nationalite.equals(TypeJustificatifEtranger.francais.toString()) && etudiant instanceof EtudiantEtranger) || (nationalite.equals(TypeJustificatifEtranger.etranger.toString()) && etudiant instanceof Etudiant)){
@@ -135,7 +135,7 @@ public class AjoutDossierAction implements Action{
             request.setAttribute("message", "Dossier créé.");
             //redirection
             if(request.getParameter("bouton").equals("enregistrer")){
-                actionPageSuivante = new VoirGestionFormationsAction(); //request.getParameter("pageRetour");
+                actionPageSuivante = new ConsulterDossierAction(); //request.getParameter("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
                 actionPageSuivante = new VoirAjoutDossierAction();
             }
