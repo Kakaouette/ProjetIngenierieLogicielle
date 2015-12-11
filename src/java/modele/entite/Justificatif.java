@@ -47,8 +47,10 @@ public class Justificatif implements Serializable{
         this.typeNationalite = typeNationalite;
     }
 
-    public Justificatif(String titre, TypeDossier typeDossier, TypeJustificatifEtranger typeJustificatifEtranger) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Justificatif(String titre, TypeDossier typeAdmissible, TypeJustificatifEtranger typeNationalite) {
+        this.titre = titre;
+        this.typeAdmissible = typeAdmissible;
+        this.typeNationalite = typeNationalite;
     }
 
     public String getDescription() {

@@ -37,7 +37,7 @@ public class AfficherInformationsDossiersAction implements Action {
             
             String verifEtat = service.verifDossierPerdu(c);
             
-            if(verifEtat.equals("Perdu")){
+            if(verifEtat.equals("Perdu") || verifEtat.equals("En retard")){
                 DossierPerdu = true;
             }
             
@@ -68,7 +68,7 @@ public class AfficherInformationsDossiersAction implements Action {
                 + "\"createdRow\": function ( row, data, index ) {\n"
                 + "            if (data[4] <= 7 && data[0] != 'Terminé') {\n"
                 + "                       $(row).addClass('rouge');\n"
-                + "            }else if ( data[0] == 'Perdu' ) {\n"
+                + "            }else if ( data[0] == 'Perdu' || data[0] == 'En retard') {\n"
                 + "                       $(row).addClass('jauneFonce');\n"
                 + "            }else if ( data[0] == 'Créé' ) {\n"
                 + "                       $('td', row).eq(0).addClass('pink');\n"

@@ -9,7 +9,9 @@ import service.exception.AjoutDossierInvalideException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -236,6 +238,39 @@ public class DossierServiceTest {
         //new AdresseDAO().delete(uneAdresse);
         //new EtudiantDAO().delete(unEtudiant);
         //dossierDAO.
+    }
+    
+    /**
+     * Test de suppression d'un dossier
+     */
+    @Test
+    public void testSupprimeDossier() throws Exception{
+        System.out.println("testSupprimeDossier");
+        /// //////////////////////////// TEST AVEC UN ID CORRECTE ////////////////////////////
+        Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
+        Etudiant etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
+        String idDossier = instance.getNewID();
+        Formation formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
+        Compte c = new CompteDAO().getById(1);
+        Historique historique = new Historique(new Date(), "Message", "Action", c);
+        List<Historique> sesHistoriques = new ArrayList<>();
+        sesHistoriques.add(historique);
+        dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
+        
+        /// On l'insère
+        instance.ajouterDossier(dossier);
+        
+        /// on vérifie son existance.
+        Dossier cpt = new DossierDAO().getById(idDossier);
+        assertEquals(dossier.equals(cpt), true);
+        
+        //on le supprime
+        assertTrue(instance.supprimerDossier(idDossier));
+        cpt = new DossierDAO().getById(idDossier);
+        assertNull(cpt);
+        
+        //on supprime un dossier inexistant
+        assertFalse(instance.supprimerDossier(idDossier));
     }
     
     /**
@@ -863,5 +898,66 @@ public class DossierServiceTest {
         if(!new DossierDAO().getById(dossier.getId()).equals(dossier)){
              fail("Dossier inégal.");
         }
+    }
+    
+    @Test
+    public void testCalculDeadLineDossierCreeJourMeme(){
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Dossier dos = new Dossier("huehue", new Date(), TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
+        
+        int nbJourAttendu = 60;
+        assertEquals(nbJourAttendu,instance.calculDeadlineDossier(dos));
+    }
+    
+    @Test
+    public void testCalculDeadLineDossierZero(){
+
+        long test1 = new Date().getTime();
+        long test = test1 - (long)((1000*60*60*24)*7)*8;
+        test -= (long)(1000*60*60*24)*4;
+
+        Date d = new Date(test);
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
+        
+        int nbJourAttendu =0;
+        assertEquals(nbJourAttendu,instance.calculDeadlineDossier(dos));
+    }
+    
+    @Test
+    public void testCalculDeadLineDossierMilieu(){
+
+        long test1 = new Date().getTime();
+        long test = test1 - (long)((1000*60*60*24)*7)*4;
+
+        Date d = new Date(test);
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
+        
+        int nbJourAttendu =32;
+        assertEquals(nbJourAttendu,instance.calculDeadlineDossier(dos));
+    }
+    
+    //Vérif dossier créé depuis moins de 7 jours si pas d'historique si transfert
+    //Vérif dernier histo moins de 7 jours si transfert
+    
+    // En retard : Dans un état pendant plus de 7 jours sauf "En attente de commission".
+    // Perdu : dans un état "transfert" depuis plus de 7 jours.
+    // Urgent : Moins de 15 jours restant.
+    @Test
+    public void testVerifDossierPerduSansHist(){
+        long test1 = new Date().getTime();
+        long test = test1 - (long)((1000*60*60*24)*7)*4;
+
+        Date d = new Date(test);
+        Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
+        Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
+        Dossier dos = new Dossier("huehue", d, TypeEtatDossier.en_transfert_vers_directeur, "Petite lettre", TypeDossier.admissibilite, etu, form);
+        
+        String expected = "Perdu";
+        assertEquals(expected,instance.verifDossierPerdu(dos));
     }
 }

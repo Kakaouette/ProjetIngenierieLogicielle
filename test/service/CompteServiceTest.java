@@ -158,7 +158,7 @@ public class CompteServiceTest {
         boolean done = instance.supprimerUtilisateur(compteDAO.getComptebyIdentifiant(identifiantTest).getId());
         assertTrue(done);
     }
-
+ 
     @Test
     public void testSupprimerUtilisateurAvecHistorique() {
         System.out.println("SupprimerUtilisateur avec historique");
@@ -179,12 +179,12 @@ public class CompteServiceTest {
 
         Adresse a = new Adresse("0000", "ville");
         Etudiant e = new Etudiant("ineTestCompteService", "test", "test", "adrtest", "F", a);
-        Formation f = new Formation("connard qui ont fait les tests de suppression de compte", 0, new Date(), new Date(), "formation test", null);
+        Formation f = new Formation("tests de suppression de compte", 0, new Date(), new Date(), "formation test", null);
         new FormationDAO().save(f);
         unCompte.setFormationAssocie(new ArrayList<>());
         unCompte.getFormationAssocie().add(f);
         
-        Dossier d = new Dossier("pstTEST", new Date(), TypeEtatDossier.transfert_vers_secretariat, null, TypeDossier.admissibilite, e, null, new ArrayList<>());
+        Dossier d = new Dossier("pstTEST", new Date(), TypeEtatDossier.transfert_vers_secretariat, null, TypeDossier.admissibilite, e, f, new ArrayList<>());
         d.getHistorique().add(historique);
 
         compteDAO.save(unCompte);
