@@ -4,10 +4,13 @@
     Author     : Pierre
 --%>
 
+<%@page import="modele.entite.Formation"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 <script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
 <link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
+<link href="bootstrap/css/register.css" rel="stylesheet">
+<script src="jQuery/register.js"></script>
 <script type="text/javascript">
     $(function() {
         $('#dialog').hide();
@@ -32,16 +35,6 @@
     </script>
 
 <form action="Navigation?action=modifierUtilisateur&id=<% out.print(request.getAttribute("id")); %>" method="POST" class="form-horizontal">
-    <div class="form-group">
-        <label for="type" class="col-sm-2 control-label">Type</label>
-        <div class="col-sm-3">
-            <select name="type" id="type" class="form-control">
-                <% out.print(request.getAttribute("type"));%>
-                <option value="<%out.print(TypeCompte.admin.name());%>" <%if(request.getAttribute("type") == TypeCompte.admin){ %>selected="selected"<%}%>>Admin</option>
-                <option value="<%out.print(TypeCompte.directeur_pole.name());%>" <%if(request.getAttribute("type") == TypeCompte.directeur_pole){ %>selected="selected"<%}%>>Directeur de pole</option>
-            </select>
-        </div>
-    </div>
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Login</label>
         <div class="col-sm-3">
@@ -74,6 +67,47 @@
         <label for="motDePasse" class="col-sm-2 control-label">Mot de passe</label>
         <div class="col-sm-3">
             <input type="password" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
+        </div>
+    </div>
+    <div id="type_account">
+        <div class="form-group">
+            <label for="mdp" class="col-md-2 control-label">Type</label>
+            <div class="col-md-3">
+                <select name="type" id="type" required class="form-control">
+                    <%
+                        TypeCompte[] lesTypes = TypeCompte.values();
+                        TypeCompte leType = (TypeCompte) request.getAttribute("type");
+                        for (TypeCompte t : lesTypes) {
+                    %>
+                    <option value="<%out.print(t.name()); %>" <%if(leType == t){ %>selected="selected"<%}%>><%out.print(t.toString());%></option>
+                    <% } %>
+                </select>
+            </div>
+        </div>
+        <div id="formation">
+            <div class="form-group">
+                <label for="recherche" class="col-md-2 control-label">Rechercher</label>
+                <div class="col-md-3">
+                    <input type="number" min="0" id="display" value="4" name="recherche" id="recherche" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="formations" class="col-md-2 control-label">Formation(s)</label>
+                <div class="col-md-3">
+                    <select name="formations" size="4" multiple>
+                        <option id="nope_formation" selected="selected">Aucune formation</option>
+                        <%
+                            List<Formation> formations = (List<Formation>) request.getAttribute("lesFormations");
+                            for (Formation f : formations) {
+                        %><option value="<%out.print(f.getId());%>"><%out.print(f.getIntitule());%></option><%
+                            }
+                        %>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-offset-2">
+                <p><strong>Important</strong> : Pour sélectionner plusieurs formations, maintenir appuyé la touche <b>Ctrl</b> et cliquer sur les formations.</p>
+            </div>
         </div>
     </div>
     <div class="row">
