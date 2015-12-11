@@ -8,6 +8,7 @@ package page.action.compte;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.CompteDAO;
+import modele.dao.FormationDAO;
 import modele.entite.Compte;
 import page.action.Action;
 
@@ -43,7 +44,7 @@ public class VoirModifierComptesAction implements Action {
         request.setAttribute("email", email);
         request.setAttribute("id", id);
         request.setAttribute("compte", compte);
-        
+        request.setAttribute("lesFormations", new FormationDAO().SelectAll());
         
         return "modifierUtilisateur.jsp";
     }

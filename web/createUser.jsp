@@ -6,9 +6,10 @@
 
 <%@page import="modele.dao.FormationDAO"%>
 <%@page import="modele.entite.Formation"%>
-<%@page import="modele.entite.Formation"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
+<link href="bootstrap/css/register.css" rel="stylesheet">
+<script src="jQuery/register.js"></script>
 <form action="Navigation" method="POST" class="form-horizontal">
     <div class="form-group">
         <label for="identifiant" class="col-md-2 control-label">Identifiant</label>
@@ -29,9 +30,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="mail" class="col-md-2 control-label">E-Mail</label>
+        <label for="email" class="col-md-2 control-label">E-Mail</label>
         <div class="col-md-3">
-            <input type="text" name="mail" id="mail" class="form-control" required>
+            <input type="text" name="email" id="mail" class="form-control" required>
         </div>
     </div>
     <div class="form-group">
@@ -75,18 +76,20 @@
                     </select>
                 </div>
             </div>
-            <p><strong>Important</strong> : Pour sélectionner plusieurs formations, maintenir appuyé la touche <b>Ctrl</b> et cliquer sur les formations.</p>
+            <div class="col-md-offset-2">
+                <p><strong>Important</strong> : Pour sélectionner plusieurs formations, maintenir appuyé la touche <b>Ctrl</b> et cliquer sur les formations.</p>
+            </div>
         </div>
     </div>
-        <div class="row">
-            <div class="col-md-2">
-                <button class="btn btn-default pull-right" type="reset" name="action">Annuler</button>
-            </div>
-            <div class="col-md-3">
-                <button class="btn btn-success" type="submit" name="action" value="creerUtilisateur">Créer</button>
-            </div>
+    <div class="row">
+        <div class="col-md-2">
+            <button class="btn btn-default pull-right" type="reset" name="action">Annuler</button>
         </div>
-</form>
+        <div class="col-md-3">
+            <button class="btn btn-success" type="submit" name="action" value="creerUtilisateur">Créer</button>
+        </div>
+    </div>
+</form><br/>
 
 <% if (request.getAttribute("error") == "true") { %>
 <div class="alert alert-danger">
