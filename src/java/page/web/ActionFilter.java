@@ -73,7 +73,7 @@ public class ActionFilter implements Filter {
         }else if(action == null){
             fc.doFilter(sr, sr1);
         //si l'action demandé contient un TypeCompte correspondant au type du compte connecté dans la session on laisse passer
-        }else if(action.getLesTypeCompte().contains(compte.getType())){
+        }else if(action.getPage().getTypeAuthoriser().getValue() >= compte.getType().getValue()){
             fc.doFilter(sr, sr1);
         }else{
         //sinon on redirige vers l'index

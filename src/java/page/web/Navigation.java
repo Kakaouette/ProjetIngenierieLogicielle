@@ -18,6 +18,7 @@ import page.action.accueil.*;
 import page.action.compte.*;
 import page.action.dossier.*;
 import page.action.formation.*;
+import service.ActionService;
 
 /**
  *
@@ -37,7 +38,9 @@ public class Navigation extends HttpServlet {
 
     @Override
     public void init() {
-        
+        if(this.getServletContext().getAttribute("action") == null){
+            this.getServletContext().setAttribute("action", new ActionService().SelectAlltoMap());
+        }
     }
 
     @Override
