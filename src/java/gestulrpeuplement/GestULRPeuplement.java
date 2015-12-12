@@ -182,17 +182,44 @@ public class GestULRPeuplement {
         new DossierDAO().save(d7);
         new DossierDAO().save(d8);
         
+        //création page
+        PageDAO pageDAO = new PageDAO();
+        
+        Page p1 = new Page("index.jsp", TypeCompte.secrétaire_inscription, "Authentification");
+        Page p2 = new Page("accueil.jsp", TypeCompte.secrétaire_inscription, "Accueil");
+        Page p3 = new Page("createUser.jsp", TypeCompte.admin, "Créer un utilisateur");
+        Page p4 = new Page("gestionComptes.jsp", TypeCompte.directeur_pole, "Liste des utilisateurs");
+        
+        pageDAO.save(p1);
+        pageDAO.save(p2);
+        pageDAO.save(p3);
+        pageDAO.save(p4);
+        
+        
         //Création d'action
         ActionDAO actionDAO = new ActionDAO();
-        List<TypeCompte> typecompte = new ArrayList();
-        typecompte.add(TypeCompte.admin);
-        Action a = new Action("voirAjoutCompte", typecompte);
-        actionDAO.save(a);
         
-        typecompte = new ArrayList();
-        typecompte.add(TypeCompte.admin);
-        a = new Action("afficherInformationsDossiers", typecompte);
-        actionDAO.save(a);
+        Action ac1 = new Action("gererAuthentification", "accueil.GererAuthentificationAction", p1);
+        Action ac2 = new Action("index", "accueil.VoirIndexAction", p1);
+        Action ac3 = new Action("voirGestionComptes", "compte.VoirGestionUtilisateurAction", p4);
+        Action ac4 = new Action("voirAjoutCompte", "compte.voirAjouterCompteAction", p3);
+        actionDAO.save(ac1);
+        actionDAO.save(ac2);
+        actionDAO.save(ac3);
+        actionDAO.save(ac4);
+        
+        //création de menu
+        MenuDAO menuDAO = new MenuDAO();
+        
+        Menu m1 = new Menu("Home", null, ac2);
+        Menu m2 = new Menu("Compte", null, null);
+        Menu m3 = new Menu("Ajout", m2, ac4);
+        Menu m4 = new Menu("Modif", m2, ac3);
+        
+        menuDAO.save(m1);
+        menuDAO.save(m2);
+        menuDAO.save(m3);
+        menuDAO.save(m4);
     }
     
     

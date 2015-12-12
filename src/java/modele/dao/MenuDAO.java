@@ -8,10 +8,10 @@ package modele.dao;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import modele.entite.Action;
+import modele.entite.Menu;
 
 /**
- * <b>Classe faisant le lien avec la BD pour la table Action</b>
+ * <b>Classe faisant le lien avec la BD pour la table Menu</b>
  * <p>
  * Elle hérite de DAO, gérer par JPA et permet de faire des opérations simple sur les tables :
  * <ul>
@@ -23,31 +23,62 @@ import modele.entite.Action;
  * </p>
  * 
  * @see Dao
- * @see Action
+ * @see Menu
  * @author roulonn
  */
 public class MenuDAO extends Dao {
 
     public MenuDAO(){}
 
-    public Action getById(String idAction) {
-        Action unAction = null;
-        unAction = em.find(Action.class, idAction);
+    public Menu getById(String idMenu) {
+        Menu unMenu = null;
+        unMenu = em.find(Menu.class, idMenu);
 
-        return unAction;
+        return unMenu;
     }
     
-    public void save(Action unAction) {
+    public void save(Menu unMenu) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.persist(unAction);
+        em.persist(unMenu);
         tx.commit();
     }
 
-    public void update(Action unAction) {
+    public void update(Menu unMenu) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.merge(unAction);
+        em.merge(unMenu);
         tx.commit();
+    }
+    
+    public List<Menu> SelectAllRoot() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT M FROM Menu M WHERE M.menuSuperieur IS NULL");
+            return (List<Menu>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    public List<Menu> SelectAllSubMenu(Menu menuSup) {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT M FROM Menu M WHERE M.menuSuperieur = :menuSup");
+            q.setParameter("menuSup", menuSup);
+            return (List<Menu>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    public List<Menu> SelectAll() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT M FROM Menu M");
+            return (List<Menu>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

@@ -50,4 +50,14 @@ public class PageDAO extends Dao {
         em.merge(unPage);
         tx.commit();
     }
+    
+    public List<Page> SelectAll() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT P FROM Page P");
+            return (List<Page>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

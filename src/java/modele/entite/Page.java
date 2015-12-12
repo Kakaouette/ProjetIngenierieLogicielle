@@ -5,12 +5,14 @@
  */
 package modele.entite;
 
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
  *
  * @author nicol
  */
+@Entity
 public class Page {
     @Id
     String id;
@@ -22,9 +24,13 @@ public class Page {
     @Column(nullable = false)
     String titre;
 
-    public Page(String id, TypeCompte typeAuthoriser) {
+    public Page() {
+    }
+
+    public Page(String id, TypeCompte typeAuthoriser, String titre) {
         this.id = id;
         this.typeAuthoriser = typeAuthoriser;
+        this.titre = titre;
     }
 
     public String getId() {
@@ -49,5 +55,30 @@ public class Page {
 
     public void setTitre(String titre) {
         this.titre = titre;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Page other = (Page) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 }

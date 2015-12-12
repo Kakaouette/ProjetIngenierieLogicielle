@@ -14,15 +14,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.entite.Page;
 import modele.dao.PageDAO;
 import page.action.Action;
-import page.action.GenerationLettres.GenerationLettresAction;
 import page.action.accueil.*;
-import page.action.compte.*;
-import page.action.dossier.*;
-import page.action.formation.*;
 import service.ActionService;
+import service.MenuService;
 
 /**
  *
@@ -43,6 +39,15 @@ public class Navigation extends HttpServlet {
     public void init() {
         if (this.getServletContext().getAttribute("action") == null) {
             this.getServletContext().setAttribute("action", new ActionService().SelectAlltoMap());
+        }
+        if (this.getServletContext().getAttribute("menuSelect") == null) {
+            this.getServletContext().setAttribute("menuSelect", new ActionService().SelectAllSurbrillance());
+        }
+        if (this.getServletContext().getAttribute("menu") == null) {
+            this.getServletContext().setAttribute("menu", new MenuService().SelectAlltoMap());
+        }
+        if (this.getServletContext().getAttribute("menuType") == null) {
+            this.getServletContext().setAttribute("menuType", new MenuService().SelectAlltoMapTypeCompte());
         }
     }
 
@@ -74,6 +79,7 @@ public class Navigation extends HttpServlet {
         String vue = "";
 
         Map<String, modele.entite.Action> lesActions = (Map<String, modele.entite.Action>) this.getServletContext().getAttribute("action");
+        Map<String, Integer> lesActionMenuSelect = (Map<String, Integer>) this.getServletContext().getAttribute("menuSelect");
         try {
             Class classeActionImpl = Class.forName("page.action." + lesActions.get(action).getClassAction()); // Accès à la classe DAO correspondant
             Constructor constr = classeActionImpl.getConstructor(); // Obtenir le constructeur ()
@@ -85,12 +91,14 @@ public class Navigation extends HttpServlet {
         if (classeAction != null) {
             //vue récupére le nom de la jsp a afficher
             vue = classeAction.execute(request, response);
+            Integer menu = lesActionMenuSelect.get(action);
             
-            //menu a mettre en surbrillance
-            int menu = 0;
+            if(menu == null){
+                menu = lesActionMenuSelect.get("index");
+            }
             
             request.setAttribute("titre", new PageDAO().getById(vue).getTitre());
-            request.setAttribute("menu", lesActions.get(action).getPage());
+            request.setAttribute("menuS", menu);
 
             //affichage de la jsp
             RequestDispatcher rd = request.getRequestDispatcher(vue);
