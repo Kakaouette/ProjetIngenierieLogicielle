@@ -8,11 +8,15 @@ package page.action.dossier;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.DossierDAO;
 import modele.entite.Dossier;
+import modele.entite.TypeEtatDossier;
 import page.action.Action;
 import service.DossierService;
 
@@ -37,7 +41,7 @@ public class AfficherInformationsDossiersAction implements Action {
             
             String verifEtat = service.verifDossierPerdu(c);
             
-            if(verifEtat.equals("Perdu") || verifEtat.equals("En retard")){
+            if(verifEtat.equals("Perdu")){
                 DossierPerdu = true;
             }
             
@@ -61,20 +65,20 @@ public class AfficherInformationsDossiersAction implements Action {
             o[5] = c.getDemandeFormation().getIntitule();
             o[6] = c.getEtudiant().getNom();
             o[7] = c.getEtudiant().getPrenom();
-            o[8] = "<a class=\\\"btn btn-info btn-block\\\" href='Navigation?action=consulterDossier&idDossier=" + c.getId() + "'><span class='fa fa-edit fa-2x'></span></a>";
+            o[8] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=consulterDossier&idDossier=" + c.getId() +"\\\"><span class='fa fa-edit fa-2x'></span></a>";
             Tab.add(o);
         }
         request.setAttribute("addScript", ""
                 + "\"createdRow\": function ( row, data, index ) {\n"
                 + "            if (data[4] <= 7 && data[0] != 'Terminé') {\n"
                 + "                       $(row).addClass('rouge');\n"
-                + "            }else if ( data[0] == 'Perdu' || data[0] == 'En retard') {\n"
+                + "            }else if ( data[0] == 'Perdu' ) {\n"
                 + "                       $(row).addClass('jauneFonce');\n"
-                + "            }else if ( data[0] == 'En attente de transfert vers le directeur' ) {\n"
+                + "            }else if ( data[0] == 'Créé' ) {\n"
                 + "                       $('td', row).eq(0).addClass('pink');\n"
                 + "            }else if ( data[0] == 'Transfert vers le secrétariat' ) {\n"
                 + "                       $('td', row).eq(0).addClass('orange');\n"
-                + "            }else if ( data[0] == 'Traité par le secrétariat' ) {\n"
+                + "            }else if ( data[0] == 'Traitement par le secrétariat' ) {\n"
                 + "                       $('td', row).eq(0).addClass('jaune');\n"
                 + "            }else if ( data[0] == 'Attente de la commission' ) {\n"
                 + "                       $('td', row).eq(0).addClass('purple');\n"

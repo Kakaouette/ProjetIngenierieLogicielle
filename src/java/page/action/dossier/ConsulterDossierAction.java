@@ -5,11 +5,22 @@ package page.action.dossier;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.Dao;
 import modele.dao.DossierDAO;
+import modele.entite.Adresse;
+import modele.entite.Compte;
 import modele.entite.Dossier;
+import modele.entite.Etudiant;
+import modele.entite.Formation;
+import modele.entite.Historique;
+import modele.entite.TypeCompte;
 import page.action.Action;
 import service.DossierService;
 
@@ -23,7 +34,7 @@ public class ConsulterDossierAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
+        request.setAttribute("titre", "Modifier un dossier");
         //recuperation de l'id du formulaire
         String idDossier = request.getParameter("idDossier");
         
@@ -32,11 +43,14 @@ public class ConsulterDossierAction implements Action{
      
         //si dossier n'existe pas => retour vers la liste des dossiers 
         if(dossier != null){
-            request.setAttribute("titre", "Modifier un dossier");
+
             request.setAttribute("dossier", dossier);
             return "consulteDossier.jsp";
-        }else{   
-            return new AfficherInformationsDossiersAction().execute(request, response);
+        }else{
+            request.setAttribute("titre", "Gestion des dossiers");
+            List<Dossier> dossiers = new DossierDAO().SelectAll(); //recuperation des comptes pour la page suivante
+            request.setAttribute("dossiers", dossiers);
+            return "listeDossiers.jsp";
         }
     }
     

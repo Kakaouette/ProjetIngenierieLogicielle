@@ -25,6 +25,7 @@ import modele.entite.Dossier;
 import modele.entite.Etudiant;
 import modele.entite.Formation;
 import modele.entite.Historique;
+import modele.entite.TypeAvisDossier;
 import modele.entite.TypeCompte;
 import modele.entite.TypeDossier;
 import modele.entite.TypeEtatDossier;
@@ -88,13 +89,13 @@ public class DossierServiceTest {
         
         //free BDD
         try {
-            new AdresseDAO().delete(adresse.getId());
-        } catch (Exception e) {}
-        try {
             new EtudiantDAO().delete(etudiant.getId());
         } catch (Exception e) {}
         try {
             new EtudiantDAO().delete(etudiant2.getId());
+        } catch (Exception e) {}
+        try {
+            new AdresseDAO().delete(adresse.getId());
         } catch (Exception e) {}
         try {
             new FormationDAO().delete(formation.getId());
@@ -200,7 +201,6 @@ public class DossierServiceTest {
         System.out.println("ajouterDossier");
         etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
         formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
-        c = new CompteDAO().getById(1);
         historique = new Historique(new Date(), "Message", "Action", c);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
@@ -248,7 +248,6 @@ public class DossierServiceTest {
         etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
         String idDossier = instance.getNewID();
         formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
-        c = new CompteDAO().getById(1);
         historique = new Historique(new Date(), "Message", "Action", c);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
@@ -1074,5 +1073,165 @@ public class DossierServiceTest {
         
         String expected = "En retard";
         assertEquals(expected,instance.verifDossierPerdu(dos));
+    }
+    
+    /**
+     * Test de modification de l'avis de la commission pour favorable sur le dossier id = pst181120153  (troisème dossier créer par GestULRPeuplement)
+     */
+    @Test
+    public void testAvisFavorable(){
+        Dossier dossierorigin=new DossierDAO().getById("pst181120154");
+
+        TypeEtatDossier oldEtat = dossierorigin.getEtat();
+        TypeAvisDossier oldAvis = dossierorigin.getAvisCommission();
+        //Modification du champ état du dossier
+        Historique histo=new Historique();
+        Date dateHisto = new Date();
+        histo.setMessage("");
+        histo.setAction("Changement d'état du dossier pour " + TypeEtatDossier.en_transfert_vers_directeur + ".");
+        histo.setDate(dateHisto);
+        histo.setCompte(compte);
+        
+        dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);
+        dossierorigin.setAvisCommission(TypeAvisDossier.favorable);
+        
+        //Récupération de l'historique du dossier
+        List<Historique> histodossier = dossierorigin.getHistorique();
+        
+        //Modification du dossier
+        instance.modifierDossier(dossierorigin);
+        
+        //Récupération du dossier après modification
+        Dossier updatedDossier = new DossierDAO().getById("pst181120154");
+        List<Historique> histodossierupdated = updatedDossier.getHistorique();
+        
+        //On verifie que les dossiers et les historiques sont identiques (On s'attend à avoir true en resultat)
+        boolean result = this.comparerDossiers(updatedDossier, dossierorigin) && this.comparerHistoriques(histodossierupdated, histodossier);
+        
+        assertEquals(true, result);
+        //On remet l'état du dossier à son ancienne valeur
+        updatedDossier.setEtat(oldEtat);
+        updatedDossier.setAvisCommission(oldAvis);
+        instance.modifierDossier(updatedDossier);
+    }
+    
+    /**
+     * Test de modification de l'avis de la commission pour défavorable sur le dossier id = pst181120153  (troisème dossier créer par GestULRPeuplement)
+     */
+    @Test
+    public void testAvisDéfavorable(){
+        Dossier dossierorigin=new DossierDAO().getById("pst181120154");
+
+        TypeEtatDossier oldEtat = dossierorigin.getEtat();
+        TypeAvisDossier oldAvis = dossierorigin.getAvisCommission();
+        //Modification du champ état du dossier
+        Historique histo=new Historique();
+        Date dateHisto = new Date();
+        histo.setMessage("");
+        histo.setAction("Changement d'état du dossier pour " + TypeEtatDossier.en_transfert_vers_directeur + ".");
+        histo.setDate(dateHisto);
+        histo.setCompte(compte);
+        
+        dossierorigin.setEtat(TypeEtatDossier.en_attente_transfert_vers_directeur);
+        dossierorigin.setAvisCommission(TypeAvisDossier.défavorable);
+        
+        //Récupération de l'historique du dossier
+        List<Historique> histodossier = dossierorigin.getHistorique();
+        
+        //Modification du dossier
+        instance.modifierDossier(dossierorigin);
+        
+        //Récupération du dossier après modification
+        Dossier updatedDossier = new DossierDAO().getById("pst181120154");
+        List<Historique> histodossierupdated = updatedDossier.getHistorique();
+        
+        //On verifie que les dossiers et les historiques sont identiques (On s'attend à avoir true en resultat)
+        boolean result = this.comparerDossiers(updatedDossier, dossierorigin) && this.comparerHistoriques(histodossierupdated, histodossier);
+        
+        assertEquals(true, result);
+        //On remet l'état du dossier à son ancienne valeur
+        updatedDossier.setEtat(oldEtat);
+        updatedDossier.setAvisCommission(oldAvis);
+        instance.modifierDossier(updatedDossier);
+    }
+    
+    /**
+     * Test statuer = accepter sur le dossier id = pst181120153  (troisème dossier créer par GestULRPeuplement)
+     */
+    @Test
+    public void testStatuerAccepter(){
+        Dossier dossierorigin=new DossierDAO().getById("pst181120154");
+
+        TypeEtatDossier oldEtat = dossierorigin.getEtat();
+        TypeAvisDossier oldAvis = dossierorigin.getAvisDirecteur();
+        //Modification du champ état du dossier
+        Historique histo=new Historique();
+        Date dateHisto = new Date();
+        histo.setMessage("");
+        histo.setAction("Changement d'état du dossier pour " + TypeEtatDossier.retour_vers_secretariat + ".");
+        histo.setDate(dateHisto);
+        histo.setCompte(compte);
+        
+        dossierorigin.setEtat(TypeEtatDossier.retour_vers_secretariat);
+        dossierorigin.setAvisCommission(TypeAvisDossier.favorable);
+        
+        //Récupération de l'historique du dossier
+        List<Historique> histodossier = dossierorigin.getHistorique();
+        
+        //Modification du dossier
+        instance.modifierDossier(dossierorigin);
+        
+        //Récupération du dossier après modification
+        Dossier updatedDossier = new DossierDAO().getById("pst181120154");
+        List<Historique> histodossierupdated = updatedDossier.getHistorique();
+        
+        //On verifie que les dossiers et les historiques sont identiques (On s'attend à avoir true en resultat)
+        boolean result = this.comparerDossiers(updatedDossier, dossierorigin) && this.comparerHistoriques(histodossierupdated, histodossier);
+        
+        assertEquals(true, result);
+        //On remet l'état du dossier à son ancienne valeur
+        updatedDossier.setEtat(oldEtat);
+        updatedDossier.setAvisDirecteur(oldAvis);
+        instance.modifierDossier(updatedDossier);
+    }
+    
+    /**
+     * Test statuer = refuser sur le dossier id = pst181120153  (troisème dossier créer par GestULRPeuplement)
+     */
+    @Test
+    public void testStatuerRefuser(){
+        Dossier dossierorigin=new DossierDAO().getById("pst181120154");
+
+        TypeEtatDossier oldEtat = dossierorigin.getEtat();
+        TypeAvisDossier oldAvis = dossierorigin.getAvisDirecteur();
+        //Modification du champ état du dossier
+        Historique histo=new Historique();
+        Date dateHisto = new Date();
+        histo.setMessage("");
+        histo.setAction("Changement d'état du dossier pour " + TypeEtatDossier.navette + ".");
+        histo.setDate(dateHisto);
+        histo.setCompte(compte);
+        
+        dossierorigin.setEtat(TypeEtatDossier.navette);
+        dossierorigin.setAvisCommission(TypeAvisDossier.défavorable);
+        
+        //Récupération de l'historique du dossier
+        List<Historique> histodossier = dossierorigin.getHistorique();
+        
+        //Modification du dossier
+        instance.modifierDossier(dossierorigin);
+        
+        //Récupération du dossier après modification
+        Dossier updatedDossier = new DossierDAO().getById("pst181120154");
+        List<Historique> histodossierupdated = updatedDossier.getHistorique();
+        
+        //On verifie que les dossiers et les historiques sont identiques (On s'attend à avoir true en resultat)
+        boolean result = this.comparerDossiers(updatedDossier, dossierorigin) && this.comparerHistoriques(histodossierupdated, histodossier);
+        
+        assertEquals(true, result);
+        //On remet l'état du dossier à son ancienne valeur
+        updatedDossier.setEtat(oldEtat);
+        updatedDossier.setAvisDirecteur(oldAvis);
+        instance.modifierDossier(updatedDossier);
     }
 }

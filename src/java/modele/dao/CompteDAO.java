@@ -114,6 +114,7 @@ public class CompteDAO extends Dao {
     public void delete(int id) {
         HistoriqueDAO historiqueDAO = new HistoriqueDAO();
         Compte unCompte = getById(id);
+        System.out.println("suppresion compte " + unCompte.getLogin());
         List<Historique> historiques = historiqueDAO.getHistoriquesByCompte(unCompte);
         for(Historique historique:historiques){
             historiqueDAO.delete(historique);
