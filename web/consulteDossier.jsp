@@ -276,29 +276,28 @@
             <!--[if !IE]><!-->
             <%
                 if(d.getEtat().equals(TypeEtatDossier.transfert_vers_secretariat))
-                {
+                {System.out.println("bla");
             %>
-                <a class="btn btn-default" href="Navigation?action=genererLettre&idDossier=<%out.print(d.getId()); %>&typeLettre=1">Generer accuse de reception</a>
+                <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=<%out.print(d.getId()); %>&typeLettre=1">Generer accuse de reception</a>
             <%
                 }
                 else if(d.getEtat().equals(TypeEtatDossier.en_attente_transfert_vers_directeur))
                 {
-                    //En attente de l'ajout d'un champs dans la table dossier pour l'avis du directeur
-                    /*if()
-                    {
-                        <a class="btn btn-default" href="Navigation?action=genererLettre&idDossier=d.getId(); &typeLettre=2">Generer lettre d'acceptation</a>
-                    }
-                    else if()
-                    {
-                        <a class="btn btn-default" href="Navigation?action=genererLettre&idDossier=d.getId(); &typeLettre=3">Generer lettre de refus</a>
-                    }*/
+                    if(d.getAvisDirecteur().equals(TypeAvisDossier.favorable.toString()))
+                    {%>
+                        <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=d.getId(); &typeLettre=2">Generer lettre d'acceptation</a>
+                    <%}
+                    else if(d.getAvisDirecteur().equals(TypeAvisDossier.défavorable.toString()))
+                    {%>
+                        <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=d.getId(); &typeLettre=3">Generer lettre de refus</a>
+                    <%}
             %>
             <%
                 }
                 else if(d.getEtat().equals(TypeEtatDossier.retour_vers_secretariat) && d.getAdmissible().equals(TypeDossier.admissibilite))
                 {
             %>
-                    <a class="btn btn-default" href="Navigation?action=genererLettre&idDossier=<%d.getId(); %>&typeLettre=4">Generer lettre d'audition</a>
+                    <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=<%d.getId(); %>&typeLettre=4">Generer lettre d'audition</a>
             <%
                 }
             %>

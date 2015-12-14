@@ -136,6 +136,7 @@ public class Navigation extends HttpServlet {
             classeAction = new ModifDatesInscriptionAction();
         }
         else if (action.equals("genererLettre")) {
+            System.out.println("bla2");
             menuSelect = 0;
             classeAction = new GenerationLettresAction();
         }else{
@@ -144,18 +145,18 @@ public class Navigation extends HttpServlet {
             classeAction = new VoirIndexAction();
         }
 
-        if (classeAction != null) {
+        if (classeAction != null) {System.out.println("bla2.1");
             //vue récupére le nom de la jsp a afficher
             vue = classeAction.execute(request, response);
-            
+            System.out.println("bla2.2");
             //menu a mettre en surbrillance
             request.setAttribute("menu", menuSelect);
-            
+            System.out.println("bla2.3");
             //affichage de la jsp
             RequestDispatcher rd = request.getRequestDispatcher(vue);
             if (rd != null) {
                 rd.forward(request, response);
-            }
+            }System.out.println("bla2.4");
         }
     }
 

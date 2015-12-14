@@ -37,13 +37,15 @@ public class GenerationLettresAction implements Action
      */
     public String execute(HttpServletRequest request, HttpServletResponse response)
     {
+        System.out.println("bla3");
         String message=null;
         String messageError=null;
         String idDossier = request.getParameter("idDossier");
+        System.out.println("bla4");
         try
         {
             int typeLettre = Integer.parseInt(request.getParameter("typeLettre"));
-            
+            System.out.println("bla5");
             /*
             Valeur typeLettre :
             - 1 : Accuse de reception
@@ -51,6 +53,7 @@ public class GenerationLettresAction implements Action
             - 3 : Lettre de refus
             - 4 : Lettre d'audition (admissibilite)
             */
+            System.out.println("test");
             Dossier dossier;
             switch(typeLettre)
             {
