@@ -29,6 +29,9 @@
     };
     
     function loadJustificatifs(){
+        if($('input#nationalite-0').attr('checked') === true){
+           $('input#pays').val('FRANCE');
+       }
        $("form#formation").prop("action", "Navigation?action=voirAjoutDossier");
        $("form#formation").submit();
     };
