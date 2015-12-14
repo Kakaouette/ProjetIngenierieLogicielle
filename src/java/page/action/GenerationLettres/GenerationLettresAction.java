@@ -15,6 +15,7 @@ import modele.entite.Dossier;
 import modele.entite.TypeEtatDossier;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import page.action.Action;
+import service.DossierService;
 import service.GenerationLettres.CreerAccuseReceptionService;
 import service.GenerationLettres.CreerLettreAccepteService;
 import service.GenerationLettres.CreerLettreAuditionService;
@@ -42,36 +43,43 @@ public class GenerationLettresAction implements Action
         try
         {
             int typeLettre = Integer.parseInt(request.getParameter("typeLettre"));
-            
             /*
             Valeur typeLettre :
             - 1 : Accuse de reception
             - 2 : lettre d'acception
             - 3 : Lettre de refus
             - 4 : Lettre d'audition (admissibilite)
-            */
-            
+            */ 
+            Dossier dossier;
             switch(typeLettre)
             {
                 case 1:
                     new CreerAccuseReceptionService().replaceAccuseReception("Accuse_Reception.docx", idDossier);
                     message = "Accuse de reception genéré";
-                    new DossierDAO().getById(idDossier).setEtat(TypeEtatDossier.traité_secretariat_formation);
+                    dossier = new DossierDAO().getById(idDossier);
+                    dossier.setEtat(TypeEtatDossier.traité_secretariat_formation);
+                    new DossierService().modifierDossier(dossier);
                     break;
                 case 2:
                     new CreerLettreAccepteService().replaceLettreAccepte("Ltrre accordmaster _PST.docx", idDossier);
                     message = "Lettre d'acceptation genérée";
-                    new DossierDAO().getById(idDossier).setEtat(TypeEtatDossier.en_transfert_vers_directeur);
+                    dossier = new DossierDAO().getById(idDossier);
+                    dossier.setEtat(TypeEtatDossier.en_transfert_vers_directeur);
+                    new DossierService().modifierDossier(dossier);
                     break;
                 case 3:
                     new CreerLettreRefusService().replaceLettreRefus("Ltrre refus_PST.docx", idDossier);
                     message = "Lettre de refus genérée";
-                    new DossierDAO().getById(idDossier).setEtat(TypeEtatDossier.en_transfert_vers_directeur);
+                    dossier = new DossierDAO().getById(idDossier);
+                    dossier.setEtat(TypeEtatDossier.en_transfert_vers_directeur);
+                    new DossierService().modifierDossier(dossier);
                     break;
                 case 4:
                     new CreerLettreAuditionService().replaceLettreAudition("Ltrre AUDITIONS_PST.docx", idDossier);
                     message = "Lettre d'admission genérée";
-                    new DossierDAO().getById(idDossier).setEtat(TypeEtatDossier.terminé);
+                    dossier = new DossierDAO().getById(idDossier);
+                    dossier.setEtat(TypeEtatDossier.terminé);
+                    new DossierService().modifierDossier(dossier);
                     break;
                 default:
                     messageError = "Erreur lors de la generation de la lettre";
@@ -84,6 +92,7 @@ public class GenerationLettresAction implements Action
         request.setAttribute("message",message);
         request.setAttribute("messageError",messageError);
         request.setAttribute("dossier",new DossierDAO().getById(idDossier));
+        request.setAttribute("titre","Modifier un dossier");
         return "consulteDossier.jsp";
     }
 }

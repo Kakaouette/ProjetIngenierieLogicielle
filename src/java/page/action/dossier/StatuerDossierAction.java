@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action;
+package page.action.dossier;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +13,7 @@ import modele.entite.Compte;
 import modele.entite.Dossier;
 import modele.entite.Historique;
 import modele.entite.TypeEtatDossier;
+import page.action.Action;
 import service.DossierService;
 
 /**

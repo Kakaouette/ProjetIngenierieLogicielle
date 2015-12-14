@@ -6,11 +6,17 @@ package service;
  * and open the template in the editor.
  */
 
+import static gestulrpeuplement.GestULRPeuplement.cryptageMDP;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import modele.dao.CompteDAO;
 import modele.dao.FormationDAO;
+import modele.dao.JustificatifDAO;
+import modele.entite.Compte;
 import modele.entite.Formation;
+import modele.entite.Justificatif;
+import modele.entite.TypeCompte;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,11 +42,19 @@ public class TestModifierUtilisateur {
     }
     
     @Before
-    public void setUp() {
+    public void setUp()
+    {
+        List<Formation> formationToSet = new ArrayList<>();
+        formationToSet.add(new FormationDAO().getById(15));
+        Compte test = new Compte("Test",cryptageMDP("test"),"Test","Test","test@test.com",TypeCompte.secrétaire_formation,formationToSet);
+        //test.setId(8);
+        new CompteDAO().save(test);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
+        new CompteDAO().delete(new CompteDAO().getComptebyLogin("Test").getId());
     }
 
     // TODO add test methods here.
@@ -55,15 +69,16 @@ public class TestModifierUtilisateur {
     @Test
     public void testModifierUtilisateurToutLesChamps() {
         System.out.println("testModifierUtilisateurToutLesChamps");
-        int idCompte=6;
+        int idCompte=new CompteDAO().getComptebyLogin("test").getId();
         String type="admin";
         String login="test";
         String nom="test";
         String prenom="test";
         String mail="test@gmail.com";
         String mdp="test";
+        List<Formation> formations = new ArrayList();
         boolean expResult = true;
-        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,null);
+        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,formations);
         assertEquals(expResult, resultat);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -75,15 +90,16 @@ public class TestModifierUtilisateur {
     @Test
     public void testModifierUtilisateurAvecChampsNuls() {
         System.out.println("testModifierUtilisateurAvecChampsNuls");
-        int idCompte=6;
+        int idCompte=new CompteDAO().getComptebyLogin("test").getId();
         String type="";
         String login="";
         String nom="";
         String prenom="";
         String mail="";
         String mdp="";
+        List<Formation> formations = new ArrayList();
         boolean expResult = true;
-        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,null);
+        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,formations);
         assertEquals(expResult, resultat);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -95,15 +111,16 @@ public class TestModifierUtilisateur {
     @Test
     public void testModifierUtilisateurQuelquesChamps() {
         System.out.println("testModifierUtilisateurQuelquesChamps");
-        int idCompte=6;
+        int idCompte=new CompteDAO().getComptebyLogin("test").getId();
         String type="";
         String login="";
         String nom="";
         String prenom="";
         String mail="Bla2@gmail.com";
         String mdp="";
+        List<Formation> formations = new ArrayList();
         boolean expResult = true;
-        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,null);
+        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,formations);
         assertEquals(expResult, resultat);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -115,23 +132,24 @@ public class TestModifierUtilisateur {
     @Test
     public void testModifierUtilisateurSuperUser() {
         System.out.println("testModifierUtilisateurSuperUser");
-        int idCompte=6;
-        new CompteService().effectuerModification(idCompte, "responsable_formation", "", "", "", "", "",null);
+        int idCompte=new CompteDAO().getComptebyLogin("test").getId();
         List<Formation> formationToSet = new ArrayList<>();
-        formationToSet.add(new FormationDAO().getById(13));
-        new CompteDAO().getById(idCompte).setFormationAssocie(formationToSet);
+        formationToSet.add(new FormationDAO().getById(14));
+        new CompteService().effectuerModification(idCompte,"responsable_formation", "", "", "", "", "",formationToSet);
+        
         String type="admin";
         String login="";
         String nom="";
         String prenom="";
         String mail="";
         String mdp="";
+        List<Formation> formations = new ArrayList();
+        //fail("A modifier lorsque la classe CompteService aura été modifiée pour gerer la liste des formations");
         
-        fail("A modifier lorsque la classe CompteService aura été modifiée pour gerer la liste des formations");
-        
-        new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,null);
-        List<Formation> formations = new CompteDAO().getById(idCompte).getFormationAssocie();
-        assertNull(formations);
+        new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,formations);
+        formations = new CompteDAO().getById(idCompte).getFormationAssocie();
+        List<Formation> resultat = new ArrayList();
+        assertEquals(formations,resultat);
     }
     
     /**
@@ -141,10 +159,10 @@ public class TestModifierUtilisateur {
     @Test
     public void testModifierUtilisateurDeleteAllFormations() {
         System.out.println("testModifierUtilisateurDeleteAllFormations");
-        int idCompte=6;
-        new CompteService().effectuerModification(idCompte, "responsable_formation", "", "", "", "", "",null);
+        int idCompte=new CompteDAO().getComptebyLogin("test").getId();
+        
         List<Formation> formationToSet = new ArrayList<Formation>();
-        formationToSet.add(new FormationDAO().getById(13));
+        formationToSet.add(new FormationDAO().getById(14));
         new CompteDAO().getById(idCompte).setFormationAssocie(formationToSet);
         String type="";
         String login="";
@@ -152,16 +170,13 @@ public class TestModifierUtilisateur {
         String prenom="";
         String mail="";
         String mdp="";
-        
-        fail("A modifier lorsque la classe CompteService aura été modifiée pour gerer la liste des formations");
-        
-        //On set la liste des formations du compte à null
-        new CompteDAO().getById(idCompte).setFormationAssocie(null);
+        List<Formation> formations = new ArrayList();
+        //fail("A modifier lorsque la classe CompteService aura été modifiée pour gerer la liste des formations");
         //On execute la fonction qui va update le compte
-        //new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp, new CompteDAO().getById(idCompte).getFormationAssocie());
+        new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp, formations);
         
-        //On recupere la liste des formations ducompte après update
-        List<Formation> formations = new CompteDAO().getById(idCompte).getFormationAssocie();
+        //On recupere la liste des formations du compte après update
+        formations = new CompteDAO().getById(idCompte).getFormationAssocie();
         //On verifie que cette liste n'est pas nulle
         assertNotNull(formations);
     }

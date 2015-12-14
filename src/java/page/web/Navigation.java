@@ -106,6 +106,9 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modifierDossier")) {
             menuSelect = 3;
             classeAction = new ModifierDossierAction();
+        }else if (action.equals("etudiantAutocompletion")) {
+            menuSelect = 3;
+            classeAction = new EtudiantAutocompletionAction();
         }else if (action.equals("supprimerDossier")) {
             menuSelect = 3;
             classeAction = new SupprimerDossierAction();
@@ -147,10 +150,8 @@ public class Navigation extends HttpServlet {
         if (classeAction != null) {
             //vue récupére le nom de la jsp a afficher
             vue = classeAction.execute(request, response);
-            
             //menu a mettre en surbrillance
             request.setAttribute("menu", menuSelect);
-            
             //affichage de la jsp
             RequestDispatcher rd = request.getRequestDispatcher(vue);
             if (rd != null) {
