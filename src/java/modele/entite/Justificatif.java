@@ -86,7 +86,17 @@ public class Justificatif implements Serializable{
     public void setTypeNationalite(TypeJustificatifEtranger typeNationalite) {
         this.typeNationalite = typeNationalite;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.titre);
+        hash = 71 * hash + Objects.hashCode(this.description);
+        hash = 71 * hash + Objects.hashCode(this.typeAdmissible);
+        hash = 71 * hash + Objects.hashCode(this.typeNationalite);
+        return hash;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -102,6 +112,9 @@ public class Justificatif implements Serializable{
         if (!Objects.equals(this.titre, other.titre)) {
             return false;
         }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
         if (this.typeAdmissible != other.typeAdmissible) {
             return false;
         }
@@ -110,13 +123,5 @@ public class Justificatif implements Serializable{
         }
         return true;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + Objects.hashCode(this.titre);
-        hash = 73 * hash + Objects.hashCode(this.typeAdmissible);
-        hash = 73 * hash + Objects.hashCode(this.typeNationalite);
-        return hash;
-    }
+    
 }

@@ -4,6 +4,10 @@
     Author     : Arthur
 --%>
 
+<%@page import="modele.entite.TypeJustificatifEtranger"%>
+<%@page import="modele.entite.TypeDossier"%>
+<%@page import="modele.dao.FormationDAO"%>
+<%@page import="modele.entite.Formation"%>
 <%@page import="modele.dao.JustificatifDAO"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -242,8 +246,13 @@
                                                     <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
                                                 </dt>
                                                 <dd class="col-md-5">
-                                                    <em><%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%></em>
-                                                    <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionFrancaisDescription" value="<%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%>"/>
+                                                    <%String description = "";
+                                                    if(request.getAttribute(justificatif + "InscriptionFrancaisDescription") != null){
+                                                        description = (String) request.getAttribute(justificatif + "InscriptionFrancaisDescription");%>
+                                                   
+                                                        <em><%out.print(description);%></em>
+                                                        <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionFrancaisDescription" value="<%out.print(description);%>"/>
+                                                    <%}%>
                                                 </dd>
                                             </dl>
                                         </li><br>
@@ -265,8 +274,13 @@
                                                     <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
                                                 </dt>
                                                 <dd class="col-md-5">
-                                                    <em><%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%></em>
-                                                    <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionFrancaisDescription" value="<%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%>"/>
+                                                    <%String description = "";
+                                                    if(request.getAttribute(justificatif + "AdmissionFrancaisDescription") != null){
+                                                        description = (String) request.getAttribute(justificatif + "AdmissionFrancaisDescription");%>
+                                                        
+                                                        <em><%out.print(description);%></em>
+                                                        <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionFrancaisDescription" value="<%out.print(description);%>"/>
+                                                    <%}%>
                                                 </dd>
                                             </dl>
                                         </li><br>
@@ -309,8 +323,13 @@
                                                     <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
                                                 </dt>
                                                 <dd class="col-md-5">
-                                                    <em><%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%></em>
-                                                    <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionEtrangerDescription" value="<%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%>"/>
+                                                    <%String description = "";
+                                                    if(request.getAttribute(justificatif + "InscriptionEtrangerDescription") != null){
+                                                        description = (String) request.getAttribute(justificatif + "InscriptionEtrangerDescription");%>
+                                                        
+                                                        <em><%out.print(description);%></em>
+                                                        <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionEtrangerDescription" value="<%out.print(description);%>"/>
+                                                    <%}%>
                                                 </dd>
                                             </dl>
                                         </li><br>
@@ -332,8 +351,13 @@
                                                     <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
                                                 </dt>
                                                 <dd class="col-md-5">
-                                                    <em><%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%></em>
-                                                    <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionEtrangerDescription" value="<%out.print(new JustificatifDAO().getJustificatifbyTitre(justificatif).getDescription());%>"/>
+                                                    <%String description = "";
+                                                    if(request.getAttribute(justificatif + "AdmissionEtrangerDescription") != null){
+                                                        description = (String) request.getAttribute(justificatif + "AdmissionEtrangerDescription");%>
+                                                        
+                                                        <em><%out.print(description);%></em>
+                                                        <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionEtrangerDescription" value="<%out.print(description);%>"/>
+                                                    <%}%>
                                                 </dd>
                                             </dl>
                                         </li><br>

@@ -57,16 +57,21 @@ public class FormationService {
             }
         }
         if(formationToAdd.getLesJustificatifs() != null){ //eviter les null pointer
-            List<Justificatif> justificatifsTemp = new ArrayList<Justificatif>();
-            justificatifsTemp.addAll(formationToAdd.getLesJustificatifs());
-            for(Justificatif justificatif:justificatifsTemp){
-                Justificatif jtemp = new JustificatifDAO().getJustificatifbyTitre(justificatif.getTitre());
-                if(jtemp != null){
-                    formationToAdd.getLesJustificatifs().remove(justificatif);
-                    formationToAdd.getLesJustificatifs().add(jtemp);
-                }else{
-                    new JustificatifService().ajouterJustificatif(justificatif);
+            //verification des doublons
+            for(Justificatif justificatif:formationToAdd.getLesJustificatifs()){
+                int c=0;
+                for(Justificatif jTemp:formationToAdd.getLesJustificatifs()){
+                    if(jTemp.getTitre().equals(justificatif.getTitre()) && jTemp.getTypeAdmissible().equals(justificatif.getTypeAdmissible()) && jTemp.getTypeNationalite().equals(justificatif.getTypeNationalite())){
+                        c++;
+                        if(c>1){
+                            throw new AjoutJustificatifInvalideException("Le titre du justificatif est déjà utilisé.", new Throwable(AjoutJustificatifInvalideException.cause.Justificatif_Existant.toString()));
+                        }
+                    }
                 }
+            }
+            //ajout des justificatifs
+            for(Justificatif justificatif:formationToAdd.getLesJustificatifs()){
+                new JustificatifService().ajouterJustificatif(justificatif);
             }
         }
         
