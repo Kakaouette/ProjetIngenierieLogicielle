@@ -47,10 +47,7 @@ public class TestModifierUtilisateur {
         List<Formation> formationToSet = new ArrayList<>();
         formationToSet.add(new FormationDAO().getById(15));
         Compte test = new Compte("Test",cryptageMDP("test"),"Test","Test","test@test.com",TypeCompte.secrétaire_formation,formationToSet);
-        //test.setId(8);
         new CompteDAO().save(test);
-        
-        //System.out.println("test3");
     }
     
     @After
