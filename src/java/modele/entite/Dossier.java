@@ -31,6 +31,12 @@ public class Dossier implements Serializable {
     @Lob
     @Column
     String lettre;
+    
+    @Enumerated(EnumType.STRING)
+    TypeAvisDossier avisDirecteur = TypeAvisDossier.en_attente;
+    
+    @Enumerated(EnumType.STRING)
+    TypeAvisDossier avisCommission = TypeAvisDossier.en_attente;
 
     @Enumerated(EnumType.STRING)
     TypeDossier type;
@@ -98,6 +104,15 @@ public class Dossier implements Serializable {
         this.historique = historique;
     }
 
+    public void setAvisDirecteur(TypeAvisDossier avisDirecteur) {
+        this.avisDirecteur = avisDirecteur;
+    }
+
+    public void setAvisCommission(TypeAvisDossier avisCommission) {
+        this.avisCommission = avisCommission;
+    }
+    
+
     public Dossier() {
     }
 
@@ -133,6 +148,14 @@ public class Dossier implements Serializable {
         return historique;
     }
 
+    public TypeAvisDossier getAvisDirecteur() {
+        return avisDirecteur;
+    }
+
+    public TypeAvisDossier getAvisCommission() {
+        return avisCommission;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -179,6 +202,4 @@ public class Dossier implements Serializable {
         }
         return true;
     }
-    
-    
 }

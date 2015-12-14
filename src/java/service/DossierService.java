@@ -71,8 +71,7 @@ public class DossierService {
         return newID;
     }
     
-    public Dossier recupererDossier(String idDossier)
-    {
+    public Dossier recupererDossier(String idDossier){
         return this.dossierDAO.getById(idDossier);
     }
     
@@ -249,5 +248,13 @@ public class DossierService {
         }else{
             return false;
         }
+    }
+    
+    /**
+     * Mise à jour du dossier sans paramètre
+     * @param dossier
+     */
+    public void miseajour(Dossier dossier){
+        dossierDAO.update(dossier);
     }
 }

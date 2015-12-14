@@ -46,27 +46,27 @@
         copieJustificatifs.each(function() {
             //gestion de l'ajout
             var justificatifsPresent = $(to + " li");
-            var labelFrancais = $(this).children("label").text();
+            var labelFrancais = $(this).find("dl dt label").text();
             var inserer = true;
             justificatifsPresent.each(function() {
-                var labelEtranger = $(this).children("label").text();
+                var labelEtranger = $(this).find("dl dt label").text();
                 if(labelFrancais===labelEtranger) {
                     inserer = false;
                 }
             });
             if(inserer){
                 //adapter parametre du new justificatif
-                $(this).children('label#justificatifs').attr("name", "justificatifs"+name+"Etranger");
-                $(this).children('input#justificatifs').attr("name", "justificatifs"+name+"Etranger");
+                $(this).find('dl dt label#justificatifs').attr("name", "justificatifs"+name+"Etranger");
+                $(this).find('dl dt input#justificatifs').attr("name", "justificatifs"+name+"Etranger");
                 var title = $(this).find('label').text().replace("'","\\'");
-                $(this).children('a').attr("onclick","deleteJ('" + to + "','"+title+"')");
+                $(this).find('dl dt a').attr("onclick","deleteJ('" + to + "','"+title+"')");
                 
-                $(this).children('input#description').attr("name", title+name+"EtrangerDescription");
+                $(this).find('dl dd input#description').attr("name", title+name+"EtrangerDescription");
                 //ajouter le new justificatif
                 $(to + " ul#justificatifsAdded").append($(this));
             }
         });
-    }
+    };
 
     function createDialog(location) {
         //creation et ajout du dialog
@@ -124,7 +124,7 @@
         if(val === ""){
             $('div#dialogJustificatifAAjouter form#ajouterJustificatif').prepend($('<div>').attr('class', 'alert alert-danger').append('<em>Entrez le titre de justificatif.</em>'));
             return false;
-        }else if($($path + ' li:contains('+val+')').filter(function(index){return $(this).children('label#justificatifs').text() === val;}).length === 0){
+        }else if($($path + ' li:contains('+val+')').filter(function(index){return $(this).find('dl dt label#justificatifs').text() === val;}).length === 0){
             $name = "justificatifs";
             $nameDescription = val;
             if(location.indexOf("inscription") !== -1){
@@ -143,12 +143,15 @@
             }
             $nameDescription += "Description";
 
-            $($path).append($('<li>').append('<label id="justificatifs" name="justificatifs" class="control-label">' + val + '</label>'));
-            $($path + ' li:last').append($('<input>').attr('id', "justificatifs").attr('type', "hidden").attr('name', $name).attr('value', val));            
-            $($path + ' li:last').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + val + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
+            $($path).append($('<li>').append($('<dl>')));
+            $($path + ' li:last dl').append($('<dt>'));
+            $($path + ' li:last dl dt').append('<label id="justificatifs" name="justificatifs" class="control-label">' + val + '</label>');
+            $($path + ' li:last dl dt').append($('<input>').attr('id', "justificatifs").attr('type', "hidden").attr('name', $name).attr('value', val));            
+            $($path + ' li:last dl dt').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + val + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
             
-            $($path + ' li:last').append('<br><em>'+description+'</em>');
-            $($path + ' li:last').append($('<input>').attr('id', "description").attr('type', "hidden").attr('name', $nameDescription).attr('value', description));   
+            $($path + ' li:last dl').append($('<div>').attr('class', "row").append($('<dd>').attr('class', "col-md-5")));
+            $($path + ' li:last dl dd').append('<em>'+description+'</em>');
+            $($path + ' li:last dl dd').append($('<input>').attr('id', "description").attr('type', "hidden").attr('name', $nameDescription).attr('value', description));   
             return true;
         }else{
             $('div#dialogJustificatifAAjouter form#ajouterJustificatif').prepend($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie.</em>'));
@@ -158,7 +161,7 @@
     //supprimer un justificatif
     function deleteJ(location, val){
         $(location + ' li:contains('+val+')').filter(function(index){
-            return $(this).children('label#justificatifs').text() === val;
+            return $(this).find('dl dt label#justificatifs').text() === val;
         }).remove();
     };
 </script>
@@ -210,7 +213,6 @@
     </div>
     
     <div class="form-group">
-
         <label for="justificatifsAdded" class="col-sm-2 control-label">Justificatifs français</label>
         
         <div class="row col-sm-offset-1">
@@ -232,9 +234,24 @@
                                     for (String justificatif : justificatifs){
                                 %>
                                         <li>
-                                            <label id="justificatifs" name="justificatifsInscriptionFrancais" class="control-label"><%out.print(justificatif);%></label>
-                                            <input type="hidden" name="justificatifsInscriptionFrancais" value="<%out.print(justificatif);%>"/>
-                                            <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#inscription', '<%out.print( justificatif.replace("'", "\\'") );%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                            <dl>
+                                                <dt>
+                                                    <label id="justificatifs" name="justificatifsInscriptionFrancais" class="control-label"><%out.print(justificatif);%></label>
+                                                    <input type="hidden" id="justificatifs" name="justificatifsInscriptionFrancais" value="<%out.print(justificatif);%>"/>
+                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                                </dt>
+                                                <div class="row">
+                                                    <dd class="col-md-5">
+                                                        <%String description = "";
+                                                        if(request.getAttribute(justificatif + "InscriptionFrancaisDescription") != null){
+                                                            description = (String) request.getAttribute(justificatif + "InscriptionFrancaisDescription");%>
+
+                                                            <em><%out.print(description);%></em>
+                                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionFrancaisDescription" value="<%out.print(description);%>"/>
+                                                        <%}%>
+                                                    </dd>
+                                                </div>
+                                            </dl>
                                         </li>
                                     <%}
                                 }%>
@@ -247,9 +264,24 @@
                                     for (String justificatif : justificatifs){
                                 %>
                                         <li>
-                                            <label id="justificatifsInscriptionEtranger" name="justificatifsAdmissionFrancais" class="control-label"><%out.print(justificatif);%></label>
-                                            <input type="hidden" name="justificatifsAdmissionFrancais" value="<%out.print(justificatif);%>"/>
-                                            <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#admission', '<%out.print( justificatif.replace("'", "\\'") );%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                            <dl>
+                                                <dt>
+                                                    <label id="justificatifs" name="justificatifsAdmissionFrancais" class="control-label"><%out.print(justificatif);%></label>
+                                                    <input type="hidden" id="justificatifs" name="justificatifsAdmissionFrancais" value="<%out.print(justificatif);%>"/>
+                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                                </dt>
+                                                <div class="row">
+                                                    <dd class="col-md-5">
+                                                        <%String description = "";
+                                                        if(request.getAttribute(justificatif + "AdmissionFrancaisDescription") != null){
+                                                            description = (String) request.getAttribute(justificatif + "AdmissionFrancaisDescription");%>
+
+                                                            <em><%out.print(description);%></em>
+                                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionFrancaisDescription" value="<%out.print(description);%>"/>
+                                                        <%}%>
+                                                    </dd>
+                                                </div>
+                                            </dl>
                                         </li>
                                     <%}
                                 }%>
@@ -283,9 +315,24 @@
                                     for (String justificatif : justificatifs){
                                 %>
                                         <li>
-                                            <label id="justificatifsInscriptionEtranger" name="justificatifsInscriptionEtranger" class="control-label"><%out.print(justificatif);%></label>
-                                            <input type="hidden" name="justificatifsInscriptionEtranger" value="<%out.print(justificatif);%>"/>
-                                            <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#inscription', '<%out.print( justificatif.replace("'", "\\'") );%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                            <dl>
+                                                <dt>
+                                                    <label id="justificatifs" name="justificatifsInscriptionEtranger" class="control-label"><%out.print(justificatif);%></label>
+                                                    <input type="hidden" id="justificatifs" name="justificatifsInscriptionEtranger" value="<%out.print(justificatif);%>"/>
+                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                                </dt>
+                                                <div class="row">
+                                                    <dd class="col-md-5">
+                                                        <%String description = "";
+                                                        if(request.getAttribute(justificatif + "InscriptionEtrangerDescription") != null){
+                                                            description = (String) request.getAttribute(justificatif + "InscriptionEtrangerDescription");%>
+
+                                                            <em><%out.print(description);%></em>
+                                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionEtrangerDescription" value="<%out.print(description);%>"/>
+                                                        <%}%>
+                                                    </dd>
+                                                </div>
+                                            </dl>
                                         </li>
                                     <%}
                                 }%>
@@ -298,9 +345,24 @@
                                     for (String justificatif : justificatifs){
                                 %>
                                         <li>
-                                            <label id="justificatifsInscriptionEtranger" name="justificatifsAdmissionEtranger" class="control-label"><%out.print(justificatif);%></label>
-                                            <input type="hidden" name="justificatifsAdmissionEtranger" value="<%out.print(justificatif);%>"/>
-                                            <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#admission', '<%out.print( justificatif.replace("'", "\\'") );%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                            <dl>
+                                                <dt>
+                                                    <label id="justificatifs" name="justificatifsAdmissionEtranger" class="control-label"><%out.print(justificatif);%></label>
+                                                    <input type="hidden" id="justificatifs" name="justificatifsAdmissionEtranger" value="<%out.print(justificatif);%>"/>
+                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                                </dt>
+                                                <div class="row">
+                                                    <dd class="col-md-5">
+                                                        <%String description = "";
+                                                        if(request.getAttribute(justificatif + "AdmissionEtrangerDescription") != null){
+                                                            description = (String) request.getAttribute(justificatif + "AdmissionEtrangerDescription");%>
+
+                                                            <em><%out.print(description);%></em>
+                                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionEtrangerDescription" value="<%out.print(description);%>"/>
+                                                        <%}%>
+                                                    </dd>
+                                                </div>
+                                            </dl>
                                         </li>
                                     <%}
                                 }%>
@@ -311,7 +373,7 @@
             </table>
         </div>
     </div>
-                            
+              
     <div class="row">
         <div class="col-md-1 col-md-offset-1">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer"><i class="fa fa-save"></i> Enregister</button>

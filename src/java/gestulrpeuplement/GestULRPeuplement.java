@@ -139,9 +139,9 @@ public class GestULRPeuplement {
         Adresse ad3 = new AdresseDAO().getAdresseByCodePostalAndVille("33000", "Bordeaux");
         
         // Création des étudiants
-        Etudiant e1 = new Etudiant("ine1", "Giguère", "Valentin", "pays", "17 rue de la Marne", "Masculin", ad3);
-        Etudiant e2 = new Etudiant("ine2", "Jean", "Pierre", "ici", "1337 rue de leet", "Masculin", ad2);
-        Etudiant e3 = new Etudiant("ine3", "Sparrow", "Annie", "la bas", "42 avenue de Verdun", "Femminin", ad1);
+        Etudiant e1 = new Etudiant("ine1", "Giguère", "Valentin", "pays", "17 rue de la Marne", "Masculin", a3);
+        Etudiant e2 = new Etudiant("ine2", "Jean", "Pierre", "ici", "1337 rue de leet", "Masculin", a2);
+        Etudiant e3 = new Etudiant("ine3", "Sparrow", "Annie", "la bas", "42 avenue de Verdun", "Femminin", a1);
         
         new EtudiantDAO().save(e1);
         new EtudiantDAO().save(e2);
@@ -153,7 +153,7 @@ public class GestULRPeuplement {
         Etudiant etu3 = new EtudiantDAO().getEtudiantByNomPrenom("Sparrow", "Annie");
         
         //Création des étudiants étrangés
-        EtudiantEtranger ee1 = new EtudiantEtranger("bon", "favorable", "Cameron", "David", "Autriche", "1532 rue du temple", "Masculin", ad1,"ine4");
+        EtudiantEtranger ee1 = new EtudiantEtranger("bon", "favorable", "Cameron", "David", "Autriche", "1532 rue du temple", "Masculin", a1,"ine4");
         
         new EtudiantEtrangerDAO().save(ee1);
         
@@ -168,7 +168,7 @@ public class GestULRPeuplement {
         Dossier d2 = new Dossier("pst181120152", new Date(), TypeEtatDossier.en_attente_commission, "yeah", TypeDossier.admissibilite, etu1, form1);
         Dossier d3 = new Dossier("pst181120153", new Date(), TypeEtatDossier.en_transfert_vers_directeur, "sad", TypeDossier.inscription, etu2, form3);
         Dossier d4 = new Dossier("pst181120154", new Date(), TypeEtatDossier.navette, "sad", TypeDossier.inscription, etu2, form3);
-        Dossier d5 = new Dossier("pst181120155", new Date(), TypeEtatDossier.retour_ver_secretariat, "sad", TypeDossier.inscription, etu2, form3);
+        Dossier d5 = new Dossier("pst181120155", new Date(), TypeEtatDossier.retour_vers_secretariat, "sad", TypeDossier.inscription, etu2, form3);
         Dossier d6 = new Dossier("pst181120156", new Date(), TypeEtatDossier.terminé, "sad", TypeDossier.inscription, etu2, form3);
         Dossier d7 = new Dossier("pst181120157", new Date(), TypeEtatDossier.traité_secretariat_formation, "sad", TypeDossier.inscription, etu2, form3);
         Dossier d8 = new Dossier("pst181120158", new Date(), TypeEtatDossier.transfert_vers_secretariat, "sad", TypeDossier.inscription, etu2, form3);

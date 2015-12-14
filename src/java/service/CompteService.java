@@ -129,7 +129,8 @@ public class CompteService {
             
             //Formations du compte
             if(!compte.getType().equals(TypeCompte.responsable_commission)&&!compte.getType().equals(TypeCompte.secrétaire_formation)&&!compte.getType().equals(TypeCompte.responsable_formation)){
-                lesFormations.clear();
+                if(lesFormations != null)
+                    lesFormations.clear();
             }
             compte.setFormationAssocie(lesFormations);
 

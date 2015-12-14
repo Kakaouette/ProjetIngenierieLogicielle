@@ -184,9 +184,29 @@ public class ModifFormationAction implements Action{
         request.setAttribute("dateDebut", request.getParameter("dateDebut"));
         request.setAttribute("dateFin", request.getParameter("dateFin"));
         request.setAttribute("justificatifsInscriptionFrancais", request.getParameterValues("justificatifsInscriptionFrancais"));
+        if(request.getParameterValues("justificatifsInscriptionFrancais") != null){
+            for(String titre : request.getParameterValues("justificatifsInscriptionFrancais")){
+                request.setAttribute(titre + "InscriptionFrancaisDescription", request.getParameter(titre + "InscriptionFrancaisDescription"));
+            }
+        }
         request.setAttribute("justificatifsAdmissionFrancais", request.getParameterValues("justificatifsAdmissionFrancais"));
+        if(request.getParameterValues("justificatifsAdmissionFrancais") != null){
+            for(String titre : request.getParameterValues("justificatifsAdmissionFrancais")){
+                request.setAttribute(titre + "AdmissionFrancaisDescription", request.getParameter(titre + "AdmissionFrancaisDescription"));
+            }
+        }
         request.setAttribute("justificatifsInscriptionEtranger", request.getParameterValues("justificatifsInscriptionEtranger"));
+        if(request.getParameterValues("justificatifsInscriptionEtranger") != null){
+            for(String titre : request.getParameterValues("justificatifsInscriptionEtranger")){
+                request.setAttribute(titre + "InscriptionEtrangerDescription", request.getParameter(titre + "InscriptionEtrangerDescription"));
+            }
+        }
         request.setAttribute("justificatifsAdmissionEtranger", request.getParameterValues("justificatifsAdmissionEtranger"));
+        if(request.getParameterValues("justificatifsAdmissionEtranger") != null){
+            for(String titre : request.getParameterValues("justificatifsAdmissionEtranger")){
+                request.setAttribute(titre + "AdmissionEtrangerDescription", request.getParameter(titre + "AdmissionEtrangerDescription"));
+            }
+        }
         return new VoirModifFormationAction().execute(request, response); //modif: voir récupérer page precedente
     }
     
