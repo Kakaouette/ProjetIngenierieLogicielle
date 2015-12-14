@@ -263,21 +263,21 @@
         <div class="col-md-2 col-md-offset-1">
             <!--[if IE]>
             <input type="hidden" name="action" value="annulerModifs" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
+            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Annuler</button>
             <![endif]-->
             <!--[if !IE]><!-->
             <a class="btn btn-default" href="Navigation?action=afficherInformationsDossiers">Annuler</a>
         </div>
         <div class="col-md-2 col-md-offset-1">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="annulerModifs" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
             <%
                 if(d.getEtat().equals(TypeEtatDossier.transfert_vers_secretariat))
-                {System.out.println("bla");
+                {
             %>
+                <!--[if IE]>
+                <input type="hidden" name="action" value="GenLettre" />
+                <button class="btn btn-info" type="submit" name="change" id="change">Generer accuse de reception</button>
+                <![endif]-->
+                <!--[if !IE]><!-->
                 <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=<%out.print(d.getId()); %>&typeLettre=1">Generer accuse de reception</a>
             <%
                 }

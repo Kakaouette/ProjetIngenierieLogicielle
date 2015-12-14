@@ -156,11 +156,11 @@ public class TestModifierUtilisateur {
      * Test sur la modification d'un utilisateur qui possède un compte lié à des formations et dont on retire toutes les formations, de la classe ModifierUtilisateurAction.
      * 
      */
-    /*@Test
+    @Test
     public void testModifierUtilisateurDeleteAllFormations() {
         System.out.println("testModifierUtilisateurDeleteAllFormations");
         int idCompte=new CompteDAO().getComptebyLogin("test").getId();
-        new CompteService().effectuerModification(idCompte,"responsable_formation", "", "", "", "", "",null);
+        
         List<Formation> formationToSet = new ArrayList<Formation>();
         formationToSet.add(new FormationDAO().getById(14));
         new CompteDAO().getById(idCompte).setFormationAssocie(formationToSet);
@@ -171,16 +171,13 @@ public class TestModifierUtilisateur {
         String mail="";
         String mdp="";
         List<Formation> formations = new ArrayList();
-        fail("A modifier lorsque la classe CompteService aura été modifiée pour gerer la liste des formations");
-        
-        //On set la liste des formations du compte à null
-        new CompteDAO().getById(idCompte).setFormationAssocie(null);
+        //fail("A modifier lorsque la classe CompteService aura été modifiée pour gerer la liste des formations");
         //On execute la fonction qui va update le compte
-        //new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp, new CompteDAO().getById(idCompte).getFormationAssocie());
+        new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp, formations);
         
-        //On recupere la liste des formations ducompte après update
+        //On recupere la liste des formations du compte après update
         formations = new CompteDAO().getById(idCompte).getFormationAssocie();
         //On verifie que cette liste n'est pas nulle
         assertNotNull(formations);
-    }*/
+    }
 }
