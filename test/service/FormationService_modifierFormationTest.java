@@ -304,14 +304,14 @@ public class FormationService_modifierFormationTest {
         justificatifs.add(justificatif);
         formation.setLesJustificatifs(justificatifs);
         try {
-            new FormationService().modifierFormation(formationAvecJustificatif);
+            new FormationService().modifierFormation(formation);
             done = true;
         } catch (ModificationFormationInvalideException | SuppressionJustificatifInvalideException | IOException ex) {
             System.out.println("Exception relevé: " + ex.getMessage());
             done = false;
         }
-        System.out.println("Test validé: " + (done == true && formationAvecJustificatif.equals(new FormationDAO().getById(formationAvecJustificatif.getId()))));
-        assertTrue(done && formationAvecJustificatif.equals(new FormationDAO().getById(formationAvecJustificatif.getId())));
+        System.out.println("Test validé: " + (done == true && formation.equals(new FormationDAO().getById(formation.getId()))));
+        assertTrue(done && formation.equals(new FormationDAO().getById(formation.getId())));
     }
     @Test
      public void testModifierFormationJustificatifEnMoins(){
