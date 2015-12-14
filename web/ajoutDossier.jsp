@@ -120,12 +120,23 @@
                 error: function() {
                     //http://localh ost:8080/gist/Navigation?action=etudiantAutocompletion&numeroINE=ine1
                     console.log("ERROR_URL:"+'Navigation?action=etudiantAutocompletion&numeroINE='+value);
+                    effacerChamp();
                 }
             });
         }
         else
         {
+            effacerChamp();
         }
+    }
+    
+    function effacerChamp() {
+        $("input#nom").val("");
+        $("input#prenom").val("");
+        $("input#codePostal").val("");
+        $("input#adresse").val("");
+        $("input#ville").val("");
+        $("input#pays").val("");
     }
     
 </script>
