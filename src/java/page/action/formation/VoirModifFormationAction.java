@@ -43,6 +43,7 @@ public class VoirModifFormationAction implements Action{
             return new VoirGestionFormationsAction().execute(request, response); //redirection
         }
         
+        //recuperation de la formation
         int id = Integer.parseInt(idForm);
         Formation formation = new FormationDAO().getById(id);
         if(formation == null){
@@ -54,6 +55,7 @@ public class VoirModifFormationAction implements Action{
                 return new VoirGestionFormationsAction().execute(request, response); //redirection
             }
         }
+        
         if(formation.getDebut() != null && formation.getFin()!= null){
             if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){ //verif formation editable
                 request.setAttribute("typeMessage", "warning");
@@ -70,7 +72,7 @@ public class VoirModifFormationAction implements Action{
         Date fin = formation.getFin();
 
         List<Justificatif> justificatifs = formation.getLesJustificatifs();
-                
+        
         //remplissage du formulaire
         if(request.getParameter("id") != null){
             request.setAttribute("id", idForm);

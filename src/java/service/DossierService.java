@@ -71,8 +71,7 @@ public class DossierService {
         return newID;
     }
     
-    public Dossier recupererDossier(String idDossier)
-    {
+    public Dossier recupererDossier(String idDossier){
         return this.dossierDAO.getById(idDossier);
     }
     

@@ -188,7 +188,6 @@ public class AjoutFormationAction implements Action{
     }
         
     private void validerFormulaire(String[] required, String[] requiredName) throws Exception{
-        
         //verification de la validité du formulaire
         List<String> empty = new ArrayList<String>();
         for(int i=0; i<required.length; i++){

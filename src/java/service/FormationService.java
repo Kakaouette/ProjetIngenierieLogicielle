@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import modele.dao.FormationDAO;
+import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import service.exception.AjoutJustificatifInvalideException;
@@ -56,8 +57,16 @@ public class FormationService {
             }
         }
         if(formationToAdd.getLesJustificatifs() != null){ //eviter les null pointer
-            for(Justificatif justificatif:formationToAdd.getLesJustificatifs()){
-                new JustificatifService().ajouterJustificatif(justificatif);
+            List<Justificatif> justificatifsTemp = new ArrayList<Justificatif>();
+            justificatifsTemp.addAll(formationToAdd.getLesJustificatifs());
+            for(Justificatif justificatif:justificatifsTemp){
+                Justificatif jtemp = new JustificatifDAO().getJustificatifbyTitre(justificatif.getTitre());
+                if(jtemp != null){
+                    formationToAdd.getLesJustificatifs().remove(justificatif);
+                    formationToAdd.getLesJustificatifs().add(jtemp);
+                }else{
+                    new JustificatifService().ajouterJustificatif(justificatif);
+                }
             }
         }
         

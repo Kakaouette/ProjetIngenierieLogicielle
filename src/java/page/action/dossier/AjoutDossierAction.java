@@ -25,7 +25,6 @@ import modele.entite.TypeDossier;
 import modele.entite.TypeEtatDossier;
 import modele.entite.TypeJustificatifEtranger;
 import page.action.Action;
-import page.action.formation.VoirGestionFormationsAction;
 import service.exception.AjoutDossierInvalideException;
 import service.DossierService;
 import service.exception.AjoutAdresseInvalideException;
@@ -77,10 +76,8 @@ public class AjoutDossierAction implements Action{
         Adresse adresse = new AdresseDAO().getAdresseByCodePostalAndVille(codePostal, ville);
         if(adresse == null){
             adresse = new Adresse(codePostal, ville);
-        }else if(!adresse.getVille().equals(ville)){
-            adresse = new Adresse(codePostal, ville);
         }
-        Etudiant etudiant = new EtudiantDAO().getEtudiantByINE(ine); //add: gestion etudiant etranger
+        Etudiant etudiant = new EtudiantDAO().getEtudiantByINE(ine);
         if(etudiant == null){
             if(nationalite.equals(TypeJustificatifEtranger.francais.toString())){
                 etudiant = new Etudiant(ine, nom, prenom, pays, adressePostale, sexe, adresse);
@@ -151,7 +148,7 @@ public class AjoutDossierAction implements Action{
                     request.setAttribute("focus", "formationIntitule");
                 }
             }else if(e instanceof AjoutAdresseInvalideException){
-                request.setAttribute("focus", "adresse");
+                request.setAttribute("focus", "codePostal");
             }else if(e instanceof AjoutEtudiantInvalideException){
                 request.setAttribute("focus", "nom");
             }else if(e instanceof IOException){

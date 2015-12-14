@@ -35,6 +35,12 @@ public class JustificatifService {
         if(justificatifDAO.getById(justificatifToAdd.getId()) != null){
             throw new AjoutJustificatifInvalideException("L'identifiant du justificatif est déjà utilisé.", new Throwable(AjoutJustificatifInvalideException.cause.Justificatif_Existant.toString()));
         }
+        Justificatif jtemp = justificatifDAO.getJustificatifbyTitre(justificatifToAdd.getTitre());
+        if(jtemp != null){
+            if(jtemp.getTypeAdmissible() == justificatifToAdd.getTypeAdmissible() && jtemp.getTypeNationalite() == justificatifToAdd.getTypeNationalite()){
+                throw new AjoutJustificatifInvalideException("Le titre du justificatif est déjà utilisé.", new Throwable(AjoutJustificatifInvalideException.cause.Justificatif_Existant.toString()));
+            }
+        }
         if(justificatifToAdd.getTitre() == null || justificatifToAdd.getDescription() == null || justificatifToAdd.getTypeAdmissible() == null || justificatifToAdd.getTypeNationalite() == null){
             throw new AjoutJustificatifInvalideException("Informations sur le justificatif incomplétes.", new Throwable(AjoutJustificatifInvalideException.cause.Justificatif_Incomplet.toString()));
         }
