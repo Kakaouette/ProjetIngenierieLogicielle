@@ -65,10 +65,7 @@ public class VoirIndexAction implements Action {
             {
                 return "accueil.jsp";
             }
-            /*switch(compte.getType()){
-                case TypeCompte.responsable_commission:{
-                    
-                }*/
+            
         }
     }
 }

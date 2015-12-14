@@ -249,4 +249,12 @@ public class DossierService {
             return false;
         }
     }
+    
+    /**
+     * Mise à jour du dossier sans paramètre
+     * @param dossier
+     */
+    public void miseajour(Dossier dossier){
+        dossierDAO.update(dossier);
+    }
 }
