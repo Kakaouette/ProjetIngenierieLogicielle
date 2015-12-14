@@ -15,6 +15,7 @@ import modele.dao.CompteDAO;
 import modele.dao.FormationDAO;
 import modele.entite.Compte;
 import modele.entite.Formation;
+import modele.entite.TypeCompte;
 import page.action.Action;
 import service.CompteService;
 
@@ -44,20 +45,36 @@ public class ModifierUtilisateurAction implements Action {
             
             List<Formation> lesFormations = new ArrayList<>();
             FormationDAO formationDAO = new FormationDAO();
+            boolean aucuneFormations = false;
             for(String idS : form){
-                if(idS.equals("Aucune formation")){
+                if(idS.equals("Aucune formation") && !(!type.equals(TypeCompte.responsable_formation.toString()) || !type.equals(TypeCompte.responsable_commission.toString()) || !type.equals(TypeCompte.secrétaire_formation.toString()))){
                     lesFormations.clear();
+                    //System.out.println("test");
+                    break;
+                }
+                else if(idS.equals("Aucune formation") && !(type.equals(TypeCompte.responsable_formation.toString()) || type.equals(TypeCompte.responsable_commission.toString()) || type.equals(TypeCompte.secrétaire_formation.toString())))
+                {
+                    aucuneFormations = true;
+                    //System.out.println("test1");
                     break;
                 }else{
+                    //System.out.println("test2");
                     try{
                         int id = Integer.parseInt(idS);
                         lesFormations.add(formationDAO.getById(id));
                     }catch(Exception e){}
                 }
             }
-
+            
             Compte compte = new CompteDAO().getById(idCompte);
+            
+            if(aucuneFormations == true)
+            {
+                lesFormations = compte.getFormationAssocie();
+            }
+            
             compte.setFormationAssocie(lesFormations);
+            
             if(compte == null)
                 return new VoirGestionUtilisateurAction().execute(request, response);
 
@@ -87,15 +104,27 @@ public class ModifierUtilisateurAction implements Action {
 
             Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,lesFormations);
             if (update == false) {
-                System.out.println("test");
+                //System.out.println("test");
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
                 request.setAttribute("login", login);
+                request.setAttribute("type", TypeCompte.valueOf(type));
                 request.setAttribute("nom", nom);
                 request.setAttribute("prenom", prenom);
                 request.setAttribute("email", mail);
                 request.setAttribute("formation",lesFormations);
-                return "modifierUtilisateur.jsp";
-            } else {
+                return new VoirModifierComptesAction().execute(request, response);
+            }else if(aucuneFormations == true) {
+                request.setAttribute("message", "WARNING : Les modification ont été effectuée, cependant cet utilisateur necessite d'être associé à des formations. Or il n'en possèdait aucune lors de votre modification. La modification des formations à donc été ignorée.");
+                request.setAttribute("login", login);
+                System.out.println(TypeCompte.valueOf(type));
+                System.out.println(compte.getType().toString());
+                request.setAttribute("type", TypeCompte.valueOf(type));
+                request.setAttribute("nom", nom);
+                request.setAttribute("prenom", prenom);
+                request.setAttribute("email", mail);
+                request.setAttribute("formation",lesFormations);
+                return new VoirModifierComptesAction().execute(request, response);
+            }else {
                 request.setAttribute("message", "Modification effectuée");
 
                 return new VoirGestionUtilisateurAction().execute(request, response);
