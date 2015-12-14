@@ -149,10 +149,9 @@
             $($path + ' li:last dl dt').append($('<input>').attr('id', "justificatifs").attr('type', "hidden").attr('name', $name).attr('value', val));            
             $($path + ' li:last dl dt').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + val + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
             
-            $($path + ' li:last dl').append($('<dd>').attr('class', "col-md-5"));
+            $($path + ' li:last dl').append($('<div>').attr('class', "row").append($('<dd>').attr('class', "col-md-5")));
             $($path + ' li:last dl dd').append('<em>'+description+'</em>');
             $($path + ' li:last dl dd').append($('<input>').attr('id', "description").attr('type', "hidden").attr('name', $nameDescription).attr('value', description));   
-            $($path + ' li:last').append('<br>');
             return true;
         }else{
             $('div#dialogJustificatifAAjouter form#ajouterJustificatif').prepend($('<div>').attr('class', 'alert alert-danger').append('<em>Le justificatif existe déja pour cette catégorie.</em>'));
@@ -241,17 +240,19 @@
                                                     <input type="hidden" id="justificatifs" name="justificatifsInscriptionFrancais" value="<%out.print(justificatif);%>"/>
                                                     <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
                                                 </dt>
-                                                <dd class="col-md-5">
-                                                    <%String description = "";
-                                                    if(request.getAttribute(justificatif + "InscriptionFrancaisDescription") != null){
-                                                        description = (String) request.getAttribute(justificatif + "InscriptionFrancaisDescription");%>
-                                                   
-                                                        <em><%out.print(description);%></em>
-                                                        <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionFrancaisDescription" value="<%out.print(description);%>"/>
-                                                    <%}%>
-                                                </dd>
+                                                <div class="row">
+                                                    <dd class="col-md-5">
+                                                        <%String description = "";
+                                                        if(request.getAttribute(justificatif + "InscriptionFrancaisDescription") != null){
+                                                            description = (String) request.getAttribute(justificatif + "InscriptionFrancaisDescription");%>
+
+                                                            <em><%out.print(description);%></em>
+                                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionFrancaisDescription" value="<%out.print(description);%>"/>
+                                                        <%}%>
+                                                    </dd>
+                                                </div>
                                             </dl>
-                                        </li><br>
+                                        </li>
                                     <%}
                                 }%>
                             </ul>
@@ -269,17 +270,19 @@
                                                     <input type="hidden" id="justificatifs" name="justificatifsAdmissionFrancais" value="<%out.print(justificatif);%>"/>
                                                     <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
                                                 </dt>
-                                                <dd class="col-md-5">
-                                                    <%String description = "";
-                                                    if(request.getAttribute(justificatif + "AdmissionFrancaisDescription") != null){
-                                                        description = (String) request.getAttribute(justificatif + "AdmissionFrancaisDescription");%>
-                                                        
-                                                        <em><%out.print(description);%></em>
-                                                        <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionFrancaisDescription" value="<%out.print(description);%>"/>
-                                                    <%}%>
-                                                </dd>
+                                                <div class="row">
+                                                    <dd class="col-md-5">
+                                                        <%String description = "";
+                                                        if(request.getAttribute(justificatif + "AdmissionFrancaisDescription") != null){
+                                                            description = (String) request.getAttribute(justificatif + "AdmissionFrancaisDescription");%>
+
+                                                            <em><%out.print(description);%></em>
+                                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionFrancaisDescription" value="<%out.print(description);%>"/>
+                                                        <%}%>
+                                                    </dd>
+                                                </div>
                                             </dl>
-                                        </li><br>
+                                        </li>
                                     <%}
                                 }%>
                             </ul>
@@ -318,17 +321,19 @@
                                                     <input type="hidden" id="justificatifs" name="justificatifsInscriptionEtranger" value="<%out.print(justificatif);%>"/>
                                                     <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
                                                 </dt>
-                                                <dd class="col-md-5">
-                                                    <%String description = "";
-                                                    if(request.getAttribute(justificatif + "InscriptionEtrangerDescription") != null){
-                                                        description = (String) request.getAttribute(justificatif + "InscriptionEtrangerDescription");%>
-                                                        
-                                                        <em><%out.print(description);%></em>
-                                                        <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionEtrangerDescription" value="<%out.print(description);%>"/>
-                                                    <%}%>
-                                                </dd>
+                                                <div class="row">
+                                                    <dd class="col-md-5">
+                                                        <%String description = "";
+                                                        if(request.getAttribute(justificatif + "InscriptionEtrangerDescription") != null){
+                                                            description = (String) request.getAttribute(justificatif + "InscriptionEtrangerDescription");%>
+
+                                                            <em><%out.print(description);%></em>
+                                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>InscriptionEtrangerDescription" value="<%out.print(description);%>"/>
+                                                        <%}%>
+                                                    </dd>
+                                                </div>
                                             </dl>
-                                        </li><br>
+                                        </li>
                                     <%}
                                 }%>
                             </ul>
@@ -346,17 +351,19 @@
                                                     <input type="hidden" id="justificatifs" name="justificatifsAdmissionEtranger" value="<%out.print(justificatif);%>"/>
                                                     <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
                                                 </dt>
-                                                <dd class="col-md-5">
-                                                    <%String description = "";
-                                                    if(request.getAttribute(justificatif + "AdmissionEtrangerDescription") != null){
-                                                        description = (String) request.getAttribute(justificatif + "AdmissionEtrangerDescription");%>
-                                                        
-                                                        <em><%out.print(description);%></em>
-                                                        <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionEtrangerDescription" value="<%out.print(description);%>"/>
-                                                    <%}%>
-                                                </dd>
+                                                <div class="row">
+                                                    <dd class="col-md-5">
+                                                        <%String description = "";
+                                                        if(request.getAttribute(justificatif + "AdmissionEtrangerDescription") != null){
+                                                            description = (String) request.getAttribute(justificatif + "AdmissionEtrangerDescription");%>
+
+                                                            <em><%out.print(description);%></em>
+                                                            <input id="description" type="hidden" name="<%out.print(justificatif);%>AdmissionEtrangerDescription" value="<%out.print(description);%>"/>
+                                                        <%}%>
+                                                    </dd>
+                                                </div>
                                             </dl>
-                                        </li><br>
+                                        </li>
                                     <%}
                                 }%>
                             </ul>

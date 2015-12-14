@@ -79,8 +79,6 @@ public class DossierServiceTest {
         compte = new Compte("adminlogin", "mdpadmin", "Duvalle", "Pierre", "mail@mesmails.fr", TypeCompte.admin, null);
         compteDAO.save(compte);
         compte = compteDAO.getComptebyIdentifiant("adminlogin");
-        idCompte = compte.getId();
-        System.out.println(idCompte);
     }
     
     @After
@@ -109,7 +107,9 @@ public class DossierServiceTest {
         try {
             new DossierDAO().delete(dossier.getId());
         } catch (Exception e) {}
-        compteDAO.delete(idCompte);
+        try {
+            new CompteDAO().delete(compte.getId());
+        } catch (Exception e) {}
     }
     
     /**
@@ -135,7 +135,7 @@ public class DossierServiceTest {
     public void testGetNewID() {
         System.out.println("getNewID");
         
-        dossierDAO = new DossierDAO();
+        DossierDAO dossierDAO = new DossierDAO();
         
         Date dateNow = new Date(); //recuperation de la date actuelle
         String dernierID = dossierDAO.getLastId(dateNow);
@@ -149,11 +149,11 @@ public class DossierServiceTest {
         dossierDAO.save(d1);
         
         
-        etudiant2 = new Etudiant("2", "nn", "pp", "pays", "a", "M", adresse);
+        etudiant2 = new Etudiant("2", "nn", "pp", "p", "a", "M", adresse);
         new EtudiantDAO().save(etudiant2);
         
         String result2 = instance.getNewID();
-        Dossier d2 = new Dossier(result2, new Date(), TypeEtatDossier.transfert_vers_secretariat, null, TypeDossier.inscription, etudiant, formation);
+        Dossier d2 = new Dossier(result2, new Date(), TypeEtatDossier.traité_secretariat_formation, null, TypeDossier.inscription, etudiant, formation);
         dossierDAO.save(d2);
 
         ////        / DATE DU DOSSIER        / /    ID DOSSIER                      ////
@@ -192,51 +192,6 @@ public class DossierServiceTest {
             Logger.getLogger(DossierServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossier() throws Exception {
-        System.out.println("ajouterDossier");
-        etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
-        formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
-        historique = new Historique(new Date(), "Message", "Action", c);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier("NeDoitPasPasser", new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Ne doit pas passer ici.");
-        }
-        catch(AjoutDossierInvalideException e)
-        {
-        }
-        /// //////////////////////////// TEST AVEC UN ID CORRECTE ////////////////////////////
-        Adresse uneAdresse = new Adresse("test_codePoste", "test_Ville");
-        Etudiant unEtudiant = new Etudiant("ineLambda", "test_Nom", "test_Prenom", "pays", "test_adressePostale", "test_Homme", uneAdresse);
-        String idDossier = instance.getNewID();
-        dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, unEtudiant, formation, sesHistoriques);
-        
-        /// On l'insère
-        instance.ajouterDossier(dossier);
-        
-        /// on vérifie son existance.
-        Dossier cpt = new DossierDAO().getById(idDossier);
-        assertEquals(dossier.equals(cpt), true);
-        
-        new DossierDAO().delete(dossier.getId());
-        new EtudiantDAO().delete(unEtudiant.getId());
-        new AdresseDAO().delete(uneAdresse.getId());
-        new HistoriqueDAO().delete(historique.getId());
-        
-        //new AdresseDAO().delete(uneAdresse);
-        //new EtudiantDAO().delete(unEtudiant);
-        //dossierDAO.
-    }
     
     /**
      * Test de suppression d'un dossier
@@ -245,12 +200,13 @@ public class DossierServiceTest {
     public void testSupprimeDossier() throws Exception{
         System.out.println("testSupprimeDossier");
         /// //////////////////////////// TEST AVEC UN ID CORRECTE ////////////////////////////
-        etudiant = new EtudiantDAO().getEtudiantByNomPrenom("Jean","Pierre");
         String idDossier = instance.getNewID();
-        formation = new FormationDAO().getFormationByIntitule("M1 ICONE");
-        historique = new Historique(new Date(), "Message", "Action", c);
+        new FormationDAO().save(formation);
         List<Historique> sesHistoriques = new ArrayList<>();
         sesHistoriques.add(historique);
+        
+        new CompteDAO().save(c);
+        
         dossier = new Dossier(idDossier, new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
         
         /// On l'insère
@@ -456,444 +412,6 @@ public class DossierServiceTest {
         //On remet l'état du dossier à son ancienne valeur
         updatedDossier.setEtat(oldEtat);
         instance.modifierDossier(updatedDossier);
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierIdNull() throws Exception {
-        System.out.println("testAjouterDossierIdNull");
-        
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(null, new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Ne doit pas passer ici.");
-        }catch(AjoutDossierInvalideException e){}
-}
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierIdVide() throws Exception {
-        System.out.println("testAjouterDossierIdVide");
-        
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier("", new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Ne doit pas passer ici.");
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierIdIncorrect() throws Exception {
-        System.out.println("testAjouterDossierIdIncorrect");
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier("azerty", new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Ne doit pas passer ici.");
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierDateNull() throws Exception {
-        System.out.println("testAjouterDossierDateNull");
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), null, TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtatNull() throws Exception {
-        System.out.println("testAjouterDossierEtatNull");
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), null, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-        
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierTypeNull() throws Exception {
-        System.out.println("testAjouterDossierTypeNull");
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", null, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantNull() throws Exception {
-        System.out.println("testAjouterDossierEtudiantNull");
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, null, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantINENull() throws Exception {
-        System.out.println("testAjouterDossierEtudiantINENull");
-        etudiant = new Etudiant(null, "n", "p", "pays", "a", "M", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantINEVide() throws Exception {
-        System.out.println("testAjouterDossierEtudiantINEVide");
-        etudiant = new Etudiant("", "n", "p", "pays", "a", "M", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantNomNull() throws Exception {
-        System.out.println("testAjouterDossierEtudiantNomNull");
-        etudiant = new Etudiant("1", null, "p", "pays", "a", "M", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantNomVide() throws Exception {
-        System.out.println("testAjouterDossierEtudiantNomVide");
-        etudiant = new Etudiant("1", "", "p", "pays", "a", "M", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantPrenomNull() throws Exception {
-        System.out.println("testAjouterDossierEtudiantPrenomNull");
-        etudiant = new Etudiant("1", "n", null, "pays", "a", "M", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantPrenomVide() throws Exception {
-        System.out.println("testAjouterDossierEtudiantPrenomVide");
-        etudiant = new Etudiant("1", "n", "", "pays", "a", "M", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantAdresseNull() throws Exception {
-        System.out.println("testAjouterDossierEtudiantAdresseNull");
-        etudiant = new Etudiant("1", "n", "p", "pays", null, "M", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantAdresseVide() throws Exception {
-        System.out.println("testAjouterDossierEtudiantAdresseVide");
-        etudiant = new Etudiant("1", "n", "p", "pays", "", "M", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantSexeNull() throws Exception {
-        System.out.println("testAjouterDossierEtudiantSexeNull");
-        etudiant = new Etudiant("1", "n", "p", "pays", "a", null, adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierEtudiantSexeVide() throws Exception {
-        System.out.println("testAjouterDossierEtudiantSexeVide");
-        etudiant = new Etudiant("1", "n", "p", "pays", "a", "", adresse);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierFormationNull() throws Exception {
-        System.out.println("testAjouterDossierFormationNull");
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), null, TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, null, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierFormationIntituleNull() throws Exception {
-        System.out.println("testAjouterDossierFormationIntituleNull");
-        formation = new Formation("d", 0, null, null, null, null);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), null, TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierFormationIntituleVide() throws Exception {
-        System.out.println("testAjouterDossierFormationIntituleVide");
-        formation = new Formation("d", 0, null, null, "", null);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), null, TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-            fail("Erreur: Dossier ajouté");
-            new DossierDAO().delete(dossier.getId());
-        }catch(AjoutDossierInvalideException e){}
-    }
-    
-    /**
-     * Test of ajouterDossier method, of class DossierService.
-     */
-    @Test
-    public void testAjouterDossierValide() throws Exception {
-        System.out.println("testAjouterDossierValide");
-        new FormationDAO().save(formation);
-        List<Historique> sesHistoriques = new ArrayList<>();
-        sesHistoriques.add(historique);
-        
-        new CompteDAO().save(c);
-        
-        ///   (Date date, String etat, String lettre, boolean admissible, Etudiant etudiant, Formation demandeFormation, List<Historique> historique)
-        dossier = new Dossier(instance.getNewID(), new Date(), TypeEtatDossier.transfert_vers_secretariat, "UneLettre", TypeDossier.inscription, etudiant, formation, sesHistoriques);
-        
-        /// //////////////////////////// TEST AVEC UN ID INCORRECTE ////////////////////////////
-        try {
-            instance.ajouterDossier(dossier);
-        }catch(AjoutDossierInvalideException e){
-            fail(e.getMessage());
-        }
-        
-        if(!new DossierDAO().getById(dossier.getId()).equals(dossier)){
-             fail("Dossier inégal.");
-        }
     }
     
     @Test
