@@ -1,0 +1,31 @@
+Rapport semaine 6
+
+Durant la semaine du 7 au 11 décembre 2015, nous avons commencé le développement du sprint 3. Nous avons d'abord "rattrapper"
+notre retard en finalisant le sprint 2 le premier jour de la semaine. Puis ensuite on a activement développé le sprint 3 sur
+nos tâches assignées. J'ai fait l'implémentation de Avis Dossier et Statuer Dossier. Le premier concerne l'avis donné par la commission et statuer
+le second la décision finale du directeur du pôle. L'action vérifie avec précaution les états du dossiers et le type de compte de l'utilisateur
+qui permettent de donner un avis ou statuer. 
+
+Pour donner un avis :
+le dossier doit être soit en attente de commission soit en navette
+le type de compte doit être soit l'administrateur, soit le responsable de commission
+
+Pour statuer un dossier :
+le dossier doit être en attente par le directeur
+le type de compte doit être soit l'administrateur, soit le directeur du pôle
+
+Même si dans l'interface, les formulaires sont bloqués pour ne pas permettre d'avoir accès à ces fonctionnalité pour les utilisateur non autorisés,
+on peut néanmois facilement modifier le formulaire. Il y a une double vérification côté serveur pour plus de sûreté.
+
+Une autre tâche m'a été assigné concernant l'affectation des formations à la création d'un compte de type responsable de commission, responsable de formation et secrétaire de formation.
+L'affectation se faît à l'aide d'une liste et un script jQuery permettant de dynamiser la recherche.
+
+Voici mon rapport d'activité de la semaine :
+Donner son avis sur un dossier (implementation) : 2h30
+Statuer sur un dossier (impelmentation) : 5h
+Gérer cas admissibilité : 5h
+Affectation formations (interface) : 6h
+Renfort à Etienne sur AJAX avec jQuery (vu que j'avais fini) : 4h
+Gestion de projet (réunion et bilan) : 2h
+
+Total : 24h30
