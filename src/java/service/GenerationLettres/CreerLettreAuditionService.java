@@ -137,6 +137,9 @@ public class CreerLettreAuditionService
             civilite="Monsieur ";
             System.out.println("Erreur civilite, DocReaderLettreAudition");
         }
+        String pays ="";
+            if(!etudiant.getPays().equalsIgnoreCase("france"))
+                pays = etudiant.getPays();
 
         String dateCommission="25/06/2015";
 
@@ -179,6 +182,30 @@ public class CreerLettreAuditionService
             }
 
         }
+         for (XWPFParagraph p : doc.getParagraphs())
+            {
+                int numberOfRuns = p.getRuns().size();
+                StringBuilder sb = new StringBuilder();
+                for (XWPFRun r : p.getRuns())
+                {
+                    int pos = r.getTextPosition();
+                    if(r.getText(pos) != null)
+                    {
+                        sb.append(r.getText(pos));
+                    }
+                }
+                if(sb.length() > 0 && sb.toString().contains("$pays"))
+                {
+                    for(int i = numberOfRuns - 1; i > 0; i--)
+                    {
+                          p.removeRun(i);
+                    }
+                    String text = sb.toString().replace("$pays", pays);
+                    XWPFRun run = p.getRuns().get(0);
+                    run.setText(text, 0);
+                    System.out.println("Changement du pays effectue");
+                }
+            }
         for (XWPFParagraph p : doc.getParagraphs())
         {
             int numberOfRuns = p.getRuns().size();

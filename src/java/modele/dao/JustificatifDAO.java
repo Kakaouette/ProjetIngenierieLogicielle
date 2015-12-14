@@ -8,7 +8,6 @@ package modele.dao;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import modele.entite.Formation;
 import modele.entite.Justificatif;
 
 /**
@@ -47,7 +46,7 @@ public class JustificatifDAO extends Dao {
             return null;
         }
     }
-
+    
     public void save(Justificatif unJustificatif) {
         EntityTransaction tx = em.getTransaction();
         tx.begin();

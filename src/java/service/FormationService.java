@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import modele.dao.FormationDAO;
+import modele.dao.JustificatifDAO;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import service.exception.AjoutJustificatifInvalideException;
@@ -56,6 +57,19 @@ public class FormationService {
             }
         }
         if(formationToAdd.getLesJustificatifs() != null){ //eviter les null pointer
+            //verification des doublons
+            for(Justificatif justificatif:formationToAdd.getLesJustificatifs()){
+                int c=0;
+                for(Justificatif jTemp:formationToAdd.getLesJustificatifs()){
+                    if(jTemp.getTitre().equals(justificatif.getTitre()) && jTemp.getTypeAdmissible().equals(justificatif.getTypeAdmissible()) && jTemp.getTypeNationalite().equals(justificatif.getTypeNationalite())){
+                        c++;
+                        if(c>1){
+                            throw new AjoutJustificatifInvalideException("Le titre du justificatif est déjà utilisé.", new Throwable(AjoutJustificatifInvalideException.cause.Justificatif_Existant.toString()));
+                        }
+                    }
+                }
+            }
+            //ajout des justificatifs
             for(Justificatif justificatif:formationToAdd.getLesJustificatifs()){
                 new JustificatifService().ajouterJustificatif(justificatif);
             }

@@ -39,13 +39,16 @@ public class VoirGestionDatesInscriptionAction implements Action{
             formations = new ArrayList<Formation>();
             request.setAttribute("message", "Aucune formation trouvé dans la BDD");
         }
+        request.setAttribute("formations", formations);
         
-        String intitule = formations.get(0).getIntitule();
-        //keep formulaire
-        if(request.getParameter("intitule") != null){
-            intitule = request.getParameter("intitule");
+        ///autofill form///
+        //formation
+        String intitule = request.getParameter("intitule");
+        if(intitule == null && !formations.isEmpty()){
+            intitule = formations.get(0).getIntitule();
         }
         request.setAttribute("intitule", intitule);
+        
         //recuperation de la formation
         Formation formationModifiee = new FormationDAO().getFormationByIntitule(intitule);
         if(formationModifiee == null){
@@ -53,6 +56,14 @@ public class VoirGestionDatesInscriptionAction implements Action{
             request.setAttribute("message", "Formation inconnue");
             return stayHere(request, response); //redirection
         }
+        if(formationModifiee.getDebut() != null && formationModifiee.getFin()!= null){
+            if(formationModifiee.getDebut().before(new Date()) && formationModifiee.getFin().after(new Date())){ //verif formation editable
+                request.setAttribute("typeMessage", "warning");
+                request.setAttribute("message", "La formation ne peut être modifier pendant la période d'inscription");
+            }
+        }
+        
+        //remplissage du formulaire
         request.setAttribute("description", formationModifiee.getDescription());
         request.setAttribute("nbPlace", formationModifiee.getNombrePlace());
         Date debut = new Date();
@@ -63,16 +74,9 @@ public class VoirGestionDatesInscriptionAction implements Action{
         if(formationModifiee.getFin() != null){
             fin = formationModifiee.getFin();
         }
-        if(formationModifiee.getDebut() != null && formationModifiee.getFin()!= null){
-            if(formationModifiee.getDebut().before(new Date()) && formationModifiee.getFin().after(new Date())){ //verif formation editable
-                request.setAttribute("typeMessage", "warning");
-                request.setAttribute("message", "La formation ne peut être modifier pendant la période d'inscription");
-            }
-        }
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         request.setAttribute("dateDebut", df.format(debut));
         request.setAttribute("dateFin", df.format(fin));
-        request.setAttribute("formations", formations);
         
         return "gestionDatesInscription.jsp";
     }

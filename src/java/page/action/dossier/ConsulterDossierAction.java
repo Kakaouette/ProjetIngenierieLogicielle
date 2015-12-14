@@ -23,7 +23,7 @@ public class ConsulterDossierAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        
+        request.setAttribute("titre", "Modifier un dossier");
         //recuperation de l'id du formulaire
         String idDossier = request.getParameter("idDossier");
         
@@ -32,11 +32,14 @@ public class ConsulterDossierAction implements Action{
      
         //si dossier n'existe pas => retour vers la liste des dossiers 
         if(dossier != null){
-            request.setAttribute("titre", "Modifier un dossier");
+
             request.setAttribute("dossier", dossier);
             return "consulteDossier.jsp";
-        }else{   
-            return new AfficherInformationsDossiersAction().execute(request, response);
+        }else{
+            request.setAttribute("titre", "Gestion des dossiers");
+            List<Dossier> dossiers = new DossierDAO().SelectAll(); //recuperation des comptes pour la page suivante
+            request.setAttribute("dossiers", dossiers);
+            return "listeDossiers.jsp";
         }
     }
     

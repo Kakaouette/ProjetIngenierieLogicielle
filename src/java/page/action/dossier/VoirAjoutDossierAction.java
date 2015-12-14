@@ -28,11 +28,11 @@ public class VoirAjoutDossierAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Compte compte = (Compte) request.getSession().getAttribute("compte");
         request.setAttribute("titre", "Ajouter un dossier");
         
-        List<Formation> formations = null; 
         //recuperation des formations pour la page suivante celon le type de compte
+        Compte compte = (Compte) request.getSession().getAttribute("compte");
+        List<Formation> formations = null;
         if(compte.getType() == TypeCompte.admin || compte.getType() == TypeCompte.responsable_administrative || compte.getType() == TypeCompte.directeur_pole){
             formations = new FormationDAO().SelectAll();
         }else if(compte.getType() == TypeCompte.secrétaire_formation){
@@ -44,65 +44,59 @@ public class VoirAjoutDossierAction implements Action{
         }
         request.setAttribute("formations", formations);
         
+        ///autofill form///
+        //formation
         String intitule = request.getParameter("formationIntitule");
-        //keep formulaire
-        if(request.getParameter("formationIntitule") != null){
-            intitule = request.getParameter("formationIntitule");
-        }else{
+        if(intitule == null && !formations.isEmpty()){
             intitule = formations.get(0).getIntitule();
         }
         request.setAttribute("formationIntitule", intitule);
+        //type
         String type = request.getParameter("type");
-        //keep formulaire
         if(type == null){
             type = TypeDossier.inscription.toString();
         }
         request.setAttribute("type", type);
+        //nationalité et pays
         String nationalite = request.getParameter("nationalite");
         String pays = request.getParameter("pays");
-        if(request.getParameter("nationalite") == null){
+        if(nationalite == null){
             nationalite = TypeJustificatifEtranger.francais.toString();
             if(pays == null){
                 pays = "FRANCE";
             }else if(request.getParameter("pays").equals("")){
                 pays = "FRANCE";
             }
-        }else if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.francais.toString())){
+        }else if(nationalite.equals(TypeJustificatifEtranger.francais.toString())){
             if(pays == null){
                 pays = "FRANCE";
             }else if(request.getParameter("pays").equals("")){
                 pays = "FRANCE";
             }
         }
-        request.setAttribute("pays", pays);
         request.setAttribute("nationalite", nationalite);
-        
+        request.setAttribute("pays", pays);
+        //justificatifs
         Formation formation = new FormationDAO().getFormationByIntitule(intitule);
-        List<Justificatif> justificatifs = formation.getLesJustificatifs();
-        if(justificatifs == null) {
-            justificatifs = new ArrayList<Justificatif>();
-            request.setAttribute("message", "Aucun justificatif trouvé dans la BDD");
-        }else{
-            List<Justificatif> goodJustificatifs = new ArrayList<Justificatif>();
-            for(Justificatif jtemp:justificatifs){
-                boolean condition = false;
-                if(type.equals(TypeDossier.inscription.toString())){
-                    condition = (jtemp.getTypeAdmissible() == TypeDossier.inscription);
-                }else if(type.equals(TypeDossier.admissibilite.toString())){
-                    condition = (jtemp.getTypeAdmissible() == TypeDossier.admissibilite);
-                }
-                if(nationalite.equals(TypeJustificatifEtranger.francais.toString())){
-                    condition = condition && (jtemp.getTypeNationalite() == TypeJustificatifEtranger.francais);
-                }else if(nationalite.equals(TypeJustificatifEtranger.etranger.toString())){
-                    condition = condition && (jtemp.getTypeNationalite() == TypeJustificatifEtranger.etranger);
-                }
-                if(condition){
-                    goodJustificatifs.add(jtemp);
-                }
-            }
-            request.setAttribute("justificatifs", goodJustificatifs);
+        TypeDossier typeJ = null;
+        if(type.equals(TypeDossier.inscription.toString())){
+            typeJ = TypeDossier.inscription;
+        }else if(type.equals(TypeDossier.admissibilite.toString())){
+            typeJ = TypeDossier.admissibilite;
         }
-        
+        TypeJustificatifEtranger nationaliteJ = null;
+        if(nationalite.equals(TypeJustificatifEtranger.francais.toString())){
+            nationaliteJ = TypeJustificatifEtranger.francais;
+        }else if(nationalite.equals(TypeJustificatifEtranger.etranger.toString())){
+            nationaliteJ = TypeJustificatifEtranger.etranger;
+        }
+        if(typeJ != null && nationaliteJ != null){
+            List<Justificatif> justificatifs = formation.getLesJustificatifs(typeJ, nationaliteJ);
+            if(justificatifs.isEmpty()) {
+                request.setAttribute("message", "Aucun justificatif trouvé dans la BDD");
+            }
+            request.setAttribute("justificatifs", justificatifs);
+        }
         
         //keep formulaire
         request.setAttribute("idDossier", request.getParameter("idDossier"));
@@ -119,6 +113,8 @@ public class VoirAjoutDossierAction implements Action{
                 request.setAttribute("avis", request.getParameter("avis"));
                 request.setAttribute("niveau", request.getParameter("niveau"));
             }
+        }else{
+            request.setAttribute("nationalite", TypeJustificatifEtranger.francais.toString());
         }
         
         // construction de la liste des INE pour 

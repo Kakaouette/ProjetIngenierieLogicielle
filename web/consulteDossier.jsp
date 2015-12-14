@@ -4,6 +4,7 @@
     Author     : phanjoseph
 --%>
 
+<%@page import="modele.entite.TypeAvisDossier"%>
 <%@page import="modele.entite.TypeEtatDossier"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -46,6 +47,13 @@
         <label for="login" class="col-sm-2 control-label">Numéro du dossier</label>
         <div class="col-sm-3">
             <input type="text" name="id" id="login" class="form-control" value="<%out.print(d.getId());%>" required readonly>
+        </div>
+    </div>
+        
+    <div class="form-group">
+        <label for="login" class="col-sm-2 control-label">INE</label>
+        <div class="col-sm-3">
+            <input type="text" name="id" id="login" class="form-control" value="<%out.print(d.getEtudiant().getIne());%>" required readonly>
         </div>
     </div>
         
@@ -120,7 +128,9 @@
             </select>
         </div>
     </div>
+    </fieldset>
        
+    
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Type </label>
         <div class="col-sm-3">
@@ -128,6 +138,58 @@
             <label><input type="radio" name="admissibilite" value="<% TypeDossier.admissibilite.name(); %>" <%if(d.getAdmissible() == TypeDossier.admissibilite){%>checked<%};%> disabled> Admission</label>
         </div>
     </div>
+        
+    <fieldset>
+        <legend>Avis sur dossier</legend>
+        <div class="form-group" <% if(c.getType() != TypeCompte.admin){if(c.getType() != TypeCompte.responsable_commission || !(d.getEtat() == TypeEtatDossier.en_attente_commission || d.getEtat() == TypeEtatDossier.navette)){%>hidden<%}}%>>
+            <label class="radio-inline col-md-offset-2">
+                <input type="radio" name="avis" value="favorable" <%if(d.getAvisCommission() == TypeAvisDossier.favorable){%>checked<%}%>>Favorable
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="avis" value="defavorable" <%if(d.getAvisCommission() == TypeAvisDossier.défavorable){%>checked<%}%>>Défavorable
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="avis" value="enAttente" <%if(d.getAvisCommission() == TypeAvisDossier.en_attente){%>checked<%}%>>En attente
+            </label>
+        </div>
+            <div class="form-group" <% if(c.getType() == TypeCompte.admin || (c.getType() == TypeCompte.responsable_commission && (d.getEtat() == TypeEtatDossier.en_attente_commission || d.getEtat() == TypeEtatDossier.navette))){%>hidden<%}%>>
+            <%if(d.getAvisCommission() == TypeAvisDossier.favorable){%>
+            <span class="label label-success col-md-offset-2"><%out.print(TypeAvisDossier.favorable);%></span>
+            <%};%>
+             <%if(d.getAvisCommission() == TypeAvisDossier.défavorable){%>
+            <span class="label label-danger col-md-offset-2"><%out.print(TypeAvisDossier.défavorable);%></span>
+            <%};%>
+             <%if(d.getAvisCommission() == TypeAvisDossier.en_attente){%>
+            <span class="label label-default col-md-offset-2"><%out.print(TypeAvisDossier.en_attente);%></span>
+            <%};%>
+        </div>
+    </fieldset>
+        
+    <fieldset>
+        <legend>Statuer sur dossier</legend>
+        <div class="form-group" <% if(c.getType() != TypeCompte.admin){if(c.getType() ==  TypeCompte.responsable_commission || !(d.getEtat() == TypeEtatDossier.en_transfert_vers_directeur)){%>hidden<%}}%>>
+            <label class="radio-inline col-md-offset-2">
+                <input type="radio" name="statuer" value="accepter" <%if(d.getAvisDirecteur() == TypeAvisDossier.favorable){%>checked<%}%>>Accepter
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="statuer" value="refuser" <%if(d.getAvisDirecteur() == TypeAvisDossier.défavorable){%>checked<%}%>>Refuser
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="statuer" value="enAttente" <%if(d.getAvisDirecteur() == TypeAvisDossier.en_attente){%>checked<%}%>>En attente
+            </label>
+        </div>
+        <div class="form-group" <% if(c.getType() == TypeCompte.admin || (c.getType() == TypeCompte.directeur_pole && (d.getEtat() == TypeEtatDossier.en_transfert_vers_directeur))){%>hidden<%}%>>
+            <%if(d.getAvisDirecteur() == TypeAvisDossier.favorable){%>
+            <span class="label label-success col-md-offset-2"><%out.print(TypeAvisDossier.favorable);%></span>
+            <%};%>
+             <%if(d.getAvisDirecteur() == TypeAvisDossier.défavorable){%>
+            <span class="label label-danger col-md-offset-2"><%out.print(TypeAvisDossier.défavorable);%></span>
+            <%};%>
+             <%if(d.getAvisDirecteur() == TypeAvisDossier.en_attente){%>
+            <span class="label label-default col-md-offset-2"><%out.print(TypeAvisDossier.en_attente);%></span>
+            <%};%>
+        </div>    
+    </fieldset>
         
     <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Notes </label>
@@ -233,7 +295,7 @@
             %>
             <%
                 }
-                else if(d.getEtat().equals(TypeEtatDossier.retour_ver_secretariat) && d.getAdmissible().equals(TypeDossier.admissibilite))
+                else if(d.getEtat().equals(TypeEtatDossier.retour_vers_secretariat) && d.getAdmissible().equals(TypeDossier.admissibilite))
                 {
             %>
                     <a class="btn btn-default" href="Navigation?action=genererLettre&idDossier=<%d.getId(); %>&typeLettre=4">Generer lettre d'audition</a>

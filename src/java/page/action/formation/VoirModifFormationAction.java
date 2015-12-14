@@ -43,6 +43,7 @@ public class VoirModifFormationAction implements Action{
             return new VoirGestionFormationsAction().execute(request, response); //redirection
         }
         
+        //recuperation de la formation
         int id = Integer.parseInt(idForm);
         Formation formation = new FormationDAO().getById(id);
         if(formation == null){
@@ -54,6 +55,7 @@ public class VoirModifFormationAction implements Action{
                 return new VoirGestionFormationsAction().execute(request, response); //redirection
             }
         }
+        
         if(formation.getDebut() != null && formation.getFin()!= null){
             if(formation.getDebut().before(new Date()) && formation.getFin().after(new Date())){ //verif formation editable
                 request.setAttribute("typeMessage", "warning");
@@ -70,7 +72,7 @@ public class VoirModifFormationAction implements Action{
         Date fin = formation.getFin();
 
         List<Justificatif> justificatifs = formation.getLesJustificatifs();
-                
+        
         //remplissage du formulaire
         if(request.getParameter("id") != null){
             request.setAttribute("id", idForm);
@@ -107,6 +109,7 @@ public class VoirModifFormationAction implements Action{
                         justificatifsToString = addSlot(justificatifsToString); //add slot
 
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+                        request.setAttribute(jTemp.getTitre() + "InscriptionFrancaisDescription", jTemp.getDescription());
                     }
                 }
                 request.setAttribute("justificatifsInscriptionFrancais", justificatifsToString);
@@ -116,6 +119,7 @@ public class VoirModifFormationAction implements Action{
                         justificatifsToString = addSlot(justificatifsToString); //add slot
 
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+                        request.setAttribute(jTemp.getTitre() + "AdmissionFrancaisDescription", jTemp.getDescription());
                     }
                 }
                 request.setAttribute("justificatifsAdmissionFrancais", justificatifsToString);
@@ -125,6 +129,7 @@ public class VoirModifFormationAction implements Action{
                         justificatifsToString = addSlot(justificatifsToString); //add slot
 
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+                        request.setAttribute(jTemp.getTitre() + "InscriptionEtrangerDescription", jTemp.getDescription());
                     }
                 }
                 request.setAttribute("justificatifsInscriptionEtranger", justificatifsToString);
@@ -134,6 +139,7 @@ public class VoirModifFormationAction implements Action{
                         justificatifsToString = addSlot(justificatifsToString); //add slot
 
                         justificatifsToString[justificatifsToString.length-1] = jTemp.getTitre();
+                        request.setAttribute(jTemp.getTitre() + "AdmissionEtrangerDescription", jTemp.getDescription());
                     }
                 }
                 request.setAttribute("justificatifsAdmissionEtranger", justificatifsToString);

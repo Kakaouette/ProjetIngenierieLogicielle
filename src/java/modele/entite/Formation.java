@@ -113,6 +113,24 @@ public class Formation implements Serializable{
     public List<Justificatif> getLesJustificatifs() {
         return lesJustificatifs;
     }
+    public List<Justificatif> getLesJustificatifs(TypeDossier typeDossier, TypeJustificatifEtranger nationalite) {
+        List<Justificatif> justificatifs = new ArrayList<Justificatif>();
+        for(Justificatif j : lesJustificatifs){
+            if(j.getTypeAdmissible() == typeDossier && j.getTypeNationalite() == nationalite){
+                justificatifs.add(j);
+            }
+        }
+        return justificatifs;
+    }
+    public Justificatif getJustificatif(String titre, TypeDossier typeDossier, TypeJustificatifEtranger nationalite) {
+        List<Justificatif> justificatifs = getLesJustificatifs(typeDossier, nationalite);
+        for(Justificatif j : justificatifs){
+            if(j.getTitre().equals(titre)){
+                return j;
+            }
+        }
+        return null;
+    }
 
     public void setLesJustificatifs(List<Justificatif> lesJustificatifs) {
         this.lesJustificatifs = lesJustificatifs;

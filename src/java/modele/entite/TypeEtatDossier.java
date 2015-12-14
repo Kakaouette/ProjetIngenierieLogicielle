@@ -22,7 +22,7 @@ import java.io.Serializable;
  * @author Nicolas Roulon
  */
 public enum TypeEtatDossier implements Serializable {
-    transfert_vers_secretariat, traité_secretariat_formation, en_attente_commission, en_attente_transfert_vers_directeur, en_transfert_vers_directeur, retour_ver_secretariat, navette, terminé;
+    transfert_vers_secretariat, traité_secretariat_formation, en_attente_commission, en_attente_transfert_vers_directeur, en_transfert_vers_directeur, retour_vers_secretariat, navette, terminé;
 
     @Override
     public String toString() {
@@ -37,7 +37,7 @@ public enum TypeEtatDossier implements Serializable {
                 return "Attente de la commission";
             case en_transfert_vers_directeur:
                 return "Transfert vers le directeur";
-            case retour_ver_secretariat:
+            case retour_vers_secretariat:
                 return "Retour vers le secrétariat";
             case navette:
                 return "Navette";

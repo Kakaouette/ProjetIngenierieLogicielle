@@ -116,7 +116,7 @@ public class TestModifierUtilisateur {
     public void testModifierUtilisateurSuperUser() {
         System.out.println("testModifierUtilisateurSuperUser");
         int idCompte=6;
-        new CompteService().effectuerModification(idCompte, "reponsable_formation", "", "", "", "", "",null);
+        new CompteService().effectuerModification(idCompte, "responsable_formation", "", "", "", "", "",null);
         List<Formation> formationToSet = new ArrayList<>();
         formationToSet.add(new FormationDAO().getById(13));
         new CompteDAO().getById(idCompte).setFormationAssocie(formationToSet);
@@ -142,7 +142,7 @@ public class TestModifierUtilisateur {
     public void testModifierUtilisateurDeleteAllFormations() {
         System.out.println("testModifierUtilisateurDeleteAllFormations");
         int idCompte=6;
-        new CompteService().effectuerModification(idCompte, "reponsable_formation", "", "", "", "", "",null);
+        new CompteService().effectuerModification(idCompte, "responsable_formation", "", "", "", "", "",null);
         List<Formation> formationToSet = new ArrayList<Formation>();
         formationToSet.add(new FormationDAO().getById(13));
         new CompteDAO().getById(idCompte).setFormationAssocie(formationToSet);
