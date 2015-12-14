@@ -65,33 +65,33 @@ public class ActionPeuplement {
         //Action a1 = new Action(""/*id*/, ""/*classAction*/, 0/*page*/);
         // Création des actions
         Action a1 = new Action("gererAuthentification", "accueil.GererAuthentificationAction", page_connexion);        
-        Action a2 = new Action("index", "VoirIndexAction", page_connexion);
+        Action a2 = new Action("index", "accueil.VoirIndexAction", page_connexion);
         /***Gestion dossiers***/
-        Action a3 = new Action("afficherInformationsDossiers", "AfficherInformationsDossiersAction", page_listeDossiers);
-        Action a4 = new Action("voirAjoutDossier", "VoirAjoutDossierAction", page_ajoutDossier);
-        Action a5 = new Action("ajouterDossier", "AjoutDossierAction", page_listeDossiers);
-        Action a6 = new Action("consulterDossier", "ConsulterDossierAction", page_consulterDossier);
-        Action a7 = new Action("modifierDossier", "ModifierDossierAction", page_listeDossiers);
-        Action a8 = new Action("supprimerDossier", "SupprimerDossierAction", page_listeDossiers);
-        Action a9 = new Action("voirValidationJustificatifsDossier", "VoirValidationJustificatifsDossierAction", page_consulterDossier);
-        Action a25 = new Action("genererLettre", "GenerationLettresAction", page_consulterDossier);
+        Action a3 = new Action("afficherInformationsDossiers", "dossier.AfficherInformationsDossiersAction", page_listeDossiers);
+        Action a4 = new Action("voirAjoutDossier", "dossier.VoirAjoutDossierAction", page_ajoutDossier);
+        Action a5 = new Action("ajouterDossier", "dossier.AjoutDossierAction", page_listeDossiers);
+        Action a6 = new Action("consulterDossier", "dossier.ConsulterDossierAction", page_consulterDossier);
+        Action a7 = new Action("modifierDossier", "dossier.ModifierDossierAction", page_listeDossiers);
+        Action a8 = new Action("supprimerDossier", "dossier.SupprimerDossierAction", page_listeDossiers);
+        Action a9 = new Action("voirValidationJustificatifsDossier", "dossier.VoirValidationJustificatifsDossierAction", page_consulterDossier);
+        Action a25 = new Action("genererLettre", "dossier.GenerationLettresAction", page_consulterDossier);
         /***Gestion comptes***/
-        Action a10 = new Action("voirGestionComptes", "VoirGestionUtilisateurAction", page_gestionComptes);
-        Action a11 = new Action("voirAjoutCompte", "voirAjouterCompteAction", page_createUser);
-        Action a12 = new Action("creerUtilisateur", "AjouterCompteAction", page_gestionComptes);
-        Action a13 = new Action("voirModifierComptes", "VoirModifierComptesAction", page_modifierUtilisateur);
-        Action a14 = new Action("modifierUtilisateur", "ModifierUtilisateurAction", page_gestionComptes);
-        Action a15 = new Action("supprimerUtilisateur", "SupprimerUtilisateurAction", page_gestionComptes);
+        Action a10 = new Action("voirGestionComptes", "compte.VoirGestionUtilisateurAction", page_gestionComptes);
+        Action a11 = new Action("voirAjoutCompte", "compte.voirAjouterCompteAction", page_createUser);
+        Action a12 = new Action("creerUtilisateur", "compte.AjouterCompteAction", page_gestionComptes);
+        Action a13 = new Action("voirModifierComptes", "compte.VoirModifierComptesAction", page_modifierUtilisateur);
+        Action a14 = new Action("modifierUtilisateur", "compte.ModifierUtilisateurAction", page_gestionComptes);
+        Action a15 = new Action("supprimerUtilisateur", "compte.SupprimerUtilisateurAction", page_gestionComptes);
         /***Gestion formations***/
-        Action a16 = new Action("voirGestionFormation", "VoirGestionFormationsAction", page_gestionFormations);
-        Action a17 = new Action("voirAjoutFormation", "VoirAjoutFormationAction", page_ajoutFormation);
-        Action a18 = new Action("ajouterFormation", "AjoutFormationAction", page_gestionFormations);
-        Action a19 = new Action("voirModifFormation", "VoirModifFormationAction", page_modifFormation);
-        Action a20 = new Action("modifierFormation", "ModifFormationAction", page_gestionFormations);
-        Action a21 = new Action("supprimerFormation", "SupprFormationAction", page_gestionFormations);
-        Action a22 = new Action("voirGestionDatesInscription", "VoirGestionDatesInscriptionAction", page_gestionDatesInscription);
-        Action a23 = new Action("voirDatesInscription", "VoirDatesInscriptionAction", page_gestionDatesInscription);
-        Action a24 = new Action("modiferDatesInscription", "ModifDatesInscriptionAction", page_gestionDatesInscription);
+        Action a16 = new Action("voirGestionFormation", "formation.VoirGestionFormationsAction", page_gestionFormations);
+        Action a17 = new Action("voirAjoutFormation", "formation.VoirAjoutFormationAction", page_ajoutFormation);
+        Action a18 = new Action("ajouterFormation", "formation.AjoutFormationAction", page_gestionFormations);
+        Action a19 = new Action("voirModifFormation", "formation.VoirModifFormationAction", page_modifFormation);
+        Action a20 = new Action("modifierFormation", "formation.ModifFormationAction", page_gestionFormations);
+        Action a21 = new Action("supprimerFormation", "formation.SupprFormationAction", page_gestionFormations);
+        Action a22 = new Action("voirGestionDatesInscription", "formation.VoirGestionDatesInscriptionAction", page_gestionDatesInscription);
+        Action a23 = new Action("voirDatesInscription", "formation.VoirDatesInscriptionAction", page_gestionDatesInscription);
+        Action a24 = new Action("modiferDatesInscription", "formation.ModifDatesInscriptionAction", page_gestionDatesInscription);
         
                 
         new ActionDAO().save(a1);
