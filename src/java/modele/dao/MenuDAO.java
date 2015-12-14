@@ -36,6 +36,22 @@ public class MenuDAO extends Dao {
 
         return unMenu;
     }
+        
+    /**
+     * Selection d'un menu en fonction de son texte/titre
+     * 
+     * @param texte
+     * @return Menu s'il existe
+     */
+    public Menu getMenubyTexte(String texte){
+        try {
+            q = em.createQuery("SELECT M FROM Menu M WHERE M.texte = :TXT");
+            q.setParameter("TXT", texte);
+            return (Menu) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
     
     public void save(Menu unMenu) {
         EntityTransaction tx = em.getTransaction();
