@@ -59,7 +59,12 @@
     ];
     $(function() {
         $("input#ine").autocomplete({
-            source: availableINE
+            source: availableINE,
+            select: function(event,ui) {
+                console.log("SELECT:FUNCTION:"+ui.item.value);
+                $("input#ine").val(ui.item.value);
+                chargerEtudiant();
+            }
         });
         //$("input#ine").on("autocompletechange", function() {chargerEtudiant();});
     });
