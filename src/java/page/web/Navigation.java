@@ -106,6 +106,9 @@ public class Navigation extends HttpServlet {
         }else if (action.equals("modifierDossier")) {
             menuSelect = 3;
             classeAction = new ModifierDossierAction();
+        }else if (action.equals("etudiantAutocompletion")) {
+            menuSelect = 3;
+            classeAction = new EtudiantAutocompletionAction();
         }else if (action.equals("supprimerDossier")) {
             menuSelect = 3;
             classeAction = new SupprimerDossierAction();

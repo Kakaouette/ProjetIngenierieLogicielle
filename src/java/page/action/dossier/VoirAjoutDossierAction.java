@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.EtudiantDAO;
 import modele.dao.FormationDAO;
 import modele.entite.Compte;
+import modele.entite.Etudiant;
 import modele.entite.Formation;
 import modele.entite.Justificatif;
 import modele.entite.TypeCompte;
@@ -115,6 +117,16 @@ public class VoirAjoutDossierAction implements Action{
             request.setAttribute("nationalite", TypeJustificatifEtranger.francais.toString());
         }
         
+        // construction de la liste des INE pour 
+        List<String> lesINE = new EtudiantDAO().getAllINE();
+        request.setAttribute("lesINE",lesINE);/*
+        String listINE = "";
+        for(int i=0;i<lesINE.size();i++) {
+            listINE += "\""+lesINE.get(i)+"\"";
+            if(i != lesINE.size()-1) listINE+=",";
+        }*/
+        List<Etudiant> lesEtudiants = new EtudiantDAO().selectAll();
+        request.setAttribute("listeEtudiant",lesEtudiants);
         return "ajoutDossier.jsp";
     }
     

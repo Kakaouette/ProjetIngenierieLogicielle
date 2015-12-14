@@ -47,6 +47,15 @@ public class EtudiantDAO extends Dao {
         }
     }
     
+    public List<String> getAllINE(){
+        try {
+            q = em.createQuery("SELECT E.ine FROM Etudiant E");
+            return (List<String>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
     public Etudiant getEtudiantByNomPrenom(String nom, String prenom){
         try {
             q = em.createQuery("SELECT E FROM Etudiant E WHERE E.nom = :NOM AND E.prenom = :PRENOM");
@@ -77,5 +86,14 @@ public class EtudiantDAO extends Dao {
         tx.begin();
         em.merge(unEtudiant);
         tx.commit();
+    }
+    
+    public List<Etudiant> selectAll(){
+        try {
+            q = em.createQuery("SELECT E FROM Etudiant E");
+            return (List<Etudiant>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

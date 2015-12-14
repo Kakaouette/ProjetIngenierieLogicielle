@@ -9,6 +9,8 @@
 <%@page import="modele.entite.TypeDossier"%>
 <%@page import="service.DossierService"%>
 <%@page import="modele.dao.FormationDAO"%>
+<%@page import="modele.dao.EtudiantDAO"%>
+<%@page import="modele.entite.Etudiant"%>
 <%@page import="modele.entite.Formation"%>
 <%@page import="modele.entite.Justificatif"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -27,9 +29,6 @@
     };
     
     function loadJustificatifs(){
-       if($('input#nationalite-0').attr('checked') === true){
-           $('input#pays').val('FRANCE');
-       }
        $("form#formation").prop("action", "Navigation?action=voirAjoutDossier");
        $("form#formation").submit();
     };
@@ -45,13 +44,97 @@
         $("input#idDossier").prop("required", !allChecked);
         $("input#niveau").prop("required", !allChecked);
     };
+    
+    //Autocompletion pour l'INE.
+    var availableINE = [
+        <%
+        List<String> lesINE = (List<String>) request.getAttribute("lesINE");
+        String listINE = "";
+        for(int i=0;i<lesINE.size();i++) {
+            listINE += "\""+lesINE.get(i)+"\"";
+            if(i != lesINE.size()-1) listINE+=",";
+        }
+        out.print(listINE);
+        %>
+    ];
+    $(function() {
+        $("input#ine").autocomplete({
+            source: availableINE
+        });
+        //$("input#ine").on("autocompletechange", function() {chargerEtudiant();});
+    });
+    
+    function chargerEtudiant() {
+        var value = $("input#ine").val();
+        console.log("value:"+value);
+        if($.inArray(availableINE,value))
+        {
+            $.ajax({
+                method:'GET',
+                url:'Navigation',
+                data:{action:"etudiantAutocompletion",numeroINE:value},
+                dataType:'json',
+                success: function(msg) {
+                    console.log(msg);
+                    //nationalite-0 français
+                    $("input#nom").val(msg.nom);
+                    $("input#prenom").val(msg.prenom);
+                    $("input#codePostal").val(msg.codePostal);
+                    $("input#adresse").val(msg.adressePostale);
+                    $("input#ville").val(msg.ville);
+                    $("input#pays").val(msg.pays);
+                    if(msg.sexe === "Masculin")
+                    {
+                        $("input#sexe-0").prop("checked",true);
+                        $("input#sexe-1").prop("checked",false);
+                    } else {
+                        $("input#sexe-0").prop("checked",false);
+                        $("input#sexe-1").prop("checked",true);
+                    }
+                    if(msg.nationalite==="francais")
+                    {
+                        $("input#nationalite-0").prop("checked",true);
+                        $("input#nationalite-1").prop("checked",false);
+                        /// supprimer les justificatif
+                        $("div#conteneurNationalite").empty();
+                    } else {
+                        $("input#nationalite-0").prop("checked",false);
+                        $("input#nationalite-1").prop("checked",true);
+                        /// append les justificatifs
+                        $("div#conteneurNationalite").append(
+        "<div class='form-group' id='divNationalite'>"+
+            "<label class='col-md-2 control-label' for='niveau'>Niveau :</label>  "+
+            "<div class='col-md-4'>"+
+                "<input id='nom' name='niveau' type='text' placeholder='niveau' class='form-control input-md' value='' autocomplete='off' required>"+
+            "</div>"+
+        "</div>"+
+        "<div class='form-group'>"+
+            "<label class='col-md-2 control-label' for='avis'>Avis</label>"+
+            "<div class='col-md-4'>"+
+                "<textarea class='form-control' id='avis' name='avis' placeholder='avis' autocomplete='off'></textarea>"+
+            "</div>"+
+        "</div>"
+                        );
+                    }
+                },
+                error: function() {
+                    //http://localh ost:8080/gist/Navigation?action=etudiantAutocompletion&numeroINE=ine1
+                    console.log("ERROR_URL:"+'Navigation?action=etudiantAutocompletion&numeroINE='+value);
+                }
+            });
+        }
+        else
+        {
+        }
+    }
+    
 </script>
 
 <form action="Navigation?action=ajouterDossier" method="POST" class="form-horizontal" id="formation">
     <div class="form-group">
         <label class="col-md-2 control-label" for="nom">N° INE : </label>  
         <div class="col-md-4">
-            <input id="ine" name="ine" type="text" placeholder="N° INE" class="form-control input-md" value="<%if(request.getAttribute("ine") != null){out.print(request.getAttribute("ine"));}%>" autocomplete="off" required autofocus>
+            <input id="ine" name="ine" onkeyup="chargerEtudiant();" type="text" placeholder="N° INE" class="form-control input-md" value="<%if(request.getAttribute("ine") != null){out.print(request.getAttribute("ine"));}%>" autocomplete="off" required autofocus>
         </div>
     </div>
         
@@ -111,8 +194,9 @@
         </div>
     </div>
     
-    <%if(request.getAttribute("nationalite") != null){
-    if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>
+    <div id="conteneurNationalite">
+        <%if(request.getAttribute("nationalite") != null){
+        if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>
         <div class="form-group">
             <label class="col-md-2 control-label" for="niveau">Niveau : </label>  
             <div class="col-md-4">
@@ -125,7 +209,9 @@
                 <textarea class="form-control" id="avis" name="avis" placeholder="avis" autocomplete="off"><%if(request.getAttribute("avis") != null){out.print(request.getAttribute("avis"));}%></textarea>
             </div>
         </div>
-    <%}}%>
+        <%}}%>
+    </div>
+    
     <div class="form-group">
         <label class="col-md-2 control-label" for="notes">Notes</label>
         <div class="col-md-4">                     
@@ -202,10 +288,11 @@
                 }else{
                     out.print(new DossierService().getNewID());
                 }%>" pattern="<%out.print(new DossierService().getRegexIdDossier());%>" 
-                title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required>
+                title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required autofocus>
         </div>
     </div>
-    
+
+
     <div class="row">
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionDossiers">Annuler</a>

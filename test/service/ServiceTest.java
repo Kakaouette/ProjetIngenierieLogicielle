@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
  * @author nicol
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({service.DossierServiceTest.class, service.FormationService_ajouterFormationTest.class, service.TestModifierUtilisateur.class, service.CompteServiceTest.class, service.FormationService_modifierFormationTest.class, service.FormationService_supprimerFormationTest.class})
+@Suite.SuiteClasses({service.DossierServiceTest.class, service.DossierService_ajouterDossierTest.class, service.FormationService_ajouterFormationTest.class, service.TestModifierUtilisateur.class, service.CompteServiceTest.class, service.FormationService_modifierFormationTest.class, service.FormationService_supprimerFormationTest.class})
 public class ServiceTest {
 
     @BeforeClass
