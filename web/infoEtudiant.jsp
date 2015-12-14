@@ -25,7 +25,7 @@
     } else {
         json+="\"nationalite\":"+"\""+"francais"+"\""+",";
     }
-    json+="\"pays\":"+"\""+"etu.getPays()"+"\""+"}";
+    json+="\"pays\":"+"\""+etu.getPays()+"\""+"}";
     
     out.print(json);
     //JSONObject json=new JSONObject();

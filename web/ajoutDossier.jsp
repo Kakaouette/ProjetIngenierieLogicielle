@@ -82,7 +82,7 @@
                     $("input#codePostal").val(msg.codePostal);
                     $("input#adresse").val(msg.adressePostale);
                     $("input#ville").val(msg.ville);
-                    $("input#sexe").val();
+                    $("input#pays").val(msg.pays);
                     if(msg.sexe === "Masculin")
                     {
                         $("input#sexe-0").prop("checked",true);
@@ -134,7 +134,7 @@
     <div class="form-group">
         <label class="col-md-2 control-label" for="nom">N° INE : </label>  
         <div class="col-md-4">
-            <input id="ine" name="ine" type="text" placeholder="N° INE" class="form-control input-md" value="<%if(request.getAttribute("ine") != null){out.print(request.getAttribute("ine"));}%>" autocomplete="off" required autofocus>
+            <input id="ine" name="ine" onkeyup="chargerEtudiant();" type="text" placeholder="N° INE" class="form-control input-md" value="<%if(request.getAttribute("ine") != null){out.print(request.getAttribute("ine"));}%>" autocomplete="off" required autofocus>
         </div>
     </div>
         
@@ -194,8 +194,9 @@
         </div>
     </div>
     
-    <%if(request.getAttribute("nationalite") != null){
-    if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>
+    <div id="conteneurNationalite">
+        <%if(request.getAttribute("nationalite") != null){
+        if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>
         <div class="form-group">
             <label class="col-md-2 control-label" for="niveau">Niveau : </label>  
             <div class="col-md-4">
@@ -208,7 +209,9 @@
                 <textarea class="form-control" id="avis" name="avis" placeholder="avis" autocomplete="off"><%if(request.getAttribute("avis") != null){out.print(request.getAttribute("avis"));}%></textarea>
             </div>
         </div>
-    <%}}%>
+        <%}}%>
+    </div>
+    
     <div class="form-group">
         <label class="col-md-2 control-label" for="notes">Notes</label>
         <div class="col-md-4">                     
@@ -288,95 +291,7 @@
                 title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required autofocus>
         </div>
     </div>
-            
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="nom">N° INE :</label>
-        <div class="col-md-4">
-            <input id="ine" name="ine" onkeyup="chargerEtudiant();" type="text" placeholder="N° INE" class="form-control input-md" value="<%if(request.getAttribute("ine") != null){out.print(request.getAttribute("ine"));}%>" autocomplete="off" required>
-        </div>
-    </div>
-        
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="nom">Nom :</label>  
-        <div class="col-md-4">
-            <input id="nom" name="nom" type="text" placeholder="nom" class="form-control input-md" value="<%if(request.getAttribute("nom") != null){out.print(request.getAttribute("nom"));}%>" autocomplete="off" required>
-        </div>
-    </div>
 
-    <!-- Text input-->
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="prenom">Prénom : </label>  
-        <div class="col-md-4">
-            <input id="prenom" name="prenom" type="text" placeholder="prénom" class="form-control input-md" value="<%if(request.getAttribute("prenom") != null){out.print(request.getAttribute("prenom"));}%>" autocomplete="off" required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="pays" class="col-sm-2 control-label">Pays: </label>
-        <div class="col-md-4">
-            <input id="idDossier" name="pays" type="text" placeholder="pays" class="form-control input-md" value="<%if(request.getAttribute("pays") != null){out.print(request.getAttribute("pays"));}%>" autocomplete="on" required>
-        </div>
-    </div>
-        
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="adresse">Adresse :</label>  
-        <div class="col-md-4">
-            <input id="adresse" name="adresse" type="text" placeholder="adresse" class="form-control input-md" value="<%if(request.getAttribute("adresse") != null){out.print(request.getAttribute("adresse"));}%>" autocomplete="off" required>
-        </div>
-    </div>
-        
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="codePostal">Code Postal :</label>  
-        <div class="col-md-2">
-            <input id="codePostal" name="codePostal" type="text" placeholder="code postal" class="form-control input-md" value="<%if(request.getAttribute("codePostal") != null){out.print(request.getAttribute("codePostal"));}%>" autocomplete="off" required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="ville">Ville :</label>  
-        <div class="col-md-4">
-            <input id="ville" name="ville" type="text" placeholder="ville" class="form-control input-md" value="<%if(request.getAttribute("ville") != null){out.print(request.getAttribute("ville"));}%>" autocomplete="off" required>
-        </div>
-    </div>
-
-    <div class="form-group" id="divSexe">
-        <label class="col-md-2 control-label" for="sexe">Sexe :</label>
-        <div class="col-md-4"> 
-            <label class="radio-inline" for="sexe-0">
-                <input type="radio" name="sexe" id="sexe-0" value="M" <%if(request.getAttribute("sexe") != null){if(request.getAttribute("sexe").equals("M")){%>checked<%}}else{%>checked<%}%>>
-                M
-            </label>
-            <label class="radio-inline" for="sexe-1">
-                <input type="radio" name="sexe" id="sexe-1" value="F" <%if(request.getAttribute("sexe") != null){if(request.getAttribute("sexe").equals("F")){%>checked<%}}%>>
-                F
-            </label>
-        </div>
-    </div>
-    
-    <div id="conteneurNationalite">
-        <%if(request.getAttribute("nationalite") != null){
-        if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>
-            <div class="form-group" id="divNationalite">
-                <label class="col-md-2 control-label" for="niveau">Niveau :</label>  
-                <div class="col-md-4">
-                    <input id="nom" name="niveau" type="text" placeholder="niveau" class="form-control input-md" value="<%if(request.getAttribute("niveau") != null){out.print(request.getAttribute("niveau"));}%>" autocomplete="off" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-2 control-label" for="avis">Avis</label>
-                <div class="col-md-4">                     
-                    <textarea class="form-control" id="avis" name="avis" placeholder="avis" autocomplete="off"><%if(request.getAttribute("avis") != null){out.print(request.getAttribute("avis"));}%></textarea>
-                </div>
-            </div>
-        <%}}%>
-    </div>
-    <!-- Textarea -->
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="notes">Notes</label>
-        <div class="col-md-4">                     
-            <textarea class="form-control" id="notes" name="notes" placeholder="Notes" autocomplete="off"><%if(request.getAttribute("notes") != null){out.print(request.getAttribute("notes"));}%></textarea>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-md-2 col-md-offset-2">
