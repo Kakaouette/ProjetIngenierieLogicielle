@@ -30,9 +30,4 @@
         <![endif]-->
     </head>
     <body>
-
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-        </div>
-    </nav>
                <div class="container">

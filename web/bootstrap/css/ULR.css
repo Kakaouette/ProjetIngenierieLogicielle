@@ -13,14 +13,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.purple > th,
 .table > tbody > tr.purple > th,
 .table > tfoot > tr.purple > th {
-  background-color: #d99af4;
+    background-color: #d99af4;
 }
 .table-hover > tbody > tr > td.purple:hover,
 .table-hover > tbody > tr > th.purple:hover,
 .table-hover > tbody > tr.purple:hover > td,
 .table-hover > tbody > tr:hover > .purple,
 .table-hover > tbody > tr.purple:hover > th {
-  background-color: #D083f1;
+    background-color: #D083f1;
 }
 
 .table > thead > tr > td.pink,
@@ -35,14 +35,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.pink > th,
 .table > tbody > tr.pink > th,
 .table > tfoot > tr.pink > th {
-  background-color: #FA9090;
+    background-color: #FA9090;
 }
 .table-hover > tbody > tr > td.pink:hover,
 .table-hover > tbody > tr > th.pink:hover,
 .table-hover > tbody > tr.pink:hover > td,
 .table-hover > tbody > tr:hover > .pink,
 .table-hover > tbody > tr.pink:hover > th {
-  background-color: #F87878;
+    background-color: #F87878;
 }
 
 .table > thead > tr > td.orange,
@@ -57,14 +57,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.orange > th,
 .table > tbody > tr.orange > th,
 .table > tfoot > tr.orange > th {
-  background-color: #FA8840;
+    background-color: #FA8840;
 }
 .table-hover > tbody > tr > td.orange:hover,
 .table-hover > tbody > tr > th.orange:hover,
 .table-hover > tbody > tr.orange:hover > td,
 .table-hover > tbody > tr:hover > .orange,
 .table-hover > tbody > tr.orange:hover > th {
-  background-color: #FA7827;
+    background-color: #FA7827;
 }
 
 .table > thead > tr > td.jaune,
@@ -79,14 +79,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.jaune > th,
 .table > tbody > tr.jaune > th,
 .table > tfoot > tr.jaune > th {
-  background-color: #FAC754;
+    background-color: #FAC754;
 }
 .table-hover > tbody > tr > td.jaune:hover,
 .table-hover > tbody > tr > th.jaune:hover,
 .table-hover > tbody > tr.jaune:hover > td,
 .table-hover > tbody > tr:hover > .jaune,
 .table-hover > tbody > tr.jaune:hover > th {
-  background-color: #F8BF3B;
+    background-color: #F8BF3B;
 }
 
 .table > thead > tr > td.bleu,
@@ -101,14 +101,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.bleu > th,
 .table > tbody > tr.bleu > th,
 .table > tfoot > tr.bleu > th {
-  background-color: #80ACE4;
+    background-color: #80ACE4;
 }
 .table-hover > tbody > tr > td.bleu:hover,
 .table-hover > tbody > tr > th.bleu:hover,
 .table-hover > tbody > tr.bleu:hover > td,
 .table-hover > tbody > tr:hover > .bleu,
 .table-hover > tbody > tr.bleu:hover > th {
-  background-color: #5691DB;
+    background-color: #5691DB;
 }
 
 .table > thead > tr > td.cyan,
@@ -123,14 +123,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.cyan > th,
 .table > tbody > tr.cyan > th,
 .table > tfoot > tr.cyan > th {
-  background-color: #65CEFE;
+    background-color: #65CEFE;
 }
 .table-hover > tbody > tr > td.cyan:hover,
 .table-hover > tbody > tr > th.cyan:hover,
 .table-hover > tbody > tr.cyan:hover > td,
 .table-hover > tbody > tr:hover > .cyan,
 .table-hover > tbody > tr.cyan:hover > th {
-  background-color: #4CC5FE;
+    background-color: #4CC5FE;
 }
 
 .table > thead > tr > td.vert,
@@ -145,14 +145,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.vert > th,
 .table > tbody > tr.vert > th,
 .table > tfoot > tr.vert > th {
-  background-color: #30D072;
+    background-color: #30D072;
 }
 .table-hover > tbody > tr > td.vert:hover,
 .table-hover > tbody > tr > th.vert:hover,
 .table-hover > tbody > tr.vert:hover > td,
 .table-hover > tbody > tr:hover > .vert,
 .table-hover > tbody > tr.vert:hover > th {
-  background-color: #2BBB66;
+    background-color: #2BBB66;
 }
 
 .table > thead > tr > td.gris,
@@ -167,14 +167,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.gris > th,
 .table > tbody > tr.gris > th,
 .table > tfoot > tr.gris > th {
-  background-color: #CCCCCC;
+    background-color: #CCCCCC;
 }
 .table-hover > tbody > tr > td.gris:hover,
 .table-hover > tbody > tr > th.gris:hover,
 .table-hover > tbody > tr.gris:hover > td,
 .table-hover > tbody > tr:hover > .gris,
 .table-hover > tbody > tr.gris:hover > th {
-  background-color: #B2B2B2;
+    background-color: #B2B2B2;
 }
 
 .table > thead > tr > td.rouge,
@@ -189,14 +189,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.rouge > th,
 .table > tbody > tr.rouge > th,
 .table > tfoot > tr.rouge > th {
-  background-color: #F6695C;
+    background-color: #F6695C;
 }
 .table-hover > tbody > tr > td.rouge:hover,
 .table-hover > tbody > tr > th.rouge:hover,
 .table-hover > tbody > tr.rouge:hover > td,
 .table-hover > tbody > tr:hover > .rouge,
 .table-hover > tbody > tr.rouge:hover > th {
-  background-color: #F22613;
+    background-color: #F22613;
 }
 
 .table > thead > tr > td.jauneFonce,
@@ -211,14 +211,14 @@ div.dataTables_wrapper {clear: both;}
 .table > thead > tr.jauneFonce > th,
 .table > tbody > tr.jauneFonce > th,
 .table > tfoot > tr.jauneFonce > th {
-  background-color: #F5b043;
+    background-color: #F5b043;
 }
 .table-hover > tbody > tr > td.jauneFonce:hover,
 .table-hover > tbody > tr > th.jauneFonce:hover,
 .table-hover > tbody > tr.jauneFonce:hover > td,
 .table-hover > tbody > tr:hover > .jauneFonce,
 .table-hover > tbody > tr.jauneFonce:hover > th {
-  background-color: #F39c12;
+    background-color: #F39c12;
 }
 
 #navbar{
@@ -227,4 +227,33 @@ div.dataTables_wrapper {clear: both;}
 
 #ulnav{
     width: 100%;
+}
+
+#logo{
+    height: 40px;
+    display: initial;
+    padding-right: 5px;
+}
+
+.navbar-brand{
+    padding: 5px;
+}
+
+.col-centered {
+    display: inline-block;
+    float: none;
+    text-align: left;
+    vertical-align: middle;
+}
+
+@media screen and (min-width: 1652px) {
+    .brand-text{
+        display: inline-block;
+    }
+}
+
+@media screen and (max-width: 1652px) {
+    .brand-text{
+        display: none;
+    }
 }

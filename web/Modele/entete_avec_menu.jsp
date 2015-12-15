@@ -58,6 +58,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+                    <div class="navbar-header">
+                        <a class="navbar-brand collapsed" href="Navigation?action=index"><img id="logo" src="https://apps.univ-lr.fr/cas/themes/esup/images/logo-ulr.png"/><div class="col-centered brand-text"> Gestion des inscriptions</div></a>
+                </div>
                 </div>
                 <div class="container" id="menu">
                     <div id="navbar" class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
