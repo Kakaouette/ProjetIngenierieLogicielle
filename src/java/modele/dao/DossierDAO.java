@@ -7,10 +7,13 @@ package modele.dao;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
+import javax.persistence.TemporalType;
 import modele.entite.Dossier;
 import modele.entite.Etudiant;
 import modele.entite.Formation;
@@ -169,6 +172,105 @@ public class DossierDAO extends Dao {
             return (Dossier) q.getSingleResult();
         } catch (NoResultException e) {
             return null;
+        }
+    }
+    
+    /**
+     * Compte le nombre de dossiers
+     * 
+     * @return nombre de dossiers
+     */
+    public int count() {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT count(D) FROM Dossier D");
+            return ((Long)q.getResultList().get(0)).intValue();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+    
+    /**
+     * Compte le nombre de dossiers selon l'etat
+     * 
+     * @return nombre de dossiers
+     */
+    public int count(TypeEtatDossier etat) {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT count(D) FROM Dossier D where D.etat=:etat");
+            q.setParameter("etat", etat);
+            return ((Long)q.getResultList().get(0)).intValue();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+    
+    /**
+     * Compte le nombre de dossiers selon l'etat et selon une periode
+     * @param periode nombre de jour, = 30 ou 60.
+     * @return nombre de dossiers
+     */
+    public int count(TypeEtatDossier etat, String periode) {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            String req = "SELECT count(D) FROM Dossier D where D.etat=:etat";
+            Calendar calendar = new GregorianCalendar();
+            switch(periode)
+            {
+                case "30j":
+                    calendar.setTime(new Date());
+                    calendar.add((GregorianCalendar.MONTH), -1);
+                    q = em.createQuery("SELECT count(D) FROM Dossier D where D.etat=:etat AND D.date BETWEEN :startDate AND :endDate");
+                    q.setParameter("endDate",new Date());
+                    q.setParameter("startDate",calendar.getTime());
+                    break;
+                case "60j":
+                    calendar.setTime(new Date());
+                    calendar.add((GregorianCalendar.MONTH), -2);
+                    q = em.createQuery("SELECT count(D) FROM Dossier D where D.etat=:etat AND D.date BETWEEN :startDate AND :endDate");
+                    q.setParameter("endDate",new Date());
+                    q.setParameter("startDate",calendar.getTime());
+                    break;
+            }
+            q = em.createQuery("SELECT count(D) FROM Dossier D where D.etat=:etat");
+            q.setParameter("etat", etat);
+            return ((Long)q.getResultList().get(0)).intValue();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+    
+    /**
+     * Compte le nombre de dossiers par formation
+     * 
+     * @return nombre de dossiers
+     */
+    public int count(Formation formation) {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT count(D) FROM Dossier D where D.demandeFormation=:formation");
+            q.setParameter("formation", formation);
+            return ((Long)q.getResultList().get(0)).intValue();
+        } catch (NoResultException e) {
+            return 0;
+        }
+    }
+    
+    /**
+     * Compte le nombre de dossiers par formation et par etat
+     * 
+     * @return nombre de dossiers
+     */
+    public int count(Formation formation, TypeEtatDossier etat) {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT count(D) FROM Dossier D where D.demandeformation_id=:formation and D.etat=:etat");
+            q.setParameter("formation", formation.getId());
+            q.setParameter("etat",etat);
+            return ((Long)q.getResultList().get(0)).intValue();
+        } catch (NoResultException e) {
+            return 0;
         }
     }
 }

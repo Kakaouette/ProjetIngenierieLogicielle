@@ -90,7 +90,7 @@
                     $("input#adresse").val(msg.adressePostale);
                     $("input#ville").val(msg.ville);
                     $("input#pays").val(msg.pays);
-                    if(msg.sexe === "Masculin")
+                    if(msg.sexe==="Masculin")
                     {
                         $("input#sexe-0").prop("checked",true);
                         $("input#sexe-1").prop("checked",false);
