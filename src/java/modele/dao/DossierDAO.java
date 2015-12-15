@@ -14,6 +14,7 @@ import modele.entite.Dossier;
 import modele.entite.Etudiant;
 import modele.entite.Formation;
 import modele.entite.Historique;
+import modele.entite.TypeEtatDossier;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Dossier</b>
@@ -112,6 +113,22 @@ public class DossierDAO extends Dao {
             return (Dossier) q.getSingleResult();
         } catch (NoResultException e) {
             return null;
+        }
+    }
+    
+    /**
+     * Compte le nombre de dossiers selon l'etat
+     * 
+     * @return nombre de dossiers
+     */
+    public int count(TypeEtatDossier etat) {
+        try {
+            em.clear(); //supprime le cache des requêtes
+            q = em.createQuery("SELECT count(D) FROM Dossier D where D.etat=:etat");
+            q.setParameter("etat", etat);
+            return ((Long)q.getResultList().get(0)).intValue();
+        } catch (NoResultException e) {
+            return 0;
         }
     }
 }
