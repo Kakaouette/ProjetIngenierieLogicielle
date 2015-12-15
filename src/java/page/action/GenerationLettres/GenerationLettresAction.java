@@ -5,13 +5,17 @@
  */
 package page.action.GenerationLettres;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.DossierDAO;
+import modele.dao.FormationDAO;
+import modele.entite.Adresse;
 import modele.entite.Dossier;
+import modele.entite.Etudiant;
 import modele.entite.TypeEtatDossier;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import page.action.Action;
@@ -20,6 +24,8 @@ import service.GenerationLettres.CreerAccuseReceptionService;
 import service.GenerationLettres.CreerLettreAccepteService;
 import service.GenerationLettres.CreerLettreAuditionService;
 import service.GenerationLettres.CreerLettreRefusService;
+import service.GenerationLettres.CreerPiecesManquantes;
+import service.GenerationLettres.DownloadLettresService;
 
 /**
  *
@@ -40,9 +46,19 @@ public class GenerationLettresAction implements Action
         String message=null;
         String messageError=null;
         String idDossier = request.getParameter("idDossier");
+        
+        int typeLettre;
+        if(request.getParameter("typeLettre")==null)
+        {
+            typeLettre = 5;
+        }
+        else
+        {
+            typeLettre = Integer.parseInt(request.getParameter("typeLettre"));
+        }
+         
         try
         {
-            int typeLettre = Integer.parseInt(request.getParameter("typeLettre"));
             /*
             Valeur typeLettre :
             - 1 : Accuse de reception
@@ -81,6 +97,11 @@ public class GenerationLettresAction implements Action
                     dossier.setEtat(TypeEtatDossier.terminé);
                     new DossierService().modifierDossier(dossier);
                     break;
+                case 5:
+                    Adresse adresse = new Adresse(request.getParameter("codePostal"),request.getParameter("ville"));
+                    new CreerPiecesManquantes().replacePiecesManquantes("Ltrre piecesmanquantes_PST_Modele.docx",new FormationDAO().getFormationByIntitule(request.getParameter("formationIntitule")),request.getParameter("sexe"),request.getParameter("nom"),request.getParameter("prenom"),request.getParameter("codePostal"),adresse,null);
+                    message = "Lettre de demande de pièces manquantes genérée";
+                    break;
                 default:
                     messageError = "Erreur lors de la generation de la lettre";
             }
@@ -89,10 +110,36 @@ public class GenerationLettresAction implements Action
         {
             Logger.getLogger(GenerationLettresAction.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("message",message);
-        request.setAttribute("messageError",messageError);
-        request.setAttribute("dossier",new DossierDAO().getById(idDossier));
-        request.setAttribute("titre","Modifier un dossier");
-        return "consulteDossier.jsp";
+        if(messageError==null)
+        {
+            try
+            {
+                if(typeLettre==5)
+                {
+                    new DownloadLettresService().downloadFile(""+request.getParameter("nom")+""+request.getParameter("prenom"), typeLettre, request, response);
+                }
+                else
+                {
+                    new DownloadLettresService().downloadFile(idDossier, typeLettre, request, response);
+                }
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(GenerationLettresAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("message",message);
+            request.setAttribute("messageError",messageError);
+            request.setAttribute("dossier",new DossierDAO().getById(idDossier));
+            request.setAttribute("titre","Modifier un dossier");
+            return "consulteDossier.jsp";
+        }
+        else
+        {
+            request.setAttribute("message",message);
+            request.setAttribute("messageError",messageError);
+            request.setAttribute("dossier",new DossierDAO().getById(idDossier));
+            request.setAttribute("titre","Modifier un dossier");
+            return "consulteDossier.jsp";
+        }
     }
 }
