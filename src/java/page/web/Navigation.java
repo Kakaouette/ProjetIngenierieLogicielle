@@ -37,18 +37,7 @@ public class Navigation extends HttpServlet {
      */
     @Override
     public void init() {
-        if (this.getServletContext().getAttribute("action") == null) {
-            this.getServletContext().setAttribute("action", new ActionService().SelectAlltoMap());
-        }
-        if (this.getServletContext().getAttribute("menuSelect") == null) {
-            this.getServletContext().setAttribute("menuSelect", new ActionService().SelectAllSurbrillance());
-        }
-        if (this.getServletContext().getAttribute("menu") == null) {
-            this.getServletContext().setAttribute("menu", new MenuService().SelectAlltoMap());
-        }
-        if (this.getServletContext().getAttribute("menuType") == null) {
-            this.getServletContext().setAttribute("menuType", new MenuService().SelectAlltoMapTypeCompte());
-        }
+        
     }
 
     @Override

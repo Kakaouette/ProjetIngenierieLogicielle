@@ -55,7 +55,7 @@ public class Etudiant extends HttpServlet {
         
         String action = request.getParameter("action");
         if (action == null) {
-            action = "index";
+            action = "connexionEtudiant";
         }else if(action.equals("afficherDossier")){
             classeAction = new afficherDossierAction();
         }else if(action.equals("connexionEtudiant")){

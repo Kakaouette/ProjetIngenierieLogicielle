@@ -7,11 +7,8 @@ package page.action.Etudiant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modele.entite.Compte;
 import modele.entite.Etudiant;
-import modele.entite.TypeCompte;
 import page.action.Action;
-import page.action.dossier.AfficherInformationsDossiersAction;
 import service.Etudiant.EtudiantService;
 
 /**
@@ -26,6 +23,9 @@ public class connexionEtudiantAction implements Action{
         String nom = (String) request.getParameter("nom");
         String prenom = (String) request.getParameter("prenom");
         Etudiant etu = new EtudiantService().verifAuthentification(ine, nom, prenom);
+        
+        if(ine == null)
+            return "connexionEtudiant.jsp";
         
         if(etu == null){
             request.setAttribute("message", "Les informations saisies n'ont pas permis de vous authentifier.");

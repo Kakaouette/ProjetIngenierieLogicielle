@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import modele.entite.Action;
 import modele.entite.Compte;
 import service.ActionService;
+import service.MenuService;
 
 /**
  *  Filtrage via les actions
@@ -39,8 +40,17 @@ public class ActionFilter implements Filter {
      */
     @Override
     public void init(FilterConfig fc) throws ServletException {
-        if(fc.getServletContext().getAttribute("action") == null){
+        if (fc.getServletContext().getAttribute("action") == null) {
             fc.getServletContext().setAttribute("action", new ActionService().SelectAlltoMap());
+        }
+        if (fc.getServletContext().getAttribute("menuSelect") == null) {
+            fc.getServletContext().setAttribute("menuSelect", new ActionService().SelectAllSurbrillance());
+        }
+        if (fc.getServletContext().getAttribute("menu") == null) {
+            fc.getServletContext().setAttribute("menu", new MenuService().SelectAlltoMap());
+        }
+        if (fc.getServletContext().getAttribute("menuType") == null) {
+            fc.getServletContext().setAttribute("menuType", new MenuService().SelectAlltoMapTypeCompte());
         }
     }
     

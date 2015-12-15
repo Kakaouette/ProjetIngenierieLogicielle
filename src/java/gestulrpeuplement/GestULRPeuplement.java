@@ -193,6 +193,7 @@ public class GestULRPeuplement {
         Page p2 = new Page("listeDossiers.jsp", TypeCompte.secrétaire_inscription, "Afficher les dossiers");
         Page p3 = new Page("ajoutDossier.jsp", TypeCompte.secrétaire_inscription, "Ajouter un dossier");
         Page p4 = new Page("consulteDossier.jsp", TypeCompte.secrétaire_inscription, "Consulter un dossier");
+        Page p12 = new Page("infoEtudiant.jsp", TypeCompte.secrétaire_inscription, "");
         
         Page p5 = new Page("gestionFormations.jsp", TypeCompte.responsable_formation, "Afficher les formations");
         Page p6 = new Page("ajoutFormation.jsp", TypeCompte.responsable_formation, "Creer une formation");
@@ -203,6 +204,9 @@ public class GestULRPeuplement {
         Page p9 = new Page("gestionComptes.jsp", TypeCompte.admin, "Afficher les utilisateurs");
         Page p10 = new Page("createUser.jsp", TypeCompte.admin, "Creer un utilisateur");
         Page p11 = new Page("modifierUtilisateur.jsp", TypeCompte.admin, "Consulter un utilisateur");
+        
+        Page p13 = new Page("connexionEtudiant.jsp", TypeCompte.secrétaire_inscription, "Connexion");
+        Page p14 = new Page("listeDossierEtudiant.jsp", TypeCompte.secrétaire_inscription, "Vos dossiers");
         
         new PageDAO().save(p0);
         new PageDAO().save(p1);
@@ -216,6 +220,9 @@ public class GestULRPeuplement {
         new PageDAO().save(p9);
         new PageDAO().save(p10);
         new PageDAO().save(p11);
+        new PageDAO().save(p12);
+        new PageDAO().save(p13);
+        new PageDAO().save(p14);
         
         Page page_connexion = new PageDAO().getById("index.jsp");
         Page page_accueil = new PageDAO().getById("accueil.jsp");
@@ -243,6 +250,7 @@ public class GestULRPeuplement {
         Action a8 = new Action("supprimerDossier", "dossier.SupprimerDossierAction", page_listeDossiers);
         Action a9 = new Action("voirValidationJustificatifsDossier", "dossier.VoirValidationJustificatifsDossierAction", page_consulterDossier);
         Action a25 = new Action("genererLettre", "dossier.GenerationLettresAction", page_consulterDossier);
+        Action a26 = new Action("etudiantAutocompletion", "dossier.EtudiantAutocompletionAction", p12);
         /***Gestion comptes***/
         Action a10 = new Action("voirGestionComptes", "compte.VoirGestionUtilisateurAction", page_gestionComptes);
         Action a11 = new Action("voirAjoutCompte", "compte.voirAjouterCompteAction", page_createUser);
@@ -261,6 +269,8 @@ public class GestULRPeuplement {
         Action a23 = new Action("voirDatesInscription", "formation.VoirDatesInscriptionAction", page_gestionDatesInscription);
         Action a24 = new Action("modiferDatesInscription", "formation.ModifDatesInscriptionAction", page_gestionDatesInscription);
         
+        Action a27 = new Action("connexionEtudiant", "formation.ModifDatesInscriptionAction", p13);
+        Action a28 = new Action("afficherDossier", "formation.ModifDatesInscriptionAction", p14);
                 
         new ActionDAO().save(a1);
         new ActionDAO().save(a2);
@@ -287,6 +297,9 @@ public class GestULRPeuplement {
         new ActionDAO().save(a23);
         new ActionDAO().save(a24);
         new ActionDAO().save(a25);
+        new ActionDAO().save(a26);
+        new ActionDAO().save(a27);
+        new ActionDAO().save(a28);
         
         Action act_index = new ActionDAO().getById("index");
         Action act_dossiers = new ActionDAO().getById("afficherInformationsDossiers");
