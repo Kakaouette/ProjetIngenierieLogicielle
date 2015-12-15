@@ -88,14 +88,12 @@
     </div>
                 
     <div class="row">
-        <div class="col-md-1 col-md-offset-1">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
+        <div class="col-sm-2">
+            <button class="btn btn-success pull-right" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
         </div>
-        <div class="col-md-1 col-md-offset-1">
+        <div class="col-sm-3">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau">Enregister et nouveau</button>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-            <a class="btn btn-default" href="Navigation?action=voirGestionFormations">Annuler</a>
+            <a class="btn btn-default pull-right" href="Navigation?action=voirGestionFormations">Annuler</a>
         </div>
     </div>
 </form>
