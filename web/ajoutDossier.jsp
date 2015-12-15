@@ -109,11 +109,12 @@
                         $("input#nationalite-0").prop("checked",false);
                         $("input#nationalite-1").prop("checked",true);
                         /// append les justificatifs
-                        $("div#conteneurNationalite").append(
+                        $("div#conteneurNationalite").empty();
+                        $("div#conteneurNationalite").append( 
         "<div class='form-group' id='divNationalite'>"+
             "<label class='col-md-2 control-label' for='niveau'>Niveau :</label>  "+
             "<div class='col-md-4'>"+
-                "<input id='nom' name='niveau' type='text' placeholder='niveau' class='form-control input-md' value='' autocomplete='off' required>"+
+                "<input id='niveau' name='niveau' type='text' placeholder='niveau' class='form-control input-md' value='' autocomplete='off' required>"+
             "</div>"+
         "</div>"+
         "<div class='form-group'>"+
@@ -123,6 +124,8 @@
             "</div>"+
         "</div>"
                         );
+                    $("input#niveau").val(msg.niveau);
+                    $("textarea#avis").val(msg.avis);
                     }
                 },
                 error: function() {
@@ -321,7 +324,7 @@
         </div>
         <div class="col-md-2 col-md-offset-2">
             <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
-            <button id="savenew" name="bouton" type="submit" class="btn btn-success" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
+            <button id="savenew" name="bouton" type="submit" class="btn btn-primary" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
         </div>
     </div>
 </form>
