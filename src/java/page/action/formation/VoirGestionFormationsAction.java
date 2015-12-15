@@ -44,8 +44,8 @@ public class VoirGestionFormationsAction implements Action{
                 if(f.getFin() != null){
                     o[4] = df.format(f.getFin());
                 }
-                o[5] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifFormation&id=" + f.getId() +"\\\"><span class=\\\"fa fa-edit\\\"></span> Modifier</a>";
-                o[6] = "<a class=\\\"btn btn-danger btn-block\\\" onclick='createDialog(" + f.getId() + ")'><span class=\\\"fa fa-remove\\\"></span> Supprimer</a>";
+                o[5] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=voirModifFormation&id=" + f.getId() +"\\\"><span class='fa fa-edit fa-2x'></span</a>";
+                o[6] = "<a class=\\\"btn btn-danger btn-block\\\" onclick='createDialog(" + f.getId() + ")'><span class='fa fa-remove fa-2x'></span></a>";
                 Tab.add(o);
             }
 

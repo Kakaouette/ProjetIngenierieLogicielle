@@ -151,7 +151,7 @@
             $($path + ' li:last dl').append($('<dt>'));
             $($path + ' li:last dl dt').append('<label id="justificatifs" name="justificatifs" class="control-label">' + val + '</label>');
             $($path + ' li:last dl dt').append($('<input>').attr('id', "justificatifs").attr('type', "hidden").attr('name', $name).attr('value', val));            
-            $($path + ' li:last dl dt').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + val + '\")').append('<i class="fa fa-remove"></i> Supprimer'));
+            $($path + ' li:last dl dt').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + val + '\")').append('Supprimer'));
             
             $($path + ' li:last dl').append($('<div>').attr('class', "row").append($('<dd>').attr('class', "col-md-5")));
             $($path + ' li:last dl dd').append('<em>'+description+'</em>');
@@ -223,10 +223,10 @@
             <table cellspacing="0" class="table table-bordered table-condensed dt-responsive" width="100%" id="justificatifsFrancais">
                 <thead>
                     <th>Inscription
-                        <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#inscription")'><i class="fa fa-plus-circle"></i> Ajouter</a>
+                        <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#inscription")'>Ajouter</a>
                     </th>
                     <th>Admissibilité
-                        <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#admission")'><i class="fa fa-plus-circle"></i> Ajouter</a>
+                        <a class="btn btn-link" onclick='createDialog("table#justificatifsFrancais td#admission")'>Ajouter</a>
                     </th>
                 </thead>
                 <tbody>
@@ -242,7 +242,7 @@
                                                 <dt>
                                                     <label id="justificatifs" name="justificatifsInscriptionFrancais" class="control-label"><%out.print(justificatif);%></label>
                                                     <input type="hidden" id="justificatifs" name="justificatifsInscriptionFrancais" value="<%out.print(justificatif);%>"/>
-                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')">Supprimer</a>
                                                 </dt>
                                                 <div class="row">
                                                     <dd class="col-md-5">
@@ -272,7 +272,7 @@
                                                 <dt>
                                                     <label id="justificatifs" name="justificatifsAdmissionFrancais" class="control-label"><%out.print(justificatif);%></label>
                                                     <input type="hidden" id="justificatifs" name="justificatifsAdmissionFrancais" value="<%out.print(justificatif);%>"/>
-                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsFrancais td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')">Supprimer</a>
                                                 </dt>
                                                 <div class="row">
                                                     <dd class="col-md-5">
@@ -302,12 +302,12 @@
             <table cellspacing="0" class="table table-bordered table-condensed dt-responsive" width="100%" id="justificatifsEtranger">
                 <thead>
                     <th>Inscription
-                        <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#inscription")'><i class="fa fa-plus-circle"></i> Ajouter</a>
-                        <a class="btn btn-link" onclick="importerListeJustificatif('table#justificatifsFrancais td#inscription', 'table#justificatifsEtranger td#inscription')" name="boutonImporter" id="boutonImporter" value=""><i class="fa fa-arrow-circle-down"></i> Importer justificatifs français</a>
+                        <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#inscription")'>Ajouter</a>
+                        <a class="btn btn-link" onclick="importerListeJustificatif('table#justificatifsFrancais td#inscription', 'table#justificatifsEtranger td#inscription')" name="boutonImporter" id="boutonImporter" value="">Importer justificatifs français</a>
                     </th>
                     <th>Admissibilité
-                        <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#admission")'><i class="fa fa-plus-circle"></i> Ajouter</a>
-                        <a class="btn btn-link" onclick="importerListeJustificatif('table#justificatifsFrancais td#admission', 'table#justificatifsEtranger td#admission')" name="boutonImporter" id="boutonImporter" value=""><i class="fa fa-arrow-circle-down"></i> Importer justificatifs français</a>
+                        <a class="btn btn-link" onclick='createDialog("table#justificatifsEtranger td#admission")'>Ajouter</a>
+                        <a class="btn btn-link" onclick="importerListeJustificatif('table#justificatifsFrancais td#admission', 'table#justificatifsEtranger td#admission')" name="boutonImporter" id="boutonImporter" value="">Importer justificatifs français</a>
                     </th>
                 </thead>
                 <tbody>
@@ -323,7 +323,7 @@
                                                 <dt>
                                                     <label id="justificatifs" name="justificatifsInscriptionEtranger" class="control-label"><%out.print(justificatif);%></label>
                                                     <input type="hidden" id="justificatifs" name="justificatifsInscriptionEtranger" value="<%out.print(justificatif);%>"/>
-                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#inscription', '<%out.print(justificatif.replace("'","\\'"));%>')">Supprimer</a>
                                                 </dt>
                                                 <div class="row">
                                                     <dd class="col-md-5">
@@ -353,7 +353,7 @@
                                                 <dt>
                                                     <label id="justificatifs" name="justificatifsAdmissionEtranger" class="control-label"><%out.print(justificatif);%></label>
                                                     <input type="hidden" id="justificatifs" name="justificatifsAdmissionEtranger" value="<%out.print(justificatif);%>"/>
-                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')"><i class="fa fa-remove"></i> Supprimer</a>
+                                                    <a class="btn btn-link" onclick="deleteJ('table#justificatifsEtranger td#admission', '<%out.print(justificatif.replace("'","\\'"));%>')">Supprimer</a>
                                                 </dt>
                                                 <div class="row">
                                                     <dd class="col-md-5">
@@ -380,10 +380,10 @@
                  
     <div class="row">
         <div class="col-md-1 col-md-offset-1">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer"><i class="fa fa-save"></i> Enregister</button>
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
         </div>
         <div class="col-md-1 col-md-offset-1">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregister et nouveau <i class="fa fa-plus"></i></button>
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau">Enregister et nouveau</button>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionFormations">Annuler</a>

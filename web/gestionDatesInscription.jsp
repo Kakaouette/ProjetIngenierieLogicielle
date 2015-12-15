@@ -89,10 +89,10 @@
                 
     <div class="row">
         <div class="col-md-1 col-md-offset-1">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer"><i class="fa fa-save"></i> Enregister</button>
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
         </div>
         <div class="col-md-1 col-md-offset-1">
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregister et nouveau <i class="fa fa-plus"></i></button>
+            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer&nouveau">Enregister et nouveau</button>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionFormations">Annuler</a>
