@@ -72,7 +72,9 @@
     function chargerEtudiant() {
         var value = $("input#ine").val();
         console.log("value:"+value);
-        if($.inArray(availableINE,value))
+        console.log("array["+$.inArray(availableINE,value)+"]");
+        $("div#conteneurNationalite").empty();
+        if($.inArray(value,availableINE) !== -1)
         {
             $.ajax({
                 method:'GET',
@@ -107,18 +109,18 @@
                         $("input#nationalite-1").prop("checked",true);
                         /// append les justificatifs
                         $("div#conteneurNationalite").append(
-        "<div class='form-group' id='divNationalite'>"+
-            "<label class='col-md-2 control-label' for='niveau'>Niveau :</label>  "+
-            "<div class='col-md-4'>"+
-                "<input id='nom' name='niveau' type='text' placeholder='niveau' class='form-control input-md' value='' autocomplete='off' required>"+
-            "</div>"+
-        "</div>"+
-        "<div class='form-group'>"+
-            "<label class='col-md-2 control-label' for='avis'>Avis</label>"+
-            "<div class='col-md-4'>"+
-                "<textarea class='form-control' id='avis' name='avis' placeholder='avis' autocomplete='off'></textarea>"+
-            "</div>"+
-        "</div>"
+                            "<div class='form-group' id='divNationalite'>"+
+                                "<label class='col-md-2 control-label' for='niveau'>Niveau :</label>  "+
+                                "<div class='col-md-4'>"+
+                                    "<input id='nom' name='niveau' type='text' placeholder='niveau' class='form-control input-md' value='"+ msg.niveau +"' autocomplete='off' required>"+
+                                "</div>"+
+                            "</div>"+
+                            "<div class='form-group'>"+
+                                "<label class='col-md-2 control-label' for='avis'>Avis</label>"+
+                                "<div class='col-md-4'>"+
+                                    "<textarea class='form-control' id='avis' name='avis' placeholder='avis' autocomplete='off'>"+msg.avis+"</textarea>"+
+                                "</div>"+
+                            "</div>"
                         );
                     }
                 },
@@ -136,6 +138,7 @@
     }
     
     function effacerChamp() {
+        $("#divetrainger").empty();
         $("input#nom").val("");
         $("input#prenom").val("");
         $("input#codePostal").val("");
@@ -310,15 +313,15 @@
 
 
     <div class="row">
-        <div class="col-md-2 col-md-offset-2">
-            <a class="btn btn-default" href="Navigation?action=voirGestionDossiers">Annuler</a>
-        </div>
         <div class="col-md-2">
-            <button id="ask" name="bouton" type="submit" class="btn btn-default" value="demanderPiecesManquantes"><i class="fa fa-envelope"></i> Demander les documents manquants</button>
+            <a class="btn btn-default pull-right" href="Navigation?action=voirGestionDossiers">Annuler</a>
         </div>
-        <div class="col-md-2 col-md-offset-2">
-            <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
-            <button id="savenew" name="bouton" type="submit" class="btn btn-primary" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
+        <div class="col-md-4">
+            <button id="ask" name="bouton" type="submit" class="btn btn-default" value="demanderPiecesManquantes">Demander les documents manquants</button>
+        </div>
+        <div class="col-md-1">
+            <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer">Enregistrer</button>
+            <button id="savenew" name="bouton" type="submit" class="btn btn-primary" value="enregistrer&nouveau">Enregistrer et nouveau</button>
         </div>
     </div>
 </form>
