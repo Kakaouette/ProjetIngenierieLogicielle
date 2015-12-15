@@ -38,7 +38,7 @@ public class RetourCommissionDossierAction implements Action{
             List<Historique> list_histos=dossier_statuer.getHistorique();
             list_histos.add(histo);
             dossier_statuer.setHistorique(list_histos);
-            service.miseajour(dossier_statuer);
+            service.modifierDossier(dossier_statuer);
         return "listeDossiers.jsp";
     }
 }

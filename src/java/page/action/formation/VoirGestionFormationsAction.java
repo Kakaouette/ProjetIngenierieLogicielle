@@ -23,7 +23,7 @@ public class VoirGestionFormationsAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("titre", "Gestion des formation");
+        request.setAttribute("titre", "Gestion des formations");
         List<Formation> formations = new FormationDAO().SelectAll(); //recuperation des formations pour la page suivante
         
         if (formations == null) {
