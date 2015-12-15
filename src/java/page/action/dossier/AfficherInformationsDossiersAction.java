@@ -8,9 +8,6 @@ package page.action.dossier;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +15,6 @@ import modele.dao.DossierDAO;
 import modele.entite.Compte;
 import modele.entite.Dossier;
 import modele.entite.TypeCompte;
-import modele.entite.TypeEtatDossier;
 import page.action.Action;
 import service.DossierService;
 
@@ -55,7 +51,7 @@ public class AfficherInformationsDossiersAction implements Action {
             
             String verifEtat = service.verifDossierPerdu(c);
             
-            if(verifEtat.equals("Perdu")){
+            if(verifEtat.equals("Perdu") || verifEtat.contains("retard")){
                 DossierPerdu = true;
             }
             
@@ -87,7 +83,7 @@ public class AfficherInformationsDossiersAction implements Action {
                 + "\"createdRow\": function ( row, data, index ) {\n"
                 + "            if (data[4] <= 7 && data[0] != 'Terminé') {\n"
                 + "                       $(row).addClass('rouge');\n"
-                + "            }else if ( data[0] == 'Perdu' ) {\n"
+                + "            }else if ( data[0] == 'Perdu' || data[0] == 'En retard') {\n"
                 + "                       $(row).addClass('jauneFonce');\n"
                 + "            }else if ( data[0] == 'En attente de transfert vers le directeur' ) {\n"
                 + "                       $('td', row).eq(0).addClass('pink');\n"

@@ -8,19 +8,23 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
-<% if((boolean) request.getAttribute("DossierUrgent") == true || (boolean) request.getAttribute("DossierPerdu") == true){ %>
+<% Boolean DossierUrgent = (Boolean) request.getAttribute("DossierUrgent");
+    Boolean DossierPerdu = (Boolean) request.getAttribute("DossierPerdu");
+    if(DossierUrgent|| DossierPerdu){ %>
     <div class="alert alert-danger">
-        <% if((boolean) request.getAttribute("DossierUrgent") == true){ %>
+        <% if(DossierUrgent){ %>
         Vous avez des dossiers en cours qui dépasseront la limite de temps dans moins de 15 jours !
         <%}
-        if((boolean) request.getAttribute("DossierUrgent") == true || (boolean) request.getAttribute("DossierPerdu") == true){
+        if(DossierUrgent && DossierPerdu){
         out.print("<br/>");
         }
-        if((boolean) request.getAttribute("DossierUrgent") == true){ %>
-        Vous avez des dossiers perdu ou en retard!
-        <% } if((boolean) request.getAttribute("msgSuppression")==true){
+        if(DossierUrgent){ %>
+        Vous avez des dossiers perdu ou en retard !
+        <% } 
+        if(request.getAttribute("msgSuppression") != null){
+        if((boolean) request.getAttribute("msgSuppression")==true){
             out.print(request.getAttribute("message"));
-        }%>
+        }}%>
     </div>
 <%}%>
 
