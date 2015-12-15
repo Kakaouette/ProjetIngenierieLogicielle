@@ -294,15 +294,15 @@
             }%>
         </div>
     </div>
-               
+    <% String idDossier; %>           
     <div class="form-group">
         <label class="col-md-2 control-label" for="idDossier">Numéro du dossier : </label>  
         <div class="col-md-4">
             <input id="idDossier" name="idDossier" type="text" placeholder="n° dossier" class="form-control input-md" 
-                value="<%if(request.getAttribute("idDossier") != null){
+                value="<%if(request.getAttribute("idDossier") != null){idDossier=(String) request.getAttribute("idDossier");
                     out.print(request.getAttribute("idDossier"));
-                }else{
-                    out.print(new DossierService().getNewID());
+                }else{idDossier=new DossierService().getNewID();
+                    out.print(idDossier);
                 }%>" pattern="<%out.print(new DossierService().getRegexIdDossier());%>" 
                 title="<%out.print(new DossierService().getRegexIdDossier());%>" autocomplete="off" required autofocus>
         </div>
@@ -314,7 +314,7 @@
             <a class="btn btn-default" href="Navigation?action=voirGestionDossiers">Annuler</a>
         </div>
         <div class="col-md-2">
-            <button class="btn btn-default" id="askDocMissed" name="action" value="voirLettreDocManquant"><i class="fa fa-envelope"></i> Demander les documents manquants</button>
+            <button id="ask" name="bouton" type="submit" class="btn btn-default" value="demanderPiecesManquantes"><i class="fa fa-envelope"></i> Demander les documents manquants</button>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>

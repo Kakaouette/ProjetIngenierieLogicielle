@@ -25,6 +25,7 @@ import modele.entite.TypeDossier;
 import modele.entite.TypeEtatDossier;
 import modele.entite.TypeJustificatifEtranger;
 import page.action.Action;
+import page.action.GenerationLettres.GenerationLettresAction;
 import service.exception.AjoutDossierInvalideException;
 import service.DossierService;
 import service.exception.AjoutAdresseInvalideException;
@@ -38,7 +39,11 @@ import service.exception.AjoutHistoriqueInvalideException;
 public class AjoutDossierAction implements Action{
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {    
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
+        if(request.getParameter("bouton").equals("demanderPiecesManquantes"))
+        {
+            return new GenerationLettresAction().execute(request, response);
+        }
         Action actionPageSuivante = null;
         
         //recuperation du formulaire
