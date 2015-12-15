@@ -20,6 +20,9 @@ public class Menu {
     @Column(nullable = false)
     String texte;
     
+    @Column(nullable = false)
+    String icon;
+    
     @JoinColumn(nullable = true)
     Menu menuSuperieur;
     
@@ -29,10 +32,11 @@ public class Menu {
     public Menu() {
     }
 
-    public Menu(String texte, Menu menuSuperieur, Action action) {
+    public Menu(String texte, Menu menuSuperieur, Action action, String icone) {
         this.texte = texte;
         this.menuSuperieur = menuSuperieur;
         this.action = action;
+        this.icon = icone;
     }
     
     public int getId() {
@@ -65,6 +69,14 @@ public class Menu {
 
     public void setAction(Action action) {
         this.action = action;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     @Override

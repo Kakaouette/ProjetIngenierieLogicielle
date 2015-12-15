@@ -130,12 +130,12 @@ public class ActionPeuplement {
         Action act_dates_inscription = new ActionDAO().getById("voirGestionDatesInscription");
         
         // Création des menus
-        Menu m0 = new Menu("Accueil", null, act_index);
+        Menu m0 = new Menu("Accueil", null, act_index, "fa-home");
         new MenuDAO().save(m0);
         
-        Menu m1 = new Menu("Dossiers", null, null);
-        Menu m2 = new Menu("Formations", null, null);
-        Menu m3 = new Menu("Utilisateurs", null, null);
+        Menu m1 = new Menu("Dossiers", null, null, "fa-folder-open");
+        Menu m2 = new Menu("Formations", null, null, "fa-university");
+        Menu m3 = new Menu("Utilisateurs", null, null, "fa-users");
         
         new MenuDAO().save(m1);
         new MenuDAO().save(m2);
@@ -145,13 +145,13 @@ public class ActionPeuplement {
         Menu menu_formations = new MenuDAO().getMenubyTexte("Formations");
         Menu menu_comptes = new MenuDAO().getMenubyTexte("Utilisateurs");
         
-        Menu m4 = new Menu("Afficher les dossiers", menu_dossiers, act_dossiers);
-        Menu m5 = new Menu("Enregistrer un dossier", menu_dossiers, act_ajout_dossiers);
-        Menu m6 = new Menu("Afficher les formations", menu_formations, act_formations);
-        Menu m7 = new Menu("Nouvelle formation", menu_formations, act_ajout_formations);
-        Menu m8 = new Menu("Modifier les dates d'inscription", menu_formations, act_dates_inscription);
-        Menu m9 = new Menu("Afficher les comptes", menu_comptes, act_comptes);
-        Menu m10 = new Menu("Creer un nouveau compte", menu_comptes, act_ajout_compte);
+        Menu m4 = new Menu("Afficher les dossiers", menu_dossiers, act_dossiers, "fa-edit");
+        Menu m5 = new Menu("Enregistrer un dossier", menu_dossiers, act_ajout_dossiers, "fa-plus");
+        Menu m6 = new Menu("Afficher les formations", menu_formations, act_formations, "fa-edit");
+        Menu m7 = new Menu("Nouvelle formation", menu_formations, act_ajout_formations, "fa-plus");
+        Menu m8 = new Menu("Modifier les dates d'inscription", menu_formations, act_dates_inscription, "fa-calendar");
+        Menu m9 = new Menu("Afficher les comptes", menu_comptes, act_comptes, "fa-edit");
+        Menu m10 = new Menu("Creer un nouveau compte", menu_comptes, act_ajout_compte, "fa-plus");
         
         new MenuDAO().save(m4);
         new MenuDAO().save(m5);

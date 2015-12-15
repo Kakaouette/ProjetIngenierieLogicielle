@@ -84,7 +84,7 @@
                                         }
                                         
                                         htmlMenu += ">\n";
-                                        htmlMenu += "<span class='fa fa-users'></span> " + unEnsembleMenu.getKey().getTexte();
+                                        htmlMenu += "<span class='fa "+ unEnsembleMenu.getKey().getIcon() +"'></span> " + unEnsembleMenu.getKey().getTexte();
                                         
                                         if (!unEnsembleMenu.getValue().isEmpty()) {
                                             htmlMenu += "<span class='caret'></span>";
@@ -96,7 +96,7 @@
                                             htmlMenu += "<ul class='dropdown-menu'>\n";
                                             for (Menu subMenu : unEnsembleMenu.getValue()) {
                                                 if(subMenu.getAction().getPage().getTypeAuthoriser().getValue() <= c.getType().getValue())
-                                                    htmlMenu += "<li><a href='Navigation?action=" + subMenu.getAction().getId() + "'><i class='fa fa-edit'></i>" + subMenu.getTexte() + "</a></li>\n";
+                                                    htmlMenu += "<li><a href='Navigation?action=" + subMenu.getAction().getId() + "'><i class='fa "+ subMenu.getIcon() +"'></i> " + subMenu.getTexte() + "</a></li>\n";
                                             }
                                             htmlMenu += "</ul>\n";
                                         }
