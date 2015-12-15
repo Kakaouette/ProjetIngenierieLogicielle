@@ -76,10 +76,10 @@ public class DossierService {
     }
     
     /** 
-     * @param dossierorigin dossier modifier à enregistrer dans la base
+     * @param dossierToModif dossier modifier à enregistrer dans la base
      */
-    public void modifierDossier(Dossier dossierorigin){
-        dossierDAO.update(dossierorigin);
+    public void modifierDossier(Dossier dossierToModif){
+        dossierDAO.update(dossierToModif);
     }
 
     /**
@@ -113,7 +113,7 @@ public class DossierService {
             throw new AjoutDossierInvalideException("Un dossier pour cet formation existe déjà pour cet étudiant", new Throwable(AjoutDossierInvalideException.cause.Dossier_Existant.toString())); //Le dossier existe déjà !
         }
 
-        //ajout des entitées inexistante
+        //ajout des entités inexistante
         if (new AdresseDAO().getById(dossier.getEtudiant().getAdresse().getId()) == null) {
             new AdresseService().ajouterAdresse(dossier.getEtudiant().getAdresse()); //ajout dans la base de donnée
         }
@@ -248,13 +248,5 @@ public class DossierService {
         }else{
             return false;
         }
-    }
-    
-    /**
-     * Mise à jour du dossier sans paramètre
-     * @param dossier
-     */
-    public void miseajour(Dossier dossier){
-        dossierDAO.update(dossier);
     }
 }

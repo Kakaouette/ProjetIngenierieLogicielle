@@ -321,7 +321,7 @@
         </div>
         <div class="col-md-2 col-md-offset-2">
             <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer"><i class="fa fa-save"></i> Enregistrer</button>
-            <button id="savenew" name="bouton" type="submit" class="btn btn-primary" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
+            <button id="savenew" name="bouton" type="submit" class="btn btn-success" value="enregistrer&nouveau"><i class="fa fa-save"></i> Enregistrer et nouveau <i class="fa fa-plus"></i></button>
         </div>
     </div>
 </form>
