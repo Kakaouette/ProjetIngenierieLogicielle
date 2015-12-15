@@ -30,9 +30,9 @@
         <tr>
             <th>Etat</th>
             <th>Numéro</th>
-            <th>Type</th>
-            <th>Créé le</th>
-            <th>Jours restant</th>
+            <th data-class-name="none">Type</th>
+            <th data-class-name="none">Créé le</th>
+            <th data-class-name="none">Jours restant</th>
             <th>Formation demandé</th>
             <th>Nom de l'etudiant</th>
             <th>Prenom de l'etudiant</th>
