@@ -155,8 +155,8 @@ public class DossierDAO extends Dao {
     public int count(Formation formation) {
         try {
             em.clear(); //supprime le cache des requêtes
-            q = em.createQuery("SELECT count(D) FROM Dossier D where D.demandeformation_id=:formation");
-            q.setParameter("formation", formation.getId());
+            q = em.createQuery("SELECT count(D) FROM Dossier D where D.demandeFormation=:formation");
+            q.setParameter("formation", formation);
             return ((Long)q.getResultList().get(0)).intValue();
         } catch (NoResultException e) {
             return 0;
