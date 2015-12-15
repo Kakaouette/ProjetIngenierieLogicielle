@@ -67,6 +67,17 @@ public class DossierDAO extends Dao {
             return null;
         }
     }
+    
+    public List<Dossier> getByEtudiant(Etudiant etu){
+        try{
+            em.clear();
+            q = em.createQuery("SELECT D FROM Dossier D WHERE D.etudiant = :ETU");
+            q.setParameter("ETU", etu);
+            return q.getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
 
     public void save(Dossier unDossier) {
         EntityTransaction tx = em.getTransaction();
