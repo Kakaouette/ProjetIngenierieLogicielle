@@ -15,7 +15,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modele.dao.DossierDAO;
+import modele.entite.Compte;
 import modele.entite.Dossier;
+import modele.entite.TypeCompte;
 import modele.entite.TypeEtatDossier;
 import page.action.Action;
 import service.DossierService;
@@ -29,7 +31,19 @@ public class AfficherInformationsDossiersAction implements Action {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("titre", "Gestion des dossiers");
-        List<Dossier> dossiers = new DossierDAO().SelectAll(); //recuperation des comptes pour la page suivante        
+        
+        //Choix des dossiers à afficher en fonction du compte connecté
+        Compte compte = (Compte)request.getSession().getAttribute("compte");
+        TypeCompte typeCompte = compte.getType();
+        List<Dossier> dossiers = null;
+        DossierDAO dossierDAO = new DossierDAO();
+        if (typeCompte == TypeCompte.admin || typeCompte == TypeCompte.directeur_pole || typeCompte == TypeCompte.responsable_administrative || typeCompte == TypeCompte.secrétaire_inscription){
+            dossiers = dossierDAO.SelectAll();
+        }else if(typeCompte == TypeCompte.responsable_formation || typeCompte == TypeCompte.secrétaire_formation){
+            dossiers = dossierDAO.SelectDossiersByFormation(compte.getFormationAssocie());
+        }else if(typeCompte == TypeCompte.responsable_commission){
+            dossiers = dossierDAO.SelectDossiersForCommission(compte.getFormationAssocie());
+        }
         List<Object[]> Tab = new ArrayList<Object[]>();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         boolean DossierUrgent = false;
@@ -37,7 +51,7 @@ public class AfficherInformationsDossiersAction implements Action {
         DossierService service = new DossierService();
 
         for (Dossier c : dossiers) {
-            Object[] o = new Object[9];
+            Object[] o = new Object[10];
             
             String verifEtat = service.verifDossierPerdu(c);
             
@@ -63,9 +77,10 @@ public class AfficherInformationsDossiersAction implements Action {
             }
 
             o[5] = c.getDemandeFormation().getIntitule();
-            o[6] = c.getEtudiant().getNom();
-            o[7] = c.getEtudiant().getPrenom();
-            o[8] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=consulterDossier&idDossier=" + c.getId() +"\\\"><span class='fa fa-edit fa-2x'></span></a>";
+            o[6] = c.getEtudiant().getIne();
+            o[7] = c.getEtudiant().getNom();
+            o[8] = c.getEtudiant().getPrenom();
+            o[9] = "<a class=\\\"btn btn-info btn-block\\\" href=\\\"Navigation?action=consulterDossier&idDossier=" + c.getId() +"\\\"><span class='fa fa-edit fa-2x'></span></a>";
             Tab.add(o);
         }
         request.setAttribute("addScript", ""
@@ -74,11 +89,11 @@ public class AfficherInformationsDossiersAction implements Action {
                 + "                       $(row).addClass('rouge');\n"
                 + "            }else if ( data[0] == 'Perdu' ) {\n"
                 + "                       $(row).addClass('jauneFonce');\n"
-                + "            }else if ( data[0] == 'Créé' ) {\n"
+                + "            }else if ( data[0] == 'En attente de transfert vers le directeur' ) {\n"
                 + "                       $('td', row).eq(0).addClass('pink');\n"
                 + "            }else if ( data[0] == 'Transfert vers le secrétariat' ) {\n"
                 + "                       $('td', row).eq(0).addClass('orange');\n"
-                + "            }else if ( data[0] == 'Traitement par le secrétariat' ) {\n"
+                + "            }else if ( data[0] == 'Traité par le secrétariat' ) {\n"
                 + "                       $('td', row).eq(0).addClass('jaune');\n"
                 + "            }else if ( data[0] == 'Attente de la commission' ) {\n"
                 + "                       $('td', row).eq(0).addClass('purple');\n"
