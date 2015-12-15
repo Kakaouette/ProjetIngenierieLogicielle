@@ -50,19 +50,7 @@
         $("#dossier_formation>p").html("Nombre de dossiers par formation");
     });
 </script>
-        <p>Bonjour
-            <%out.print(c.getPrenom());%> <%out.print(c.getNom());%>, vous êtes de type <%out.print(c.getType().toString());%></p>
-        
-        <%-- FORMATIONS --%>
-        <%if(c.getType()==TypeCompte.responsable_commission || c.getType()==TypeCompte.secrétaire_formation || c.getType()==TypeCompte.responsable_commission){%>
-        <%if(!c.getFormationAssocie().isEmpty()){%>
-        <h2>Liste formations</h2>
-        <%for(Formation f : c.getFormationAssocie()){%>
-            <p><%out.print(f.getIntitule());%> Début : <%out.print(f.getDebut());%> - Fin : <%out.print(f.getFin());%></p>
-        <%}}}%>
-        
         <div class="row">
-        
         <%-- AFFICHAGE DE TOUS LES DOSSIERS PAR ETAT (admin, directeur, secrétaire générale et responsable administratif) --%>
         <div class="col-sm-6">
         <%if(c.getType()==TypeCompte.admin||c.getType()==TypeCompte.directeur_pole||c.getType()==TypeCompte.responsable_administrative||c.getType()==TypeCompte.secrétaire_inscription){%>
