@@ -285,11 +285,11 @@
                 {
                     if(d.getAvisDirecteur().equals(TypeAvisDossier.favorable.toString()))
                     {%>
-                        <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=d.getId(); &typeLettre=2">Generer lettre d'acceptation</a>
+                        <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=<%out.print(d.getId()); %>&typeLettre=2">Generer lettre d'acceptation</a>
                     <%}
                     else if(d.getAvisDirecteur().equals(TypeAvisDossier.défavorable.toString()))
                     {%>
-                        <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=d.getId(); &typeLettre=3">Generer lettre de refus</a>
+                        <a class="btn btn-info" href="Navigation?action=genererLettre&idDossier=<%out.print(d.getId()); %>&typeLettre=3">Generer lettre de refus</a>
                     <%}
             %>
             <%

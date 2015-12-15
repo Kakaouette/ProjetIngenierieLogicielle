@@ -94,9 +94,14 @@ public class CreerPiecesManquantes
 
         String intitule = formation.getIntitule();
         
-        for(Justificatif just : justificatifsOk){
-            lesJustificatifs.remove(just);
+        if(justificatifsOk != null)
+        {
+            for(Justificatif just : justificatifsOk)
+            {
+                lesJustificatifs.remove(just);
+            }
         }
+        
 
         String newFileName=nom+prenom+" Lettre piecesManquantes.docx";
 

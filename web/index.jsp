@@ -10,7 +10,7 @@
 <%if(request.getAttribute("focus") != null){%>
 <script type="text/javascript">
     window.onload=function(){
-        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus();
+        document.getElementById("<%out.print(request.getAttribute("focus"));%>").focus(); 
     };
 </script>
 <%}%>
