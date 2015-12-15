@@ -6,6 +6,7 @@
 package modele.dao;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityTransaction;
@@ -14,6 +15,7 @@ import modele.entite.Dossier;
 import modele.entite.Etudiant;
 import modele.entite.Formation;
 import modele.entite.Historique;
+import modele.entite.TypeEtatDossier;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Dossier</b>
@@ -67,6 +69,17 @@ public class DossierDAO extends Dao {
             return null;
         }
     }
+    
+    public List<Dossier> getByEtudiant(Etudiant etu){
+        try{
+            em.clear();
+            q = em.createQuery("SELECT D FROM Dossier D WHERE D.etudiant = :ETU");
+            q.setParameter("ETU", etu);
+            return q.getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
 
     public void save(Dossier unDossier) {
         EntityTransaction tx = em.getTransaction();
@@ -99,6 +112,50 @@ public class DossierDAO extends Dao {
             em.clear(); //supprime le cache des requêtes
             q = em.createQuery("SELECT D FROM Dossier D");
             return (List<Dossier>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    /**
+     * Selection de les dossiers correspondant aux formations données dans la BD
+     * 
+     * @param listFormation Liste des formations qui seront utilisées pour récupérer les dossiers
+     * @return List de dossier
+     */
+    public List<Dossier> SelectDossiersByFormation(List<Formation> listFormation) {
+        try {
+            List<Dossier> listDossier = new ArrayList<>();
+            for(Formation f : listFormation){
+                em.clear(); //supprime le cache des requêtes
+                q = em.createQuery("SELECT D FROM Dossier D WHERE D.demandeFormation = :FORMATIONS");
+                q.setParameter("FORMATION", f);
+                listDossier.addAll((List<Dossier>) q.getResultList());
+            }
+            return listDossier;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    /**
+     * Selection de les dossiers correspondant aux formations données dans la BD pour la commission
+     * 
+     * @param listFormation Liste des formations qui seront utilisées pour récupérer les dossiers
+     * @return List de dossier
+     */
+    public List<Dossier> SelectDossiersForCommission(List<Formation> listFormation) {
+        try {
+            List<Dossier> listDossier = new ArrayList<>();
+            for(Formation f : listFormation){
+                em.clear(); //supprime le cache des requêtes
+                q = em.createQuery("SELECT D FROM Dossier D WHERE D.demandeFormation = :FORMATION AND (D.etat = :NAVETTE OR D.etat = :EN_ATTENTE_COMMISSION)");
+                q.setParameter("FORMATION", f);
+                q.setParameter("NAVETTE", TypeEtatDossier.navette);
+                q.setParameter("EN_ATTENTE_COMMISSION", TypeEtatDossier.en_attente_commission);
+                listDossier.addAll((List<Dossier>) q.getResultList());
+            }
+            return listDossier;
         } catch (NoResultException e) {
             return null;
         }

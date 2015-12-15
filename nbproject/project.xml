@@ -119,6 +119,9 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
+                    <file>${libs.apachePOI.classpath}</file>
+                </library>
+                <library dirs="200">
                     <file>${libs.ApachePOI.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

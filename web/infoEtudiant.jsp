@@ -21,9 +21,13 @@
     json+="\"ville\":"+"\""+etu.getAdresse().getVille()+"\""+",";
     if(etu instanceof EtudiantEtranger)
     {
+        EtudiantEtranger etudiantEtranger = (EtudiantEtranger) etu;
+        json+="\"avis\":"+"\""+etudiantEtranger.getAvis()+"\""+",";
+        json+="\"niveau\":"+"\""+etudiantEtranger.getNiveau()+"\""+",";
         json+="\"nationalite\":"+"\""+"etranger"+"\""+",";
     } else {
         json+="\"nationalite\":"+"\""+"francais"+"\""+",";
+        
     }
     json+="\"pays\":"+"\""+etu.getPays()+"\""+"}";
     

@@ -101,7 +101,9 @@ public class AjoutDossierAction implements Action{
                 etudiant = new EtudiantEtranger(avis, niveau, nom, prenom, pays, adressePostale, sexe, adresse, ine);
             }
         }else{
-            if((nationalite.equals(TypeJustificatifEtranger.francais.toString()) && etudiant instanceof EtudiantEtranger) || (nationalite.equals(TypeJustificatifEtranger.etranger.toString()) && etudiant instanceof Etudiant)){
+            EtudiantEtranger etudiantE = new EtudiantEtranger();
+            etudiantE = (EtudiantEtranger) etudiant;
+            if((nationalite.equals(TypeJustificatifEtranger.francais.toString()) && etudiantE.getNiveau()!=null) || (nationalite.equals(TypeJustificatifEtranger.etranger.toString()) && etudiantE.getNiveau()==null)){
                     request.setAttribute("typeMessage", "danger");
                     request.setAttribute("message", "La nationalité de l'étudiant n'est pas valide");
                     return stayHere(request, response);
@@ -137,7 +139,7 @@ public class AjoutDossierAction implements Action{
             request.setAttribute("message", "Dossier créé.");
             //redirection
             if(request.getParameter("bouton").equals("enregistrer")){
-                actionPageSuivante = new ConsulterDossierAction(); //request.getParameter("pageRetour");
+                actionPageSuivante = new AfficherInformationsDossiersAction(); //request.getParameter("pageRetour");
             }else if(request.getParameter("bouton").equals("enregistrer&nouveau")){
                 actionPageSuivante = new VoirAjoutDossierAction();
             }
