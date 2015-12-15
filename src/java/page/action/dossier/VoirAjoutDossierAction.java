@@ -38,10 +38,10 @@ public class VoirAjoutDossierAction implements Action{
         }else if(compte.getType() == TypeCompte.secrétaire_formation){
             formations = compte.getFormationAssocie();
         }
-        if(formations == null){
+        /*if(formations == null){
             formations = new ArrayList<Formation>();
             request.setAttribute("message", "Aucune formation trouvé dans la BDD");
-        }
+        }*/
         request.setAttribute("formations", formations);
         
         ///autofill form///
@@ -92,9 +92,9 @@ public class VoirAjoutDossierAction implements Action{
         }
         if(typeJ != null && nationaliteJ != null){
             List<Justificatif> justificatifs = formation.getLesJustificatifs(typeJ, nationaliteJ);
-            if(justificatifs.isEmpty()) {
+            /*if(justificatifs.isEmpty()) {
                 request.setAttribute("message", "Aucun justificatif trouvé dans la BDD");
-            }
+            }*/
             request.setAttribute("justificatifs", justificatifs);
         }
         

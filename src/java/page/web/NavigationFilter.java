@@ -57,6 +57,8 @@ public class NavigationFilter implements Filter {
             fc.doFilter(sr, sr1);
         }else if(path.startsWith("/jQuery/")){
             fc.doFilter(sr, sr1);
+        }else if(path.startsWith("/Etudiant")){
+            fc.doFilter(sr, sr1);
         }else{
             response.sendRedirect(request.getContextPath() + "/Navigation");
         }
