@@ -13,7 +13,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
-import javax.persistence.TemporalType;
 import modele.entite.Dossier;
 import modele.entite.Etudiant;
 import modele.entite.Formation;
@@ -132,7 +131,7 @@ public class DossierDAO extends Dao {
             for(Formation f : listFormation){
                 em.clear(); //supprime le cache des requêtes
                 q = em.createQuery("SELECT D FROM Dossier D WHERE D.demandeFormation = :FORMATIONS");
-                q.setParameter("FORMATION", f);
+                q.setParameter("FORMATIONS", f);
                 listDossier.addAll((List<Dossier>) q.getResultList());
             }
             return listDossier;

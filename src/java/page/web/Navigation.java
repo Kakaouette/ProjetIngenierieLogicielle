@@ -6,18 +6,19 @@
 package page.web;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modele.dao.PageDAO;
 import page.action.Action;
-import page.action.GenerationLettres.GenerationLettresAction;
 import page.action.accueil.*;
-import page.action.compte.*;
-import page.action.dossier.*;
-import page.action.formation.*;
+import service.ActionService;
+import service.MenuService;
 
 /**
  *
@@ -34,10 +35,20 @@ public class Navigation extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
     @Override
     public void init() {
-        
+        if (this.getServletContext().getAttribute("action") == null) {
+            this.getServletContext().setAttribute("action", new ActionService().SelectAlltoMap());
+        }
+        if (this.getServletContext().getAttribute("menuSelect") == null) {
+            this.getServletContext().setAttribute("menuSelect", new ActionService().SelectAllSurbrillance());
+        }
+        if (this.getServletContext().getAttribute("menu") == null) {
+            this.getServletContext().setAttribute("menu", new MenuService().SelectAlltoMap());
+        }
+        if (this.getServletContext().getAttribute("menuType") == null) {
+            this.getServletContext().setAttribute("menuType", new MenuService().SelectAlltoMapTypeCompte());
+        }
     }
 
     @Override
@@ -62,88 +73,18 @@ public class Navigation extends HttpServlet {
         if (action == null) {
             action = "index";
         }
-        
+
         //init de l'interface
         Action classeAction = null;
         String vue = "";
-        int menuSelect = 0;
-        
-        if (action.equals("gererAuthentification")) {
-            menuSelect = 0;
-            classeAction = new GererAuthentificationAction();
-        }/***Gestion comptes****/
-        else if (action.equals("voirModifierComptes")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new VoirModifierComptesAction();
-        }else if (action.equals("voirGestionComptes")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new VoirGestionUtilisateurAction();
-        }else if (action.equals("modifierUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new ModifierUtilisateurAction();
-        }else if (action.equals("voirAjoutCompte")) {
-            menuSelect = 1;
-            classeAction = new voirAjouterCompteAction();
-        }else if (action.equals("creerUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new AjouterCompteAction();
-        }else if (action.equals("supprimerUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new SupprimerUtilisateurAction();
-        }/***Gestion dossiers****/
-        else if (action.equals("afficherInformationsDossiers")) {
-            menuSelect = 3; //à modifier plus tard
-            classeAction = new AfficherInformationsDossiersAction();
-        }else if (action.equals("voirAjoutDossier")) {
-            menuSelect = 3;
-            classeAction = new VoirAjoutDossierAction();   
-        }else if (action.equals("ajouterDossier")) {
-            menuSelect = 3;
-            classeAction = new AjoutDossierAction();
-        }else if (action.equals("consulterDossier")) {
-            menuSelect = 3;
-            classeAction = new ConsulterDossierAction();
-        }else if (action.equals("modifierDossier")) {
-            menuSelect = 3;
-            classeAction = new ModifierDossierAction();
-        }else if (action.equals("etudiantAutocompletion")) {
-            menuSelect = 3;
-            classeAction = new EtudiantAutocompletionAction();
-        }else if (action.equals("supprimerDossier")) {
-            menuSelect = 3;
-            classeAction = new SupprimerDossierAction();
-        }/***Gestion formations***/
-        else if (action.equals("voirAjoutFormation")) {
-            menuSelect = 2;
-            classeAction = new VoirAjoutFormationAction();
-        }else if (action.equals("ajouterFormation")) {
-            menuSelect = 2;
-            classeAction = new AjoutFormationAction();
-        }else if (action.equals("supprimerFormation")) {
-            menuSelect = 2;
-            classeAction = new SupprFormationAction();
-        }else if (action.equals("voirModifFormation")) {
-            menuSelect = 2;
-            classeAction = new VoirModifFormationAction();
-        }else if (action.equals("modifierFormation")) {
-            menuSelect = 2;
-            classeAction = new ModifFormationAction();
-        }else if (action.equals("voirGestionFormations")) {
-            menuSelect = 2;
-            classeAction = new VoirGestionFormationsAction();
-        }else if (action.equals("voirGestionDatesInscription")) {
-            menuSelect = 2;
-            classeAction = new VoirGestionDatesInscriptionAction();
-        }else if (action.equals("modiferDatesInscription")) {
-            menuSelect = 2;
-            classeAction = new ModifDatesInscriptionAction();
-        }
-        else if (action.equals("genererLettre")) {
-            menuSelect = 0;
-            classeAction = new GenerationLettresAction();
-        }else{
-            action = "index";
-            menuSelect = 0;
+
+        Map<String, modele.entite.Action> lesActions = (Map<String, modele.entite.Action>) this.getServletContext().getAttribute("action");
+        Map<String, Integer> lesActionMenuSelect = (Map<String, Integer>) this.getServletContext().getAttribute("menuSelect");
+        try {
+            Class classeActionImpl = Class.forName("page.action." + lesActions.get(action).getClassAction()); // Accès à la classe DAO correspondant
+            Constructor constr = classeActionImpl.getConstructor(); // Obtenir le constructeur ()
+            classeAction = (Action) constr.newInstance(); // -> new xDao()
+        } catch (Exception e){
             classeAction = new VoirIndexAction();
         }
 
@@ -151,7 +92,17 @@ public class Navigation extends HttpServlet {
             //vue récupére le nom de la jsp a afficher
             vue = classeAction.execute(request, response);
             //menu a mettre en surbrillance
-            request.setAttribute("menu", menuSelect);
+
+            Integer menu = lesActionMenuSelect.get(action);
+            
+            if(menu == null){
+                menu = lesActionMenuSelect.get("index");
+            }
+            
+            request.setAttribute("titre", new PageDAO().getById(vue).getTitre());
+            request.setAttribute("menuS", menu);
+
+
             //affichage de la jsp
             RequestDispatcher rd = request.getRequestDispatcher(vue);
             if (rd != null) {

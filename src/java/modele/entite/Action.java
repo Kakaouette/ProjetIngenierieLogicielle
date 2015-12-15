@@ -7,6 +7,7 @@ package modele.entite;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -21,17 +22,23 @@ public class Action implements Serializable{
     @Id
     String id;
     
-    @ElementCollection(targetClass = TypeCompte.class)
-    @Enumerated(EnumType.STRING)
-    List<TypeCompte> lesTypeCompte;
+    @Column(nullable = false)
+    String classAction;
+    
+    @JoinColumn(nullable = false)
+    @OneToOne
+    Page page;
 
     public Action() {
+        
     }
 
-    public Action(String id, List<TypeCompte> lesTypeCompte) {
+    public Action(String id, String classAction, Page page) {
         this.id = id;
-        this.lesTypeCompte = lesTypeCompte;
+        this.classAction = classAction;
+        this.page = page;
     }
+
 
     public String getId() {
         return id;
@@ -41,11 +48,44 @@ public class Action implements Serializable{
         this.id = id;
     }
 
-    public List<TypeCompte> getLesTypeCompte() {
-        return lesTypeCompte;
+    public String getClassAction() {
+        return classAction;
     }
 
-    public void setLesTypeCompte(List<TypeCompte> lesTypeCompte) {
-        this.lesTypeCompte = lesTypeCompte;
+    public void setClassAction(String classAction) {
+        this.classAction = classAction;
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Action other = (Action) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 }

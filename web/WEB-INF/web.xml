@@ -13,6 +13,11 @@
         </init-param>
     </filter>
     <filter>
+        <description>Filtre selon les requête par action</description>
+        <filter-name>ActionFilter</filter-name>
+        <filter-class>page.web.ActionFilter</filter-class>
+    </filter>
+    <filter>
         <description>Filtrage des requêtes uniquement vers du contenu autorisé (Navigation ou ressource comme le dossier "images")</description>
         <filter-name>NavigationFilter</filter-name>
         <filter-class>page.web.NavigationFilter</filter-class>
@@ -20,6 +25,11 @@
     <filter-mapping>
         <filter-name>setCharacterFilter</filter-name>
         <url-pattern>*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ActionFilter</filter-name>
+        <url-pattern>*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>NavigationFilter</filter-name>
