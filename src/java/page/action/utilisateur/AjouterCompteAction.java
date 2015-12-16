@@ -38,7 +38,7 @@ public class AjouterCompteAction implements Action {
         String mdp = request.getParameter("mdp");
         String[] form = request.getParameterValues("formations");
 
-        if (type.isEmpty() || login.isEmpty() || nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty()) {
+        if (type.isEmpty() || login.isEmpty() || nom.isEmpty() || prenom.isEmpty() || email.isEmpty()) {
             request.setAttribute("error", "true");
             request.setAttribute("message", "Tous les champs doivent être remplis !");
 
@@ -65,7 +65,6 @@ public class AjouterCompteAction implements Action {
         nouveauCompte.setNom(nom);
         nouveauCompte.setPrenom(prenom);
         nouveauCompte.setMail(email);
-        nouveauCompte.setMdp(mdp);
         nouveauCompte.setFormationAssocie(lesFormations);
         
         try {

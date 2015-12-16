@@ -64,7 +64,7 @@ public class DossierService_ajouterDossierTest {
         etudiant = new Etudiant("1", "n", "p", "p", "a", "M", adresse);
         etudiant2 = new Etudiant("2", "nn", "pp", "p", "a", "M", adresse);
         formation = new Formation("d", 0, null, null, "i", null);
-        c = new Compte("l", "m", "n", "p", "m", TypeCompte.admin, null);
+        c = new Compte("l", "n", "p", "m", TypeCompte.admin, null);
         historique = new Historique(new Date(), "Message", "Action", c);
         dossier = new Dossier();
     }

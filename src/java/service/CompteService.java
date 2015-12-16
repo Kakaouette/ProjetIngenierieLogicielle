@@ -93,7 +93,7 @@ public class CompteService {
      * @param mdp
      * @return boolean indiquant si l'update c'est effectué correctement
      */
-    public Boolean effectuerModification(int idCompte, String type, String login, String nom, String prenom, String mail, String mdp, List<Formation> lesFormations) {
+    public Boolean effectuerModification(int idCompte, String type, String login, String nom, String prenom, String mail, List<Formation> lesFormations) {
         // récupération du compte à modifier
         Compte compte = compteDAO.getById(idCompte);
         // si le compte est trouvé dans la BDD, on lui affecte ses nouvelles valeurs
@@ -118,11 +118,6 @@ public class CompteService {
             if (!"".equals(mail)) {
                 compte.setMail(mail);
             }
-            // Mot de passe du compte
-            if (!"".equals(mdp)) {
-                String mdpCrypt = cryptageMDP(mdp); // Cryptage du nouveau mot de passe
-                compte.setMdp(mdpCrypt);
-            }
             
             //Formations du compte
             if(!compte.getType().equals(TypeCompte.responsable_commission)&&!compte.getType().equals(TypeCompte.secrétaire_formation)&&!compte.getType().equals(TypeCompte.responsable_formation)){
@@ -145,14 +140,6 @@ public class CompteService {
      * @return rien
      */
     public void ajouterUtilisateur(Compte nouveauCompte) {
-        //récupération du mot de passe
-        String mdp = nouveauCompte.getMdp();
-
-        //Cryptage du mot de passe
-        String mdpCryptee = cryptageMDP(mdp);
-
-        //ajout dans la base de données avec le mot de passe cryptee
-        nouveauCompte.setMdp(mdpCryptee);
         compteDAO.save(nouveauCompte);
     }
     

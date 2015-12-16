@@ -35,12 +35,6 @@
             <input type="text" name="email" id="mail" class="form-control" placeholder="email" required>
         </div>
     </div>
-    <div class="form-group">
-        <label for="mdp" class="col-md-2 control-label">Mot de passe</label>
-        <div class="col-md-3">
-            <input type="password" name="mdp" id="mdp" class="form-control" placeholder="mot de passe" required>
-        </div>
-    </div>
     <div id="type_account">
         <div class="form-group">
             <label for="mdp" class="col-md-2 control-label">Type</label>

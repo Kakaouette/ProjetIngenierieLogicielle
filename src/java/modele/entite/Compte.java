@@ -34,9 +34,6 @@ public class Compte implements Serializable {
     @Column(unique = true, nullable = false)
     private String login;
     
-    @Column (nullable = false)
-    private String mdp;
-    
     @Column(nullable = false)
     private String nom;
     
@@ -56,9 +53,8 @@ public class Compte implements Serializable {
     public Compte() {
     }
 
-    public Compte(String login, String mdp, String nom, String prenom, String mail, TypeCompte type, List<Formation> formationAssocie) {
+    public Compte(String login, String nom, String prenom, String mail, TypeCompte type, List<Formation> formationAssocie) {
         this.login = login;
-        this.mdp = mdp;
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -80,14 +76,6 @@ public class Compte implements Serializable {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getMdp() {
-        return mdp;
-    }
-
-    public void setMdp(String mdp) {
-        this.mdp = mdp;
     }
 
     public String getNom() {
@@ -134,7 +122,6 @@ public class Compte implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 29 * hash + Objects.hashCode(this.login);
-        hash = 29 * hash + Objects.hashCode(this.mdp);
         hash = 29 * hash + Objects.hashCode(this.nom);
         hash = 29 * hash + Objects.hashCode(this.prenom);
         hash = 29 * hash + Objects.hashCode(this.mail);
@@ -153,9 +140,6 @@ public class Compte implements Serializable {
         }
         final Compte other = (Compte) obj;
         if (!Objects.equals(this.login, other.login)) {
-            return false;
-        }
-        if (!Objects.equals(this.mdp, other.mdp)) {
             return false;
         }
         if (!Objects.equals(this.nom, other.nom)) {

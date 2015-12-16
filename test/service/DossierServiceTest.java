@@ -72,10 +72,10 @@ public class DossierServiceTest {
         etudiant = new Etudiant("1", "n", "p", "pays", "a", "M", adresse);
         etudiant2 = new Etudiant("2", "nn", "pp", "pays", "a", "M", adresse);
         formation = new Formation("d", 0, null, null, "i", null);
-        c = new Compte("l", "m", "n", "p", "m", TypeCompte.admin, null);
+        c = new Compte("l", "n", "p", "m", TypeCompte.admin, null);
         historique = new Historique(new Date(), "Message", "Action", c);
         dossier = new Dossier();
-        compte = new Compte("adminlogin", "mdpadmin", "Duvalle", "Pierre", "mail@mesmails.fr", TypeCompte.admin, null);
+        compte = new Compte("adminlogin", "Duvalle", "Pierre", "mail@mesmails.fr", TypeCompte.admin, null);
         compteDAO.save(compte);
         compte = compteDAO.getComptebyIdentifiant("adminlogin");
     }
@@ -492,7 +492,7 @@ public class DossierServiceTest {
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
         Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
-        Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
+        Compte c = new Compte("testClass", "test", "class", "huehue", TypeCompte.admin, null);
         Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
         List<Historique> lesHist = new ArrayList<>();
         lesHist.add(hist);
@@ -516,7 +516,7 @@ public class DossierServiceTest {
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
         Etudiant etu = new Etudiant("1234abcd", "Doux", "George", "pays", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
-        Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
+        Compte c = new Compte("testClass", "test", "class", "huehue", TypeCompte.admin, null);
         Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
         List<Historique> lesHist = new ArrayList<>();
         lesHist.add(hist);
@@ -558,7 +558,7 @@ public class DossierServiceTest {
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
         Etudiant etu = new Etudiant("1234abcd", "Doux", "pays", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
-        Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
+        Compte c = new Compte("testClass", "test", "class", "huehue", TypeCompte.admin, null);
         Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
         List<Historique> lesHist = new ArrayList<>();
         lesHist.add(hist);
@@ -582,7 +582,7 @@ public class DossierServiceTest {
         Date d = new Date(date);
         Formation form = new Formation("descForm", 50, new Date(), new Date(), "Intitulé de formation", null);
         Etudiant etu = new Etudiant("1234abcd", "Doux", "pays", "George", "la montagne ça vous gagne", "Masculin", new Adresse("17000","La Rochelle"));
-        Compte c = new Compte("testClass", "azerty", "test", "class", "huehue", TypeCompte.admin, null);
+        Compte c = new Compte("testClass", "test", "class", "huehue", TypeCompte.admin, null);
         Historique hist = new Historique(new Date(dateHist), "Bonjour", "huehue", c);
         List<Historique> lesHist = new ArrayList<>();
         lesHist.add(hist);

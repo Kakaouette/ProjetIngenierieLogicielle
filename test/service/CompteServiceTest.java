@@ -153,7 +153,7 @@ public class CompteServiceTest {
         //String login, String mdp, String nom, String prenom, String mail, TypeCompte type,
         String identifiantTest = "test1";
         String mdpTest = "pass";
-        Compte unCompte = new Compte(identifiantTest, mdpTest, "NomTest", "PrenomTest", "a@e.com", TypeCompte.admin, uneListeDeFormationVide);
+        Compte unCompte = new Compte(identifiantTest, "NomTest", "PrenomTest", "a@e.com", TypeCompte.admin, uneListeDeFormationVide);
         compteDAO.save(unCompte);
 
         boolean done = instance.supprimerUtilisateur(compteDAO.getComptebyIdentifiant(identifiantTest).getId());
@@ -173,7 +173,7 @@ public class CompteServiceTest {
         //String login, String mdp, String nom, String prenom, String mail, TypeCompte type,
         String identifiantTest = "testSupprimerUtilisateurAvecHistorique";
         String mdpTest = "pass";
-        Compte unCompte = new Compte(identifiantTest, mdpTest, "NomTest", "PrenomTest", "a@e.com", TypeCompte.admin, uneListeDeFormationVide);
+        Compte unCompte = new Compte(identifiantTest, "NomTest", "PrenomTest", "a@e.com", TypeCompte.admin, uneListeDeFormationVide);
 
         //Date date, String message, String action, Compte compte
         Historique historique = new Historique(new Date(), "Simple test unitaire de suppression de compte", "simple test unitaire de suppression de compte", unCompte);

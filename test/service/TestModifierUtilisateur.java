@@ -46,7 +46,7 @@ public class TestModifierUtilisateur {
     {
         List<Formation> formationToSet = new ArrayList<>();
         formationToSet.add(new FormationDAO().getById(15));
-        Compte test = new Compte("Test",cryptageMDP("test"),"Test","Test","test@test.com",TypeCompte.secrétaire_formation,formationToSet);
+        Compte test = new Compte("Test","Test","Test","test@test.com",TypeCompte.secrétaire_formation,formationToSet);
         //test.setId(8);
         new CompteDAO().save(test);
     }
@@ -78,7 +78,7 @@ public class TestModifierUtilisateur {
         String mdp="test";
         List<Formation> formations = new ArrayList();
         boolean expResult = true;
-        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,formations);
+        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail,formations);
         assertEquals(expResult, resultat);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -99,7 +99,7 @@ public class TestModifierUtilisateur {
         String mdp="";
         List<Formation> formations = new ArrayList();
         boolean expResult = true;
-        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,formations);
+        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail,formations);
         assertEquals(expResult, resultat);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -120,7 +120,7 @@ public class TestModifierUtilisateur {
         String mdp="";
         List<Formation> formations = new ArrayList();
         boolean expResult = true;
-        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,formations);
+        Boolean resultat = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail,formations);
         assertEquals(expResult, resultat);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -135,7 +135,7 @@ public class TestModifierUtilisateur {
         int idCompte=new CompteDAO().getComptebyLogin("test").getId();
         List<Formation> formationToSet = new ArrayList<>();
         formationToSet.add(new FormationDAO().getById(14));
-        new CompteService().effectuerModification(idCompte,"responsable_formation", "", "", "", "", "",formationToSet);
+        new CompteService().effectuerModification(idCompte,"responsable_formation", "", "", "", "",formationToSet);
         
         String type="admin";
         String login="";
@@ -146,7 +146,7 @@ public class TestModifierUtilisateur {
         List<Formation> formations = new ArrayList();
         //fail("A modifier lorsque la classe CompteService aura été modifiée pour gerer la liste des formations");
         
-        new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,formations);
+        new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail,formations);
         formations = new CompteDAO().getById(idCompte).getFormationAssocie();
         List<Formation> resultat = new ArrayList();
         assertEquals(formations,resultat);
@@ -173,7 +173,7 @@ public class TestModifierUtilisateur {
         List<Formation> formations = new ArrayList();
         //fail("A modifier lorsque la classe CompteService aura été modifiée pour gerer la liste des formations");
         //On execute la fonction qui va update le compte
-        new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp, formations);
+        new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, formations);
         
         //On recupere la liste des formations du compte après update
         formations = new CompteDAO().getById(idCompte).getFormationAssocie();

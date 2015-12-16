@@ -64,13 +64,6 @@
             <input type="text" name="email" id="email" class="form-control" value="<% out.print(request.getAttribute("email")); %>" placeholder="email">
         </div>
     </div>
-    
-    <div class="form-group">
-        <label for="motDePasse" class="col-sm-2 control-label">Mot de passe</label>
-        <div class="col-sm-3">
-            <input type="password" name="motDePasse" id="motDePasse" class="form-control" placeholder="mot de passe">
-        </div>
-    </div>
     <div id="type_account">
         <div class="form-group">
             <label for="mdp" class="col-md-2 control-label">Type</label>

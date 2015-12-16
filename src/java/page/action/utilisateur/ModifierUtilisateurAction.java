@@ -39,44 +39,44 @@ public class ModifierUtilisateurAction implements Action {
             String nom = request.getParameter("nom");
             String prenom = request.getParameter("prenom");
             String mail = request.getParameter("email");
-            String mdp = request.getParameter("motDePasse");
             int idCompte = Integer.parseInt(request.getParameter("id"));
             String[] form = request.getParameterValues("formations");
-            
+
             List<Formation> lesFormations = new ArrayList<>();
             FormationDAO formationDAO = new FormationDAO();
             boolean aucuneFormations = false;
-            for(String idS : form){
-                if(idS.equals("Aucune formation") && !(!type.equals(TypeCompte.responsable_formation.toString()) || !type.equals(TypeCompte.responsable_commission.toString()) || !type.equals(TypeCompte.secrétaire_formation.toString()))){
-                    lesFormations.clear();
-                    //System.out.println("test");
-                    break;
-                }
-                else if(idS.equals("Aucune formation") && !(type.equals(TypeCompte.responsable_formation.toString()) || type.equals(TypeCompte.responsable_commission.toString()) || type.equals(TypeCompte.secrétaire_formation.toString())))
-                {
-                    aucuneFormations = true;
-                    //System.out.println("test1");
-                    break;
-                }else{
-                    //System.out.println("test2");
-                    try{
-                        int id = Integer.parseInt(idS);
-                        lesFormations.add(formationDAO.getById(id));
-                    }catch(Exception e){}
+            if (form != null) {
+                for (String idS : form) {
+                    if (idS.equals("Aucune formation") && !(!type.equals(TypeCompte.responsable_formation.toString()) || !type.equals(TypeCompte.responsable_commission.toString()) || !type.equals(TypeCompte.secrétaire_formation.toString()))) {
+                        lesFormations.clear();
+                        //System.out.println("test");
+                        break;
+                    } else if (idS.equals("Aucune formation") && !(type.equals(TypeCompte.responsable_formation.toString()) || type.equals(TypeCompte.responsable_commission.toString()) || type.equals(TypeCompte.secrétaire_formation.toString()))) {
+                        aucuneFormations = true;
+                        //System.out.println("test1");
+                        break;
+                    } else {
+                        //System.out.println("test2");
+                        try {
+                            int id = Integer.parseInt(idS);
+                            lesFormations.add(formationDAO.getById(id));
+                        } catch (Exception e) {
+                        }
+                    }
                 }
             }
-            
+
             Compte compte = new CompteDAO().getById(idCompte);
-            
-            if(aucuneFormations == true)
-            {
+
+            if (aucuneFormations == true) {
                 lesFormations = compte.getFormationAssocie();
             }
-            
+
             compte.setFormationAssocie(lesFormations);
-            
-            if(compte == null)
+
+            if (compte == null) {
                 return new VoirGestionUtilisateurAction().execute(request, response);
+            }
 
             if (type == null) {
                 type = compte.getType().name();
@@ -90,9 +90,6 @@ public class ModifierUtilisateurAction implements Action {
             if (mail == null) {
                 mail = compte.getMail();
             }
-            if (mdp == null) {
-                mdp = compte.getMdp();
-            }
 
             try {
                 InternetAddress emailAddr = new InternetAddress(mail);
@@ -102,7 +99,7 @@ public class ModifierUtilisateurAction implements Action {
                 return new VoirModifierComptesAction().execute(request, response);
             }
 
-            Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, mdp,lesFormations);
+            Boolean update = new CompteService().effectuerModification(idCompte, type, login, nom, prenom, mail, lesFormations);
             if (update == false) {
                 //System.out.println("test");
                 request.setAttribute("message", "ERREUR : Modification non effectuée, une erreur est présente dans le formulaire");
@@ -111,9 +108,9 @@ public class ModifierUtilisateurAction implements Action {
                 request.setAttribute("nom", nom);
                 request.setAttribute("prenom", prenom);
                 request.setAttribute("email", mail);
-                request.setAttribute("formation",lesFormations);
+                request.setAttribute("formation", lesFormations);
                 return new VoirModifierComptesAction().execute(request, response);
-            }else if(aucuneFormations == true) {
+            } else if (aucuneFormations == true) {
                 request.setAttribute("message", "WARNING : Les modification ont été effectuée, cependant cet utilisateur necessite d'être associé à des formations. Or il n'en possèdait aucune lors de votre modification. La modification des formations à donc été ignorée.");
                 request.setAttribute("login", login);
                 System.out.println(TypeCompte.valueOf(type));
@@ -122,9 +119,9 @@ public class ModifierUtilisateurAction implements Action {
                 request.setAttribute("nom", nom);
                 request.setAttribute("prenom", prenom);
                 request.setAttribute("email", mail);
-                request.setAttribute("formation",lesFormations);
+                request.setAttribute("formation", lesFormations);
                 return new VoirModifierComptesAction().execute(request, response);
-            }else {
+            } else {
                 request.setAttribute("message", "Modification effectuée");
 
                 return new VoirGestionUtilisateurAction().execute(request, response);
