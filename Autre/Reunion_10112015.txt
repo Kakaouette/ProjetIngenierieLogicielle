@@ -1,0 +1,27 @@
+Serveur KAS
+URL DAP/OpenDAP (utilisateur) ????
+Une personne dessus
+
+Serveur Travis-ci
+(Test unitaire JUnit)
+(pullrequest aussi)
+
+
+Etat Transition : Ajouter états "En Transfert"	
+	Pierre
+CU : Un par acteur => détailler ?
+	Joseph	
+Model : Un par couche !
+	Interfaces ???
+	
+Enchainement IHM : corriger
+
+
+
+Admissibilité :
+	Différencier IHM "Documents Nécessaires" et "Admissibilité"
+	Valentin	
+Gestion dossiers : Revoir IHM => codes couleurs (Web inspiration)
+	Dorian
+Permissions/roles : Revoir IHM => codes couleurs par droits
+	Rouge/Jaune/Vert/Bleu/blanc

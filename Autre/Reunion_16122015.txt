@@ -1,0 +1,66 @@
+CU/TEST
+Rapport TEST / Titre + Union de tout
+Diagramme Activité
+Scénario nominal Sequence
+
+Diagramme BD/Domaine
+Diagramme CU
+
+IE 10/11 Arthur
+Accueil Thomas
+Chemin complet dossier Moi
+
+User
+Ajout Joseph
+Modifier Jordan
+Suppr Etienne
+
+Dossier 
+Ajout Arthur
+Suppr Thomas
+Modif Dorian
+Liste Val
+
+Formation
+Ajout Sahare
+Suppr Sahare
+Modif Etienne
+
+Fonctionnalités : Pierre
+Prévu/Option/AJout
+
+Problèmes/Contraintes
+Analyse :
+
+Sprint 1 :
+Prise en main GIT
+Serveur CAS
+Prise en main architecture
+Tests
+Communication
+Temps / Intégration
+=> 1ere semaine de code en groupe (suggestion)
+Oubli formation
+
+Sprint 2 :
+Admissibilité
+Modif BD
+Script
+Tests/Modif
+
+Sprint 3 :
+Etat Navette
+Changement enum Etat/typesUsers => BD
+DOCX => PDF
+
+Général :
+Tests 
+Compréhension/Interprétation sujet
+Temps / Allongement sprint
+GIT (certains)
+Communication
+Intégrateur
+
+Decisions
+SPRINT entrelacés
+Modif BD
