@@ -27,13 +27,7 @@
         <span class="input-group-addon" id="addMdp"><i class="fa fa-lock"></i></span>
         <input type="password" name="mdp" id="mdp" class="form-control" placeholder="Mot de passe" aria-describedby="addMdp" required>
     </div>
-    <!--[if IE]>
-    <input type="hidden" name="action" value="gererAuthentification" />
-    <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-    <![endif]-->
-    <!--[if !IE]><!-->
     <button class="btn btn-lg btn-success btn-block" type="submit" name="action" value="gererAuthentification">Connexion</button>
-    <!--<![endif]-->
 </form>
 
 <%  String message = (String) request.getAttribute("message");

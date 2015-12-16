@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package page.action.compte;
+package page.action.utilisateur;
 
-import page.action.compte.VoirModifierComptesAction;
-import page.action.compte.VoirGestionUtilisateurAction;
+import page.action.utilisateur.VoirModifierComptesAction;
+import page.action.utilisateur.VoirGestionUtilisateurAction;
 import page.action.accueil.VoirIndexAction;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

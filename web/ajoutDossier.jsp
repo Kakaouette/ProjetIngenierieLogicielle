@@ -29,7 +29,7 @@
     };
     
     function loadJustificatifs(){
-       $("form#formation").prop("action", "Navigation?action=voirAjoutDossier");
+       $("form#formation").prop("action", "Navigation?action=voirAjoutDossier&reload=true");
        $("form#formation").submit();
     };
     function verifAllChecked(){
@@ -213,6 +213,18 @@
         </div>
     </div>
     
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="nationalite">Nationalité : </label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="nationalite-0">
+                <input type="radio" name="nationalite" id="nationalite-0" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.francais.toString())){%>checked<%}%>> Français
+            </label>
+            <label class="radio-inline" for="nationalite-1">
+                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.etranger.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
+            </label>
+        </div>
+    </div>
+            
     <div id="conteneurNationalite">
         <%if(request.getAttribute("nationalite") != null){
         if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>
@@ -265,19 +277,7 @@
             
         </div>
     </div>
-         
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="nationalite">Nationalité : </label>
-        <div class="col-md-4">
-            <label class="radio-inline" for="nationalite-0">
-                <input type="radio" name="nationalite" id="nationalite-0" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.francais.toString())){%>checked<%}%>> Français
-            </label>
-            <label class="radio-inline" for="nationalite-1">
-                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.etranger.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
-            </label>
-        </div>
-    </div>
-        
+            
     <div class="form-group">
         <label for="justificatifs" class="col-sm-2 control-label">Justificatifs : </label>
         <div class="col-sm-3" id="justificatifsDiv">
@@ -317,7 +317,7 @@
             <a class="btn btn-default pull-right" href="Navigation?action=voirGestionDossiers">Annuler</a>
         </div>
         <div class="col-md-4">
-            <button id="ask" name="bouton" type="submit" class="btn btn-default" value="demanderPiecesManquantes">Demander les documents manquants</button>
+            <button id="askDocMissed" name="bouton" type="submit" class="btn btn-default" value="demanderPiecesManquantes">Demander les documents manquants</button>
         </div>
         <div class="col-md-1">
             <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer">Enregistrer</button>

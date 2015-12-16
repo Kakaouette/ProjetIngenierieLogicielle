@@ -1,0 +1,52 @@
+BD
+	Creation
+	Nico Val
+	Requetes
+	Nico Val
+	Peuplement
+	Nico Val
+
+Connexion
+	Interface
+	Nico Val
+	Implémentation
+	Nico Val
+	Tests
+	Val
+	
+Creer user
+	Interface
+	Thomas
+	Implémentation
+	Joseph
+	Tests
+	Thomas
+
+Page Admin (access admin funcs)
+	Interface
+	Sahare
+	Implémentation
+	Arthur
+	Tests
+	Sahare
+	
+Modifier user
+	Interface
+	Pierre
+	Implémentation
+	Jordan
+	Tests
+	Pierre
+	
+Delete user
+	Interface
+	Etienne
+	Implémentation
+	Dorian
+	Delete JPA
+	Dorian
+	Tests
+	Etienne
+	
+Veille CAS
+Nicolas

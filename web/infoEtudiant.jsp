@@ -10,7 +10,6 @@
 <%@page contentType="application/json; charset=UTF-8"%>
 
 <%
-    //Etudiant etu = (Etudiant) new EtudiantDAO().getById(1);
     Etudiant etu = (Etudiant) request.getAttribute("etudiant");
     String json = "{";
     json+="\"nom\":"+"\""+etu.getNom()+"\""+",";
@@ -32,6 +31,4 @@
     json+="\"pays\":"+"\""+etu.getPays()+"\""+"}";
     
     out.print(json);
-    //JSONObject json=new JSONObject();
-    //json
 %>

@@ -60,7 +60,7 @@
                     </button>
                     <div class="navbar-header">
                         <a class="navbar-brand collapsed" href="Navigation?action=index"><img id="logo" src="https://apps.univ-lr.fr/cas/themes/esup/images/logo-ulr.png"/><div class="col-centered brand-text"> Gestion des inscriptions</div></a>
-                </div>
+                    </div>
                 </div>
                 <div class="container" id="menu">
                     <div id="navbar" class="navbar-collapse collapse cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
@@ -85,31 +85,34 @@
                                         if (!unEnsembleMenu.getValue().isEmpty()) {
                                             htmlMenu += "class='dropdown-toggle' data-toggle='dropdown'";
                                         }
-                                        
+
                                         htmlMenu += ">\n";
-                                        htmlMenu += "<span class='fa "+ unEnsembleMenu.getKey().getIcon() +"'></span> " + unEnsembleMenu.getKey().getTexte();
-                                        
+                                        htmlMenu += "<span class='fa " + unEnsembleMenu.getKey().getIcon() + "'></span> " + unEnsembleMenu.getKey().getTexte();
+
                                         if (!unEnsembleMenu.getValue().isEmpty()) {
                                             htmlMenu += "<span class='caret'></span>";
                                         }
-                                        
+
                                         htmlMenu += "</a>";
-                                        
+
                                         if (!unEnsembleMenu.getValue().isEmpty()) {
                                             htmlMenu += "<ul class='dropdown-menu'>\n";
                                             for (Menu subMenu : unEnsembleMenu.getValue()) {
-                                                if(subMenu.getAction().getPage().getTypeAuthoriser().getValue() <= c.getType().getValue())
-                                                    htmlMenu += "<li><a href='Navigation?action=" + subMenu.getAction().getId() + "'><i class='fa "+ subMenu.getIcon() +"'></i> " + subMenu.getTexte() + "</a></li>\n";
+                                                if (subMenu.getAction().getPage().getTypeAuthoriser().getValue() <= c.getType().getValue()) {
+                                                    htmlMenu += "<li><a href='Navigation?action=" + subMenu.getAction().getId() + "'><i class='fa " + subMenu.getIcon() + "'></i> " + subMenu.getTexte() + "</a></li>\n";
+                                                }
                                             }
                                             htmlMenu += "</ul>\n";
                                         }
-                                        
+
                                         htmlMenu += "</li>\n";
                                         out.print(htmlMenu);
                                     }
                                 }
                             %>
-                            <li class="pull-right">
+                        </ul>
+                        <ul class="nav navbar-nav pull-right">
+                            <li>
                                 <a href=Navigation?action=gererAuthentification&session=deco>
                                     <i class="fa fa-power-off"></i> Déconnexion
                                 </a>

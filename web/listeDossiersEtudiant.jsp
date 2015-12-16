@@ -56,13 +56,7 @@
 </table>
 <div class="row">
     <div class="col-md-1">
-        <!--[if IE]>
-        <input type="hidden" name="action" value="connexionEtudiant" />
-        <a class="btn btn-primary pull-right" href="Etudiant">Deconnexion</a>
-        <![endif]-->
-        <!--[if !IE]><!-->
         <a class="btn btn-info" href="Etudiant">Deconnexion</a>
-        <!--<![endif]-->
     </div>
 </div>
 <% if(request.getAttribute("message") != null){ %>
