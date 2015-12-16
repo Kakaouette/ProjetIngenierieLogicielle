@@ -41,25 +41,4 @@ public class ActionService {
         }
         return mapActions;
     }
-
-    public Map<String, Integer> SelectAllSurbrillance() {
-        List<Menu> lesMenus = new MenuDAO().SelectAll();
-        Map<String, Integer> mapAMenu = new HashMap<>();
-        for (Menu menu : lesMenus) {
-            if (menu.getAction() != null) {
-                int subrillance = -1;
-                Menu menuEnCours = menu;
-                while (subrillance == -1) {
-                    if (menuEnCours.getMenuSuperieur() != null) {
-                        menuEnCours = menuEnCours.getMenuSuperieur();
-                    } else {
-                        subrillance = menuEnCours.getId();
-                    }
-                }
-
-                mapAMenu.put(menu.getAction().getId(), subrillance);
-            }
-        }
-        return mapAMenu;
-    }
 }

@@ -43,9 +43,6 @@ public class ActionFilter implements Filter {
         if (fc.getServletContext().getAttribute("action") == null) {
             fc.getServletContext().setAttribute("action", new ActionService().SelectAlltoMap());
         }
-        if (fc.getServletContext().getAttribute("menuSelect") == null) {
-            fc.getServletContext().setAttribute("menuSelect", new ActionService().SelectAllSurbrillance());
-        }
         if (fc.getServletContext().getAttribute("menu") == null) {
             fc.getServletContext().setAttribute("menu", new MenuService().SelectAlltoMap());
         }
@@ -71,7 +68,7 @@ public class ActionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) sr;
         HttpServletResponse response = (HttpServletResponse) sr1;
         
-        Map<String, Action> lesActions = (Map<String, Action>) sr.getServletContext().getAttribute("action");       
+        Map<String, Action> lesActions = (Map<String, Action>) sr.getServletContext().getAttribute("action");
         String attributeAction = (String) request.getParameter("action");
         Compte compte = (Compte) request.getSession().getAttribute("compte");
                 

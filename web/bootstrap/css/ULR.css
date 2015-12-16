@@ -225,10 +225,6 @@ div.dataTables_wrapper {clear: both;}
     padding: 0px;
 }
 
-#ulnav{
-    width: 100%;
-}
-
 #logo{
     height: 40px;
     display: initial;
@@ -246,13 +242,8 @@ div.dataTables_wrapper {clear: both;}
     vertical-align: middle;
 }
 
-@media screen and (min-width: 1652px) {
-    .brand-text{
-        display: inline-block;
-    }
-}
 
-@media screen and (max-width: 1652px) {
+@media screen and (max-width: 1652px) and (min-width: 768px) {
     .brand-text{
         display: none;
     }

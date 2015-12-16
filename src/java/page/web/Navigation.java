@@ -7,6 +7,7 @@ package page.web;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,8 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import modele.dao.PageDAO;
 import page.action.Action;
 import page.action.accueil.*;
-import service.ActionService;
-import service.MenuService;
+import javafx.util.Pair;
+import modele.dao.MenuDAO;
+import modele.entite.Menu;
 
 /**
  *
@@ -68,7 +70,6 @@ public class Navigation extends HttpServlet {
         String vue = "";
 
         Map<String, modele.entite.Action> lesActions = (Map<String, modele.entite.Action>) this.getServletContext().getAttribute("action");
-        Map<String, Integer> lesActionMenuSelect = (Map<String, Integer>) this.getServletContext().getAttribute("menuSelect");
         try {
             Class classeActionImpl = Class.forName("page.action." + lesActions.get(action).getClassAction()); // Accès à la classe DAO correspondant
             Constructor constr = classeActionImpl.getConstructor(); // Obtenir le constructeur ()
@@ -81,12 +82,22 @@ public class Navigation extends HttpServlet {
             //vue récupére le nom de la jsp a afficher
             vue = classeAction.execute(request, response);
             //menu a mettre en surbrillance
-
-            Integer menu = lesActionMenuSelect.get(action);
-            
-            if(menu == null){
-                menu = lesActionMenuSelect.get("index");
+            Integer menu = 0;
+            try{
+                String pack = lesActions.get(action).getClassAction().substring(0, lesActions.get(action).getClassAction().indexOf('.'));
+                List<Pair<Menu, List<Menu>>> lesMenus = (List<Pair<Menu, List<Menu>>>) this.getServletContext().getAttribute("menu");
+                for(Pair<Menu, List<Menu>> root : lesMenus){
+                    if(root.getKey().getTexte().toLowerCase().contains(pack.toLowerCase())){
+                        menu = root.getKey().getId();
+                        break;
+                    }
+                }
+            }catch(Exception e){
+                menu = ((List<Pair<Menu, List<Menu>>>) this.getServletContext().getAttribute("menu")).get(0).getKey().getId();
             }
+            
+            if(menu == null)
+                menu = ((List<Pair<Menu, List<Menu>>>) this.getServletContext().getAttribute("menu")).get(0).getKey().getId();
             
             request.setAttribute("titre", new PageDAO().getById(vue).getTitre());
             request.setAttribute("menuS", menu);

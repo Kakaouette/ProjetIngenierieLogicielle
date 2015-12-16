@@ -252,12 +252,12 @@ public class GestULRPeuplement {
         Action a25 = new Action("genererLettre", "dossier.GenerationLettresAction", page_consulterDossier);
         Action a26 = new Action("etudiantAutocompletion", "dossier.EtudiantAutocompletionAction", p12);
         /***Gestion comptes***/
-        Action a10 = new Action("voirGestionComptes", "compte.VoirGestionUtilisateurAction", page_gestionComptes);
-        Action a11 = new Action("voirAjoutCompte", "compte.voirAjouterCompteAction", page_createUser);
-        Action a12 = new Action("creerUtilisateur", "compte.AjouterCompteAction", page_gestionComptes);
-        Action a13 = new Action("voirModifierComptes", "compte.VoirModifierComptesAction", page_modifierUtilisateur);
-        Action a14 = new Action("modifierUtilisateur", "compte.ModifierUtilisateurAction", page_gestionComptes);
-        Action a15 = new Action("supprimerUtilisateur", "compte.SupprimerUtilisateurAction", page_gestionComptes);
+        Action a10 = new Action("voirGestionComptes", "utilisateur.VoirGestionUtilisateurAction", page_gestionComptes);
+        Action a11 = new Action("voirAjoutCompte", "utilisateur.voirAjouterCompteAction", page_createUser);
+        Action a12 = new Action("creerUtilisateur", "utilisateur.AjouterCompteAction", page_gestionComptes);
+        Action a13 = new Action("voirModifierComptes", "utilisateur.VoirModifierComptesAction", page_modifierUtilisateur);
+        Action a14 = new Action("modifierUtilisateur", "utilisateur.ModifierUtilisateurAction", page_gestionComptes);
+        Action a15 = new Action("supprimerUtilisateur", "utilisateur.SupprimerUtilisateurAction", page_gestionComptes);
         /***Gestion formations***/
         Action a16 = new Action("voirGestionFormation", "formation.VoirGestionFormationsAction", page_gestionFormations);
         Action a17 = new Action("voirAjoutFormation", "formation.VoirAjoutFormationAction", page_ajoutFormation);
@@ -331,8 +331,8 @@ public class GestULRPeuplement {
         Menu m6 = new Menu("Afficher les formations", menu_formations, act_formations, "fa-edit");
         Menu m7 = new Menu("Nouvelle formation", menu_formations, act_ajout_formations, "fa-plus");
         Menu m8 = new Menu("Modifier les dates d'inscription", menu_formations, act_dates_inscription, "fa-calendar");
-        Menu m9 = new Menu("Afficher les comptes", menu_comptes, act_comptes, "fa-edit");
-        Menu m10 = new Menu("Creer un nouveau compte", menu_comptes, act_ajout_compte, "fa-plus");
+        Menu m9 = new Menu("Afficher les utilisateurs", menu_comptes, act_comptes, "fa-edit");
+        Menu m10 = new Menu("Creer un nouveau utilisateur", menu_comptes, act_ajout_compte, "fa-plus");
         
         new MenuDAO().save(m4);
         new MenuDAO().save(m5);
