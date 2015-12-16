@@ -6,6 +6,7 @@
 package modele.entite;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
@@ -55,4 +56,31 @@ public class Adresse implements Serializable{
     public String getVille() {
         return ville;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.codePostal);
+        hash = 13 * hash + Objects.hashCode(this.ville);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Adresse other = (Adresse) obj;
+        if (!Objects.equals(this.codePostal, other.codePostal)) {
+            return false;
+        }
+        if (!Objects.equals(this.ville, other.ville)) {
+            return false;
+        }
+        return true;
+    }
+    
 }

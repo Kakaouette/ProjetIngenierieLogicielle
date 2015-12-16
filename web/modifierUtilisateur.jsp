@@ -4,10 +4,15 @@
     Author     : Pierre
 --%>
 
+<%@page import="modele.dao.CompteDAO"%>
+<%@page import="service.CompteService"%>
+<%@page import="modele.entite.Formation"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="Modele/entete_avec_menu.jsp" %>
 <script src="jQuery/jquery-ui-1.9.2.custom.min.js"></script>
 <link rel="stylesheet" href="bootstrap/jquery-custom/jquery-ui-1.10.0.custom.css">
+<link href="bootstrap/css/register.css" rel="stylesheet">
+<script src="jQuery/register.js"></script>
 <script type="text/javascript">
     $(function() {
         $('#dialog').hide();
@@ -33,77 +38,94 @@
 
 <form action="Navigation?action=modifierUtilisateur&id=<% out.print(request.getAttribute("id")); %>" method="POST" class="form-horizontal">
     <div class="form-group">
-        <label for="type" class="col-sm-2 control-label">Type</label>
-        <div class="col-sm-3">
-            <select name="type" id="type" class="form-control">
-                <% out.print(request.getAttribute("type"));%>
-                <option value="<%out.print(TypeCompte.admin.name());%>" <%if(request.getAttribute("type") == TypeCompte.admin){ %>selected="selected"<%}%>>Admin</option>
-                <option value="<%out.print(TypeCompte.directeur_pole.name());%>" <%if(request.getAttribute("type") == TypeCompte.directeur_pole){ %>selected="selected"<%}%>>Directeur de pole</option>
-                <option value="<%out.print(TypeCompte.secretaire_general.name());%>" <%if(request.getAttribute("type") == TypeCompte.secretaire_general){ %>selected="selected"<%}%>>Secrétaire général</option>
-                <option value="<%out.print(TypeCompte.secretaire_formation.name());%>" <%if(request.getAttribute("type") == TypeCompte.secretaire_formation){ %>selected="selected"<%}%>>Secrétaire de formation</option>
-                <option value="<%out.print(TypeCompte.reponsable_formation.name());%>" <%if(request.getAttribute("type") == TypeCompte.reponsable_formation){ %>selected="selected"<%}%>>Responsable de formation</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
         <label for="login" class="col-sm-2 control-label">Login</label>
         <div class="col-sm-3">
-            <input type="text" name="login" id="login" class="form-control" value="<% out.print(request.getAttribute("login")); %>" required>
+            <input type="text" name="login" id="login" class="form-control" value="<% out.print(request.getAttribute("login")); %>" placeholder="login" required>
         </div>
     </div>
     
     <div class="form-group">
         <label for="nom" class="col-sm-2 control-label">Nom</label>
         <div class="col-sm-3">
-            <input type="text" name="nom" id="nom" class="form-control" value="<% out.print(request.getAttribute("nom")); %>" >
+            <input type="text" name="nom" id="nom" class="form-control" value="<% out.print(request.getAttribute("nom")); %>" placeholder="nom">
         </div>
     </div>
     
     <div class="form-group">
         <label for="prenom" class="col-sm-2 control-label">Prenom</label>
         <div class="col-sm-3">
-            <input type="text" name="prenom" id="prenom" class="form-control" value="<% out.print(request.getAttribute("prenom")); %>" >
+            <input type="text" name="prenom" id="prenom" class="form-control" value="<% out.print(request.getAttribute("prenom")); %>" placeholder="prénom">
         </div>
     </div>
     
     <div class="form-group">
         <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-3">
-            <input type="text" name="email" id="email" class="form-control" value="<% out.print(request.getAttribute("email")); %>" >
+            <input type="text" name="email" id="email" class="form-control" value="<% out.print(request.getAttribute("email")); %>" placeholder="email">
         </div>
     </div>
     
     <div class="form-group">
         <label for="motDePasse" class="col-sm-2 control-label">Mot de passe</label>
         <div class="col-sm-3">
-            <input type="password" name="motDePasse" id="motDePasse" class="form-control" placeholder="" >
+            <input type="password" name="motDePasse" id="motDePasse" class="form-control" placeholder="mot de passe">
+        </div>
+    </div>
+    <div id="type_account">
+        <div class="form-group">
+            <label for="mdp" class="col-md-2 control-label">Type</label>
+            <div class="col-md-3">
+                <select name="type" id="type" required class="form-control">
+                    <%
+                        TypeCompte[] lesTypes = TypeCompte.values();
+                        TypeCompte leType = (TypeCompte) request.getAttribute("type");
+                        for (TypeCompte t : lesTypes) {
+                    %>
+                    <option value="<%out.print(t.name()); %>" <%if(leType == t){ %>selected="selected"<%}%>><%out.print(t.toString());%></option>
+                    <% } %>
+                </select>
+            </div>
+        </div>
+        <div id="formation">
+            <div class="form-group">
+                <label for="recherche" class="col-md-2 control-label">Rechercher</label>
+                <div class="col-md-3">
+                    <input type="number" min="0" id="display" value="4" name="recherche" id="recherche" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="formations" class="col-md-2 control-label">Formation(s)</label>
+                <div class="col-md-3">
+                    <select name="formations" size="4" multiple>
+                        <option id="nope_formation">Aucune formation</option>
+                        <%
+                            List<Formation> formations = (List<Formation>) request.getAttribute("lesFormations");
+                            Compte compte = (Compte) request.getAttribute("compte");
+                            for (Formation f : formations) {
+                                if(compte.getFormationAssocie().contains(f))
+                                {
+                                    %><option value="<%out.print(f.getId());%>" selected><%out.print(f.getIntitule());%></option><%
+                                }
+                                else {
+                                    %><option value="<%out.print(f.getId());%>"><%out.print(f.getIntitule());%></option><%
+                                }   
+                            }
+                        %>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-offset-2">
+                <p><strong>Important</strong> : Pour sélectionner plusieurs formations, maintenir appuyé la touche <b>Ctrl</b> et cliquer sur les formations.</p>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 col-md-offset-2">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="enregistrerModifs" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
+        <div class="col-md-2">
+            <a class="btn btn-default pull-right" href="Navigation?action=voirGestionComptes">Annuler</a>
+        </div>
+        <div class="col-md-3">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
-            <!--<![endif]-->
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="annulerModifs" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
-            <a class="btn btn-primary" href="Navigation?action=afficherInformationsUtilisateur">Annuler</a>
-        </div>
-        <div class="col-md-2 col-md-offset-2">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="supprUtilisateur" />
-            <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
-            <a class="btn btn-primary btn-danger" onclick='createDialog(<% out.print(request.getAttribute("id")); %>)'>Supprimer</a>
+            <a class="btn btn-primary btn-danger pull-right" onclick='createDialog(<% out.print(request.getAttribute("id")); %>)'>Supprimer</a>
         </div>
     </div>
 </form><br/>

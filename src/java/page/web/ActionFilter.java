@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import modele.entite.Action;
 import modele.entite.Compte;
 import service.ActionService;
+import service.MenuService;
 
 /**
  *  Filtrage via les actions
@@ -39,8 +40,14 @@ public class ActionFilter implements Filter {
      */
     @Override
     public void init(FilterConfig fc) throws ServletException {
-        if(fc.getServletContext().getAttribute("action") == null){
+        if (fc.getServletContext().getAttribute("action") == null) {
             fc.getServletContext().setAttribute("action", new ActionService().SelectAlltoMap());
+        }
+        if (fc.getServletContext().getAttribute("menu") == null) {
+            fc.getServletContext().setAttribute("menu", new MenuService().SelectAlltoMap());
+        }
+        if (fc.getServletContext().getAttribute("menuType") == null) {
+            fc.getServletContext().setAttribute("menuType", new MenuService().SelectAlltoMapTypeCompte());
         }
     }
     
@@ -61,7 +68,7 @@ public class ActionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) sr;
         HttpServletResponse response = (HttpServletResponse) sr1;
         
-        Map<String, Action> lesActions = (Map<String, Action>) sr.getServletContext().getAttribute("action");       
+        Map<String, Action> lesActions = (Map<String, Action>) sr.getServletContext().getAttribute("action");
         String attributeAction = (String) request.getParameter("action");
         Compte compte = (Compte) request.getSession().getAttribute("compte");
                 
@@ -73,7 +80,7 @@ public class ActionFilter implements Filter {
         }else if(action == null){
             fc.doFilter(sr, sr1);
         //si l'action demandé contient un TypeCompte correspondant au type du compte connecté dans la session on laisse passer
-        }else if(action.getLesTypeCompte().contains(compte.getType())){
+        }else if(action.getPage().getTypeAuthoriser().getValue() <= compte.getType().getValue()){
             fc.doFilter(sr, sr1);
         }else{
         //sinon on redirige vers l'index

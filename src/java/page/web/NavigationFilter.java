@@ -51,13 +51,15 @@ public class NavigationFilter implements Filter {
 
         if (path.startsWith("/Navigation") && request.getSession().getAttribute("compte") != null) {
             fc.doFilter(sr, sr1);
-        }else if((request.getServletPath().equals("/index.jsp") || (request.getServletPath().equals("/Navigation")))&& request.getSession().getAttribute("compte") == null){
+        }else if(request.getServletPath().equals("/Navigation")&& request.getSession().getAttribute("compte") == null){
             fc.doFilter(sr, sr1);
         }else if(path.startsWith("/bootstrap/")){
             fc.doFilter(sr, sr1);
         }else if(path.startsWith("/images/")){
             fc.doFilter(sr, sr1);
         }else if(path.startsWith("/jQuery/")){
+            fc.doFilter(sr, sr1);
+        }else if(path.startsWith("/Etudiant")){
             fc.doFilter(sr, sr1);
         }else{
             response.sendRedirect(request.getContextPath() + "/Navigation");

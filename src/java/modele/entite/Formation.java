@@ -6,8 +6,10 @@
 package modele.entite;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +44,7 @@ public class Formation implements Serializable{
     @Temporal(TemporalType.DATE)
     Date fin;
     
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     String intitule;
     
     @OneToMany(targetEntity = Justificatif.class, cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
@@ -111,8 +113,68 @@ public class Formation implements Serializable{
     public List<Justificatif> getLesJustificatifs() {
         return lesJustificatifs;
     }
+    public List<Justificatif> getLesJustificatifs(TypeDossier typeDossier, TypeJustificatifEtranger nationalite) {
+        List<Justificatif> justificatifs = new ArrayList<Justificatif>();
+        for(Justificatif j : lesJustificatifs){
+            if(j.getTypeAdmissible() == typeDossier && j.getTypeNationalite() == nationalite){
+                justificatifs.add(j);
+            }
+        }
+        return justificatifs;
+    }
+    public Justificatif getJustificatif(String titre, TypeDossier typeDossier, TypeJustificatifEtranger nationalite) {
+        List<Justificatif> justificatifs = getLesJustificatifs(typeDossier, nationalite);
+        for(Justificatif j : justificatifs){
+            if(j.getTitre().equals(titre)){
+                return j;
+            }
+        }
+        return null;
+    }
 
     public void setLesJustificatifs(List<Justificatif> lesJustificatifs) {
         this.lesJustificatifs = lesJustificatifs;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.description);
+        hash = 67 * hash + this.nombrePlace;
+        hash = 67 * hash + Objects.hashCode(this.debut);
+        hash = 67 * hash + Objects.hashCode(this.fin);
+        hash = 67 * hash + Objects.hashCode(this.intitule);
+        hash = 67 * hash + Objects.hashCode(this.lesJustificatifs);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Formation other = (Formation) obj;
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (this.nombrePlace != other.nombrePlace) {
+            return false;
+        }
+        if (!Objects.equals(this.debut, other.debut)) {
+            return false;
+        }
+        if (!Objects.equals(this.fin, other.fin)) {
+            return false;
+        }
+        if (!Objects.equals(this.intitule, other.intitule)) {
+            return false;
+        }
+        if (!Objects.equals(this.lesJustificatifs, other.lesJustificatifs)) {
+            return false;
+        }
+        return true;
     }
 }

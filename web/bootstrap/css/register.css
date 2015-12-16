@@ -1,0 +1,28 @@
+/* 
+    Created on : 8 déc. 2015, 13:25:31
+    Author     : totodunet
+*/
+
+#formation select{
+    width:400px;
+}
+
+#info_user{
+    float:left;
+    width:500px;
+}
+
+label{
+    display:block;
+    width:120px;
+    float:left;
+}
+
+input{
+    width:300px;
+}
+
+#display{
+    width:50px;
+    text-align:right;
+}

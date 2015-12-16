@@ -8,6 +8,7 @@ package modele.entite;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -30,6 +31,12 @@ public class Dossier implements Serializable {
     @Lob
     @Column
     String lettre;
+    
+    @Enumerated(EnumType.STRING)
+    TypeAvisDossier avisDirecteur = TypeAvisDossier.en_attente;
+    
+    @Enumerated(EnumType.STRING)
+    TypeAvisDossier avisCommission = TypeAvisDossier.en_attente;
 
     @Enumerated(EnumType.STRING)
     TypeDossier type;
@@ -97,6 +104,15 @@ public class Dossier implements Serializable {
         this.historique = historique;
     }
 
+    public void setAvisDirecteur(TypeAvisDossier avisDirecteur) {
+        this.avisDirecteur = avisDirecteur;
+    }
+
+    public void setAvisCommission(TypeAvisDossier avisCommission) {
+        this.avisCommission = avisCommission;
+    }
+    
+
     public Dossier() {
     }
 
@@ -132,4 +148,58 @@ public class Dossier implements Serializable {
         return historique;
     }
 
+    public TypeAvisDossier getAvisDirecteur() {
+        return avisDirecteur;
+    }
+
+    public TypeAvisDossier getAvisCommission() {
+        return avisCommission;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.date);
+        hash = 37 * hash + Objects.hashCode(this.etat);
+        hash = 37 * hash + Objects.hashCode(this.lettre);
+        hash = 37 * hash + Objects.hashCode(this.type);
+        hash = 37 * hash + Objects.hashCode(this.etudiant);
+        hash = 37 * hash + Objects.hashCode(this.demandeFormation);
+        hash = 37 * hash + Objects.hashCode(this.historique);
+        return hash;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Dossier other = (Dossier) obj;
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        if (!Objects.equals(this.etat, other.etat)) {
+            return false;
+        }
+        if (!Objects.equals(this.lettre, other.lettre)) {
+            return false;
+        }
+        if (this.type != other.type) {
+            return false;
+        }
+        if (!Objects.equals(this.etudiant, other.etudiant)) {
+            return false;
+        }
+        if (!Objects.equals(this.demandeFormation, other.demandeFormation)) {
+            return false;
+        }
+        if (!Objects.equals(this.historique, other.historique)) {
+            return false;
+        }
+        return true;
+    }
 }

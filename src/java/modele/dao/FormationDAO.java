@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import modele.entite.Formation;
+import modele.entite.Justificatif;
 
 /**
  * <b>Classe faisant le lien avec la BD pour la table Formation</b>
@@ -61,6 +62,13 @@ public class FormationDAO extends Dao {
         tx.commit();
     }
     
+    public void delete(int idFormation) {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(getById(idFormation));
+        tx.commit();
+    }
+    
     /**
      * Selection de toutes les formations dans la BD
      * 
@@ -69,7 +77,7 @@ public class FormationDAO extends Dao {
     public List<Formation> SelectAll() {
         try {
             em.clear(); //supprime le cache des requêtes
-            q = em.createQuery("SELECT F FROM Formation F");
+            q = em.createQuery("SELECT F FROM Formation F ORDER BY F.intitule ASC");
             return (List<Formation>) q.getResultList();
         } catch (NoResultException e) {
             return null;

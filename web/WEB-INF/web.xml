@@ -14,6 +14,11 @@
         </init-param>
     </filter>
     <filter>
+        <description>Filtre selon les requête par action</description>
+        <filter-name>ActionFilter</filter-name>
+        <filter-class>page.web.ActionFilter</filter-class>
+    </filter>
+    <filter>
         <description>Filtrage des requêtes uniquement vers du contenu autorisé (Navigation ou ressource comme le dossier "images")</description>
         <filter-name>NavigationFilter</filter-name>
         <filter-class>page.web.NavigationFilter</filter-class>
@@ -40,7 +45,6 @@
             <param-value>https://localhost:8443</param-value>
         </init-param>
     </filter>
-    
     <filter>
         <filter-name>CAS Validation Filter</filter-name>
         <filter-class>org.jasig.cas.client.validation.Cas10TicketValidationFilter</filter-class>
@@ -53,18 +57,14 @@
             <param-value>https://www.example.com</param-value>
         </init-param>
     </filter>
-    
     <filter>
         <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
         <filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
     </filter>
-
     <filter>
         <filter-name>CAS Assertion Thread Local Filter</filter-name>
         <filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>
     </filter>
-    
-    
     <!-- Mapping des filtre (activation dans un certain ordre) -->
     <filter-mapping>
         <filter-name>setCharacterFilter</filter-name>
@@ -72,30 +72,34 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>CAS Single Sign Out Filter</filter-name>
-        <url-pattern>*</url-pattern>
+        <url-pattern>/Navigation</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CAS Authentication Filter</filter-name>
-        <url-pattern>*</url-pattern>
+        <url-pattern>/Navigation</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CAS Validation Filter</filter-name>
-        <url-pattern>*</url-pattern>
+        <url-pattern>/Navigation</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-        <url-pattern>*</url-pattern>
+        <url-pattern>/Navigation</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CAS Assertion Thread Local Filter</filter-name>
+        <url-pattern>/Navigation</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ActionFilter</filter-name>
         <url-pattern>*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>NavigationFilter</filter-name>
         <url-pattern>*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
-
     <listener>
         <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
     </listener>

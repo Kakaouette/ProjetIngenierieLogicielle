@@ -6,6 +6,7 @@
 package modele.entite;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
@@ -25,7 +26,13 @@ public class Etudiant implements Serializable{
     
     @Column(nullable = false)
     String prenom;
-     
+    
+    @Column(unique = true, nullable = false)
+    String ine;
+    
+    @Column(nullable = false)
+    String pays;
+
     @Column(nullable = false)
     String adressePostale;
     
@@ -38,12 +45,14 @@ public class Etudiant implements Serializable{
     public Etudiant() {
     }
 
-    public Etudiant(String nom, String prenom, String adressePostale, String sexe, Adresse adresse) {
+    public Etudiant(String ine, String nom, String prenom, String pays, String adressePostale, String sexe, Adresse adresse) {
         this.nom = nom;
         this.prenom = prenom;
+        this.pays = pays;
         this.adressePostale = adressePostale;
         this.sexe = sexe;
         this.adresse = adresse;
+        this.ine = ine;
     }
     
     public void setId(int id) {
@@ -58,6 +67,14 @@ public class Etudiant implements Serializable{
         this.prenom = prenom;
     }
 
+    public void setIne(String ine) {
+        this.ine = ine;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
+    }
+    
     public void setAdressePostale(String adressePostale) {
         this.adressePostale = adressePostale;
     }
@@ -83,6 +100,14 @@ public class Etudiant implements Serializable{
         return prenom;
     }
 
+    public String getIne() {
+        return ine;
+    }
+
+    public String getPays() {
+        return pays;
+    }
+    
     public String getAdressePostale() {
         return adressePostale;
     }
@@ -94,4 +119,42 @@ public class Etudiant implements Serializable{
     public Adresse getAdresse() {
         return adresse;
     }    
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.nom);
+        hash = 37 * hash + Objects.hashCode(this.prenom);
+        hash = 37 * hash + Objects.hashCode(this.adressePostale);
+        hash = 37 * hash + Objects.hashCode(this.sexe);
+        hash = 37 * hash + Objects.hashCode(this.adresse);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Etudiant other = (Etudiant) obj;
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
+        if (!Objects.equals(this.prenom, other.prenom)) {
+            return false;
+        }
+        if (!Objects.equals(this.adressePostale, other.adressePostale)) {
+            return false;
+        }
+        if (!Objects.equals(this.sexe, other.sexe)) {
+            return false;
+        }
+        if (!Objects.equals(this.adresse, other.adresse)) {
+            return false;
+        }
+        return true;
+    }
 }

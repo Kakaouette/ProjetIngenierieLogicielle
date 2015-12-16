@@ -6,13 +6,21 @@
 package page.web;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import page.action.*;
+import modele.dao.PageDAO;
+import page.action.Action;
+import page.action.accueil.*;
+import javafx.util.Pair;
+import modele.dao.MenuDAO;
+import modele.entite.Menu;
 
 /**
  *
@@ -29,7 +37,6 @@ public class Navigation extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
     @Override
     public void init() {
         
@@ -54,53 +61,48 @@ public class Navigation extends HttpServlet {
             throws ServletException, IOException {
         //récupération de la variable action
         String action = request.getParameter("action");
-
         if (action == null) {
             action = "index";
         }
-        
+
         //init de l'interface
         Action classeAction = null;
         String vue = "";
-        int menuSelect = 0;
 
-        if (action.equals("index")) {
-            menuSelect = 0;
-            classeAction = new GererAuthentificationAction();
-        }else if (action.equals("voirModifierUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new VoirModifierComptesAction();
-        }else if (action.equals("voirGestionComptes")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new VoirGestionUtilisateurAction();
-        }else if (action.equals("modifierUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new ModifierUtilisateurAction();
-        }else if (action.equals("voirAjoutCompte")) {
-            menuSelect = 1;
-            classeAction = new voirAjouterCompteAction();
-        }else if (action.equals("creerUtilisateur")) {
-            menuSelect = 1; //à modifier plus tard
-            classeAction = new AjouterCompteAction();
-        }else if (action.equals("supprimerUtilisateur")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new SupprimerUtilisateurAction();
-        }else if (action.equals("afficherInformationsDossiers")) {
-            menuSelect = 0; //à modifier plus tard
-            classeAction = new AfficherInformationsDossiersAction();
-        }else{
-            action = "index";
-            menuSelect = 0;
-            classeAction = new GererAuthentificationAction();
+        Map<String, modele.entite.Action> lesActions = (Map<String, modele.entite.Action>) this.getServletContext().getAttribute("action");
+        try {
+            Class classeActionImpl = Class.forName("page.action." + lesActions.get(action).getClassAction()); // Accès à la classe DAO correspondant
+            Constructor constr = classeActionImpl.getConstructor(); // Obtenir le constructeur ()
+            classeAction = (Action) constr.newInstance(); // -> new xDao()
+        } catch (Exception e){
+            classeAction = new VoirIndexAction();
         }
 
         if (classeAction != null) {
             //vue récupére le nom de la jsp a afficher
             vue = classeAction.execute(request, response);
-            
             //menu a mettre en surbrillance
-            request.setAttribute("menu", menuSelect);
+            Integer menu = 0;
+            try{
+                String pack = lesActions.get(action).getClassAction().substring(0, lesActions.get(action).getClassAction().indexOf('.'));
+                List<Pair<Menu, List<Menu>>> lesMenus = (List<Pair<Menu, List<Menu>>>) this.getServletContext().getAttribute("menu");
+                for(Pair<Menu, List<Menu>> root : lesMenus){
+                    if(root.getKey().getTexte().toLowerCase().contains(pack.toLowerCase())){
+                        menu = root.getKey().getId();
+                        break;
+                    }
+                }
+            }catch(Exception e){
+                menu = ((List<Pair<Menu, List<Menu>>>) this.getServletContext().getAttribute("menu")).get(0).getKey().getId();
+            }
             
+            if(menu == null)
+                menu = ((List<Pair<Menu, List<Menu>>>) this.getServletContext().getAttribute("menu")).get(0).getKey().getId();
+            
+            request.setAttribute("titre", new PageDAO().getById(vue).getTitre());
+            request.setAttribute("menuS", menu);
+
+
             //affichage de la jsp
             RequestDispatcher rd = request.getRequestDispatcher(vue);
             if (rd != null) {

@@ -6,6 +6,7 @@
 package modele.entite;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -27,6 +28,9 @@ public class Justificatif implements Serializable{
     @Column(nullable = false)
     String titre;
     
+    @Column(nullable = false)
+    String description;
+    
     @Enumerated(EnumType.STRING)
     TypeDossier typeAdmissible;
     
@@ -36,13 +40,20 @@ public class Justificatif implements Serializable{
     public Justificatif() {
     }
 
-    public Justificatif(String titre, TypeDossier typeAdmissible, TypeJustificatifEtranger typeNationalite) {
+    public Justificatif(String titre, String description, TypeDossier typeAdmissible, TypeJustificatifEtranger typeNationalite) {
         this.titre = titre;
+        this.description = description;
         this.typeAdmissible = typeAdmissible;
         this.typeNationalite = typeNationalite;
     }
-    
-    
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public int getId() {
         return id;
@@ -75,4 +86,42 @@ public class Justificatif implements Serializable{
     public void setTypeNationalite(TypeJustificatifEtranger typeNationalite) {
         this.typeNationalite = typeNationalite;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.titre);
+        hash = 71 * hash + Objects.hashCode(this.description);
+        hash = 71 * hash + Objects.hashCode(this.typeAdmissible);
+        hash = 71 * hash + Objects.hashCode(this.typeNationalite);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Justificatif other = (Justificatif) obj;
+        if (!Objects.equals(this.titre, other.titre)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (this.typeAdmissible != other.typeAdmissible) {
+            return false;
+        }
+        if (this.typeNationalite != other.typeNationalite) {
+            return false;
+        }
+        return true;
+    }
+    
 }

@@ -1,0 +1,12 @@
+Urgent
+Perdu
+Tests
+
+
+Supprimer dossiers (Bouton admin/Responsable/directeur)
+
+Générer AR : changement etat
+Fin de semaine : changement etat
+Finaliser dossier (btn) : En transfert => terminé
+
+En transfert directeur => Navette / En transfert secrétariat
