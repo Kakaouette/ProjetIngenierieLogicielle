@@ -101,9 +101,14 @@ public class AjoutDossierAction implements Action{
                 etudiant = new EtudiantEtranger(avis, niveau, nom, prenom, pays, adressePostale, sexe, adresse, ine);
             }
         }else{
-            EtudiantEtranger etudiantE = new EtudiantEtranger();
-            etudiantE = (EtudiantEtranger) etudiant;
-            if((nationalite.equals(TypeJustificatifEtranger.francais.toString()) && etudiantE.getNiveau()!=null) || (nationalite.equals(TypeJustificatifEtranger.etranger.toString()) && etudiantE.getNiveau()==null)){
+            TypeJustificatifEtranger nationaliteE = null;
+            try {
+                EtudiantEtranger etudiantE = (EtudiantEtranger) new EtudiantDAO().getEtudiantByINE(ine);
+                nationaliteE = TypeJustificatifEtranger.etranger;
+            } catch (Exception e) {
+                nationaliteE = TypeJustificatifEtranger.francais;
+            }
+            if((nationalite.equals(TypeJustificatifEtranger.francais.toString()) && nationaliteE == TypeJustificatifEtranger.etranger) || (nationalite.equals(TypeJustificatifEtranger.etranger.toString()) && nationaliteE == TypeJustificatifEtranger.francais)){
                     request.setAttribute("typeMessage", "danger");
                     request.setAttribute("message", "La nationalité de l'étudiant n'est pas valide");
                     return stayHere(request, response);

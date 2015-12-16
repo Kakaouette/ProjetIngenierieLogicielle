@@ -127,6 +127,32 @@ public class VoirAjoutDossierAction implements Action{
         }*/
         List<Etudiant> lesEtudiants = new EtudiantDAO().selectAll();
         request.setAttribute("listeEtudiant",lesEtudiants);
+        
+        if(request.getParameter("bouton") != null && request.getAttribute("typeMessage") == null){
+            if(request.getParameter("bouton").equals("enregistrer&nouveau")){
+                //free formulaire
+                request.setAttribute("type", null);
+                request.setAttribute("formationIntitule", null);
+                request.setAttribute("nationalite", null);
+                request.setAttribute("idDossier", null);
+                request.setAttribute("ine", null);
+                request.setAttribute("nom", null);
+                request.setAttribute("prenom", null);
+                request.setAttribute("sexe", null);
+                request.setAttribute("pays", null);
+                request.setAttribute("adresse", null);
+                request.setAttribute("codePostal", null);
+                request.setAttribute("ville", null);
+                request.setAttribute("notes", null);
+                if(request.getParameter("nationalite") != null){
+                    if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){
+                        request.setAttribute("avis", null);
+                        request.setAttribute("niveau", null);
+                    }
+                }
+            }
+        }
+        
         return "ajoutDossier.jsp";
     }
     
