@@ -31,13 +31,7 @@
         <span class="input-group-addon" id="Etudiant"><label>Prénom</label></span>
         <input type="text" name="prenom" id="prenom" class="form-control" placeholder="Prénom" required>
     </div>
-    <!--[if IE]>
-    <input type="hidden" name="action" value="gererAuthentification" />
-    <button class="btn btn-lg btn-success btn-block" type="submit" name="change" id="change">Connexion</button>
-    <![endif]-->
-    <!--[if !IE]><!-->
     <button class="btn btn-lg btn-success btn-block" type="submit" name="action" value="connexionEtudiant">Connexion</button>
-    <!--<![endif]-->
 </form>
 
 <%  String message = (String) request.getAttribute("message");

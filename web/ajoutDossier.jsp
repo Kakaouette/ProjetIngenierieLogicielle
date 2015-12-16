@@ -317,7 +317,7 @@
             <a class="btn btn-default pull-right" href="Navigation?action=voirGestionDossiers">Annuler</a>
         </div>
         <div class="col-md-4">
-            <button id="ask" name="bouton" type="submit" class="btn btn-default" value="demanderPiecesManquantes">Demander les documents manquants</button>
+            <button id="askDocMissed" name="bouton" type="submit" class="btn btn-default" value="demanderPiecesManquantes">Demander les documents manquants</button>
         </div>
         <div class="col-md-1">
             <button id="save" name="bouton" type="submit" class="btn btn-success" value="enregistrer">Enregistrer</button>

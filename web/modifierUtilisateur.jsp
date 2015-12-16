@@ -121,25 +121,10 @@
     </div>
     <div class="row">
         <div class="col-md-2">
-            <!--[if IE]>
-            <input type="hidden" name="action" value="enregistrerModifs" />
-            <a class="btn btn-primary pull-right" href="Navigation?action=voirGestionComptes">Annuler</a>
-            <![endif]-->
-            <!--[if !IE]><!-->
             <a class="btn btn-default pull-right" href="Navigation?action=voirGestionComptes">Annuler</a>
-            <!--<![endif]-->
         </div>
         <div class="col-md-3">
-            <!--[if IE]>
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
-            <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
-            <!--[if IE]>
-            <input type="hidden" name="action" value="supprUtilisateur" />
-            <button class="btn btn-primary btn-danger pull-right" type="submit" name="change" id="change">Connexion</button>
-            <![endif]-->
-            <!--[if !IE]><!-->
             <a class="btn btn-primary btn-danger pull-right" onclick='createDialog(<% out.print(request.getAttribute("id")); %>)'>Supprimer</a>
         </div>
     </div>
