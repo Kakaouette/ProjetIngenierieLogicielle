@@ -165,6 +165,35 @@
         }).remove();
     };
 </script>
+<script type="text/javascript">
+    function createDialogSuppr(id) {
+        //creation et ajout du dialog
+        $('body').append(
+            '<div id="dialogValiderSuppr" title="Confirmer la suppression">' + 
+                '<p>Voulez vous vraiment supprimer cette formation?</p>' + 
+            '</div>');
+    
+    
+        $('div#dialogValiderSuppr').dialog({
+            modal: true,
+            close:function( event, ui ){
+                    $("div#dialogValiderSuppr").remove();
+                },
+            buttons: {
+                "Oui":{
+                    text : 'Oui' ,class : 'btn btn-success', click : function() {
+                        window.location.replace('Navigation?action=supprimerFormation&id=' + id);
+                    }
+                },
+                "Non":{
+                    text : 'Non' ,class : 'btn btn-danger', click : function() {
+                        $(this).dialog("close");
+                    }
+                }
+            }
+        });
+    };
+</script>
 
 <form action="Navigation?action=modifierFormation&id=<%out.print(request.getAttribute("id"));%>" method="POST" class="form-horizontal">
     <div class="form-group">
@@ -379,7 +408,7 @@
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
         </div>
         <div class="col-md-1 col-md-offset-1">
-            <a class="btn btn-danger" href="Navigation?action=supprimerFormation&id=<%out.print(request.getAttribute("id"));%>">Supprimer</a>
+            <a class="btn btn-danger" onclick="createDialogSuppr('<%out.print(request.getAttribute("id"));%>')">Supprimer</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionFormations">Annuler</a>
