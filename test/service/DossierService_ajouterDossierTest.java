@@ -115,7 +115,7 @@ public class DossierService_ajouterDossierTest {
             instance.ajouterDossier(dossier);
             fail("Ne doit pas passer ici.");
         }catch(AjoutDossierInvalideException e){}
-}
+    }
     
     /**
      * Test of ajouterDossier method, of class DossierService.
