@@ -155,15 +155,7 @@ public class AjoutFormationAction implements Action{
         }
         
         //free parameter
-        request.setAttribute("intitule", null);
-        request.setAttribute("description", null);
-        request.setAttribute("nbPlace", null);
-        request.setAttribute("dateDebut", null);
-        request.setAttribute("dateFin", null);
-        request.setAttribute("justificatifsInscriptionFrancais", null);
-        request.setAttribute("justificatifsAdmissionFrancais", null);
-        request.setAttribute("justificatifsInscriptionEtranger", null);
-        request.setAttribute("justificatifsAdmissionEtranger", null);
+        request.setAttribute("freeForm", true);
         return actionPageSuivante.execute(request, response);
     }
     

@@ -40,8 +40,7 @@ public class AjoutDossierAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        if(request.getParameter("bouton").equals("demanderPiecesManquantes"))
-        {
+        if(request.getParameter("bouton").equals("demanderPiecesManquantes")){
             return new GenerationLettresAction().execute(request, response);
         }
         Action actionPageSuivante = null;
@@ -171,25 +170,7 @@ public class AjoutDossierAction implements Action{
         }
         
         //free formulaire
-        request.setAttribute("type", null);
-        request.setAttribute("formationIntitule", null);
-        request.setAttribute("nationalite", null);
-        request.setAttribute("idDossier", null);
-        request.setAttribute("ine", null);
-        request.setAttribute("nom", null);
-        request.setAttribute("prenom", null);
-        request.setAttribute("sexe", null);
-        request.setAttribute("pays", null);
-        request.setAttribute("adresse", null);
-        request.setAttribute("codePostal", null);
-        request.setAttribute("ville", null);
-        request.setAttribute("notes", null);
-        if(request.getParameter("nationalite") != null){
-            if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){
-                request.setAttribute("avis", null);
-                request.setAttribute("niveau", null);
-            }
-        }
+        request.setAttribute("freeForm", true);
         return actionPageSuivante.execute(request, response);
     }
     

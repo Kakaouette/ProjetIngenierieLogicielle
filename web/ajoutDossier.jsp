@@ -29,7 +29,7 @@
     };
     
     function loadJustificatifs(){
-       $("form#formation").prop("action", "Navigation?action=voirAjoutDossier");
+       $("form#formation").prop("action", "Navigation?action=voirAjoutDossier&reload=true");
        $("form#formation").submit();
     };
     function verifAllChecked(){

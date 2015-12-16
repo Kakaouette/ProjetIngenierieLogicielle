@@ -44,6 +44,13 @@ public class VoirAjoutDossierAction implements Action{
         }*/
         request.setAttribute("formations", formations);
         
+        // construction de la liste des INE pour 
+        List<String> lesINE = new EtudiantDAO().getAllINE();
+        request.setAttribute("lesINE",lesINE);
+        List<Etudiant> lesEtudiants = new EtudiantDAO().selectAll();
+        request.setAttribute("listeEtudiant",lesEtudiants);
+        
+        
         ///autofill form///
         //formation
         String intitule = request.getParameter("formationIntitule");
@@ -98,6 +105,22 @@ public class VoirAjoutDossierAction implements Action{
             request.setAttribute("justificatifs", justificatifs);
         }
         
+        if(request.getParameter("reload") != null){
+            if(request.getParameter("reload").equals("true")){
+                keepForm(request, response);
+            }
+        }
+        
+        if(request.getAttribute("freeForm") != null){
+            if((boolean)request.getAttribute("freeForm") == true){
+                freeForm(request, response);
+            }
+        }
+        
+        return "ajoutDossier.jsp";
+    }
+    
+    private void keepForm(HttpServletRequest request, HttpServletResponse response){
         //keep formulaire
         request.setAttribute("idDossier", request.getParameter("idDossier"));
         request.setAttribute("ine", request.getParameter("ine"));
@@ -116,44 +139,28 @@ public class VoirAjoutDossierAction implements Action{
         }else{
             request.setAttribute("nationalite", TypeJustificatifEtranger.francais.toString());
         }
-        
-        // construction de la liste des INE pour 
-        List<String> lesINE = new EtudiantDAO().getAllINE();
-        request.setAttribute("lesINE",lesINE);/*
-        String listINE = "";
-        for(int i=0;i<lesINE.size();i++) {
-            listINE += "\""+lesINE.get(i)+"\"";
-            if(i != lesINE.size()-1) listINE+=",";
-        }*/
-        List<Etudiant> lesEtudiants = new EtudiantDAO().selectAll();
-        request.setAttribute("listeEtudiant",lesEtudiants);
-        
-        if(request.getParameter("bouton") != null && request.getAttribute("typeMessage") == null){
-            if(request.getParameter("bouton").equals("enregistrer&nouveau")){
-                //free formulaire
-                request.setAttribute("type", null);
-                request.setAttribute("formationIntitule", null);
-                request.setAttribute("nationalite", null);
-                request.setAttribute("idDossier", null);
-                request.setAttribute("ine", null);
-                request.setAttribute("nom", null);
-                request.setAttribute("prenom", null);
-                request.setAttribute("sexe", null);
-                request.setAttribute("pays", null);
-                request.setAttribute("adresse", null);
-                request.setAttribute("codePostal", null);
-                request.setAttribute("ville", null);
-                request.setAttribute("notes", null);
-                if(request.getParameter("nationalite") != null){
-                    if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){
-                        request.setAttribute("avis", null);
-                        request.setAttribute("niveau", null);
-                    }
-                }
+        request.setAttribute("justificatifs", request.getParameter("justificatifs"));
+    }
+    private void freeForm(HttpServletRequest request, HttpServletResponse response){
+        //free formulaire
+        request.setAttribute("type", null);
+        request.setAttribute("formationIntitule", null);
+        request.setAttribute("nationalite", null);
+        request.setAttribute("idDossier", null);
+        request.setAttribute("ine", null);
+        request.setAttribute("nom", null);
+        request.setAttribute("prenom", null);
+        request.setAttribute("sexe", null);
+        request.setAttribute("pays", null);
+        request.setAttribute("adresse", null);
+        request.setAttribute("codePostal", null);
+        request.setAttribute("ville", null);
+        request.setAttribute("notes", null);
+        if(request.getParameter("nationalite") != null){
+            if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){
+                request.setAttribute("avis", null);
+                request.setAttribute("niveau", null);
             }
         }
-        
-        return "ajoutDossier.jsp";
     }
-    
 }
