@@ -378,6 +378,9 @@
         <div class="col-md-1 col-md-offset-1">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
         </div>
+        <div class="col-md-1 col-md-offset-1">
+            <a class="btn btn-danger" href="Navigation?action=supprimerFormation&id=<%out.print(request.getAttribute("id"));%>">Supprimer</a>
+        </div>
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionFormations">Annuler</a>
         </div>
