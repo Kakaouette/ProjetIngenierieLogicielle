@@ -42,7 +42,7 @@ public enum TypeEtatDossier implements Serializable {
             case navette:
                 return "Navette";
             case navette_directeur:
-                return "Navette";
+                return "Navette directeur";
             case terminé :
                 return "Terminé";
             default:
