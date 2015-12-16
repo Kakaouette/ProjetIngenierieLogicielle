@@ -182,6 +182,8 @@ public class GestULRPeuplement {
         new DossierDAO().save(d7);
         new DossierDAO().save(d8);
         
+        System.out.println(new DossierDAO().count(form2, TypeEtatDossier.en_attente_transfert_vers_directeur));
+        
         menu();
     }
     
@@ -341,6 +343,7 @@ public class GestULRPeuplement {
         new MenuDAO().save(m8);
         new MenuDAO().save(m9);
         new MenuDAO().save(m10);
+       
     }
     
 }
