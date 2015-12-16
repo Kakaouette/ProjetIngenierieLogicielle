@@ -213,6 +213,18 @@
         </div>
     </div>
     
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="nationalite">Nationalité : </label>
+        <div class="col-md-4">
+            <label class="radio-inline" for="nationalite-0">
+                <input type="radio" name="nationalite" id="nationalite-0" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.francais.toString())){%>checked<%}%>> Français
+            </label>
+            <label class="radio-inline" for="nationalite-1">
+                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.etranger.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
+            </label>
+        </div>
+    </div>
+            
     <div id="conteneurNationalite">
         <%if(request.getAttribute("nationalite") != null){
         if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>
@@ -265,19 +277,7 @@
             
         </div>
     </div>
-         
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="nationalite">Nationalité : </label>
-        <div class="col-md-4">
-            <label class="radio-inline" for="nationalite-0">
-                <input type="radio" name="nationalite" id="nationalite-0" value="<%out.print(TypeJustificatifEtranger.francais.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") == null){%>checked<%}else if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.francais.toString())){%>checked<%}%>> Français
-            </label>
-            <label class="radio-inline" for="nationalite-1">
-                <input type="radio" name="nationalite" id="nationalite-1" value="<%out.print(TypeJustificatifEtranger.etranger.toString());%>" onchange="loadJustificatifs()" <%if(request.getAttribute("nationalite") != null){if(request.getAttribute("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){%>checked<%}}%>> Etranger
-            </label>
-        </div>
-    </div>
-        
+            
     <div class="form-group">
         <label for="justificatifs" class="col-sm-2 control-label">Justificatifs : </label>
         <div class="col-sm-3" id="justificatifsDiv">
