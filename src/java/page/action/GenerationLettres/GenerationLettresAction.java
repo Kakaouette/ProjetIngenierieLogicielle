@@ -5,7 +5,6 @@
  */
 package page.action.GenerationLettres;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,6 @@ import modele.dao.DossierDAO;
 import modele.dao.FormationDAO;
 import modele.entite.Adresse;
 import modele.entite.Dossier;
-import modele.entite.Etudiant;
 import modele.entite.TypeEtatDossier;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import page.action.Action;
