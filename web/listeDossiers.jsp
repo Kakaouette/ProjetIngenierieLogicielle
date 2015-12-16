@@ -27,7 +27,11 @@
         }}%>
     </div>
 <%}%>
-
+<div class="row">
+    <div class="col-lg-2 col-lg-offset-5">
+        <a href="Navigation?action=voirAjoutDossier" class="btn btn-block btn-success"><span class="fa fa-plus"></span> Ajouter</a>
+    </div>
+</div>
 <%@include file="Modele/dataTablesScript.jsp" %>
 <table id="myTable" cellspacing="0" class="table table-striped table-bordered table-hover table-condensed dt-responsive text-center" width="100%">
     <thead>
