@@ -40,8 +40,7 @@ public class AjoutDossierAction implements Action{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        if(request.getParameter("bouton").equals("demanderPiecesManquantes"))
-        {
+        if(request.getParameter("bouton").equals("demanderPiecesManquantes")){
             return new GenerationLettresAction().execute(request, response);
         }
         Action actionPageSuivante = null;
@@ -101,9 +100,14 @@ public class AjoutDossierAction implements Action{
                 etudiant = new EtudiantEtranger(avis, niveau, nom, prenom, pays, adressePostale, sexe, adresse, ine);
             }
         }else{
-            EtudiantEtranger etudiantE = new EtudiantEtranger();
-            etudiantE = (EtudiantEtranger) etudiant;
-            if((nationalite.equals(TypeJustificatifEtranger.francais.toString()) && etudiantE.getNiveau()!=null) || (nationalite.equals(TypeJustificatifEtranger.etranger.toString()) && etudiantE.getNiveau()==null)){
+            TypeJustificatifEtranger nationaliteE = null;
+            try {
+                EtudiantEtranger etudiantE = (EtudiantEtranger) new EtudiantDAO().getEtudiantByINE(ine);
+                nationaliteE = TypeJustificatifEtranger.etranger;
+            } catch (Exception e) {
+                nationaliteE = TypeJustificatifEtranger.francais;
+            }
+            if((nationalite.equals(TypeJustificatifEtranger.francais.toString()) && nationaliteE == TypeJustificatifEtranger.etranger) || (nationalite.equals(TypeJustificatifEtranger.etranger.toString()) && nationaliteE == TypeJustificatifEtranger.francais)){
                     request.setAttribute("typeMessage", "danger");
                     request.setAttribute("message", "La nationalité de l'étudiant n'est pas valide");
                     return stayHere(request, response);
@@ -166,25 +170,7 @@ public class AjoutDossierAction implements Action{
         }
         
         //free formulaire
-        request.setAttribute("type", null);
-        request.setAttribute("formationIntitule", null);
-        request.setAttribute("nationalite", null);
-        request.setAttribute("idDossier", null);
-        request.setAttribute("ine", null);
-        request.setAttribute("nom", null);
-        request.setAttribute("prenom", null);
-        request.setAttribute("sexe", null);
-        request.setAttribute("pays", null);
-        request.setAttribute("adresse", null);
-        request.setAttribute("codePostal", null);
-        request.setAttribute("ville", null);
-        request.setAttribute("notes", null);
-        if(request.getParameter("nationalite") != null){
-            if(request.getParameter("nationalite").equals(TypeJustificatifEtranger.etranger.toString())){
-                request.setAttribute("avis", null);
-                request.setAttribute("niveau", null);
-            }
-        }
+        request.setAttribute("freeForm", true);
         return actionPageSuivante.execute(request, response);
     }
     

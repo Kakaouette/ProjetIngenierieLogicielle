@@ -249,7 +249,7 @@ public class GestULRPeuplement {
         Action a7 = new Action("modifierDossier", "dossier.ModifierDossierAction", page_listeDossiers);
         Action a8 = new Action("supprimerDossier", "dossier.SupprimerDossierAction", page_listeDossiers);
         Action a9 = new Action("voirValidationJustificatifsDossier", "dossier.VoirValidationJustificatifsDossierAction", page_consulterDossier);
-        Action a25 = new Action("genererLettre", "dossier.GenerationLettresAction", page_consulterDossier);
+        Action a25 = new Action("genererLettre", "GenerationLettres.GenerationLettresAction", page_consulterDossier);
         Action a26 = new Action("etudiantAutocompletion", "dossier.EtudiantAutocompletionAction", p12);
         /***Gestion comptes***/
         Action a10 = new Action("voirGestionComptes", "utilisateur.VoirGestionUtilisateurAction", page_gestionComptes);
@@ -341,6 +341,7 @@ public class GestULRPeuplement {
         new MenuDAO().save(m8);
         new MenuDAO().save(m9);
         new MenuDAO().save(m10);
+       
     }
     
 }
