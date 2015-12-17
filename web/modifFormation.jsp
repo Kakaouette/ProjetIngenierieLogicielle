@@ -56,12 +56,12 @@
             });
             if(inserer){
                 //adapter parametre du new justificatif
-                $(this).find('dl dt label#justificatifs').attr("name", "justificatifs"+name+"Etranger");
+                var title = $(this).find('dl dt label#justificatifs').text().replace("'","\\'");
+                $(this).find('dl dt label#justificatifs').html("<font color='green'>" + $(this).find('dl dt label#justificatifs').attr("name", "justificatifs").text() + "</font>");
                 $(this).find('dl dt input#justificatifs').attr("name", "justificatifs"+name+"Etranger");
-                var title = $(this).find('label').text().replace("'","\\'");
                 $(this).find('dl dt a').attr("onclick","deleteJ('" + to + "','"+title+"')");
                 
-                $(this).find('dl dd input#description').attr("name", title+name+"EtrangerDescription");
+                $(this).find('dl dd input#description').attr("name", title.replace("\\'","'")+name+"EtrangerDescription");
                 //ajouter le new justificatif
                 $(to + " ul#justificatifsAdded").append($(this));
             }
@@ -145,7 +145,7 @@
 
             $($path).append($('<li>').append($('<dl>')));
             $($path + ' li:last dl').append($('<dt>'));
-            $($path + ' li:last dl dt').append('<label id="justificatifs" name="justificatifs" class="control-label">' + val + '</label>');
+            $($path + ' li:last dl dt').append('<label id="justificatifs" name="justificatifs" class="control-label"><font color="green">' + val + '</font></label>');
             $($path + ' li:last dl dt').append($('<input>').attr('id', "justificatifs").attr('type', "hidden").attr('name', $name).attr('value', val));            
             $($path + ' li:last dl dt').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + val + '\")').append('Supprimer'));
             
