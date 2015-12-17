@@ -65,7 +65,7 @@
                 var title = $(this).find('label').text().replace("'","\\'");
                 $(this).find('dl dt a').attr("onclick","deleteJ('" + to + "','"+title+"')");
                 
-                $(this).find('dl dd input#description').attr("name", title+name+"EtrangerDescription");
+                $(this).find('dl dd input#description').attr("name", title.replace("\\'","'")+name+"EtrangerDescription");
                 //ajouter le new justificatif
                 $(to + " ul#justificatifsAdded").append($(this));
             }
