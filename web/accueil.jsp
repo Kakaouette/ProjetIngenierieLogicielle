@@ -106,14 +106,15 @@
         });
         $("#dossier_formation>p").html("Nombre de dossiers par formation");
         
-        $("#dossier_formation").on("mouseleave",function(){
+        /*$("#dossier_formation").on("mouseleave",function(){
             camembertGeneral();
-        });
+        });*/
     });
 </script>
         <div class="row">
         <%-- AFFICHAGE DE TOUS LES DOSSIERS PAR ETAT (admin, directeur, secrétaire générale et responsable administratif) --%>
         <div class="col-sm-4">
+        <p><a href="javascript:camembertGeneral();">Voir l'état général des dossiers (formations confondues)</a></p>
         <%if(c.getType()==TypeCompte.admin||c.getType()==TypeCompte.directeur_pole||c.getType()==TypeCompte.responsable_administrative||c.getType()==TypeCompte.secrétaire_inscription){%>
         <div id="etat_dossier"><p style="text-align:center;font-weight:bold;"></p></div>
         <%}%>
