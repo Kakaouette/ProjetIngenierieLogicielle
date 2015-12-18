@@ -39,7 +39,7 @@
             <%}%>
                 {label:"Transfert vers le directeur", value:<%out.print(nombre_dossier_navette);%>}
             ],
-        colors:['#FA7827','#F8BF3B','#D083f1','#F87878','#5691DB','#4CC5FE','#B2B2B2','#2BBB66'],
+        colors:['#D083f1','#5691DB','#B2B2B2','#4CC5FE','#2BBB66','#F8BF3B','#FA7827','#5691DB'],
         formatter:function(y){if(y>1){return y+" dossiers - "+Math.round(((y/total_dossier)*100)*100)/100+"%";}else{return y+" dossier - "+Math.round(((y/total_dossier)*100)*100)/100+"%";}}
         });
         $("#etat_dossier>p").html("Nombre de dossiers par état");
