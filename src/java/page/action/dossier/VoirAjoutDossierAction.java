@@ -139,7 +139,6 @@ public class VoirAjoutDossierAction implements Action{
         }else{
             request.setAttribute("nationalite", TypeJustificatifEtranger.francais.toString());
         }
-        request.setAttribute("justificatifs", request.getParameter("justificatifs"));
     }
     private void freeForm(HttpServletRequest request, HttpServletResponse response){
         //free formulaire
