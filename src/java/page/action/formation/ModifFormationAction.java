@@ -76,7 +76,7 @@ public class ModifFormationAction implements Action{
                     justificatifs.add(jTemp);
                 }else{
                     request.setAttribute("typeMessage", "danger");
-                    request.setAttribute("message", titre + " n'a pas de description.");
+                    request.setAttribute("message", "Le justificatif \"" + titre + "\" n'a pas de description.");
                     return stayHere(request, response); //redirection
                 }
             }
@@ -89,7 +89,7 @@ public class ModifFormationAction implements Action{
                     justificatifs.add(jTemp);
                 }else{
                     request.setAttribute("typeMessage", "danger");
-                    request.setAttribute("message", titre + " n'a pas de description.");
+                    request.setAttribute("message", "Le justificatif \"" + titre + "\" n'a pas de description.");
                     return stayHere(request, response); //redirection
                 }
             }
@@ -102,7 +102,7 @@ public class ModifFormationAction implements Action{
                     justificatifs.add(jTemp);
                 }else{
                     request.setAttribute("typeMessage", "danger");
-                    request.setAttribute("message", titre + " n'a pas de description.");
+                    request.setAttribute("message", "Le justificatif \"" + titre + "\" n'a pas de description.");
                     return stayHere(request, response); //redirection
                 }
             }
@@ -115,7 +115,7 @@ public class ModifFormationAction implements Action{
                     justificatifs.add(jTemp);
                 }else{
                     request.setAttribute("typeMessage", "danger");
-                    request.setAttribute("message", titre + " n'a pas de description.");
+                    request.setAttribute("message", "Le justificatif \"" + titre + "\" n'a pas de description.");
                     return stayHere(request, response); //redirection
                 }
             }

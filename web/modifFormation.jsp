@@ -56,12 +56,12 @@
             });
             if(inserer){
                 //adapter parametre du new justificatif
-                $(this).find('dl dt label#justificatifs').attr("name", "justificatifs"+name+"Etranger");
+                var title = $(this).find('dl dt label#justificatifs').text().replace("'","\\'");
+                $(this).find('dl dt label#justificatifs').html("<font color='green'>" + $(this).find('dl dt label#justificatifs').attr("name", "justificatifs").text() + "</font>");
                 $(this).find('dl dt input#justificatifs').attr("name", "justificatifs"+name+"Etranger");
-                var title = $(this).find('label').text().replace("'","\\'");
                 $(this).find('dl dt a').attr("onclick","deleteJ('" + to + "','"+title+"')");
                 
-                $(this).find('dl dd input#description').attr("name", title+name+"EtrangerDescription");
+                $(this).find('dl dd input#description').attr("name", title.replace("\\'","'")+name+"EtrangerDescription");
                 //ajouter le new justificatif
                 $(to + " ul#justificatifsAdded").append($(this));
             }
@@ -145,7 +145,7 @@
 
             $($path).append($('<li>').append($('<dl>')));
             $($path + ' li:last dl').append($('<dt>'));
-            $($path + ' li:last dl dt').append('<label id="justificatifs" name="justificatifs" class="control-label">' + val + '</label>');
+            $($path + ' li:last dl dt').append('<label id="justificatifs" name="justificatifs" class="control-label"><font color="green">' + val + '</font></label>');
             $($path + ' li:last dl dt').append($('<input>').attr('id', "justificatifs").attr('type', "hidden").attr('name', $name).attr('value', val));            
             $($path + ' li:last dl dt').append($('<a>').attr('class', "btn btn-link").attr('onclick', 'deleteJ(\"' + location + '", "' + val + '\")').append('Supprimer'));
             
@@ -163,6 +163,35 @@
         $(location + ' li:contains('+val+')').filter(function(index){
             return $(this).find('dl dt label#justificatifs').text() === val;
         }).remove();
+    };
+</script>
+<script type="text/javascript">
+    function createDialogSuppr(id) {
+        //creation et ajout du dialog
+        $('body').append(
+            '<div id="dialogValiderSuppr" title="Confirmer la suppression">' + 
+                '<p>Voulez vous vraiment supprimer cette formation?</p>' + 
+            '</div>');
+    
+    
+        $('div#dialogValiderSuppr').dialog({
+            modal: true,
+            close:function( event, ui ){
+                    $("div#dialogValiderSuppr").remove();
+                },
+            buttons: {
+                "Oui":{
+                    text : 'Oui' ,class : 'btn btn-success', click : function() {
+                        window.location.replace('Navigation?action=supprimerFormation&id=' + id);
+                    }
+                },
+                "Non":{
+                    text : 'Non' ,class : 'btn btn-danger', click : function() {
+                        $(this).dialog("close");
+                    }
+                }
+            }
+        });
     };
 </script>
 
@@ -377,6 +406,9 @@
     <div class="row">
         <div class="col-md-1 col-md-offset-1">
             <button class="btn btn-success" type="submit" name="bouton" id="bouton" value="enregistrer">Enregister</button>
+        </div>
+        <div class="col-md-1 col-md-offset-1">
+            <a class="btn btn-danger" onclick="createDialogSuppr('<%out.print(request.getAttribute("id"));%>')">Supprimer</a>
         </div>
         <div class="col-md-2 col-md-offset-2">
             <a class="btn btn-default" href="Navigation?action=voirGestionFormations">Annuler</a>

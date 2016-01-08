@@ -28,13 +28,18 @@
         Morris.Donut({
         element:'etat_dossier',
         data:[
-            <%  
-            for(int i=0;i<etats_dossier.length;i++){%>
-                    {label:"<%out.print(etats_dossier[i].toString());%>", value:<%out.print(dao_dossier.count(etats_dossier[i]));%>}
-                    <%if(i<etats_dossier.length-1){%>,<%}%>
-                <%}%>  
+            <%
+            int nombre_dossier_navette=0;
+            for(int i=0;i<etats_dossier.length;i++){
+                if(etats_dossier[i]==TypeEtatDossier.en_transfert_vers_directeur||etats_dossier[i]==TypeEtatDossier.navette_directeur){
+                    nombre_dossier_navette+=dao_dossier.count(etats_dossier[i]);
+                }else{%>
+                    {label:"<%out.print(etats_dossier[i].toString());%>", value:<%out.print(dao_dossier.count(etats_dossier[i]));%>},
+                <%}%>
+            <%}%>
+                {label:"Transfert vers le directeur", value:<%out.print(nombre_dossier_navette);%>}
             ],
-        colors:['#FA7827','#F8BF3B','#D083f1','#F87878','#5691DB','#4CC5FE','#B2B2B2','#2BBB66'],
+        colors:['#D083f1','#5691DB','#B2B2B2','#4CC5FE','#2BBB66','#F8BF3B','#FA7827','#5691DB'],
         formatter:function(y){if(y>1){return y+" dossiers - "+Math.round(((y/total_dossier)*100)*100)/100+"%";}else{return y+" dossier - "+Math.round(((y/total_dossier)*100)*100)/100+"%";}}
         });
         $("#etat_dossier>p").html("Nombre de dossiers par état");
@@ -51,10 +56,15 @@
                 for(int i=0;i<formations.size();i++){%>
                         {x:"<%out.print(formations.get(i).getIntitule());%>", 
                             number:<%out.print(dao_dossier.count(formations.get(i)));%>,
-                            <%for(int j=0;j<etats_dossier.length;j++){%>
-                                <%out.print(etats_dossier[j].name());%>:<%out.print(dao_dossier.count(formations.get(i),etats_dossier[j]));%>
-                                    <%if(j<etats_dossier.length-1){%>,<%}%>
+                            <%  nombre_dossier_navette=0;
+                                for(int j=0;j<etats_dossier.length;j++){
+                                    if(etats_dossier[j]==TypeEtatDossier.en_transfert_vers_directeur||etats_dossier[j]==TypeEtatDossier.navette_directeur){
+                                        nombre_dossier_navette+=dao_dossier.count(formations.get(i),etats_dossier[j]);
+                                    }else{%>
+                                        <%out.print(etats_dossier[j].name());%>:<%out.print(dao_dossier.count(formations.get(i),etats_dossier[j]));%>,
+                                    <%}%>
                             <%}%>
+                                en_transfert_vers_directeur:<%out.print(nombre_dossier_navette);%>
                             }
                         <%if(i<formations.size()-1){%>,<%}%>
                     <%}%>  
@@ -88,7 +98,7 @@
                 chaine+="{label:'Terminé',value:"+row.terminé+"}";
                 chaine+="],";
                 chaine+="colors:['#FA7827','#F8BF3B','#D083f1','#F87878','#5691DB','#4CC5FE','#B2B2B2','#2BBB66'],";
-                chaine+="formatter:function(y){if(y>1){return y+\" dossiers - \"+Math.round(((y/total_dossier)*100)*100)/100+\"%\";}else{return y+\" dossier - \"+Math.round(((y/total_dossier)*100)*100)/100+\"%\";}}});";
+                chaine+="formatter:function(y){if(y>1){return y+\" dossiers - \"+Math.round(((y/"+row.number+")*100)*100)/100+\"%\";}else{return y+\" dossier - \"+Math.round(((y/"+row.number+")*100)*100)/100+\"%\";}}});";
                 chaine+="$(\"#etat_dossier>p\").html(\"Nombre de dossiers par état pour "+row.x+"\");</script";
                 chaine+=">";
                 return chaine;
@@ -96,14 +106,15 @@
         });
         $("#dossier_formation>p").html("Nombre de dossiers par formation");
         
-        $("#dossier_formation").on("mouseleave",function(){
+        /*$("#dossier_formation").on("mouseleave",function(){
             camembertGeneral();
-        });
+        });*/
     });
 </script>
         <div class="row">
         <%-- AFFICHAGE DE TOUS LES DOSSIERS PAR ETAT (admin, directeur, secrétaire générale et responsable administratif) --%>
         <div class="col-sm-4">
+        <p><a href="javascript:camembertGeneral();">Voir l'état général des dossiers (formations confondues)</a></p>
         <%if(c.getType()==TypeCompte.admin||c.getType()==TypeCompte.directeur_pole||c.getType()==TypeCompte.responsable_administrative||c.getType()==TypeCompte.secrétaire_inscription){%>
         <div id="etat_dossier"><p style="text-align:center;font-weight:bold;"></p></div>
         <%}%>

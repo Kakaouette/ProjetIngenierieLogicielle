@@ -5,7 +5,6 @@
  */
 package page.action.dossier;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +34,7 @@ public class VoirAjoutDossierAction implements Action{
         List<Formation> formations = null;
         if(compte.getType() == TypeCompte.admin || compte.getType() == TypeCompte.responsable_administrative || compte.getType() == TypeCompte.directeur_pole){
             formations = new FormationDAO().SelectAll();
-        }else if(compte.getType() == TypeCompte.secrétaire_formation){
+        }else if(compte.getType() == TypeCompte.secrétaire_formation|| compte.getType() == TypeCompte.secrétaire_inscription){
             formations = compte.getFormationAssocie();
         }
         /*if(formations == null){
@@ -139,7 +138,6 @@ public class VoirAjoutDossierAction implements Action{
         }else{
             request.setAttribute("nationalite", TypeJustificatifEtranger.francais.toString());
         }
-        request.setAttribute("justificatifs", request.getParameter("justificatifs"));
     }
     private void freeForm(HttpServletRequest request, HttpServletResponse response){
         //free formulaire

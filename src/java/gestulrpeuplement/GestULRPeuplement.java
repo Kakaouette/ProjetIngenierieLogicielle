@@ -182,8 +182,6 @@ public class GestULRPeuplement {
         new DossierDAO().save(d7);
         new DossierDAO().save(d8);
         
-        System.out.println(new DossierDAO().count(form2, TypeEtatDossier.en_attente_transfert_vers_directeur));
-        
         menu();
     }
     
@@ -242,7 +240,7 @@ public class GestULRPeuplement {
         //Action a1 = new Action(""/*id*/, ""/*classAction*/, 0/*page*/);
         // Création des actions
         Action a1 = new Action("gererAuthentification", "accueil.GererAuthentificationAction", page_connexion);        
-        Action a2 = new Action("index", "accueil.VoirIndexAction", page_connexion);
+        Action a2 = new Action("index", "accueil.GererAuthentificationAction", page_connexion);
         /***Gestion dossiers***/
         Action a3 = new Action("afficherInformationsDossiers", "dossier.AfficherInformationsDossiersAction", page_listeDossiers);
         Action a4 = new Action("voirAjoutDossier", "dossier.VoirAjoutDossierAction", page_ajoutDossier);

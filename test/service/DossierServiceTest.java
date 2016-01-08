@@ -193,11 +193,11 @@ public class DossierServiceTest {
     }
     
     /**
-     * Test de suppression d'un dossier
+     * Test jUnit de suppression d'un dossier existant
      */
     @Test
-    public void testSupprimeDossier() throws Exception{
-        System.out.println("testSupprimeDossier");
+    public void testSupprimeDossierExistant() throws Exception{
+        System.out.println("testSupprimeExistant");
         /// //////////////////////////// TEST AVEC UN ID CORRECTE ////////////////////////////
         String idDossier = instance.getNewID();
         new FormationDAO().save(formation);
@@ -219,9 +219,14 @@ public class DossierServiceTest {
         assertTrue(instance.supprimerDossier(idDossier));
         cpt = new DossierDAO().getById(idDossier);
         assertNull(cpt);
-        
+    }
+    
+    /**
+     * Test jUnit de suppression d'un dossier inexistant
+     */
+    public void testSupprimeDossierInexistant(){
         //on supprime un dossier inexistant
-        assertFalse(instance.supprimerDossier(idDossier));
+        assertFalse(instance.supprimerDossier("pst00000"));
     }
     
     /**
